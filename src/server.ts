@@ -63,9 +63,9 @@ app.get('/talks', ngApp);
 app.get('/projects', ngApp);
 app.get('/contact', ngApp);
 
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  var pojo = { status: 404, message: 'No Content' };
+  var pojo = {status: 404, message: 'No Content'};
   var json = JSON.stringify(pojo, null, 2);
   res.status(404).send(json);
 });
@@ -137,7 +137,6 @@ function ngApp(req, res) {
 
 const fs = require('fs');
 const cacheFolder = 'cache';
-
 
 function readHtmlCache(path, cb) {
 
