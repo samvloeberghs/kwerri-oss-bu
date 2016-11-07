@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { HomeComponent } from './pages/home';
+
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      {
-        path: '',
-        redirectTo: '/home',
-        pathMatch: 'full'
-      }
+      { path: '', component: HomeComponent }
     ])
   ],
 })

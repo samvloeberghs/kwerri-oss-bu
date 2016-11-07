@@ -1,11 +1,100 @@
-<nav>
-    <a routerLink="/home" routerLinkActive="active">Home</a>
-    <a routerLink="/posts" routerLinkActive="active">Posts</a>
-    <a routerLink="/talks" routerLinkActive="active">Talks</a>
-    <a routerLink="/projects" routerLinkActive="active">Projects</a>
-    <a routerLink="/contact" routerLinkActive="active">Contact</a>
-</nav>
+<div id="topborder"></div>
+<div id="wrapper">
 
-<p>Hello Angular <span>Universal App</span></p>
+    <aside>
 
-<router-outlet></router-outlet>
+        <a href="" id="picture">
+            <img src="assets/sam.jpg" alt="Sam"/>
+        </a>
+
+        <h1>
+            <a href="">Sam Vloeberghs</a>
+        </h1>
+
+        <a href="" id="mobilemenu" target="navigation"
+           [class.open]="mobileNavToggled"
+           (click)="toggleMobileNav($event, true)">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </a>
+
+        <div id="mobilenavcontainer"
+             [class.open]="mobileNavToggled">
+            <p>
+                I'm a Belgium based freelance software architect and Internet entrepreneur, currently focussing on
+                frontend
+                technologies.
+            </p>
+
+            <ul class="social">
+                <li>
+                    <a href="https://www.facebook.com/sam.vloeberghs" class="facebook"
+                       title="Sam on Facebook" target="_blank">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/samvloeberghs" class="twitter"
+                       title="Sam on Twitter" target="_blank">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/samvloeberghs" class="github"
+                       title="Sam on Github" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="skype:sam.vloeberghs" class="skype"
+                       title="Sam on LinkedIn" target="_blank">
+                        <i class="fa fa-skype"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://be.linkedin.com/in/samvloeberghs" class="linkedin"
+                       title="Sam on LinkedIn" target="_blank">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://stackoverflow.com/users/288606/sam-vloeberghs" class="stack-overflow"
+                       title="Sam on Stack Overflow" target="_blank">
+                        <i class="fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <h2>Navigation</h2>
+
+            <nav>
+                <ul id="navigation">
+                    <li>
+                        <a routerLink="/" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{exact: true}"
+                           (click)="toggleMobileNav()">Home</a>
+                    </li>
+                    <li>
+                        <a routerLink="/posts" routerLinkActive="active"
+                           (click)="toggleMobileNav()">Posts</a>
+                    </li>
+                    <li>
+                        <a routerLink="/talks" routerLinkActive="active"
+                           (click)="toggleMobileNav()">Talks</a>
+                    </li>
+                    <li>
+                        <a routerLink="/projects" routerLinkActive="active"
+                           (click)="toggleMobileNav()">Projects</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </aside>
+
+    <section id="content">
+
+        <router-outlet></router-outlet>
+
+    </section>
+
+</div>

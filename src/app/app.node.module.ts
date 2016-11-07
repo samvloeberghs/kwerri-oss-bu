@@ -9,11 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node'; // for AoT we need to manually split universal packages
 
 import { SharedModule } from './shared';
-import { HomeModule } from './home';
-import { PostsModule } from './posts';
-import { TalksModule } from './talks';
-import { ProjectsModule } from './projects';
-import { ContactModule } from './contact';
+import { HomeModule } from './pages/home';
+import { PostsModule } from './pages/posts';
+import { TalksModule } from './pages/talks';
+import { ProjectsModule } from './pages/projects';
 import { AppComponent, AppRoutingModule } from './';
 import { CacheService } from './universal-cache';
 
@@ -29,7 +28,6 @@ import { CacheService } from './universal-cache';
     PostsModule,
     TalksModule,
     ProjectsModule,
-    ContactModule,
 
     AppRoutingModule
   ],

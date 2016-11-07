@@ -10,4 +10,17 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 export class AppComponent {
 
+  mobileNavToggled = false;
+
+  constructor() {
+
+  }
+
+  toggleMobileNav(event?: any, block = false) {
+    this.mobileNavToggled = !this.mobileNavToggled;
+    if (block) {
+      event.preventDefault();
+    }
+  }
+
 }

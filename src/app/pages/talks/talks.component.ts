@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'talks',
-  template: 'Talks component'
+  templateUrl: './talks.component.html',
+  styles: [
+    require('./talks.component.scss')
+  ],
 })
 export class TalksComponent {
 

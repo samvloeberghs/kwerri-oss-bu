@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from '../shared';
+import { SharedModule } from '../../shared';
 import { TalksComponent, TalksRoutingModule } from './';
 
 @NgModule({

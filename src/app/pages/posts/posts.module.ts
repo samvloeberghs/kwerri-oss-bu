@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from '../shared';
+import { SharedModule } from '../../shared';
 import { PostsComponent, PostsRoutingModule } from './';
 
 @NgModule({

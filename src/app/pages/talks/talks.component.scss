@@ -1,0 +1,44 @@
+:host {
+
+  display: block;
+
+  h2 {
+    margin-bottom: 40px;
+    font-size: 1.8em;
+  }
+
+  ul {
+
+    padding: 0;
+    margin: 0 0 20px 20px;
+
+    li {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+
+      span.date {
+        color: #555;
+      }
+
+      a.title {
+
+      }
+
+      a.where,
+      span.where {
+
+        color: #555;
+
+      }
+
+      a.video,
+      span.video {
+
+      }
+
+    }
+
+  }
+
+
+}

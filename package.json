@@ -1,10 +1,10 @@
 {
-  "name": "universal-starter",
-  "version": "2.0.0",
-  "description": "Angular 2 Universal starter kit by @AngularClass",
+  "name": "samvloeberghs.be",
+  "version": "0.0.1",
+  "description": "Sam Vloeberghs personal website - based on the Angular 2 Universal starter kit by @AngularClass",
   "repository": {
     "type": "git",
-    "url": "https://github.com/angular/universal-starter.git"
+    "url": "https://github.com/samvloeberghs/samvloeberghs.be"
   },
   "scripts": {
     "watch": "webpack --watch",
@@ -21,13 +21,6 @@
     "debug": "node --debug-brk dist/server/index.js"
   },
   "license": "MIT",
-  "contributors": [
-    "AngularClass <hello@angularclass.com>",
-    "PatrickJS <patrick@angularclass.com>",
-    "Jeff Whelpley <jeff@gethuman.com>",
-    "Jeff Cross <crossj@google.com>",
-    "Mark Pieszak <mpieszak84@gmail.com>"
-  ],
   "dependencies": {
     "@angular/common": "2.1.0",
     "@angular/compiler": "2.1.0",
