@@ -1,0 +1,11 @@
+body {
+  color: pink;
+}
+
+body  p {
+  color: blue;
+}
+
+body p  span {
+  color: red;
+}

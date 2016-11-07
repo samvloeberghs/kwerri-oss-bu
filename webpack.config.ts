@@ -1,19 +1,27 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
+const autoprefixer = require('autoprefixer');
 
-var commonConfig = {
+const commonConfig = {
+
   resolve: {
     extensions: ['.ts', '.js', '.json']
   },
+
   module: {
     loaders: [
       // TypeScript
       { test: /\.ts$/, loaders: ['awesome-typescript-loader', 'angular2-template-loader'] },
       { test: /\.html$/, loader: 'raw-loader' },
       { test: /\.css$/, loader: 'raw-loader' },
+      {
+        test: /\.scss$/,
+        loaders:['raw-loader', 'sass-loader'],
+      },
       { test: /\.json$/, loader: 'json-loader' }
     ],
   },
+
   plugins: [
     new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
@@ -40,7 +48,7 @@ var commonConfig = {
 };
 
 
-var clientConfig = {
+const clientConfig = {
   target: 'web',
   entry: './src/client',
   output: {
@@ -56,7 +64,7 @@ var clientConfig = {
 };
 
 
-var serverConfig = {
+const serverConfig = {
   target: 'node',
   entry: './src/server', // use the entry file of the node server if everything is ts rather than es5
   output: {
@@ -113,7 +121,7 @@ var serverConfig = {
 
 
 // Default config
-var defaultConfig = {
+const defaultConfig = {
   context: __dirname,
   output: {
     publicPath: path.resolve(__dirname),
@@ -123,7 +131,7 @@ var defaultConfig = {
 
 
 
-var webpackMerge = require('webpack-merge');
+const webpackMerge = require('webpack-merge');
 module.exports = [
   // Client
   webpackMerge({}, defaultConfig, commonConfig, clientConfig),

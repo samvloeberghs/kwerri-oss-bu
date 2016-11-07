@@ -1,26 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app',
-  styles: [`
-   .active {
-     background-color: gray;
-     color: white;
-   }
-  `],
-  template: `
-    <nav>
-      <a routerLink="/home" routerLinkActive="active">Home</a>
-      <a routerLink="/posts" routerLinkActive="active">Posts</a>
-      <a routerLink="/talks" routerLinkActive="active">Talks</a>
-      <a routerLink="/projects" routerLinkActive="active">Projects</a>
-      <a routerLink="/contact" routerLinkActive="active">Contact</a>
-    </nav>
-
-    <p>Hello Angular Universal App</p>
-
-    <router-outlet></router-outlet>
-  `
+  templateUrl: './app.component.html',
+  styles: [
+    require('./app.component.scss')
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
 
