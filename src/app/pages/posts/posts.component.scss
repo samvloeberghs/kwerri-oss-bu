@@ -56,7 +56,7 @@
       }
 
       h2 {
-        margin-bottom: 5px;
+        margin-bottom: 5px !important;
         font-size: 22px;
         border-bottom: 1px dotted #000;
         padding-bottom: 2px;
@@ -71,8 +71,9 @@
       }
 
       .posted {
-        margin-bottom: 20px;
-        font-size: 12px;
+        margin-bottom: 20px !important;
+        font-size: 12px !important;
+        word-spacing: 0 !important;
       }
 
       &:hover {

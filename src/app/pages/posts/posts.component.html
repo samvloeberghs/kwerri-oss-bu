@@ -4,19 +4,19 @@
     </span>
 </h1>
 
-<article>
+<article *ngFor="let post of posts; let i = index">
 
-    <a href="" class="img">
-        <img src="assets/rxjs.png" alt="RxJS Subjects"/>
+    <a routerLink="['/posts', post.slug]" class="img">
+        <img [src]="post.img" [alt]="post.title"/>
     </a>
 
-    <a class="excerpt" href="">
+    <a routerLink="['/posts', post.slug]" class="excerpt">
 
-        <h2>What's with the Subjects in RxJS 5?</h2>
+        <h2>{{post.title}}</h2>
 
         <p class="posted">
             Posted on
-            <time>3th of December 2016</time>
+            <time [attr.datetime]="post.datetime">{{ post.datetime | date:'fullDate'}}</time>
         </p>
 
         <p>

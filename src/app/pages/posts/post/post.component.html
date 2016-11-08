@@ -1,0 +1,234 @@
+<h1>
+    <span>
+        What's with the <strong>Subjects</strong> in RxJS 5?
+    </span>
+</h1>
+
+<p class="posted">
+    Posted on
+    <time>3th of December 2016</time>
+</p>
+
+<img src="assets/posts/whats-with-the-subjects-in-rxjs5/rxjs_big.png" alt="RxJS Subjects" class="introimage"/>
+
+<section class="entry-content post-body" itemprop="articleBody"><p>RxJS is a great library, it is used
+    more and more in different places &amp; frameworks across the web. Soon it will dominate the
+    asynchronous part of web apps, so that’s why it’s important to know how subjects
+    work.<code>Subjects</code> combine the best of both an <code>Observable</code> and
+    <code>Observer</code>. So you can think of a <code>Subject</code>&nbsp;being an
+    <code>Observable</code> and <code>Observer</code> at the same time.</p>
+    <p><strong>A <code>Subject</code> is an <code>Observable</code></strong>, but an
+        <code>Observable</code> is&nbsp;unicast. <code>Subjects</code> on the other hand are multicast,
+        which means that&nbsp;&nbsp;they act like EventEmitters that can handle a set of multiple
+        listeners or subscribers. To facilitate this behaviour, new observers are registered in a list
+        of <code>Observers</code> that all get notified.&nbsp;The subscribers are agnostic about&nbsp;what
+        is sending the updates, as it can be a plain <code>Observable</code> or a <code>Subject</code>
+        emitting the values.</p>
+    <p><strong>A <code>Subject</code> is an <code>Observer</code></strong>, which means it can also send
+        new updates on <code>next(val)</code>, emit errors on <code>error(err)</code> and <code>complete()</code>
+        the stream.</p>
+    <p><code>Subjects</code> come in different flavours, like a normal <code>Subject</code>, a
+        <code>BehaviourSubject</code>,
+        a <code>ReplaySubject</code> and an <code>AsyncSubject</code>.&nbsp;We’ll try to explain the
+        differences between all of them and support the explanation with a real-world and readable
+        example.</p>
+    <h2><span>What is a <code>Subject</code>?</span></h2>
+    <p>A <code>Subject</code> can be used to subscribe all the observers of that <code>Subject</code>,
+        which is also an <code>Observable</code>. The <code>Subject</code> can subscribe to another
+        async operation or source like an API backend, serving as a proxy for a collection of
+        subscribers and a source.</p>
+    <h3><span>Example</span></h3>
+    <p>In the example below, we have two <code>Observers</code> attached to one <code>Subject</code>,
+        and we feed some values to the <code>Subject</code>. Notice that there are different ways for
+        subscribing. You can use an object that defines a function for the next value, or use the 3
+        different callback functions for <code>next</code>, <code>error</code> and <code>complete</code>:
+    </p>
+    <pre class="brush: typescript; title: ; notranslate" title="">import &#123; Subject &#125; from 'rxjs/Subject';
+let subject = new Subject&lt;number&gt;();
+
+subject.subscribe(
+   (val: number) =&gt; &#123; console.log('observer I: ' + val) &#125;,
+   () =&gt; &#123;&#125;,
+   () =&gt; &#123;&#125;
+);
+subject.subscribe(&#123;
+  next: (val: number) =&gt; console.log('observer II: ' + val)
+&#125;);
+
+subject.next('test')  // ! compile time error !
+
+subject.next(11);
+// log: observer I: 11
+// log: observer II: 11
+
+subject.next(22);
+// log: observer I: 22
+// log: observer II: 22
+</pre>
+    <p>We are using TypeScript in this example so we can provide a type to the Subject. This way we get
+        type-checking on compile-time if we want to send a next value that does not comply with the
+        type!</p>
+    <p>See this example in action here: <a href="https://plnkr.co/edit/nrXf41PNgUdJTMCjR9gG?p=preview"
+                                           target="_blank">https://plnkr.co/edit/nrXf41PNgUdJTMCjR9gG?p=preview</a>
+    </p>
+    <p></p>
+    <h2><span>What is a <code>BehaviorSubject</code>?</span></h2>
+    <p>The <code>BehaviorSubject</code> is different from a normal <code>Subject</code> in the way that
+        it stores the latest emitted value and requires an initial value. When a new subscriber
+        subscribes to the <code>BehaviorSubject</code>, the latest value is immediately send to the new
+        subscriber. If there is no value emitted yet, the default value will be returned. Once a
+        <code>BehaviorSubject</code>
+        is completed it will free up the memory. Newly subscribed <code>Observers</code> will not
+        receive the latest value.</p>
+    <h3><span>Example</span></h3>
+    <p>We give the <code>BehaviorSubject</code> an initial value of <code>11</code>. The first <code>Observer</code>
+        that subscribes to the subject gets immediately notified of the initial value. The same is true
+        for the next <code>Observer</code>.</p>
+    <pre class="brush: typescript; title: ; notranslate" title="">import &#123; BehaviorSubject &#125; from 'rxjs/BehaviorSubject';
+let behaviorSubject = new BehaviorSubject&lt;number&gt;(11);
+
+behaviorSubject.subscribe(
+   (val: number) =&gt; console.log('observer I: ' + val)
+);
+// log: observer I: 11
+
+behaviorSubject.subscribe(&#123;
+   next: (val: number) =&gt; console.log('observer II: ' + val)
+&#125;);
+// log: observer II: 11
+</pre>
+    <p>From this point on the behavior of the <code>BehaviorSubject</code> is the same as a normal
+        <code>Subject</code>. But if we subscribe a new <code>Observer</code> to the <code>BehaviorSubject</code>
+        it will immediately receive the last emitted value!</p>
+    <pre class="brush: typescript; title: ; notranslate" title="">behaviorSubject.next(22);
+// log: observer I: 22
+// log: observer II: 22
+
+behaviorSubject.next(33);
+// log: observer I: 33
+// log: observer II: 33
+
+behaviorSubject.subscribe(&#123;
+   next: (val: number) =&gt; console.log('observer III: ' + val)
+&#125;);
+// observer III: 33
+</pre>
+    <p>See this example in action here: <a href="https://plnkr.co/edit/HPNSAzFmLipvHQ96ZkFt?p=preview"
+                                           target="_blank">https://plnkr.co/edit/HPNSAzFmLipvHQ96ZkFt?p=preview</a>
+    </p>
+    <h3><span>Real world examples cases</span></h3>
+    <p>You’ll want to use a <code>BehaviorSubject</code> if you always need an initial value. This
+        initial value can serve as a temporary placeholder while you wait for the first, of a possible
+        sequence, real value. For example:</p>
+    <ul>
+        <li>You are fetching the contents of a file and you want to show an initial placeholder, stating
+            that the file is loading.
+        </li>
+        <li>Your chatbox shows a welcome message before you effectively start receiving real values.
+        </li>
+    </ul>
+    <h2><span>What is a <code>ReplaySubject</code>?</span></h2>
+    <p>A <code>ReplaySubject</code> is kind of similar to a <code>BehaviorSubject.</code>&nbsp;It can
+        send previous values to new attached <code>Subscribers</code>, but it can
+        also&nbsp;<em>record</em> a part of the <code>Observable</code> execution. The&nbsp;<code>ReplaySubject</code>
+        records multiple values from the <code>Observable</code> execution and replays them to any new&nbsp;<code>Subscribers</code>
+        attached.</p>
+    <p>The first parameter&nbsp;in the constructor when creating a <code>ReplaySubject</code> defines&nbsp;how
+        many values to replay. The second parameter specifies the <em>window time</em> in miliseconds
+        that, besides the buffer size, determines the maximum lifetime of recorded values.</p>
+    <h3><span>
+                        Example</span></h3>
+    <p>In the following example we use a rather big&nbsp;buffer size of <code>25</code>, but the <em>window
+        time</em> parameter invalidates the recorded items in the buffer after <code>1000ms</code> or 1
+        second. So if we emit some values using a specific timeline of 3 points every 800ms, only the
+        values emitted in the last timeframe are replayed, as all other values were invalidated after
+        2000ms. The first batch after 1000ms and the second batch after 2000ms in the complete
+        timeframe.</p>
+    <pre class="brush: typescript; title: ; notranslate" title="">import &#123; ReplaySubject &#125; from 'rxjs/ReplaySubject';
+let replaySubject = new ReplaySubject&lt;number&gt;(25, 1000);
+
+setTimeout(() =&gt; &#123;
+  replaySubject.next(1);
+  replaySubject.next(2);
+  replaySubject.next(3);
+&#125;, 0);
+
+setTimeout(() =&gt; &#123;
+  replaySubject.next(4);
+  replaySubject.next(5);
+  replaySubject.next(6);
+&#125;, 800);
+
+setTimeout(() =&gt; &#123;
+  replaySubject.next(7);
+  replaySubject.next(8);
+  replaySubject.next(9);
+&#125;, 1600);
+
+setTimeout(() =&gt; &#123;
+
+  replaySubject.subscribe(
+    (val: number) =&gt; console.log('observer: ' + val)
+  );
+
+&#125;, 2000);
+// log: observer: 7
+// log: observer: 8
+// log: observer: 9
+</pre>
+    <p>See this example in action here: <a href="https://plnkr.co/edit/dfCLm3Eh2c39JKOlGLZy?p=preview"
+                                           target="_blank">https://plnkr.co/edit/dfCLm3Eh2c39JKOlGLZy?p=preview</a>
+    </p>
+    <h3><span>Real world examples cases</span></h3>
+    <p>You’ll mostly need a <code>ReplaySubject</code> if you need to replay a set of actions or values
+        every time you invoke a specific part of your application. For example:</p>
+    <ul>
+        <li>You could use a <code>ReplaySubject</code> in your application to show the last 5
+            notifications, every time the user goes back to his dashboard.
+        </li>
+        <li>You could use a <code>ReplaySubject</code> in your chat application to show the last 5
+            messages of a specific user, every time you open up his chatbox.
+        </li>
+    </ul>
+    <h2><span>What is an <code>AsyncSubject</code>?</span></h2>
+    <p>The <code>AsyncSubject</code> is an alternate implementation of a <code>Subject</code> where only
+        the last value is sent to its observers, and only when the execution completes. This last value
+        is cached forever and every new <code>Observer</code> subscribing to the
+        <code>AsyncSubject</code> will immediately receive the cached value.</p>
+    <p><code>AsyncSubjects</code> can be used a <em>replacement</em> for <code>Promises</code>. The only
+        difference is that a Promise handles a single value, and <code>AsyncSubjects</code> handle
+        multiple values, only caching and emitting the last value. Remember to complete the <code>AsyncSubject</code>,
+        as this is the <em>caching-enabler</em>!</p>
+    <p>In the following example the only emitted value to the next function of the observer will be 3,
+        as we complete the subject after the last call to next.</p>
+    <pre class="brush: typescript; title: ; notranslate" title="">import &#123; AsyncSubject &#125; from 'rxjs/Subject';
+let asyncSubject = new AsyncSubject&lt;number&gt;();
+
+asyncSubject.subscribe(
+  (val: number) =&gt; console.log('observer: ' + val)
+);
+
+asyncSubject.next(1);
+asyncSubject.next(2);
+asyncSubject.next(3);
+
+asyncSubject.complete();
+// log: observer: 3
+</pre>
+    <p>See this example in action here: <a href="https://plnkr.co/edit/3QAbza00V36EQv7N5seO?p=preview"
+                                           target="_blank">https://plnkr.co/edit/3QAbza00V36EQv7N5seO?p=preview</a>
+    </p>
+    <h3><span>Real world examples case</span></h3>
+    <p>An <code>AsyncSubject</code> can be used in situations where you do multiple requests to a
+        resource. If your remote service/function uses and returns a singleton implementation of the
+        <code>AsyncSubject</code>, subsequent calls to this resource will only invoke one call to the
+        backend. All the subsequent calls (and subscribers) will be notified with the same result of the
+        singleton <code>AsyncSubject</code>.</p>
+    <h2><span>More details and examples?</span></h2>
+    <p>If you know of any other related examples for any type of Subject, let me know! I’ll be happy to
+        add them in the list of examples. If you want to read more about <code>Subjects</code> or RxJS
+        in general you can read trough the extensive readme files on the project’s Github repository:&nbsp;<a
+                href="https://github.com/ReactiveX/rxjs/tree/5.0.0-beta.10/doc" target="_blank">https://github.com/ReactiveX/rxjs/tree/5.0.0-beta.10/doc</a>
+        or on the official website’s documentation: <a href="http://reactivex.io/rxjs/identifiers.html"
+                                                       target="_blank">http://reactivex.io/rxjs/identifiers.html</a>.
+    </p></section>

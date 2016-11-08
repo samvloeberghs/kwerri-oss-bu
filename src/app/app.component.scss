@@ -185,10 +185,16 @@ section#content {
       color: #000;
     }
   }
+  h2{
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
   p {
     font-size: 1.2em;
     line-height: 1.5em;
-    word-spacing: 3px;
+    word-spacing: 2px;
     margin-bottom: 15px;
     :last-child {
       margin-bottom: 0;

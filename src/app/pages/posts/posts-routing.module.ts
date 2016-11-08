@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { PostsComponent } from './';
+import { PostComponent } from './post';
 
 @NgModule({
   imports: [

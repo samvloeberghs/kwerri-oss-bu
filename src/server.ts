@@ -86,16 +86,21 @@ function ngApp(req, res) {
     originUrl: 'http://localhost:3000'
   };
 
-  let allowedCachePaths = ['', 'home', 'posts', 'talks', 'projects', 'contact'];
+  let allowedCachePaths = ['', 'home', 'post', 'posts', 'talks', 'projects', 'contact'];
   allowedCachePaths = [];
   let cachePath = req.originalUrl.substr(1).replace('/', '_');
+  if(cachePath === '') {
+    cachePath = 'home';
+  }
   let fileCachePath = cacheFolder + '/' + cachePath;
+
 
   console.log(allowedCachePaths, cachePath, fileCachePath);
   console.log('cache not allowed for: ' + cachePath);
   res.render('index', config);
 
-  /*
+
+/*
   // IF CACHE ALLOWED
   // ----------------
   if (allowedCachePaths.indexOf(cachePath)) {
@@ -137,6 +142,7 @@ function ngApp(req, res) {
     res.render('index', config);
   }
   */
+
 
 }
 

@@ -3,15 +3,15 @@
 
     <aside>
 
-        <a href="" id="picture">
+        <a routerLink="/" id="picture">
             <img src="assets/sam.jpg" alt="Sam"/>
         </a>
 
         <h1>
-            <a href="">Sam Vloeberghs</a>
+            <a routerLink="/">Sam Vloeberghs</a>
         </h1>
 
-        <a href="" id="mobilemenu" target="navigation"
+        <a routerLink="/" id="mobilemenu" target="navigation"
            [class.open]="mobileNavToggled"
            (click)="toggleMobileNav($event, true)">
             <i class="fa fa-bars" aria-hidden="true"></i>
