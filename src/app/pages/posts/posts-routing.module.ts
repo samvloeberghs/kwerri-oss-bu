@@ -10,6 +10,10 @@ import { PostComponent } from './post';
       {
         path: 'posts',
         component: PostsComponent
+      },
+      {
+        path: 'posts/:slug',
+        component: PostComponent
       }
     ])
   ]

@@ -1,9 +1,17 @@
 :host {
-  display:block;
+
+  display: block;
   margin-bottom: 20px;
 
   h1 {
-    margin-bottom: 10px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .posted {
+    font-size: 12px !important;
+    line-height: 14px !important;
+    font-style: italic;
+    margin-bottom: 15px !important;
   }
 
   h2 {
@@ -36,7 +44,7 @@
 
   p {
     font-size: 16px !important;
-    line-height: 26px  !important;
+    line-height: 26px !important;
   }
 
   ul {
@@ -62,13 +70,6 @@
     max-width: 100%;
     display: block;
     margin-bottom: 20px;
-  }
-
-  .posted {
-    font-size: 12px !important;
-    line-height: 14px !important;
-    font-style: italic;
-    margin-bottom: 15px  !important;
   }
 
 }

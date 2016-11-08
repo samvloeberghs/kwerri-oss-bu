@@ -1,44 +1,42 @@
-:host {
+section#content {
+  :host {
 
-  display: block;
+    display: block;
 
-  h2 {
-    margin-bottom: 40px;
-    font-size: 1.8em;
-  }
+    ul {
 
-  ul {
-
-    padding: 0;
-    margin: 0 0 20px 20px;
-
-    li {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-
-      span.date {
-        color: #555;
+      padding: 0;
+      margin: {
+        bottom: 20px;
       }
 
-      a.title {
+      li {
+        font-size: 1.2em;
+        margin-bottom: 10px;
 
-      }
+        span.date {
+          color: #555;
+        }
 
-      a.where,
-      span.where {
+        a.title {
 
-        color: #555;
+        }
 
-      }
+        a.where,
+        span.where {
 
-      a.video,
-      span.video {
+          color: #555;
+
+        }
+
+        a.video,
+        span.video {
+
+        }
 
       }
 
     }
 
   }
-
-
 }

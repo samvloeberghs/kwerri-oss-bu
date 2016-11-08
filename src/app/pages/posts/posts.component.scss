@@ -1,161 +1,95 @@
-:host {
-  display: block;
+section#content {
+  :host {
+    display: block;
 
-  article {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #f6f6f6;
-
-    &:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-
-    &:last-child {
+    article {
+      margin-bottom: 20px;
       padding-bottom: 20px;
-      border: none;
-      margin: 0;
-    }
+      border-bottom: 1px solid #f6f6f6;
 
-    a.img {
-      width: 65%;
-      display: block;
-      margin: 0 auto;
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
 
-      @media (min-width: 769px) {
-        float: left;
-        width: 150px;
+      &:last-child {
+        padding-bottom: 20px;
+        border: none;
+        margin: 0;
+      }
+
+      a.img {
+        width: 65%;
         display: block;
+        margin: 0 auto;
+
+        @media (min-width: 769px) {
+          float: left;
+          width: 150px;
+          display: block;
+        }
+
+        img {
+          display: block;
+          width: 100%;
+        }
+
+        &:hover img {
+          animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+          transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
       }
 
-      img {
+      a.excerpt {
         display: block;
-        width: 100%;
-      }
-
-      &:hover img {
-        animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-        transform: translate3d(0, 0, 0);
-        backface-visibility: hidden;
-        perspective: 1000px;
-      }
-    }
-
-    a.excerpt {
-      display: block;
-      text-decoration: none;
-      color: #000;
-      margin-top: 20px;
-      text-align: justify;
-
-      @media (min-width: 769px) {
-        margin-left: 170px;
-        margin-top: 0;
-        text-align: left;
-      }
-
-      h2 {
-        margin-bottom: 5px !important;
-        font-size: 22px;
-        border-bottom: 1px dotted #000;
-        padding-bottom: 2px;
-        display: inline-block;
-      }
-
-      span {
-        color: #77a5cf;
-        border-bottom: 1px dotted #77a5cf;
         text-decoration: none;
-        font-weight: bold;
-      }
+        color: #000;
+        margin-top: 20px;
+        text-align: justify;
 
-      .posted {
-        margin-bottom: 20px !important;
-        font-size: 12px !important;
-        word-spacing: 0 !important;
-      }
+        @media (min-width: 769px) {
+          margin-left: 170px;
+          margin-top: 0;
+          text-align: left;
+        }
 
-      &:hover {
         h2 {
-          border-bottom: 1px solid #000;
+          margin-bottom: 5px;
+          font-size: 22px;
+          border-bottom: 1px dotted #000;
+          padding-bottom: 2px;
+          display: inline-block;
         }
+
         span {
-          border-bottom: 1px solid #77a5cf;
+          color: #77a5cf;
+          border-bottom: 1px dotted #77a5cf;
+          text-decoration: none;
+          font-weight: bold;
         }
+
+        .posted {
+          margin-bottom: 20px;
+          font-size: 12px;
+          word-spacing: 0;
+        }
+
+        &:hover {
+          h2 {
+            border-bottom: 1px solid #000;
+          }
+          span {
+            border-bottom: 1px solid #77a5cf;
+          }
+        }
+
       }
 
     }
 
   }
 
-}
-
-/* post */
-article#post {
-  margin-bottom: 20px;
-}
-
-article#post h1 {
-  margin-bottom: 15px;
-}
-
-article#post h2 {
-  margin-bottom: 15px;
-  font-size: 22px;
-}
-
-article#post h2 span {
-  font-weight: bold;
-  letter-spacing: 2px;
-  padding: 5px 10px;
-  background: #f6f6f6;
-  border-radius: 5px;
-}
-
-article#post h3 {
-  margin-bottom: 15px;
-  font-size: 20px;
-}
-
-article#post h3 span {
-  font-weight: bold;
-  letter-spacing: 2px;
-  padding: 5px 10px;
-  background: #f6f6f6;
-  border-radius: 5px;
-}
-
-article#post p {
-  font-size: 16px;
-  line-height: 26px;
-}
-
-article#post ul {
-  font-size: 16px;
-  margin-left: 20px;
-  line-height: 26px;
-  margin-bottom: 15px;
-}
-
-article#post pre {
-  margin-bottom: 15px;
-}
-
-article#post .posted {
-  margin-bottom: 15px;
-}
-
-article#post img.introimage {
-  max-width: 100%;
-  display: block;
-  margin-bottom: 20px;
-}
-
-article#post code {
-  display: inline-block;
-  padding: 2px 2px;
-  background: #f6f6f6;
-  font-size: 15px;
-  line-height: 15px;
 }
