@@ -71,9 +71,28 @@ app.get('*', function (req, res) {
 });
 
 // Server
+/*
 let server = app.listen(app.get('port'), () => {
   console.log(`Listening on: http://localhost:${server.address().port}`);
 });
+*/
+
+const spdy = require('spdy');
+const fs = require('fs');
+
+let server = spdy.createServer({
+  key: fs.readFileSync('./cert/server.key'),
+  cert: fs.readFileSync('./cert/server.crt')
+}, app)
+  .listen(app.get('port'), (err) => {
+    if (err) {
+      throw new Error(err);
+    }
+    console.log('Listening on port: ' + app.get('port'));
+  });
+
+
+
 
 function ngApp(req, res) {
 
@@ -146,7 +165,6 @@ function ngApp(req, res) {
 
 }
 
-const fs = require('fs');
 const cacheFolder = 'cache';
 
 function readHtmlCache(path, cb) {
@@ -171,4 +189,3 @@ function saveHtmlCache(path, html) {
   });
 
 }
-
