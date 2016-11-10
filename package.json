@@ -8,7 +8,7 @@
   },
   "scripts": {
     "watch": "webpack --watch",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist && npm run lint",
     "build": "webpack",
     "build:prod": "webpack --progress -p",
     "prestart": "npm run build",
@@ -18,7 +18,8 @@
     "debug:start": "npm run build && npm run debug:server",
     "predebug": "npm run build",
     "debug:build": "node-nightly --inspect --debug-brk node_modules/webpack/bin/webpack.js",
-    "debug": "node --debug-brk dist/server/index.js"
+    "debug": "node --debug-brk dist/server/index.js",
+    "lint": "./node_modules/.bin/tslint src/**/*.ts"
   },
   "license": "MIT",
   "dependencies": {
@@ -58,6 +59,7 @@
     "angular2-template-loader": "^0.4.0",
     "autoprefixer": "^6.5.2",
     "awesome-typescript-loader": "^2.2.4",
+    "codelyzer": "^1.0.0-beta.3",
     "compression-webpack-plugin": "^0.3.2",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.25.0",
