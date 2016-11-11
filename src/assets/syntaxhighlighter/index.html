@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SyntaxHighlighter</title>
+  <script type="text/javascript" src="syntaxhighlighter.js"></script>
+  <link type="text/css" rel="stylesheet" href="theme.css">
+  <style type="text/css">
+    body {
+      background: white;
+      font-family: helvetica;
+    }
+  </style>
+</head>
+
+<body>
+<h1>SyntaxHighlighter v4.0.1</h1>
+
+
+
+<h1 style="border-bottom: 2px solid black;">javascript</h1>
+<pre class="brush: javascript;">
+/**
+ * This is a JavaScript sample.
+ */
+var matches = require(&#39;./matches&#39;);
+
+module.exports = {
+  /**
+   * Applies all regular expression to the code and stores all found
+   * matches in the `this.matches` array.
+   */
+  parse: function(code, regexList, opts)
+  {
+    var result = [];
+
+    regexList = regexList || [];
+
+    for (var i = 0, l = regexList.length; i &lt; l; i++)
+      // BUG: length returns len+1 for array if methods added to prototype chain (oising@gmail.com)
+      if (typeof regexList[i] === &#39;object&#39;)
+        result = result.concat(matches.find(code, regexList[i]));
+
+    result = matches.sort(result);
+    result = matches.removeNested(result);
+    result = matches.compact(result);
+
+    return result;
+  }
+};
+
+</pre>
+
+
+
+<h1 style="border-bottom: 2px solid black;">css</h1>
+<pre class="brush: css;">
+.syntaxhighlighter,
+.syntaxhighlighter .bold,
+.syntaxhighlighter .italic,
+.syntaxhighlighter .line .number,
+.syntaxhighlighter.nogutter .line .number,
+.syntaxhighlighter .line .content,
+.syntaxhighlighter .line .content code,
+.syntaxhighlighter .line .content .block,
+.syntaxhighlighter .line .content .spaces,
+.syntaxhighlighter.nogutter .line .content,
+.syntaxhighlighter .bar,
+.syntaxhighlighter.collapsed .bar,
+.syntaxhighlighter.nogutter .bar,
+.syntaxhighlighter .ruler,
+.syntaxhighlighter.collapsed .lines,
+.syntaxhighlighter.collapsed .ruler,
+.syntaxhighlighter.printing,
+.syntaxhighlighter.printing .tools,
+.syntaxhighlighter.printing li,
+.syntaxhighlighter .toolbar,
+.syntaxhighlighter.nogutter .toolbar,
+.syntaxhighlighter.collapsed .toolbar,
+.syntaxhighlighter .toolbar a,
+.syntaxhighlighter .toolbar a:hover
+{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  text-align: left;
+  float: none;
+  vertical-align: baseline;
+  position: static;
+  left: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  height: auto;
+  width: auto;
+  line-height: normal;
+  font-family: &#34;Consolas&#34;, &#34;Monaco&#34;, &#34;Bitstream Vera Sans Mono&#34;, &#34;Courier New&#34;, Courier, monospace;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 100%;
+}
+ 
+.syntaxhighlighter
+{
+  font-size: 16px;
+  width: 99%;
+  overflow: auto;
+  margin: 18px 0 18px 0 !important;
+  padding-top: 1px; /* adds a little border on top when controls are hidden */
+}
+ 
+.syntaxhighlighter .bold {
+  font-weight: bold;
+}
+ 
+.syntaxhighlighter .italic {
+  font-style: italic;
+}
+ 
+.syntaxhighlighter .line .number
+{
+  float: left;
+  width: 45px;
+  padding-right: 5px;
+  text-align: right;
+  display: block;
+}
+ 
+/* Disable numbers when no gutter option is set */
+.syntaxhighlighter.nogutter .line .number
+{
+  display: none;
+}
+ 
+.syntaxhighlighter .line .content
+{
+  margin-left: 50px;
+  padding-left: 4px;
+  display: block;
+}
+ 
+.syntaxhighlighter .line .content .block
+{
+  display: block;
+  padding-left: 18px;
+  text-indent: -18px;
+}
+ 
+.syntaxhighlighter .line .content .spaces
+{
+  display: none;
+}
+ 
+/* Disable border and margin on the lines when no gutter option is set */
+.syntaxhighlighter.nogutter .line .content
+{
+  margin-left: 0;
+  border-left: none;
+}
+ 
+.syntaxhighlighter .bar
+{
+  padding-left: 50px;
+}
+ 
+.syntaxhighlighter.collapsed .bar,
+.syntaxhighlighter.nogutter .bar
+{
+  padding-left: 0px;
+}
+ 
+.syntaxhighlighter .ruler
+{
+  padding-left: 4px;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+ 
+/* Adjust some properties when collapsed */
+ 
+.syntaxhighlighter.collapsed .lines,
+.syntaxhighlighter.collapsed .ruler
+{
+  display: none;
+}
+ 
+/* Additional modifications when in print-view */
+ 
+.syntaxhighlighter.printing
+{
+  border: none !important;
+}
+ 
+.syntaxhighlighter.printing .bar
+{
+  display: none !important;
+}
+ 
+/* Styles for the tools */
+ 
+.syntaxhighlighter .toolbar
+{
+  font-size: 80%;
+  font-family: Geneva, Verdana, Arial, Helvetica, sans-serif;
+  padding: 1px 5px 5px 5px;
+}
+ 
+.syntaxhighlighter.nogutter .toolbar
+{
+  border-left: 0;
+}
+ 
+.syntaxhighlighter.collapsed .toolbar
+{
+  border-bottom: 0;
+}
+ 
+.syntaxhighlighter .toolbar a
+{
+  text-decoration: none;
+  margin-right: 10px;
+}
+ 
+.syntaxhighlighter .toolbar a:hover
+{
+  text-decoration: underline;
+  margin-right: 10px;
+}
+</pre>
+
+
+
+<h1 style="border-bottom: 2px solid black;">xml</h1>
+<pre class="brush: xml;">
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;
+
+&lt;!-- comments --&gt;
+&lt;rootNode xmlns:namespace=&#34;http://www.w3.org/TR/html4/&#34;&gt;
+  &lt;childNodes&gt;
+    &lt;childNode attribute1 = &#34;value&#34;
+               namespace:attribute2=&#39;value&#39;
+               attribute3=&#39;&#39;/&gt;
+    &lt;childNode /&gt;
+    &lt;childNode /&gt;
+    &lt;childNode /&gt;
+    &lt;childNode
+      attr1=&#34;value&#34;
+      attr2=&#34;10&#34;
+      attr3=&#34;hello&#34;
+          &gt;
+      value
+    &lt;/childNode&gt;
+    &lt;namespace:childNode&gt;
+      &lt;![CDATA[
+              this is some CDATA content
+              &lt;!-- comments inside cdata --&gt;
+              &lt;b alert=&#39;false&#39;&gt;tags inside cdata&lt;/b&gt;
+          ]]&gt;
+
+      value = &#34;plain string outside&#34;
+      hello = world
+    &lt;/namespace:childNode&gt;
+  &lt;/childNodes&gt;
+&lt;/rootNode&gt;
+
+&lt;!--
+  Multiline comments &lt;b&gt;tag&lt;/b&gt;
+--&gt;
+
+</pre>
+
+
+
+<h1 style="border-bottom: 2px solid black;">typescript</h1>
+<pre class="brush: typescript;">
+/**
+ * TypeScript lets you write JavaScript the way you really want to.
+ * TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
+ * Any browser. Any host. Any OS. Open Source.
+ */
+class Animal {
+    constructor(public name: string) { }
+    move(meters: number) {
+        alert(this.name + &#34; moved &#34; + meters + &#34;m.&#34;);
+    }
+}
+
+class Snake extends Animal {
+    constructor(name: string) { super(name); }
+    move() {
+        alert(&#34;Slithering...&#34;);
+        super.move(5);
+    }
+}
+
+class Horse extends Animal {
+    constructor(name: string) { super(name); }
+    move() {
+        alert(&#34;Galloping...&#34;);
+        super.move(45);
+    }
+}
+
+var sam = new Snake(&#34;Sammy the Python&#34;);
+var tom: Animal = new Horse(&#34;Tommy the Palomino&#34;);
+
+sam.move();
+tom.move(34);
+
+</pre>
+
+
+
+</html>

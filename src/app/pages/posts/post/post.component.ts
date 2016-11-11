@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
+import { HighlightJsService } from 'angular2-highlight-js';
+import { isBrowser } from 'angular2-universal/browser'; // for AoT we need to manually split universal packages
+import {  } from '@angular/platform-browser';
 
 import { Post } from './';
-
-declare var SyntaxHighlighter;
 
 @Component({
   selector: 'post',
@@ -13,6 +14,7 @@ declare var SyntaxHighlighter;
   styles: [
     require('./post.component.scss')
   ],
+  encapsulation: ViewEncapsulation.None
 })
 export class PostComponent implements OnInit, OnDestroy {
 
@@ -22,7 +24,9 @@ export class PostComponent implements OnInit, OnDestroy {
   private post: Post;
 
   constructor(private http: Http,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private el: ElementRef,
+              private highlightJsService: HighlightJsService) {
 
   }
 
@@ -31,12 +35,18 @@ export class PostComponent implements OnInit, OnDestroy {
       let slug = params['slug'];
       this.postPath = 'assets/posts/' + slug + '/post.json';
       this.postContentPath = 'assets/posts/' + slug + '/post.html';
-      console.log(this.postPath, this.postContentPath);
+
+
       this.getPost().subscribe(val => {
         this.post = val;
         this.post.content = '';
         this.getPostContent().subscribe(val => {
           this.post.content = val;
+          /*
+          if (isBrowser) {
+            this.highlightJsService.highlight(document.querySelector('.typescript'));
+          }
+          */
         });
       });
 

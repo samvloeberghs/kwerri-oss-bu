@@ -1,4 +1,4 @@
-<section class="entry-content post-body" itemprop="articleBody"><p>RxJS is a great library, it is used
+<section class="entry-content post-body " itemprop="articleBody"><p>RxJS is a great library, it is used
     more and more in different places &amp; frameworks across the web. Soon it will dominate the
     asynchronous part of web apps, so that’s why it’s important to know how subjects
     work.<code>Subjects</code> combine the best of both an <code>Observable</code> and
@@ -30,7 +30,7 @@
         subscribing. You can use an object that defines a function for the next value, or use the 3
         different callback functions for <code>next</code>, <code>error</code> and <code>complete</code>:
     </p>
-    <pre class="brush: typescript; title: ; notranslate" title="">import {Subject} from 'rxjs/Subject';
+    <pre><code class="typescript highlighted">import {Subject} from 'rxjs/Subject';
 let subject = new Subject&lt;number&gt;();
 
 subject.subscribe(
@@ -51,7 +51,7 @@ subject.next(11);
 subject.next(22);
 // log: observer I: 22
 // log: observer II: 22
-</pre>
+</code></pre>
     <p>We are using TypeScript in this example so we can provide a type to the Subject. This way we get
         type-checking on compile-time if we want to send a next value that does not comply with the
         type!</p>
@@ -71,7 +71,7 @@ subject.next(22);
     <p>We give the <code>BehaviorSubject</code> an initial value of <code>11</code>. The first <code>Observer</code>
         that subscribes to the subject gets immediately notified of the initial value. The same is true
         for the next <code>Observer</code>.</p>
-    <pre class="brush: typescript; title: ; notranslate" title="">import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+    <pre><code class="typescript highlighted">import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 let behaviorSubject = new BehaviorSubject&lt;number&gt;(11);
 
 behaviorSubject.subscribe(
@@ -83,11 +83,11 @@ behaviorSubject.subscribe({
    next: (val: number) =&gt; console.log('observer II: ' + val)
 });
 // log: observer II: 11
-</pre>
+</code></pre>
     <p>From this point on the behavior of the <code>BehaviorSubject</code> is the same as a normal
         <code>Subject</code>. But if we subscribe a new <code>Observer</code> to the <code>BehaviorSubject</code>
         it will immediately receive the last emitted value!</p>
-    <pre class="brush: typescript; title: ; notranslate" title="">behaviorSubject.next(22);
+    <pre><code class="typescript highlighted">behaviorSubject.next(22);
 // log: observer I: 22
 // log: observer II: 22
 
@@ -99,7 +99,7 @@ behaviorSubject.subscribe({
    next: (val: number) =&gt; console.log('observer III: ' + val)
 });
 // observer III: 33
-</pre>
+</code></pre>
     <p>See this example in action here: <a href="https://plnkr.co/edit/HPNSAzFmLipvHQ96ZkFt?p=preview"
                                            target="_blank">https://plnkr.co/edit/HPNSAzFmLipvHQ96ZkFt?p=preview</a>
     </p>
@@ -131,7 +131,7 @@ behaviorSubject.subscribe({
         values emitted in the last timeframe are replayed, as all other values were invalidated after
         2000ms. The first batch after 1000ms and the second batch after 2000ms in the complete
         timeframe.</p>
-    <pre class="brush: typescript; title: ; notranslate" title="">import {ReplaySubject} from 'rxjs/ReplaySubject';
+    <pre><code class="typescript highlighted">import {ReplaySubject} from 'rxjs/ReplaySubject';
 let replaySubject = new ReplaySubject&lt;number&gt;(25, 1000);
 
 setTimeout(() =&gt; {
@@ -162,7 +162,7 @@ setTimeout(() =&gt; {
 // log: observer: 7
 // log: observer: 8
 // log: observer: 9
-</pre>
+</code></pre>
     <p>See this example in action here: <a href="https://plnkr.co/edit/dfCLm3Eh2c39JKOlGLZy?p=preview"
                                            target="_blank">https://plnkr.co/edit/dfCLm3Eh2c39JKOlGLZy?p=preview</a>
     </p>
@@ -188,7 +188,7 @@ setTimeout(() =&gt; {
         as this is the <em>caching-enabler</em>!</p>
     <p>In the following example the only emitted value to the next function of the observer will be 3,
         as we complete the subject after the last call to next.</p>
-    <pre class="brush: typescript; title: ; notranslate" title="">import {AsyncSubject} from 'rxjs/Subject';
+    <pre><code class="typescript highlighted">import {AsyncSubject} from 'rxjs/Subject';
 let asyncSubject = new AsyncSubject&lt;number&gt;();
 
 asyncSubject.subscribe(
@@ -201,7 +201,7 @@ asyncSubject.next(3);
 
 asyncSubject.complete();
 // log: observer: 3
-</pre>
+</code></pre>
     <p>See this example in action here: <a href="https://plnkr.co/edit/3QAbza00V36EQv7N5seO?p=preview"
                                            target="_blank">https://plnkr.co/edit/3QAbza00V36EQv7N5seO?p=preview</a>
     </p>

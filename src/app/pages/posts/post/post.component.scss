@@ -1,4 +1,4 @@
-:host {
+#post {
 
   display: block;
   margin-bottom: 20px;
@@ -58,7 +58,7 @@
     margin-bottom: 15px;
   }
 
-  code {
+  code:not(.highlighted) {
     display: inline-block;
     padding: 2px 2px;
     background: #f6f6f6;

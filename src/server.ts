@@ -70,28 +70,29 @@ app.get('*', function (req, res) {
   res.status(404).send(json);
 });
 
-// Server
-/*
-let server = app.listen(app.get('port'), () => {
-  console.log(`Listening on: http://localhost:${server.address().port}`);
-});
-*/
 
 const spdy = require('spdy');
 const fs = require('fs');
 
+// Server
+
+let server = app.listen(app.get('port'), () => {
+  console.log(`Listening on: http://localhost:${server.address().port}`);
+});
+
+
+/*
 let server = spdy.createServer({
   key: fs.readFileSync('./cert/server.key'),
   cert: fs.readFileSync('./cert/server.crt')
 }, app)
-  .listen(app.get('port'), (err) => {
+  .listen(3000, (err) => {
     if (err) {
       throw new Error(err);
     }
-    console.log('Listening on port: ' + app.get('port'));
+    console.log('Listening on port: 3000');
   });
-
-
+*/
 
 
 function ngApp(req, res) {
@@ -113,9 +114,8 @@ function ngApp(req, res) {
   }
   let fileCachePath = cacheFolder + '/' + cachePath;
 
-
-  console.log(allowedCachePaths, cachePath, fileCachePath);
-  console.log('cache not allowed for: ' + cachePath);
+  // console.log(allowedCachePaths, cachePath, fileCachePath);
+  // console.log('cache not allowed for: ' + cachePath);
   res.render('index', config);
 
 
