@@ -163,6 +163,11 @@ aside {
 
 section#content {
 
+  strong {
+    font-size: 1.2em;
+    color: #000;
+  }
+
   @media (min-width: 769px) {
 
     display: block;
@@ -190,8 +195,6 @@ section#content {
     strong {
       font-weight: bold;
       letter-spacing: 2px;
-      font-size: 1.2em;
-      color: #000;
     }
   }
   h2 {
@@ -323,10 +326,6 @@ section#content {
         font-size: 1.2em;
         padding: 5px 10px;
       }
-    }
-    strong {
-      letter-spacing: 2px;
-      font-size: 1.2em;
     }
     hr {
       margin: 20px 0;
