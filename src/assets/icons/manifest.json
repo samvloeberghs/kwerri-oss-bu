@@ -1,5 +1,8 @@
 {
- "name": "Sam Vloeberghs",
+ "short_name": "Sam Vloeberghs",
+ "name": "Sam Vloeberghs' personal website",
+ "start_url": "/",
+ "display": "standalone",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
