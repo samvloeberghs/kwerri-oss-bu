@@ -163,13 +163,7 @@ aside {
 
 section#content {
 
-  strong {
-    font-size: 1.2em;
-    color: #000;
-  }
-
   @media (min-width: 769px) {
-
     display: block;
     float: left;
     padding-top: 50px;
@@ -245,6 +239,11 @@ section#content {
     background: #f6f6f6;
     display: block;
     margin: 40px 0;
+  }
+
+  strong {
+    font-size: 1.2em;
+    color: #000;
   }
 
 }
