@@ -1,7 +1,7 @@
 <div id="topborder"></div>
 <div id="wrapper">
 
-    <aside>
+    <aside [class.open]="mobileNavToggled">
 
         <a routerLink="/" id="picture">
             <img src="assets/sam.jpg" alt="Sam"/>
@@ -17,8 +17,7 @@
             <i class="fa fa-bars" aria-hidden="true"></i>
         </a>
 
-        <div id="mobilenavcontainer"
-             [class.open]="mobileNavToggled">
+        <div id="mobilenavcontainer">
             <p>
                 I'm a Belgium based freelance software architect and Internet entrepreneur, currently focussing on
                 frontend
