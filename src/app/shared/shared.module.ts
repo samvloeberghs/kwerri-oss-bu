@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
+import { SeoService } from './'
+
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
   CommonModule,
@@ -22,8 +24,9 @@ const COMPONENTS = [
 ];
 
 const PROVIDERS = [
-  HighlightJsService
-]
+  HighlightJsService,
+  SeoService
+];
 
 @NgModule({
   imports: [

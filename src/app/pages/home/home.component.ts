@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { SeoService } from '../../shared';
 
 @Component({
   selector: 'home',
@@ -9,4 +12,8 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  constructor(private route: ActivatedRoute,
+              private seoService: SeoService) {
+    console.log(route);
+  }
 }
