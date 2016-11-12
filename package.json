@@ -9,6 +9,9 @@
   "scripts": {
     "watch": "webpack --watch",
     "prebuild": "rimraf dist && npm run lint",
+    "clean": "npm run clean:cache && npm run clean:dist",
+    "clean:cache": "rimraf cache/*",
+    "clean:dist": "rimraf dist",
     "build": "webpack",
     "build:prod": "webpack --progress -p",
     "prestart": "npm run build",
