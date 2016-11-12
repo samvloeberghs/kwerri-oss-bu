@@ -22,6 +22,7 @@ import { enableProdMode } from '@angular/core';
 // Angular 2 Universal
 import { createEngine } from 'angular2-express-engine';
 
+const minify = require('html-minifier').minify;
 const compression = require('compression');
 
 // App
@@ -73,7 +74,6 @@ app.get('*', function (req, res) {
   res.status(404).send(json);
 });
 
-
 const spdy = require('spdy');
 const fs = require('fs');
 
@@ -84,7 +84,6 @@ const fs = require('fs');
  console.log(`Listening on: http://localhost:${server.address().port}`);
  });
  */
-
 
 let server = spdy.createServer({
   key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
@@ -144,10 +143,11 @@ function ngApp(req, res) {
           console.log(err);
         }
 
-        saveHtmlCache(fileCachePath, html);
+        let minifiedHtml = minify(html);
+        saveHtmlCache(fileCachePath, minifiedHtml);
 
         // send output
-        res.status(200).send(html);
+        res.status(200).send(minifiedHtml);
       });
 
     }
@@ -159,7 +159,17 @@ function ngApp(req, res) {
   else {
     // no caching
     console.log('cache not allowed for: ' + cachePath);
-    res.render('index', config);
+    res.render('index', config, (err, html) => {
+
+      if (err) {
+        console.log(err);
+      }
+
+      let minifiedHtml = minify(html);
+
+      // send output
+      res.status(200).send(minifiedHtml);
+    });
   }
 
 }
