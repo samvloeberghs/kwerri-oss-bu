@@ -303,6 +303,11 @@ section#content {
       display: none;
     }
 
+    p {
+      line-height: 1.5em;
+      font-size: 1.4em;
+    }
+
     #picture {
       display: block;
       float: left;
@@ -332,10 +337,14 @@ section#content {
       }
     }
 
+    nav ul li a {
+      text-transform: uppercase;
+    }
+
     ul.social li {
-      margin-right: 15px;
+      margin-right: 20px;
       a {
-        font-size: 22px;
+        font-size: 30px;
         color: #999;
       }
     }
