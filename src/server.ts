@@ -90,11 +90,11 @@ let server = spdy.createServer({
   key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
   cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt')
 }, app)
-  .listen(3000, (err) => {
+  .listen(443, (err) => {
     if (err) {
       throw new Error(err);
     }
-    console.log('Listening on port: 80');
+    console.log('Listening on port: 443');
   });
 
 function ngApp(req, res) {
@@ -105,7 +105,7 @@ function ngApp(req, res) {
     preboot: false,
     baseUrl: '/',
     requestUrl: req.originalUrl,
-    originUrl: 'http://localhost:3000'
+    originUrl: 'https://samvloeberghs.be'
   };
 
   let allowedCachePaths = ['', 'home', 'post', 'posts', 'talks', 'projects', 'contact'];
