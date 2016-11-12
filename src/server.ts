@@ -115,52 +115,49 @@ function ngApp(req, res) {
 
   // console.log(allowedCachePaths, cachePath, fileCachePath);
   // console.log('cache not allowed for: ' + cachePath);
-  res.render('index', config);
+  //res.render('index', config);
 
 
-  /*
-   // IF CACHE ALLOWED
-   // ----------------
-   if (allowedCachePaths.indexOf(cachePath)) {
+  // IF CACHE ALLOWED
+  // ----------------
+  if (allowedCachePaths.indexOf(cachePath)) {
 
-   // check for existing file for the requests uri
-   try {
+    // check for existing file for the requests uri
+    try {
 
-   fs.accessSync(fileCachePath, fs.F_OK);
-   readHtmlCache(fileCachePath, (html: string) => {
-   console.log('cache exists for: ' + cachePath);
-   res.status(200).send(html);
-   });
+      fs.accessSync(fileCachePath, fs.F_OK);
+      readHtmlCache(fileCachePath, (html: string) => {
+        console.log('cache exists for: ' + cachePath);
+        res.status(200).send(html);
+      });
 
-   } catch (e) {
+    } catch (e) {
 
-   console.log('no cache for: ' + cachePath);
+      console.log('no cache for: ' + cachePath);
 
-   res.render('index', config, (err, html) => {
+      res.render('index', config, (err, html) => {
 
-   if (err) {
-   console.log(err);
-   }
+        if (err) {
+          console.log(err);
+        }
 
-   saveHtmlCache(fileCachePath, html);
+        saveHtmlCache(fileCachePath, html);
 
-   // send output
-   res.status(200).send(html);
-   });
+        // send output
+        res.status(200).send(html);
+      });
 
-   }
+    }
 
 
-   }
-   // CACHE NOT ALLOWED
-   // -----------------
-   else {
-   // no caching
-   console.log('cache not allowed for: ' + cachePath);
-   res.render('index', config);
-   }
-   */
-
+  }
+  // CACHE NOT ALLOWED
+  // -----------------
+  else {
+    // no caching
+    console.log('cache not allowed for: ' + cachePath);
+    res.render('index', config);
+  }
 
 }
 
