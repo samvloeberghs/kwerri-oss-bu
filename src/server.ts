@@ -84,8 +84,8 @@ const fs = require('fs');
 
 
 let server = spdy.createServer({
-  key: fs.readFileSync('../cert/server.key'),
-  cert: fs.readFileSync('../cert/server.crt')
+  key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
+  cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt')
 }, app)
   .listen(3000, (err) => {
     if (err) {
