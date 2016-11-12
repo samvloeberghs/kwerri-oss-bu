@@ -1,2 +1,2 @@
 export * from './shared.module';
-export * from './seo.service';
+//export * from './seo.service';
