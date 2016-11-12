@@ -22,6 +22,8 @@ import { enableProdMode } from '@angular/core';
 // Angular 2 Universal
 import { createEngine } from 'angular2-express-engine';
 
+const compression = require('compression');
+
 // App
 import { MainModule } from './app/app.node.module';
 
@@ -45,6 +47,7 @@ app.set('view engine', 'html');
 
 app.use(cookieParser('Angular 2 Universal'));
 app.use(bodyParser.json());
+app.use(compression());
 
 // Serve static files
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {maxAge: 30}));

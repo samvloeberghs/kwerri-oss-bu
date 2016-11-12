@@ -11,6 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent {
 
   constructor(private route: ActivatedRoute) {
-    console.log(route);
+    //console.log(route);
   }
 }

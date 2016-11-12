@@ -41,6 +41,7 @@
     "angular2-universal-polyfills": "~2.1.0-rc.1",
     "body-parser": "^1.15.2",
     "brush-typescript": "^4.0.0",
+    "compression": "^1.6.2",
     "express": "^4.14.0",
     "methods": "~1.1.2",
     "preboot": "~4.5.2",
