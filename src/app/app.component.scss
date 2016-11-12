@@ -134,6 +134,32 @@ aside {
           color: #f48024;
         }
 
+        @media (max-width: 768px) {
+          &.facebook {
+            color: #3b5998;
+          }
+
+          &.twitter {
+            color: #1da1f2;
+          }
+
+          &.linkedin {
+            color: #0777b4;
+          }
+
+          &.github {
+            color: #333333;
+          }
+
+          &.skype {
+            color: #1db0ed;
+          }
+
+          &.stack-overflow {
+            color: #f48024;
+          }
+        }
+
       }
 
     }
@@ -364,7 +390,7 @@ section#content {
   margin-bottom: 15px;
   background: #f6f6f6;
   border-radius: 5px;
-  box-shadow: 0 1px 10px 0 rgba(221,221,221,0.5);
+  box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
 }
 
 @keyframes shake {
