@@ -34,7 +34,7 @@ const minifyOptions = {
   removeEmptyAttributes: true,
   removeOptionalTags: true,
   removeEmptyElements: true,
-}
+};
 const compression = require('compression');
 
 // App
@@ -155,7 +155,7 @@ function ngApp(req, res) {
           console.log(err);
         }
 
-        let minifiedHtml = minify(html);
+        let minifiedHtml = minify(html, minifyOptions);
         saveHtmlCache(fileCachePath, minifiedHtml);
 
         // send output
@@ -177,7 +177,7 @@ function ngApp(req, res) {
         console.log(err);
       }
 
-      let minifiedHtml = minify(html);
+      let minifiedHtml = minify(html, minifyOptions);
 
       // send output
       res.status(200).send(minifiedHtml);
