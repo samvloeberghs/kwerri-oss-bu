@@ -41,7 +41,7 @@ app.engine('.html', createEngine({
     // stateless providers only since it's shared
   ]
 }));
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
@@ -94,7 +94,7 @@ let server = spdy.createServer({
     if (err) {
       throw new Error(err);
     }
-    console.log('Listening on port: 3000');
+    console.log('Listening on port: 80');
   });
 
 function ngApp(req, res) {
