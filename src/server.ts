@@ -76,15 +76,16 @@ const fs = require('fs');
 
 // Server
 
-let server = app.listen(app.get('port'), () => {
-  console.log(`Listening on: http://localhost:${server.address().port}`);
-});
-
-
 /*
+ let server = app.listen(app.get('port'), () => {
+ console.log(`Listening on: http://localhost:${server.address().port}`);
+ });
+ */
+
+
 let server = spdy.createServer({
-  key: fs.readFileSync('./cert/server.key'),
-  cert: fs.readFileSync('./cert/server.crt')
+  key: fs.readFileSync('../cert/server.key'),
+  cert: fs.readFileSync('../cert/server.crt')
 }, app)
   .listen(3000, (err) => {
     if (err) {
@@ -92,8 +93,6 @@ let server = spdy.createServer({
     }
     console.log('Listening on port: 3000');
   });
-*/
-
 
 function ngApp(req, res) {
 
@@ -109,7 +108,7 @@ function ngApp(req, res) {
   let allowedCachePaths = ['', 'home', 'post', 'posts', 'talks', 'projects', 'contact'];
   allowedCachePaths = [];
   let cachePath = req.originalUrl.substr(1).replace('/', '_');
-  if(cachePath === '') {
+  if (cachePath === '') {
     cachePath = 'home';
   }
   let fileCachePath = cacheFolder + '/' + cachePath;
@@ -119,48 +118,48 @@ function ngApp(req, res) {
   res.render('index', config);
 
 
-/*
-  // IF CACHE ALLOWED
-  // ----------------
-  if (allowedCachePaths.indexOf(cachePath)) {
+  /*
+   // IF CACHE ALLOWED
+   // ----------------
+   if (allowedCachePaths.indexOf(cachePath)) {
 
-    // check for existing file for the requests uri
-    try {
+   // check for existing file for the requests uri
+   try {
 
-      fs.accessSync(fileCachePath, fs.F_OK);
-      readHtmlCache(fileCachePath, (html: string) => {
-        console.log('cache exists for: ' + cachePath);
-        res.status(200).send(html);
-      });
+   fs.accessSync(fileCachePath, fs.F_OK);
+   readHtmlCache(fileCachePath, (html: string) => {
+   console.log('cache exists for: ' + cachePath);
+   res.status(200).send(html);
+   });
 
-    } catch (e) {
+   } catch (e) {
 
-      console.log('no cache for: ' + cachePath);
+   console.log('no cache for: ' + cachePath);
 
-      res.render('index', config, (err, html) => {
+   res.render('index', config, (err, html) => {
 
-        if (err) {
-          console.log(err);
-        }
+   if (err) {
+   console.log(err);
+   }
 
-        saveHtmlCache(fileCachePath, html);
+   saveHtmlCache(fileCachePath, html);
 
-        // send output
-        res.status(200).send(html);
-      });
+   // send output
+   res.status(200).send(html);
+   });
 
-    }
+   }
 
 
-  }
-  // CACHE NOT ALLOWED
-  // -----------------
-  else {
-    // no caching
-    console.log('cache not allowed for: ' + cachePath);
-    res.render('index', config);
-  }
-  */
+   }
+   // CACHE NOT ALLOWED
+   // -----------------
+   else {
+   // no caching
+   console.log('cache not allowed for: ' + cachePath);
+   res.render('index', config);
+   }
+   */
 
 
 }
