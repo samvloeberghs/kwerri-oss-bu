@@ -54,7 +54,7 @@ app.engine('.html', createEngine({
     // stateless providers only since it's shared
   ]
 }));
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 443);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
@@ -101,11 +101,11 @@ let server = spdy.createServer({
   key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
   cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt')
 }, app)
-  .listen(443, (err) => {
+  .listen(app.get('port'), (err) => {
     if (err) {
       throw new Error(err);
     }
-    console.log('Listening on port: 443');
+    console.log('Listening on port: ' + app.get('port'));
   });
 
 function ngApp(req, res) {

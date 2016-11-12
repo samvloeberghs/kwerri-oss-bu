@@ -68,7 +68,7 @@ aside {
 
     li {
       padding: 0 0 0 10px;
-      margin: 0 0 5px 15px;
+      margin: 20px 0 15px 15px;
 
       a {
         color: #444;
@@ -85,6 +85,13 @@ aside {
           border-bottom: 1px solid #444;
           font-weight: bold;
         }
+
+        @media (max-width: 768px) {
+          padding: 10px 0px;
+          font-size: 1.2em;
+          letter-spacing: 2px;
+        }
+
       }
 
     }
@@ -325,10 +332,6 @@ section#content {
       }
     }
 
-    nav ul li {
-      margin: 10px 0 10px 15px;
-    }
-
     ul.social li {
       margin-right: 15px;
       a {
@@ -379,6 +382,13 @@ section#content {
       border-radius: 100px;
       margin-bottom: 20px;
       border: 10px solid #eee;
+    }
+
+    nav ul li {
+      margin: 10px 0 10px 15px;
+      a {
+        padding: 4px 0px;
+      }
     }
   }
 
