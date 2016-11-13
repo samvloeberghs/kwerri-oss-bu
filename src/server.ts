@@ -97,9 +97,16 @@ const fs = require('fs');
  });
  */
 
+let ca = [
+  '../cert/rootca/AddTrustExternalCARoot.crt',
+  '../cert/rootca/COMODORSAAddTrustCA.crt',
+  '../cert/rootca/COMODORSADomainValidationSecureServerCA.crt'
+];
+
 let server = spdy.createServer({
   key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
-  cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt')
+  cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt'),
+  ca: ca
   //cert: fs.readFileSync('../cert/full_*_samvloeberghs_be.ca-bundle')
 }, app)
   .listen(app.get('port'), (err) => {
