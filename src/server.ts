@@ -144,7 +144,7 @@ function ngApp(req, res) {
   };
 
   let allowedBlogCachePaths = [
-    'posts/whats-with-the-subjects-in-rxjs5'
+    'posts_whats-with-the-subjects-in-rxjs5'
   ];
   let allowedCachePaths = ['', 'home', 'posts', 'talks', 'projects', ...allowedBlogCachePaths];
   let cachePath = req.originalUrl.substr(1).replace('/', '_');
