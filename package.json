@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@angular/commoxn": "2.1.0",
+    "@angular/common": "2.1.0",
     "@angular/compiler": "2.1.0",
     "@angular/compiler-cli": "2.1.0",
     "@angular/core": "2.1.0",
