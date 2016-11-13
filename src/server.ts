@@ -54,7 +54,7 @@ app.engine('.html', createEngine({
     // stateless providers only since it's shared
   ]
 }));
-app.set('port', process.env.PORT || 443);
+app.set('port', +process.env.PORT || 443);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
@@ -118,10 +118,14 @@ let server = spdy.createServer({
   });
 
 var http = require('http');
+var httpPort = 80;
+if(app.get('post') != 443){
+  httpPort = 8080;
+}
 http.createServer(function (req, res) {
   res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
   res.end();
-}).listen(80);
+}).listen(httpPort);
 
 function ngApp(req, res) {
 
@@ -157,7 +161,8 @@ function ngApp(req, res) {
       fs.accessSync(fileCachePath, fs.F_OK);
       readHtmlCache(fileCachePath, (html: string) => {
         console.log('cache exists for: ' + cachePath);
-        res.status(200).send(html);
+        let minifiedHtml = minify(html, minifyOptions);
+        res.status(200).send(minifiedHtml);
       });
 
     } catch (e) {
