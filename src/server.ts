@@ -98,9 +98,9 @@ const fs = require('fs');
  */
 
 let ca = [
-  '../cert/rootca/AddTrustExternalCARoot.crt',
-  '../cert/rootca/COMODORSAAddTrustCA.crt',
-  '../cert/rootca/COMODORSADomainValidationSecureServerCA.crt'
+  fs.readFileSync('../cert/rootca/AddTrustExternalCARoot.crt'),
+  fs.readFileSync('../cert/rootca/COMODORSAAddTrustCA.crt'),
+  fs.readFileSync('../cert/rootca/COMODORSADomainValidationSecureServerCA.crt')
 ];
 
 let server = spdy.createServer({
@@ -118,7 +118,7 @@ let server = spdy.createServer({
 
 var http = require('http');
 http.createServer(function (req, res) {
-  res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+  res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
   res.end();
 }).listen(80);
 
