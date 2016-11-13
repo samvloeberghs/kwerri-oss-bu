@@ -21,7 +21,8 @@
         Looking forward to the discusion!
     </p>
 
-    <disqus-thread [page-identifier]="'samvloeberghs'"
+    <disqus-thread *ngIf="isBrowser"
+                   [page-identifier]="'samvloeberghs'"
                    [page-url]=" domain + '/posts/' + post.slug"></disqus-thread>
 
 </div>
