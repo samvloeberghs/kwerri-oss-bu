@@ -14,6 +14,14 @@
 
     <div [innerHtml]="post.content" highlight-js-content=".highlighted"></div>
 
-    <disqus-thread [page-identifier]="'samvloeberghs'" [page-url]="'https://ng2.samvloeberghs.be/posts/' + post.slug"></disqus-thread>
+    <h2>Leave some feedback please!</h2>
+
+    <p>
+        Do you have anything to add? Or have some other remarks? Please let me know in the comment section below!
+        Looking forward to the discusion!
+    </p>
+
+    <disqus-thread [page-identifier]="'samvloeberghs'"
+                   [page-url]="'https://ng2.samvloeberghs.be/posts/' + post.slug"></disqus-thread>
 
 </div>
