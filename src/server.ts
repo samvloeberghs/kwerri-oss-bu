@@ -33,7 +33,6 @@ const minifyOptions = {
   useShortDoctype: true,
   removeEmptyAttributes: true,
   removeOptionalTags: true,
-  removeEmptyElements: true,
   minifyCSS: true,
 };
 const compression = require('compression');
@@ -144,13 +143,15 @@ function ngApp(req, res) {
     originUrl: isProd ? 'https://ng2.samvloeberghs.be' : 'https://localhost:4444'
   };
 
-  let allowedCachePaths = ['', 'post', 'posts', 'talks', 'projects'];
+  let allowedBlogCachePaths = [
+    'posts/whats-with-the-subjects-in-rxjs5'
+  ];
+  let allowedCachePaths = ['', 'home', 'posts', 'talks', 'projects', ...allowedBlogCachePaths];
   let cachePath = req.originalUrl.substr(1).replace('/', '_');
+  if (cachePath === '') {
+    cachePath = 'home';
+  }
   let fileCachePath = cacheFolder + '/' + cachePath;
-
-  // console.log(allowedCachePaths, cachePath, fileCachePath);
-  // console.log('cache not allowed for: ' + cachePath);
-  //res.render('index', config);
 
 
   // IF CACHE ALLOWED

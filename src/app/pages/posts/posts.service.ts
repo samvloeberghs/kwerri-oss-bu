@@ -7,13 +7,14 @@ import { Post } from './post';
 @Injectable()
 export class PostsService {
 
-  private postsPath = 'assets/posts/data.json';  // URL to web api
+  private postsPath = 'assets/posts/';  // URL to web api
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+  }
 
   getPosts(): Promise<Post[]> {
     return this.http
-      .get(this.postsPath)
+      .get(this.postsPath + 'data.json')
       .toPromise()
       .then(response => response.json() as Post[])
       .catch(this.handleError);
@@ -24,8 +25,17 @@ export class PostsService {
       .then(posts => posts.find(post => post.slug === slug));
   }
 
+  getPostContent(slug: string): Promise<string> {
+    return this.http
+      .get(this.postsPath + slug + '/post.html')
+      .toPromise()
+      .then(response => response.text() as string)
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
+
 }

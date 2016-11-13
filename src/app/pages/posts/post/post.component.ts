@@ -24,7 +24,12 @@ export class PostComponent implements OnInit {
     let slug = this.route.snapshot.params['slug'];
     this.postsService
       .getPost(slug)
-      .then(post => this.post = post)
+      .then(post => {
+        this.postsService.getPostContent(slug).then(content => {
+          post.content = content;
+          this.post = post;
+        })
+      })
       .catch(error => this.error = error);
   }
 
