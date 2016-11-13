@@ -16,6 +16,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
+import * as compression from 'compression';
 
 // Angular 2
 import { enableProdMode } from '@angular/core';
@@ -24,7 +25,8 @@ import { createEngine } from 'angular2-express-engine';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
-const compression = require('compression');
+const spdy = require('spdy');
+const fs = require('fs');
 
 // App
 import { MainModule } from './app/app.node.module';
@@ -62,10 +64,6 @@ app.use(compression());
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
-import { serverApi } from './backend/api';
-// Our API for demos only
-app.get('/data.json', serverApi);
-
 // Routes with html5pushstate
 // ensure routes match client-side-app
 app.get('/', ngApp);
@@ -81,17 +79,6 @@ app.get('*', function (req, res) {
   var json = JSON.stringify(pojo, null, 2);
   res.status(404).send(json);
 });
-
-const spdy = require('spdy');
-const fs = require('fs');
-
-// Server
-
-/*
- let server = app.listen(app.get('port'), () => {
- console.log(`Listening on: http://localhost:${server.address().port}`);
- });
- */
 
 let ca = [
   fs.readFileSync('../cert/rootca/AddTrustExternalCARoot.crt'),
@@ -113,9 +100,8 @@ let server = spdy.createServer({
     console.log('Listening on port: ' + app.get('port'));
   });
 
-var http = require('http');
-var httpPort = isProd ? 80 : 8080;
-
+const http = require('http');
+const httpPort = isProd ? 80 : 8080;
 http.createServer(function (req, res) {
   res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
   res.end();
@@ -200,7 +186,6 @@ function ngApp(req, res) {
 }
 
 const cacheFolder = 'cache';
-
 function readHtmlCache(path, cb) {
 
   fs.readFile(path, {encoding: 'utf-8'}, function (err, data) {
@@ -211,7 +196,6 @@ function readHtmlCache(path, cb) {
 
   });
 }
-
 function saveHtmlCache(path, html) {
 
   fs.writeFile(path, html, {encoding: 'utf-8'}, function (err) {
