@@ -49,6 +49,7 @@
     "brush-typescript": "^4.0.0",
     "compression": "^1.6.2",
     "express": "^4.14.0",
+    "helmet": "^3.1.0",
     "html-minifier": "^3.1.1",
     "methods": "~1.1.2",
     "preboot": "~4.5.2",

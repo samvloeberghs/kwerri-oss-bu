@@ -64,6 +64,16 @@ app.use(compression());
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
+
+const helmet = require('helmet');
+const ONE_YEAR = 31536000000;
+
+app.use(helmet.hsts({
+  maxAge: ONE_YEAR,
+  includeSubdomains: true,
+  force: true
+}));
+
 // Routes with html5pushstate
 // ensure routes match client-side-app
 app.get('/', ngApp);
@@ -86,10 +96,30 @@ let ca = [
   fs.readFileSync('../cert/rootca/COMODORSADomainValidationSecureServerCA.crt')
 ];
 
+let ciphers = [
+  "ECDHE-RSA-AES256-SHA384",
+  "DHE-RSA-AES256-SHA384",
+  "ECDHE-RSA-AES256-SHA256",
+  "DHE-RSA-AES256-SHA256",
+  "ECDHE-RSA-AES128-SHA256",
+  "DHE-RSA-AES128-SHA256",
+  "HIGH",
+  "!aNULL",
+  "!eNULL",
+  "!EXPORT",
+  "!DES",
+  "!RC4",
+  "!MD5",
+  "!PSK",
+  "!SRP",
+  "!CAMELLIA"
+];
+
 let server = spdy.createServer({
   key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
   cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt'),
-  ca: fs.readFileSync('../cert/*_samvloeberghs_be.ca-bundle')
+  ca: fs.readFileSync('../cert/*_samvloeberghs_be.ca-bundle'),
+  ciphers: ciphers.join(':'),
   //ca: ca
   //cert: fs.readFileSync('../cert/full_*_samvloeberghs_be.ca-bundle')
 }, app)
