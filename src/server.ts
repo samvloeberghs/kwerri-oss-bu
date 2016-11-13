@@ -141,7 +141,7 @@ function ngApp(req, res) {
     preboot: false,
     baseUrl: '/',
     requestUrl: req.originalUrl,
-    originUrl: isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444'
+    originUrl: isProd ? 'https://ng2.samvloeberghs.be' : 'https://localhost:4444'
   };
 
   let allowedCachePaths = ['', 'post', 'posts', 'talks', 'projects'];
