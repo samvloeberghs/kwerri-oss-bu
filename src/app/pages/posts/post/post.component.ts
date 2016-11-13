@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { isBrowser } from 'angular2-universal';
 
 const minify = require('html-minifier').minify;
-const minifyOptions = require('./options').htmlMinifyOptions;
+const minifyOptions = require('./../../../../options').htmlMinifyOptions;
 
 import { Post } from './';
 import { PostsService } from '../';
