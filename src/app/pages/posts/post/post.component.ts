@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Post } from './';
 import { PostsService } from '../';
 
+const isProd = process.env.ENV === 'PROD';
+
 @Component({
   selector: 'post',
   templateUrl: './post.component.html',
@@ -15,9 +17,11 @@ export class PostComponent implements OnInit {
 
   post: Post;
   error: any;
+  domain = isProd ? 'https://samvloeberghs.be' : 'https://ng2.samvloeberghs.be';
 
   constructor(private route: ActivatedRoute,
               private postsService: PostsService) {
+
   }
 
   ngOnInit() {

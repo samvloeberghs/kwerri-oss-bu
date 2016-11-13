@@ -5,7 +5,6 @@ import { SharedModule } from '../../shared';
 import { PostsComponent, PostsRoutingModule, PostsService } from './';
 import { PostComponent } from './post';
 
-
 @NgModule({
   imports: [
     SharedModule,
