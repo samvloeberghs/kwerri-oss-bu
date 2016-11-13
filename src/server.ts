@@ -23,18 +23,7 @@ import { enableProdMode } from '@angular/core';
 import { createEngine } from 'angular2-express-engine';
 
 const minify = require('html-minifier').minify;
-const minifyOptions = {
-  removeComments: true,
-  removeCommentsFromCDATA: true,
-  collapseWhitespace: true,
-  collapseBooleanAttributes: true,
-  removeAttributeQuotes: true,
-  removeRedundantAttributes: true,
-  useShortDoctype: true,
-  removeEmptyAttributes: true,
-  removeOptionalTags: true,
-  minifyCSS: true,
-};
+const minifyOptions = require('./options').htmlMinifyOptions;
 const compression = require('compression');
 
 // App
