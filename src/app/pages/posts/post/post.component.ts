@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { isBrowser } from 'angular2-universal';
+import { isBrowser, isNode } from 'angular2-universal';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./../../../../options').htmlMinifyOptions;
@@ -36,7 +36,10 @@ export class PostComponent implements OnInit {
       .getPost(slug)
       .then(post => {
         this.postsService.getPostContent(slug).then(content => {
-          post.content = minify(content, minifyOptions);
+          if(isNode){
+            content = minify(content, minifyOptions);
+          }
+          post.content = content;
           this.post = post;
         })
       })
