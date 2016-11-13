@@ -4,6 +4,7 @@
     "slug": "whats-with-the-subjects-in-rxjs5",
     "datetime": "2016-07-14T09:08:25+00:00",
     "img": "assets/posts/whats-with-the-subjects-in-rxjs5/rxjs.png",
+    "imgFull": "assets/posts/whats-with-the-subjects-in-rxjs5/rxjs_full.png",
     "short": "RxJS is a great library, it is used more and more in different places & frameworks across the web. Soon it will dominate the asynchronous part of web apps, so that’s why it’s important to know how subjects work. <span>Keep reading to find out how we can leverage Subjects in modern web applications!</span>"
   }
 ]

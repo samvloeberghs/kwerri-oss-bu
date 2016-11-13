@@ -3,7 +3,6 @@
         2. I try to <strong>write down</strong>, if it's worth reading it!
     </span>
 </h1>
-
 <article *ngFor="let post of posts; let i = index">
 
     <a [routerLink]="['/posts', post.slug]" class="img">
@@ -19,12 +18,7 @@
             <time [attr.datetime]="post.datetime">{{ post.datetime | date:'fullDate'}}</time>
         </p>
 
-        <p>
-            RxJS is a great library, it is used more and more in different places & frameworks across
-            the web. Soon it will dominate the asynchronous part of web apps, so that’s why it’s
-            important to know how subjects work. <span>Keep reading to find out
-                            how we can leverage Subjects in modern web applications!</span>
-        </p>
+        <p [innerHtml]="post.short"></p>
     </a>
 
 </article>

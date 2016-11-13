@@ -34,6 +34,7 @@ const minifyOptions = {
   removeEmptyAttributes: true,
   removeOptionalTags: true,
   removeEmptyElements: true,
+  minifyCSS: true,
 };
 const compression = require('compression');
 
@@ -45,6 +46,13 @@ enableProdMode();
 
 const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
+const isProd = process.env.ENV === 'PROD';
+
+if (!isProd) {
+  console.log('Running in DEV mode');
+} else {
+  console.log('Running in PROD mode');
+}
 
 // Express View
 app.engine('.html', createEngine({
@@ -54,7 +62,7 @@ app.engine('.html', createEngine({
     // stateless providers only since it's shared
   ]
 }));
-app.set('port', +process.env.PORT || 443);
+app.set('port', isProd ? 443 : 4444);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
@@ -118,10 +126,8 @@ let server = spdy.createServer({
   });
 
 var http = require('http');
-var httpPort = 80;
-if(app.get('post') != 443){
-  httpPort = 8080;
-}
+var httpPort = isProd ? 80 : 8080;
+
 http.createServer(function (req, res) {
   res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
   res.end();
@@ -135,15 +141,11 @@ function ngApp(req, res) {
     preboot: false,
     baseUrl: '/',
     requestUrl: req.originalUrl,
-    originUrl: 'https://samvloeberghs.be'
+    originUrl: isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444'
   };
 
-  let allowedCachePaths = ['', 'home', 'post', 'posts', 'talks', 'projects', 'contact'];
-  allowedCachePaths = [];
+  let allowedCachePaths = ['', 'post', 'posts', 'talks', 'projects'];
   let cachePath = req.originalUrl.substr(1).replace('/', '_');
-  if (cachePath === '') {
-    cachePath = 'home';
-  }
   let fileCachePath = cacheFolder + '/' + cachePath;
 
   // console.log(allowedCachePaths, cachePath, fileCachePath);
@@ -153,7 +155,8 @@ function ngApp(req, res) {
 
   // IF CACHE ALLOWED
   // ----------------
-  if (allowedCachePaths.indexOf(cachePath)) {
+  console.log(allowedCachePaths, cachePath);
+  if (allowedCachePaths.indexOf(cachePath) > -1) {
 
     // check for existing file for the requests uri
     try {
