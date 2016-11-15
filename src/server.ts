@@ -79,7 +79,7 @@ app.use(helmet.hsts({
 app.get('/', ngApp);
 app.get('/posts', ngApp);
 app.get('/posts/*', ngApp); // or use /:id?
-app.get('/talks', ngApp);
+app.get('/talks-workshops', ngApp);
 app.get('/projects', ngApp);
 app.get('/contact', ngApp);
 
@@ -151,7 +151,7 @@ function ngApp(req, res) {
   let allowedBlogCachePaths = [
     'posts_whats-with-the-subjects-in-rxjs5'
   ];
-  let allowedCachePaths = ['', 'home', 'posts', 'talks', 'projects', ...allowedBlogCachePaths];
+  let allowedCachePaths = ['', 'home', 'posts', 'talks-workshops', 'projects', ...allowedBlogCachePaths];
   let cachePath = req.originalUrl.substr(1).replace('/', '_');
   if (cachePath === '') {
     cachePath = 'home';
