@@ -34,7 +34,7 @@ export class PostComponent implements OnInit {
     this.postsService
       .getPost(slug)
       .then(post => {
-        this.seoService.setMeta(this.post.title + ' - Posts', this.post.short, this.route.snapshot.url);
+        this.seoService.setMeta(post.title + ' - Posts', post.short, this.route.snapshot.url);
         this.postsService.getPostContent(slug).then(content => {
           post.content = content;
           this.post = post;
