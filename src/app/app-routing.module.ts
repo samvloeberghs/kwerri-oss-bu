@@ -8,7 +8,8 @@ import { HomeComponent } from './pages/home';
     RouterModule.forRoot([
       {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+
       }
     ])
   ],

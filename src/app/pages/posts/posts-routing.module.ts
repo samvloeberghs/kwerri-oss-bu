@@ -13,7 +13,8 @@ import { PostComponent } from './post';
         data : {
           metadata : {
             title : 'Posts',
-            description : 'Whenever I find the time, I try to write down what I\'ve been working in. Here you can find all of my posts.'
+            description : 'Whenever I find the time, I try to write down what I\'ve been working in. Here you can find all of my posts.',
+            shareImg: 'assets/share/posts.jpg'
           }
         }
       },
