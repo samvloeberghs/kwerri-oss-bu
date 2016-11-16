@@ -23,7 +23,7 @@ export class PostsComponent {
 
     const meta: any = route.snapshot.data['metadata'];
     if(meta){
-      seoService.setMeta(meta.title, meta.description, route.snapshot.url);
+      seoService.setMeta(meta.title, meta.description, route.snapshot.url, meta.shareImg);
     }else{
       seoService.setMeta();
     }

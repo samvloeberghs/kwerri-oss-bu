@@ -3,6 +3,7 @@ export interface Post {
   datetime: string;
   img?: string;
   imgFull?: string;
+  imgShare?: string;
   slug?: string;
   short?: string;
   content?: string;
