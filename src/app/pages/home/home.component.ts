@@ -18,6 +18,8 @@ export class HomeComponent {
     const meta: any = route.snapshot.data['metadata'];
     if (meta) {
       seoService.setMeta(meta.title, meta.description, meta.url);
+    } else {
+      seoService.setMeta();
     }
 
   }
