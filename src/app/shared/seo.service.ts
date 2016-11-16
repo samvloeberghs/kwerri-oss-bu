@@ -32,7 +32,7 @@ export class SeoService {
     this.headElement = this.document.head;
 
     this.metaDescription = this.getOrCreateElement('description', 'name');
-    this.canonical = this.getOrCreateElement('rel', 'canonical', 'link');
+    this.canonical = this.getOrCreateElement('canonical', 'rel', 'link');
 
     this.ogTitle = this.getOrCreateElement('og:title', 'property');
     this.ogType = this.getOrCreateElement('og:type', 'property');
@@ -48,7 +48,7 @@ export class SeoService {
     this.articleSection = this.getOrCreateElement('article:section', 'property');
   }
 
-  public setMeta(title: string = '', description: string = '', url: string = '', published: Date = new Date(), modified: Date = new Date(), section: string = '') {
+  public setMeta(title: string = '', description: string = '', url: any[] = [], published: Date = new Date(), modified: Date = new Date(), section: string = '') {
     this.setTitle(title);
     this.setMetaDescription(description);
     this.setUrl(url);
@@ -62,7 +62,6 @@ export class SeoService {
     if (title && title.length) {
       fullTitle = `${title} - ` + this.defaults.title;
     }
-    console.log(fullTitle);
 
     this.document.title = fullTitle;
     this.setElementAttribute(this.ogTitle, 'content', fullTitle);
@@ -75,25 +74,26 @@ export class SeoService {
       description = this.defaults.description;
     }
 
-    console.log(description);
-
     this.setElementAttribute(this.metaDescription, 'content', description);
     this.setElementAttribute(this.ogDescription, 'content', description);
     this.setElementAttribute(this.twitterDescription, 'content', description);
   }
 
-  private setUrl(newUrl: string) {
+  private setUrl(newUrl: any[]) {
 
-    if (newUrl && !newUrl.length) {
-      newUrl = this.defaults.url;
+    let toSetUrl = '';
+    newUrl.forEach((segment) => {
+      toSetUrl += '/' + segment.path;
+    });
+
+    if (toSetUrl.length) {
+      toSetUrl = this.defaults.url + toSetUrl;
     } else {
-      newUrl = this.defaults.url + newUrl;
+      toSetUrl = this.defaults.url;
     }
 
-    console.log(newUrl);
-
-    this.setElementAttribute(this.ogUrl, 'content', newUrl);
-    this.setElementAttribute(this.canonical, 'href', newUrl);
+    this.setElementAttribute(this.ogUrl, 'content', toSetUrl);
+    this.setElementAttribute(this.canonical, 'href', toSetUrl);
   }
 
   private setPublished(newDate: Date) {
@@ -112,7 +112,7 @@ export class SeoService {
   private getOrCreateElement(name: string, attr: string, type: string = 'meta'): HTMLElement {
     let el: HTMLElement;
     el = this.dom.createElement(type);
-    this.setElementAttribute(el, name, attr);
+    this.setElementAttribute(el, attr, name);
     this.dom.insertBefore(this.document.head.lastChild, el);
     return el;
   }

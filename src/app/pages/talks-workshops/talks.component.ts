@@ -16,8 +16,10 @@ export class TalksComponent {
               private seoService: SeoService) {
 
     const meta: any = route.snapshot.data['metadata'];
-    if (meta) {
-      seoService.setMeta(meta.title, meta.description, meta.url);
+    if(meta){
+      seoService.setMeta(meta.title, meta.description, route.snapshot.url);
+    }else{
+      seoService.setMeta();
     }
 
   }

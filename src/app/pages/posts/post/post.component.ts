@@ -4,6 +4,7 @@ import { isBrowser } from 'angular2-universal';
 
 import { Post } from './';
 import { PostsService } from '../';
+import { SeoService } from '../../../shared/seo.service';
 
 const isProd = process.env.ENV === 'PROD';
 
@@ -23,7 +24,8 @@ export class PostComponent implements OnInit {
   isBrowser = isBrowser;
 
   constructor(private route: ActivatedRoute,
-              private postsService: PostsService) {
+              private postsService: PostsService,
+              private seoService: SeoService) {
 
   }
 
@@ -32,6 +34,7 @@ export class PostComponent implements OnInit {
     this.postsService
       .getPost(slug)
       .then(post => {
+        this.seoService.setMeta(this.post.title + ' - Posts', this.post.short, this.route.snapshot.url);
         this.postsService.getPostContent(slug).then(content => {
           post.content = content;
           this.post = post;

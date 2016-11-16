@@ -9,11 +9,23 @@ import { PostComponent } from './post';
     RouterModule.forChild([
       {
         path: 'posts',
-        component: PostsComponent
+        component: PostsComponent,
+        data : {
+          metadata : {
+            title : 'Posts',
+            description : 'Whenever I find the time, I try to write down what I\'ve been working in. Here you can find all of my posts.'
+          }
+        }
       },
       {
         path: 'posts/:slug',
-        component: PostComponent
+        component: PostComponent,
+        data : {
+          metadata : {
+            title : 'Posts',
+            description : 'Whenever I find the time, I try to write down what I\'ve been working in. Here you can find all of my posts.'
+          }
+        }
       }
     ])
   ]

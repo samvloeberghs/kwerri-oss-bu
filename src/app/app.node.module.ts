@@ -11,10 +11,9 @@ import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node'; //
 import { SharedModule } from './shared';
 import { HomeModule } from './pages/home';
 import { PostsModule } from './pages/posts';
-import { TalksModule } from './pages/talks';
+import { TalksModule } from './pages/talks-workshops';
 import { ProjectsModule } from './pages/projects';
 import { AppComponent, AppRoutingModule } from './';
-import { CacheService } from './universal-cache';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -33,27 +32,9 @@ import { CacheService } from './universal-cache';
   ],
   providers: [
     { provide: 'isBrowser', useValue: isBrowser },
-    { provide: 'isNode', useValue: isNode },
-    CacheService
+    { provide: 'isNode', useValue: isNode }
   ]
 })
 export class MainModule {
-  constructor(public cache: CacheService) {
-
-  }
-
-  /**
-   * We need to use the arrow function here to bind the context as this is a gotcha
-   * in Universal for now until it's fixed
-   */
-  universalDoDehydrate = (universalCache) => {
-    universalCache[CacheService.KEY] = JSON.stringify(this.cache.dehydrate());
-  }
-
- /**
-  * Clear the cache after it's rendered
-  */
-  universalAfterDehydrate = () => {
-    this.cache.clear();
-  }
+  constructor() {}
 }

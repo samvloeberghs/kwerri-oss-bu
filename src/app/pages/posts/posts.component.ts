@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Post } from './post';
 import { PostsService } from './';
+import { SeoService } from '../../shared/seo.service';
 
 @Component({
   selector: 'posts',
@@ -15,7 +17,17 @@ export class PostsComponent {
   posts: Post[];
   error: any;
 
-  constructor(private postsService: PostsService) {
+  constructor(private postsService: PostsService,
+              private route: ActivatedRoute,
+              private seoService: SeoService) {
+
+    const meta: any = route.snapshot.data['metadata'];
+    if(meta){
+      seoService.setMeta(meta.title, meta.description, route.snapshot.url);
+    }else{
+      seoService.setMeta();
+    }
+
     this.postsService
       .getPosts()
       .then(posts => this.posts = posts)
