@@ -70,7 +70,7 @@ export class SeoService {
 
   private setMetaDescription(description: string) {
 
-    if (!(description && !description.length)) {
+    if (!(description && description.length)) {
       description = this.defaults.description;
     }
 

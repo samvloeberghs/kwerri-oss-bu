@@ -16,6 +16,7 @@ export class ProjectsComponent {
               private seoService: SeoService) {
 
     const meta: any = route.snapshot.data['metadata'];
+    console.log(meta);
     if(meta){
       seoService.setMeta(meta.title, meta.description, route.snapshot.url);
     }else{

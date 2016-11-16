@@ -289,10 +289,6 @@ section#content {
     box-shadow: 0 2px 5px 0 rgba(204, 204, 204, 1);
     height: auto;
 
-    -webkit-transition: max-height 0.8s;
-    -moz-transition: max-height 0.8s;
-    transition: max-height 0.8s;
-
     h1 {
       margin-right: 65px;
       margin-left: 83px;
@@ -352,7 +348,6 @@ section#content {
 
     &.open {
       height: 100%;
-      max-height: 100%;
       #mobilenavcontainer {
         display: block;
       }
