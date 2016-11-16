@@ -157,7 +157,7 @@ export class SeoService {
       toSetUrl = this.defaults.url + toSetUrl;
 
     } else {
-
+      toSetUrl = this.defaults.url
     }
 
     this.setElementAttribute(this.ogUrl, 'content', toSetUrl);
