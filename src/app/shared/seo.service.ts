@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core'
 import { __platform_browser_private__ as _, DOCUMENT } from '@angular/platform-browser'
 
+var sanitizeHtml = require('sanitize-html');
+
 @Injectable()
 export class SeoService {
 
@@ -117,6 +119,10 @@ export class SeoService {
     if (!(description && description.length)) {
       description = this.defaults.description;
     }
+
+    description = sanitizeHtml(description, {
+      allowedTags: [],
+    });
 
     this.setElementAttribute(this.metaDescription, 'content', description);
     this.setElementAttribute(this.ogDescription, 'content', description);
