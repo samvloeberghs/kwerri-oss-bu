@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { isBrowser } from 'angular2-universal';
+import { isBrowser, isNode } from 'angular2-universal';
 
 import { Post } from './';
 import { PostsService } from '../';
@@ -34,7 +34,9 @@ export class PostComponent implements OnInit {
     this.postsService
       .getPost(slug)
       .then(post => {
-        this.seoService.setMeta(post.title + ' - Posts', post.short, this.route.snapshot.url, post.imgShare);
+        if (isNode) {
+          this.seoService.setMeta(post.title + ' - Posts', post.short, this.route.snapshot.url, post.imgShare);
+        }
         this.postsService.getPostContent(slug).then(content => {
           post.content = content;
           this.post = post;
