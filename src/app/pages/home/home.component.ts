@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { isNode } from 'angular2-universal/browser';
 
 import { SeoService } from '../../shared/seo.service';
 
@@ -15,11 +16,13 @@ export class HomeComponent {
   constructor(private route: ActivatedRoute,
               private seoService: SeoService) {
 
-    const meta: any = route.snapshot.data['metadata'];
-    if (meta) {
-      seoService.setMeta(meta.title, meta.description, meta.url);
-    } else {
-      seoService.setMeta();
+    if (isNode) {
+      const meta: any = route.snapshot.data['metadata'];
+      if (meta) {
+        seoService.setMeta(meta.title, meta.description, meta.url);
+      } else {
+        seoService.setMeta();
+      }
     }
 
   }
