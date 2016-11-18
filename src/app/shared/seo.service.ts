@@ -196,15 +196,29 @@ export class SeoService {
     this.setElementAttribute(this.articleSection, 'content', newSection);
   }
 
+  // tech
+
   private getOrCreateElement(name: string, attr: string, type: string = 'meta'): HTMLElement {
 
-    // is node
-    // is browser
-    let el: HTMLElement;
-    el = this.dom.createElement(type);
-    this.setElementAttribute(el, attr, name);
-    this.dom.insertBefore(this.document.head.lastChild, el);
+    let el: HTMLElement = this.getElement(name, attr);
+    if(!el){
+      el = this.createElement(name, attr, type);
+      this.dom.insertBefore(this.document.head.lastChild, el);
+    }
     return el;
+  }
+
+  private createElement(name: string, attr: string, type: string = 'meta'): HTMLElement {
+    let el: HTMLElement = this.dom.createElement(type);
+    this.setElementAttribute(el, attr, name);
+    return el;
+  }
+
+  private getElement(name: string, attr: string): HTMLElement {
+    if (isBrowser) {
+      return this.dom.querySelector('['+attr+'="'+name+'"]');
+    }
+    return undefined;
   }
 
   private setElementAttribute(el: HTMLElement, name: string, attr: string) {
