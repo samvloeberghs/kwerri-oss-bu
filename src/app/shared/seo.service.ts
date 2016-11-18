@@ -201,7 +201,7 @@ export class SeoService {
   private getOrCreateElement(name: string, attr: string, type: string = 'meta'): HTMLElement {
 
     let el: HTMLElement = this.getElement(name, attr);
-    if(!el){
+    if (!el) {
       el = this.createElement(name, attr, type);
       this.dom.insertBefore(this.document.head.lastChild, el);
     }
@@ -215,8 +215,8 @@ export class SeoService {
   }
 
   private getElement(name: string, attr: string): HTMLElement {
-    if (isBrowser) {
-      return this.document.head.querySelector('['+attr+'="'+name+'"]');
+    if (isBrowser && this.document.querySelector) {
+      return this.document.querySelector('[' + attr + '="' + name + '"]');
     }
     return undefined;
   }
