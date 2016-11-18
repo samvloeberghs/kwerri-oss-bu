@@ -1,5 +1,7 @@
-import { Injectable, Inject } from '@angular/core'
-import { __platform_browser_private__ as _, DOCUMENT } from '@angular/platform-browser'
+import { Injectable, Inject } from '@angular/core';
+import { __platform_browser_private__ as _, DOCUMENT } from '@angular/platform-browser';
+import { isNode } from 'angular2-universal/browser'; // for AoT we need to manually split universal packages
+
 
 var sanitizeHtml = require('sanitize-html');
 
@@ -48,35 +50,38 @@ export class SeoService {
 
   constructor(@Inject(DOCUMENT) private document) {
 
-    this.dom = _.getDOM();
-    this.headElement = this.document.head;
+    if (isNode) {
+      this.dom = _.getDOM();
+      this.headElement = this.document.head;
 
-    // facebook & linkedin
-    this.ogTitle = this.getOrCreateElement('og:title', 'property');
-    this.ogType = this.getOrCreateElement('og:type', 'property');
-    this.ogDescription = this.getOrCreateElement('og:description', 'property');
-    this.ogUrl = this.getOrCreateElement('og:url', 'property');
-    this.ogUpdated = this.getOrCreateElement('og:updated_time', 'property');
-    this.ogImage = this.getOrCreateElement('og:image', 'property');
-    this.ogImageWidth = this.getOrCreateElement('og:image:width', 'property');
-    this.ogImageHeight = this.getOrCreateElement('og:image:height', 'property');
+      // facebook & linkedin
+      this.ogTitle = this.getOrCreateElement('og:title', 'property');
+      this.ogType = this.getOrCreateElement('og:type', 'property');
+      this.ogDescription = this.getOrCreateElement('og:description', 'property');
+      this.ogUrl = this.getOrCreateElement('og:url', 'property');
+      this.ogUpdated = this.getOrCreateElement('og:updated_time', 'property');
+      this.ogImage = this.getOrCreateElement('og:image', 'property');
+      this.ogImageWidth = this.getOrCreateElement('og:image:width', 'property');
+      this.ogImageHeight = this.getOrCreateElement('og:image:height', 'property');
 
-    // twitter
-    this.twitterCard = this.getOrCreateElement('twitter:card', 'name');
-    this.twitterSite = this.getOrCreateElement('twitter:site', 'name');
-    this.twitterCreator = this.getOrCreateElement('twitter:creator', 'name');
-    this.twitterTitle = this.getOrCreateElement('twitter:title', 'name');
-    this.twitterDescription = this.getOrCreateElement('twitter:description', 'name');
-    this.twitterImage = this.getOrCreateElement('twitter:image', 'name');
-    this.twitterImageAlt = this.getOrCreateElement('twitter:image:alt', 'name');
+      // twitter
+      this.twitterCard = this.getOrCreateElement('twitter:card', 'name');
+      this.twitterSite = this.getOrCreateElement('twitter:site', 'name');
+      this.twitterCreator = this.getOrCreateElement('twitter:creator', 'name');
+      this.twitterTitle = this.getOrCreateElement('twitter:title', 'name');
+      this.twitterDescription = this.getOrCreateElement('twitter:description', 'name');
+      this.twitterImage = this.getOrCreateElement('twitter:image', 'name');
+      this.twitterImageAlt = this.getOrCreateElement('twitter:image:alt', 'name');
 
-    // everything else
-    this.metaDescription = this.getOrCreateElement('description', 'name');
-    this.canonical = this.getOrCreateElement('canonical', 'rel', 'link');
-    this.articlePublished = this.getOrCreateElement('article:published_time', 'property');
-    this.articleModified = this.getOrCreateElement('article:modified_time', 'property');
-    this.articleSection = this.getOrCreateElement('article:section', 'property');
-    this.articleAuthor = this.getOrCreateElement('article:author', 'property');
+      // everything else
+      this.metaDescription = this.getOrCreateElement('description', 'name');
+      this.canonical = this.getOrCreateElement('canonical', 'rel', 'link');
+      this.articlePublished = this.getOrCreateElement('article:published_time', 'property');
+      this.articleModified = this.getOrCreateElement('article:modified_time', 'property');
+      this.articleSection = this.getOrCreateElement('article:section', 'property');
+      this.articleAuthor = this.getOrCreateElement('article:author', 'property');
+    }
+
   }
 
   public setMeta(title: string = '', description: string = '', url: any[] = [], image: string = '', type: string = '', author: string = '', published: Date = new Date(), modified: Date = new Date(), section: string = '') {
