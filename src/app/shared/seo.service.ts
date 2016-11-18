@@ -216,7 +216,7 @@ export class SeoService {
 
   private getElement(name: string, attr: string): HTMLElement {
     if (isBrowser) {
-      return this.dom.querySelector('['+attr+'="'+name+'"]');
+      return this.document.head.querySelector('['+attr+'="'+name+'"]');
     }
     return undefined;
   }
