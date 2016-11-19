@@ -23,4 +23,9 @@ export class AppComponent {
     }
   }
 
+  navigateMobile(){
+    scroll(0,0);
+    this.toggleMobileNav();
+  }
+
 }
