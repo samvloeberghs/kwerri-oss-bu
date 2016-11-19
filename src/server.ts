@@ -1,7 +1,3 @@
-// the polyfills must be one of the first things imported in node.js.
-// The only modules to be imported higher - node modules with es6-promise 3.x or other Promise polyfill dependency
-// (rule of thumb: do it if you have zone.js exception that it has been overwritten)
-// if you are including modules that modify Promise, such as NewRelic,, you must include them before polyfills
 import 'angular2-universal-polyfills';
 
 // Fix Universal Style
@@ -64,7 +60,6 @@ app.use(compression());
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
-
 const helmet = require('helmet');
 const ONE_YEAR = 31536000000;
 
@@ -90,11 +85,82 @@ app.get('*', function (req, res) {
   res.status(404).send(json);
 });
 
-let ca = [
-  fs.readFileSync('../cert/rootca/AddTrustExternalCARoot.crt'),
-  fs.readFileSync('../cert/rootca/COMODORSAAddTrustCA.crt'),
-  fs.readFileSync('../cert/rootca/COMODORSADomainValidationSecureServerCA.crt')
-];
+import { FileCacheStore } from './server/cache/filecache';
+import { MemoryCacheStore } from './server/cache/memorycache';
+
+import { getCachePath, isCacheAllowed } from './server/cache/cache';
+
+const myCache = new MemoryCacheStore();
+
+function ngApp(req, res) {
+
+  const config = {
+    req,
+    res,
+    preboot: false,
+    baseUrl: '/',
+    requestUrl: req.originalUrl,
+    originUrl: isProd ? 'https://ng2.samvlo eberghs.be' : 'https://localhost:4444'
+  };
+
+  const cachePath = getCachePath(req.originalUrl);
+
+  // IF CACHE ALLOWED
+  // ----------------
+  //if (allowedCachePaths.indexOf(cachePath) > -1) {
+  if (isCacheAllowed(cachePath)) {
+
+    myCache.get(cachePath, (entry) => {
+
+      if (entry) {
+        res.status(200).send(entry);
+      }
+      else {
+
+        res.render('index', config, (err, html) => {
+
+          if (err) {
+            console.log(err);
+          }
+
+          const minifiedHtml = minify(html, minifyOptions);
+          myCache.put(cachePath, minifiedHtml);
+          res.status(200).send(minifiedHtml);
+
+        });
+
+      }
+
+    });
+
+  }
+  // CACHE NOT ALLOWED
+  // -----------------
+  else {
+    res.render('index', config, (err, html) => {
+
+      if (err) {
+        console.log(err);
+      }
+
+      res.status(200).send(minify(html, minifyOptions));
+
+    });
+  }
+
+}
+
+
+/*
+ SERVERS :
+ ---------
+ */
+
+/*
+ HTTPS SERVER
+ -------------
+ Our main server serving over HTTPS
+ */
 
 let ciphers = [
   "ECDHE-RSA-AES256-SHA384",
@@ -115,20 +181,27 @@ let ciphers = [
   "!CAMELLIA"
 ];
 
-let server = spdy.createServer({
-  key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
-  cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt'),
-  ca: fs.readFileSync('../cert/*_samvloeberghs_be.ca-bundle'),
-  ciphers: ciphers.join(':'),
-  //ca: ca
-  //cert: fs.readFileSync('../cert/full_*_samvloeberghs_be.ca-bundle')
-}, app)
-  .listen(app.get('port'), (err) => {
-    if (err) {
-      throw new Error(err);
-    }
-    console.log('Listening on port: ' + app.get('port'));
-  });
+let server = spdy.createServer(
+  {
+    key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
+    cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt'),
+    ca: fs.readFileSync('../cert/*_samvloeberghs_be.ca-bundle'),
+    ciphers: ciphers.join(':')
+  }, app
+);
+
+server.listen(app.get('port'), (err) => {
+  if (err) {
+    throw new Error(err);
+  }
+  console.log('Listening on port: ' + app.get('port'));
+});
+
+/*
+ HTTP SERVER:
+ -------------
+ used a 301 redirect to the HTTPS server
+ */
 
 const http = require('http');
 const httpPort = isProd ? 80 : 8080;
@@ -136,104 +209,3 @@ http.createServer(function (req, res) {
   res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
   res.end();
 }).listen(httpPort);
-
-function ngApp(req, res) {
-
-  const config = {
-    req,
-    res,
-    preboot: false,
-    baseUrl: '/',
-    requestUrl: req.originalUrl,
-    originUrl: isProd ? 'https://ng2.samvloeberghs.be' : 'https://localhost:4444'
-  };
-
-  let allowedBlogCachePaths = [
-    'posts_whats-with-the-subjects-in-rxjs5'
-  ];
-  let allowedCachePaths = ['', 'home', 'posts', 'talks-workshops', 'projects', ...allowedBlogCachePaths];
-  let cachePath = req.originalUrl.substr(1).replace('/', '_');
-  if (cachePath === '') {
-    cachePath = 'home';
-  }
-  let fileCachePath = cacheFolder + '/' + cachePath;
-
-
-  // IF CACHE ALLOWED
-  // ----------------
-  console.log(allowedCachePaths, cachePath);
-  if (allowedCachePaths.indexOf(cachePath) > -1) {
-
-    // check for existing file for the requests uri
-    try {
-
-      fs.accessSync(fileCachePath, fs.F_OK);
-      readHtmlCache(fileCachePath, (html: string) => {
-        console.log('cache exists for: ' + cachePath);
-        let minifiedHtml = minify(html, minifyOptions);
-        res.status(200).send(minifiedHtml);
-      });
-
-    } catch (e) {
-
-      console.log('no cache for: ' + cachePath);
-
-      res.render('index', config, (err, html) => {
-
-        if (err) {
-          console.log(err);
-        }
-
-        let minifiedHtml = minify(html, minifyOptions);
-        saveHtmlCache(fileCachePath, minifiedHtml);
-
-        // send output
-        res.status(200).send(minifiedHtml);
-      });
-
-    }
-
-
-  }
-  // CACHE NOT ALLOWED
-  // -----------------
-  else {
-    // no caching
-    console.log('cache not allowed for: ' + cachePath);
-    res.render('index', config, (err, html) => {
-
-      if (err) {
-        console.log(err);
-      }
-
-      let minifiedHtml = minify(html, minifyOptions);
-
-      // send output
-      res.status(200).send(minifiedHtml);
-    });
-  }
-
-}
-
-const cacheFolder = 'cache';
-function readHtmlCache(path, cb) {
-
-  fs.readFile(path, {encoding: 'utf-8'}, function (err, data) {
-    if (err) {
-      return console.log(err);
-    }
-    cb(data);
-
-  });
-}
-function saveHtmlCache(path, html) {
-
-  fs.writeFile(path, html, {encoding: 'utf-8'}, function (err) {
-    if (err) {
-      return console.log(err);
-    }
-
-    console.log("The file was saved!");
-  });
-
-}
