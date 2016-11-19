@@ -10,9 +10,9 @@
     </p>
 
     <p>
-        This is somewhat different from standard navigating between pages in a normal webapplication, where the page
-        reloads and you start from the top by default. In a S.P.A. that can easily be solved by scrolling to the top on
-        navigation by using the native window scroll function:
+        This is somewhat different from standard navigation between pages in a normal webapplication, where the page
+        reloads and you start from the top by default. In a S.P.A. this can easily be solved by scrolling to the top on
+        navigation by using the native <code>window.scroll</code> function:
     </p>
 
     <pre><code class="typescript highlighted">window.scroll(0,0)</code></pre>
@@ -77,11 +77,11 @@ export class AppComponent {
 </code></pre>
 
     <p>
-        And that was it! Be aware that the window object might not be available in every context, except the browser.
+        And that was it! Be aware that the <code>window</code> object might not be available in every context, except the browser.
         Check <a target="_blank" title="Read more about why to wrap the window object in Angular 2"
                  href="http://juristr.com/blog/2016/09/ng2-get-window-ref/">this awesome article</a>
         by <a href="https://twitter.com/juristr" target="_blank">@juristr</a> to read more about why
-        you might want to wrap your window object reference!
+        you might want to wrap your <code>window</code> object reference!
     </p>
     <p>
         Please also be careful not to use these events to do business logic, like for example checking if
