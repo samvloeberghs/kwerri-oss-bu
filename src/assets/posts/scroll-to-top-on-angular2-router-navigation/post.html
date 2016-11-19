@@ -18,7 +18,8 @@
     <pre><code class="typescript highlighted">window.scroll(0,0)</code></pre>
 
     <p>
-        A navigation in routing in Angular 1 and ngRoute or even the ui-router can easily be dectected by listening to the event
+        A navigation in routing in Angular 1 and ngRoute or even the ui-router can easily be dectected by listening to
+        the event
         <code>$routeChangeSuccess</code> or <code>$stateChangeSuccess</code>. So combining these 2 essentials gives us:
     </p>
 
@@ -76,7 +77,14 @@ export class AppComponent {
 </code></pre>
 
     <p>
-        And that was it! Please be careful not to use these events to do business logic, like for example checking if
+        And that was it! Be aware that the window object might not be available in every context, except the browser.
+        Check <a target="_blank" title="Read more about why to wrap the window object in Angular 2"
+                 href="http://juristr.com/blog/2016/09/ng2-get-window-ref/">this awesome article</a>
+        by <a href="https://twitter.com/juristr" target="_blank">@juristr</a> to read more about why
+        you might want to wrap your window object reference!
+    </p>
+    <p>
+        Please also be careful not to use these events to do business logic, like for example checking if
         you can navigate to a specific route based on some authentication rules. For those cases you may want to
         implement guards! More information about guards can be found in
         <a target="_blank" title="Read more about Angular2 Guards"
