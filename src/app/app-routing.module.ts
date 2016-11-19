@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Angulartics2Module } from 'angulartics2';
 
 import { HomeComponent } from './pages/home';
 
@@ -9,9 +10,9 @@ import { HomeComponent } from './pages/home';
       {
         path: '',
         component: HomeComponent,
-
       }
-    ])
+    ]),
+    Angulartics2Module.forRoot()
   ],
 })
 export class AppRoutingModule { }

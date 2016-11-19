@@ -1,4 +1,4 @@
-import { allowedCachePaths } from '../cache.config';
+import { allowedPaths } from '../cache.config';
 
 export function getCachePath(originalUrl: string): string {
 
@@ -11,5 +11,5 @@ export function getCachePath(originalUrl: string): string {
 }
 
 export function isCacheAllowed(cachePath: string): boolean {
-  return allowedCachePaths.indexOf(cachePath) > -1;
+  return allowedPaths.indexOf(cachePath) > -1;
 }

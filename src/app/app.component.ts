@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Angulartics2, Angulartics2GoogleAnalytics } from 'angulartics2';
 
 @Component({
   selector: 'sv-app',
@@ -12,7 +13,8 @@ export class AppComponent {
 
   mobileNavToggled = false;
 
-  constructor() {
+  constructor(private angulartics2: Angulartics2,
+              private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
 
   }
 

@@ -71,12 +71,19 @@ app.use(helmet.hsts({
 
 // Routes with html5pushstate
 // ensure routes match client-side-app
-app.get('/', ngApp);
-app.get('/posts', ngApp);
-app.get('/posts/*', ngApp); // or use /:id?
-app.get('/talks-workshops', ngApp);
-app.get('/projects', ngApp);
-app.get('/contact', ngApp);
+
+import { FileCacheStore } from './server/cache/filecache';
+import { MemoryCacheStore } from './server/cache/memorycache';
+const myCache = new MemoryCacheStore();
+import { getCachePath, isCacheAllowed } from './server/cache/cache';
+import { allowedPaths } from './server/cache.config';
+
+// Routes with html5pushstate
+// ensure routes match client-side-app
+allowedPaths.forEach((path) => {
+  path = '/' + path;
+  app.get(path, ngApp);
+});
 
 app.get('*', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
@@ -84,13 +91,6 @@ app.get('*', function (req, res) {
   var json = JSON.stringify(pojo, null, 2);
   res.status(404).send(json);
 });
-
-import { FileCacheStore } from './server/cache/filecache';
-import { MemoryCacheStore } from './server/cache/memorycache';
-
-import { getCachePath, isCacheAllowed } from './server/cache/cache';
-
-const myCache = new MemoryCacheStore();
 
 function ngApp(req, res) {
 
@@ -100,15 +100,15 @@ function ngApp(req, res) {
     preboot: false,
     baseUrl: '/',
     requestUrl: req.originalUrl,
-    originUrl: isProd ? 'https://ng2.samvlo eberghs.be' : 'https://localhost:4444'
+    originUrl: isProd ? 'https://ng2.samvloeberghs.be' : 'https://localhost:4444'
   };
-
-  const cachePath = getCachePath(req.originalUrl);
 
   // IF CACHE ALLOWED
   // ----------------
   //if (allowedCachePaths.indexOf(cachePath) > -1) {
-  if (isCacheAllowed(cachePath)) {
+  if (isCacheAllowed(req.originalUrl)) {
+
+    const cachePath = getCachePath(req.originalUrl);
 
     myCache.get(cachePath, (entry) => {
 

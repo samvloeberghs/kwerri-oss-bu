@@ -45,6 +45,7 @@
     "angular2-platform-node": "~2.1.0-rc.1",
     "angular2-universal": "~2.1.0-rc.1",
     "angular2-universal-polyfills": "~2.1.0-rc.1",
+    "angulartics2": "^1.4.3",
     "body-parser": "^1.15.2",
     "brush-typescript": "^4.0.0",
     "compression": "^1.6.2",

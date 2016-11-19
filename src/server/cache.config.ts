@@ -1,12 +1,12 @@
-let allowedBlogCachePaths = [
-  'posts_whats-with-the-subjects-in-rxjs5'
+let allowedBlogPaths = [
+  'posts/whats-with-the-subjects-in-rxjs5'
 ];
-export const allowedCachePaths = [
+export const allowedPaths = [
   '',
   'home',
   'posts',
   'talks-workshops',
   'projects',
-  ...allowedBlogCachePaths
+  ...allowedBlogPaths
 ];
 export const folder = 'cache';

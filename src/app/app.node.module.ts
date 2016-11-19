@@ -7,6 +7,7 @@ __platform_browser_private__.HammerGesturesPlugin.prototype.supports = universal
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node'; // for AoT we need to manually split universal packages
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 import { SharedModule } from './shared';
 import { HomeModule } from './pages/home';
@@ -31,6 +32,7 @@ import { AppComponent, AppRoutingModule } from './';
     AppRoutingModule
   ],
   providers: [
+    Angulartics2GoogleAnalytics,
     { provide: 'isBrowser', useValue: isBrowser },
     { provide: 'isNode', useValue: isNode }
   ]
