@@ -9,7 +9,7 @@ import { SeoService } from '../../../shared/seo.service';
 const isProd = process.env.ENV === 'PROD';
 
 @Component({
-  selector: 'post',
+  selector: 'sv-post',
   templateUrl: './post.component.html',
   styles: [
     require('./post.component.scss')

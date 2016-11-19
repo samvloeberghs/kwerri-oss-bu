@@ -6,7 +6,7 @@ import { PostsService } from './';
 import { SeoService } from '../../shared/seo.service';
 
 @Component({
-  selector: 'posts',
+  selector: 'sv-posts',
   templateUrl: './posts.component.html',
   styles: [
     require('./posts.component.scss')

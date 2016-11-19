@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SeoService } from '../../shared/seo.service';
 
 @Component({
-  selector: 'home',
+  selector: 'sv-home',
   templateUrl: './home.component.html',
   styles: [
     require('./home.component.scss')

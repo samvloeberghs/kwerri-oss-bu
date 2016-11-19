@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { Angulartics2, Angulartics2GoogleAnalytics } from 'angulartics2';
 
 @Component({
@@ -14,7 +15,14 @@ export class AppComponent {
   mobileNavToggled = false;
 
   constructor(private angulartics2: Angulartics2,
-              private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
+              private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+              private router: Router) {
+
+    router.events
+      .filter(event => event instanceof NavigationEnd)
+      .subscribe((event: NavigationEnd) => {
+        scroll(0, 0);
+      });
 
   }
 
@@ -25,8 +33,8 @@ export class AppComponent {
     }
   }
 
-  navigateMobile(){
-    scroll(0,0);
+  navigateMobile() {
+    scroll(0, 0);
     this.toggleMobileNav();
   }
 
