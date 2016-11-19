@@ -1,8 +1,17 @@
 [
   {
+    "title": "Scroll to top on Angular2 Router navigation",
+    "slug": "scroll-to-top-on-angular2-router-navigation",
+    "datetime": "2016-11-19T12:00:00+01:00",
+    "img": "assets/posts/scroll-to-top-on-angular2-router-navigation/scrolltotop.jpg",
+    "imgFull": "assets/posts/scroll-to-top-on-angular2-router-navigation/scrolltotop_full.jpg",
+    "imgShare": "assets/posts/scroll-to-top-on-angular2-router-navigation/scrolltotop_share.jpg",
+    "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular2. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
+  },
+  {
     "title": "What's with the Subjects in RxJS 5",
     "slug": "whats-with-the-subjects-in-rxjs5",
-    "datetime": "2016-07-14T09:08:25+00:00",
+    "datetime": "2016-07-14T09:08:25+01:00",
     "img": "assets/posts/whats-with-the-subjects-in-rxjs5/rxjs.png",
     "imgFull": "assets/posts/whats-with-the-subjects-in-rxjs5/rxjs_full.png",
     "imgShare": "assets/posts/whats-with-the-subjects-in-rxjs5/rxjs_share.jpg",
