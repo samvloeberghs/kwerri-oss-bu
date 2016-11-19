@@ -35,8 +35,8 @@ $rootScope.$on('$stateChangeSuccess', () => {
 
     <p>
         I did not find anything similar in the documentation of the router of Angular2 so I went digging. The fact is
-        that I'm using the Angulartics2 plugin by <a href="https://twitter.com/luisfarzati"
-                                                     target="_blank">@luisfarzati</a> to track you guys' behavior :)
+        that I'm using the <a href="https://github.com/angulartics/angulartics2" target="_blank">Angulartics2 plugin</a>
+        by <a href="https://twitter.com/luisfarzati" target="_blank">@luisfarzati</a> to track you guys' behavior :).
         This is also done on navigation so there must be something similar going on at that plugin. The plugin BTW works
         great!
     </p>
@@ -77,7 +77,8 @@ export class AppComponent {
 </code></pre>
 
     <p>
-        And that was it! Be aware that the <code>window</code> object might not be available in every context, except the browser.
+        And that was it! Be aware that the <code>window</code> object might not be available in every context, except
+        the browser.
         Check <a target="_blank" title="Read more about why to wrap the window object in Angular 2"
                  href="http://juristr.com/blog/2016/09/ng2-get-window-ref/">this awesome article</a>
         by <a href="https://twitter.com/juristr" target="_blank">@juristr</a> to read more about why
