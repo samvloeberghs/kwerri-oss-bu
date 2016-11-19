@@ -20,7 +20,7 @@ export class PostComponent implements OnInit {
 
   post: Post;
   error: any;
-  domain = isProd ? 'https://samvloeberghs.be' : 'https://ng2.samvloeberghs.be';
+  domain = isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444';
   isBrowser = isBrowser;
 
   constructor(private route: ActivatedRoute,

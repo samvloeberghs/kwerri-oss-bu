@@ -2,8 +2,9 @@ import { Injectable, Inject } from '@angular/core';
 import { __platform_browser_private__ as _, DOCUMENT } from '@angular/platform-browser';
 import { isNode, isBrowser } from 'angular2-universal/browser'; // for AoT we need to manually split universal packages
 
-
 var sanitizeHtml = require('sanitize-html');
+
+const isProd = process.env.ENV === 'PROD';
 
 @Injectable()
 export class SeoService {
@@ -13,7 +14,7 @@ export class SeoService {
   private defaults = {
     title: 'Sam Vloeberghs',
     description: 'I\'m a Belgium based freelance software engineer and Internet entrepreneur, building webapplications and trying to make the world wide web a better place for you to spend your days.',
-    url: 'https://ng2.samvloeberghs.be',
+    url: isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444',
     shareImg: 'assets/share/home.jpg',
     type: 'website',
     author: 'Sam Vloeberghs',
