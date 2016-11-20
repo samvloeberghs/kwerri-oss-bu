@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { isBrowser } from 'angular2-universal';
 
-
 import { Post } from './';
 import { PostsService } from '../';
 import { SeoService } from '../../../shared/seo.service';
@@ -21,7 +20,7 @@ export class PostComponent implements OnInit {
 
   post: Post;
   error: any;
-  domain = isProd ? 'https://samvloeberghs.be' : 'https://l';
+  domain = isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444';
   isBrowser = isBrowser;
 
   constructor(private route: ActivatedRoute,

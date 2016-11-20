@@ -21,7 +21,7 @@ import { createEngine } from 'angular2-express-engine';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
-const serverConfig = require('./options').serverConfig.universalMemoryCache;
+const serverConfig = require('./options').serverConfig.noUniversal;
 const spdy = require('spdy');
 const fs = require('fs');
 
