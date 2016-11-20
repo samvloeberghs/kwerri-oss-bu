@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { isNode } from 'angular2-universal/browser';
 
 import { Post } from './post';
 import { PostsService } from './';
@@ -28,10 +29,13 @@ export class PostsComponent {
       seoService.setMeta();
     }
 
-    this.postsService
-      .getPosts()
-      .then(posts => this.posts = posts)
-      .catch(error => this.error = error);
+    if (isNode) {
+      this.postsService
+        .getPosts()
+        .then(posts => this.posts = posts)
+        .catch(error => this.error = error);
+    }
+
   }
 
 }
