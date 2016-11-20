@@ -110,7 +110,7 @@ function ngApp(req, res) {
   const config = {
     req,
     res,
-    preboot: true,
+    preboot: false,
     baseUrl: '/',
     requestUrl: req.originalUrl,
     originUrl: isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444'
