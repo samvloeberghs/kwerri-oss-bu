@@ -21,6 +21,7 @@ import { createEngine } from 'angular2-express-engine';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
+const serverConfig = require('./options').serverConfig.universalMemoryCache;
 const spdy = require('spdy');
 const fs = require('fs');
 
@@ -40,16 +41,24 @@ if (!isProd) {
   console.log('Running in PROD mode');
 }
 
-// Express View
-app.engine('.html', createEngine({
-  precompile: true,
-  ngModule: MainModule,
-  providers: [
-    // stateless providers only since it's shared
-  ]
-}));
 app.set('port', isProd ? 443 : 4444);
 app.set('views', __dirname);
+
+var engines = require('consolidate');
+
+if (serverConfig.universal) {
+  // Express View
+  app.engine('.html', createEngine({
+    precompile: true,
+    ngModule: MainModule,
+    providers: [
+      // stateless providers only since it's shared
+    ]
+  }));
+
+} else {
+  app.engine('.html', engines.htmling);
+}
 app.set('view engine', 'html');
 
 app.use(cookieParser('Angular 2 Universal'));
@@ -69,12 +78,16 @@ app.use(helmet.hsts({
   force: true
 }));
 
-// Routes with html5pushstate
-// ensure routes match client-side-app
-
-import { FileCacheStore } from './server/cache/filecache';
 import { MemoryCacheStore } from './server/cache/memorycache';
-const myCache = new MemoryCacheStore();
+import { FileCacheStore } from './server/cache/filecache';
+let myCache;
+if (serverConfig.cache === 'memory') {
+  myCache = new MemoryCacheStore();
+}
+if (serverConfig.cache === 'file') {
+  myCache = new FileCacheStore();
+}
+
 import { getCachePath, isCacheAllowed } from './server/cache/cache';
 import { allowedPaths } from './server/cache.config';
 
@@ -97,7 +110,7 @@ function ngApp(req, res) {
   const config = {
     req,
     res,
-    preboot: false,
+    preboot: true,
     baseUrl: '/',
     requestUrl: req.originalUrl,
     originUrl: isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444'
@@ -106,7 +119,7 @@ function ngApp(req, res) {
   // IF CACHE ALLOWED
   // ----------------
   //if (allowedCachePaths.indexOf(cachePath) > -1) {
-  if (isCacheAllowed(req.originalUrl)) {
+  if (isCacheAllowed(req.originalUrl) && serverConfig.universal && serverConfig.cache) {
 
     const cachePath = getCachePath(req.originalUrl);
 

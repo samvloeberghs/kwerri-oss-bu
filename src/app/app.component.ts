@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Angulartics2, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { isBrowser } from 'angular2-universal';
 
 @Component({
   selector: 'sv-app',
@@ -21,7 +22,9 @@ export class AppComponent {
     router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
-        scroll(0, 0);
+        if (isBrowser) {
+          scroll(0, 0);
+        }
       });
 
   }
