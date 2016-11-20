@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { isBrowser  } from 'angular2-universal';
+import { isBrowser } from 'angular2-universal';
+
 
 import { Post } from './';
 import { PostsService } from '../';
