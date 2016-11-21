@@ -23,8 +23,10 @@
         Looking forward to the discusion!
     </p>
 
+    {{domain + '/posts/' + post.slug}}
+
     <disqus-thread *ngIf="isBrowser"
                    [page-identifier]="'samvloeberghs'"
-                   [page-url]=" domain + '/posts/' + post.slug"></disqus-thread>
+                   [page-url]="domain + '/posts/' + post.slug"></disqus-thread>
 
 </div>
