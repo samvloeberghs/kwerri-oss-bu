@@ -6,8 +6,6 @@ import { Post } from './';
 import { PostsService } from '../';
 import { SeoService } from '../../../shared/seo.service';
 
-const isProd = process.env.ENV === 'PROD';
-
 @Component({
   selector: 'sv-post',
   templateUrl: './post.component.html',
@@ -20,7 +18,7 @@ export class PostComponent implements OnInit {
 
   post: Post;
   error: any;
-  domain = isProd ? 'https://samvloeberghs.be' : 'https://localhost:4444';
+  domain = 'https://samvloeberghs.be';
   isBrowser = isBrowser;
 
   constructor(private route: ActivatedRoute,

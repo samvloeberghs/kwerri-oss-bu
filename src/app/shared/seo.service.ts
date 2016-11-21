@@ -200,7 +200,6 @@ export class SeoService {
   // tech
 
   private getOrCreateElement(name: string, attr: string, type: string = 'meta'): HTMLElement {
-
     let el: HTMLElement = this.getElement(name, attr);
     if (!el) {
       el = this.createElement(name, attr, type);
