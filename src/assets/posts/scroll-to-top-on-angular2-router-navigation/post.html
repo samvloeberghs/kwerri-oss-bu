@@ -2,7 +2,7 @@
 
     <p>
         When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly
-        behaviour when navigating from one route to the other with Angular2.
+        behaviour when navigating from one route to the other with Angular.
     </p>
     <p>
         The problem is that content on mobile can go very deep below the initial viewport height. So when you're
@@ -34,14 +34,14 @@ $rootScope.$on('$stateChangeSuccess', () => {
 });</code></pre>
 
     <p>
-        I did not find anything similar in the documentation of the router of Angular2 so I went digging. The fact is
+        I did not find anything similar in the documentation of the router of Angular so I went digging. The fact is
         that I'm using the <a href="https://github.com/angulartics/angulartics2" target="_blank">Angulartics2 plugin</a>
         by <a href="https://twitter.com/luisfarzati" target="_blank">@luisfarzati</a> to track you guys' behavior :).
         This is also done on navigation so there must be something similar going on at that plugin. The plugin BTW works
         great!
     </p>
 
-    <h2><span>Listening to navigation events in Angular2</span></h2>
+    <h2><span>Listening to navigation events in Angular</span></h2>
 
     <p>
         It seems that the Angular 2 router has an <code>events</code> Observable property which you can subscribe on.
@@ -88,7 +88,7 @@ export class AppComponent {
         Please also be careful not to use these events to do business logic, like for example checking if
         you can navigate to a specific route based on some authentication rules. For those cases you may want to
         implement guards! More information about guards can be found in
-        <a target="_blank" title="Read more about Angular2 Guards"
+        <a target="_blank" title="Read more about Angular Guards"
            href="http://blog.thoughtram.io/angular/2016/07/18/guards-in-angular-2.html">this splendid article</a> by <a
             target="_blank" href="https://twitter.com/PascalPrecht">@PascalPrecht</a>
         of Thoughtram.

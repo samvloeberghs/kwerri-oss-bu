@@ -1,11 +1,11 @@
 [
   {
-    "title": "Scroll to top on Angular2 Router navigation",
-    "slug": "scroll-to-top-on-angular2-router-navigation",
+    "title": "Scroll to top on Angular Router navigation",
+    "slug": "scroll-to-top-on-angular-router-navigation",
     "datetime": "2016-11-19T12:00:00+01:00",
-    "img": "assets/posts/scroll-to-top-on-angular2-router-navigation/scrolltotop.jpg",
-    "imgFull": "assets/posts/scroll-to-top-on-angular2-router-navigation/scrolltotop_full.jpg",
-    "imgShare": "assets/posts/scroll-to-top-on-angular2-router-navigation/scrolltotop_share.jpg",
+    "img": "assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop.jpg",
+    "imgFull": "assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop_full.jpg",
+    "imgShare": "assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop_share.jpg",
     "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular2. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
   },
   {

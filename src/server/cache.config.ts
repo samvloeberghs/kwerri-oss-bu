@@ -1,6 +1,6 @@
 let allowedBlogPaths = [
   'posts/whats-with-the-subjects-in-rxjs5',
-  'posts/scroll-to-top-on-angular2-router-navigation'
+  'posts/scroll-to-top-on-angular-router-navigation'
 ];
 export const allowedPaths = [
   '',
