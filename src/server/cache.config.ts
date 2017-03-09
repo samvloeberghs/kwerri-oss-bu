@@ -6,6 +6,7 @@ export const allowedPaths = [
   '',
   'home',
   'posts',
+  'kwerri',
   'talks-workshops',
   'projects',
   ...allowedBlogPaths

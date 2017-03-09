@@ -9,6 +9,7 @@ import { PostsModule } from './pages/posts';
 import { TalksModule } from './pages/talks-workshops';
 import { ProjectsModule } from './pages/projects';
 import { AppComponent, AppRoutingModule } from './';
+import { KwerriModule } from './pages/kwerri/kwerri.module';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -22,6 +23,7 @@ import { AppComponent, AppRoutingModule } from './';
     PostsModule,
     TalksModule,
     ProjectsModule,
+    KwerriModule,
 
     AppRoutingModule
   ],
