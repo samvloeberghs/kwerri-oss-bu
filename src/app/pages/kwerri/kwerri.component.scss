@@ -8,6 +8,15 @@ section#content {
       margin: {
         bottom: 25px;
       }
+
+      @media (max-width: 768px) {
+        width: 80%;
+        margin: {
+          bottom: 25px;
+          right: auto;
+          left: auto;
+        }
+      }
     }
     table {
       tr {
