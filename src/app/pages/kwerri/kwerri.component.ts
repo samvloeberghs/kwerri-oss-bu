@@ -12,6 +12,8 @@ import { SeoService } from '../../shared/seo.service';
 })
 export class KwerriComponent {
 
+  private generalConditionsShown = false;
+
   constructor(private route: ActivatedRoute,
               private seoService: SeoService) {
 
@@ -22,6 +24,11 @@ export class KwerriComponent {
       seoService.setMeta();
     }
 
+  }
+
+  toggleGeneralConditionsShown($event){
+    $event.preventDefault();
+    this.generalConditionsShown = !this.generalConditionsShown;
   }
 
 }
