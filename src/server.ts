@@ -196,9 +196,9 @@ let ciphers = [
 
 let server = spdy.createServer(
   {
-    key: fs.readFileSync('../cert/*_samvloeberghs_be.key'),
-    cert: fs.readFileSync('../cert/*_samvloeberghs_be.crt'),
-    ca: fs.readFileSync('../cert/*_samvloeberghs_be.ca-bundle'),
+    key: fs.readFileSync('../cert/samvloeberghs_be.key'),
+    cert: fs.readFileSync('../cert/samvloeberghs_be.crt'),
+    ca: fs.readFileSync('../cert/samvloeberghs_be.ca-bundle'),
     ciphers: ciphers.join(':')
   }, app
 );
