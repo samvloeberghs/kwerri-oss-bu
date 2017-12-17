@@ -5,8 +5,11 @@ section#content {
 
     img {
       display: block;
+      float: right;
+      max-width: 200px;
       margin: {
         bottom: 25px;
+        left: 25px;
       }
 
       @media (max-width: 768px) {
@@ -26,51 +29,51 @@ section#content {
       }
     }
 
-    #algemene-voorwaarden{
-      margin:{
+    #algemene-voorwaarden {
+      margin: {
         top: 40px;
       }
-      h1{
-        margin:{
+      h1 {
+        margin: {
           bottom: 20px;
         }
-        font:{
+        font: {
           size: 1.8em;
         }
       }
 
-      h2{
-        margin:{
+      h2 {
+        margin: {
           bottom: 15px;
         }
-        font:{
+        font: {
           size: 1.6em;
         }
       }
-      h3{
-        margin:{
+      h3 {
+        margin: {
           bottom: 10px;
         }
-        font:{
+        font: {
           size: 1.4em;
         }
       }
-      h4{
-        margin:{
+      h4 {
+        margin: {
           bottom: 5px;
         }
-        font:{
+        font: {
           size: 1.2em;
         }
       }
-      p{
-        font:{
+      p {
+        font: {
           size: 1em;
         }
       }
-      ul,ol {
-        li{
-          font:{
+      ul, ol {
+        li {
+          font: {
             size: 1em;
           }
         }
