@@ -1,3 +1,5 @@
+import { SafeHtml } from '@angular/platform-browser';
+
 export interface Post {
   title: string;
   datetime: string;
@@ -6,5 +8,5 @@ export interface Post {
   imgShare?: string;
   slug?: string;
   short?: string;
-  content?: string;
+  content?: string | SafeHtml;
 }

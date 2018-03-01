@@ -35,8 +35,8 @@ import { KwerriModule } from './pages/kwerri/kwerri.module';
   ],
   providers: [
     Angulartics2GoogleAnalytics,
-    { provide: 'isBrowser', useValue: isBrowser },
-    { provide: 'isNode', useValue: isNode }
+    { provide: 'isBrowser', useValue: false },
+    { provide: 'isNode', useValue: true }
   ]
 })
 export class MainModule {

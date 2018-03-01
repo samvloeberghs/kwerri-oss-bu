@@ -1,12 +1,21 @@
 [
   {
+    "title": "Selecting subtitles in Vimeo using JavaScript",
+    "slug": "selecting-subtitles-in-vimeo-using-javascript",
+    "datetime": "2018-03-01T12:00:00+01:00",
+    "img": "assets/posts/selecting-subtitles-in-vimeo-using-javascript/selectingsubtitles.jpg",
+    "imgFull": "assets/posts/selecting-subtitles-in-vimeo-using-javascript/selectingsubtitles_full.jpg",
+    "imgShare": "assets/posts/selecting-subtitles-in-vimeo-using-javascript/selectingsubtitles_share.jpg",
+    "short": "Implementing 3th party functionality it not always clear. In the case of Vimeo, the iframe embed does not provide as many options and is not as extended as the JavaScript Player API. <span>Keep reading to find out how you can easily set Vimeo subtitles on runtime.</span>"
+  },
+  {
     "title": "Scroll to top on Angular Router navigation",
     "slug": "scroll-to-top-on-angular-router-navigation",
     "datetime": "2016-11-19T12:00:00+01:00",
     "img": "assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop.jpg",
     "imgFull": "assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop_full.jpg",
     "imgShare": "assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop_share.jpg",
-    "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular2. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
+    "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular v2+. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
   },
   {
     "title": "What's with the Subjects in RxJS 5",

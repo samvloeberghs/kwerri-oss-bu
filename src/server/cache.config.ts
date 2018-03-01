@@ -1,6 +1,7 @@
 let allowedBlogPaths = [
   'posts/whats-with-the-subjects-in-rxjs5',
-  'posts/scroll-to-top-on-angular-router-navigation'
+  'posts/scroll-to-top-on-angular-router-navigation',
+  'posts/selecting-subtitles-in-vimeo-using-javascript'
 ];
 export const allowedPaths = [
   '',

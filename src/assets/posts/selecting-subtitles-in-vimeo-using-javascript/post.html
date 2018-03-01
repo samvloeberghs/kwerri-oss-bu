@@ -1,0 +1,81 @@
+<section class="entry-content post-body " itemprop="articleBody">
+
+    <h2><span>Context</span></h2>
+    <p>
+        At <a href="https://sponsormatch.eu" target="_blank" rel="noopener">SponsorMatch</a> we deploy an Angular
+        Universal website & application that is shown in different languages. Currently we support Dutch(nl) and
+        English(en). On the homepage we use a simple introduction video / explainimation to show how the product
+        works. This video is made in English but for our Dutch-speaking market we provided Dutch subtitles.
+    </p>
+
+    <h2><span>Problem</span></h2>
+    <p>
+        It seems that it's not possible to set the default selected subtitle using the iframe embed solution. It's
+        probably possible but anyway, I couldn't find any information on Google or on the Vimeo documentation. There are
+        some questions on stackoverflow that remained unanswered for years:
+    </p>
+
+    <ul>
+        <li>
+            <a href="https://stackoverflow.com/questions/27014658/vimeo-force-cc-language"
+               target="_blank" rel="noopener">
+                Vimeo force CC language
+            </a>
+        </li>
+        <li>
+            <a href="https://stackoverflow.com/questions/27953778/vimeo-embed-language-subtitles"
+               target="_blank" rel="noopener">
+                Vimeo Embed Language/Subtitles
+            </a>
+        </li>
+    </ul>
+
+    <h2><span>Solution</span></h2>
+    <p>
+        There are several solutions possible and one is moving completely to the JavaScript API Vimeo provides. More
+        information can be found here: <a href="https://github.com/vimeo/player.js" target="_blank" rel="noopener">https://github.com/vimeo/player.js</a>
+    </p>
+
+    <p>
+        The second solution I used was combining the iframe embed solution with the JS API. Basically we just use the
+        iframe that was used for embedding as parameter in the Player constructor:
+    </p>
+
+    <h2><span>Using it in Angular</span></h2>
+
+    <p>
+        Using it in Angular is fairly easy.. We need to install the @vimeo/player package using yarn or npm:
+    </p>
+    <pre><code class="bash highlighted">npm i -S @vimeo/player</code></pre>
+    <p>
+        Next we can import the Player directly using:
+    </p>
+    <pre><code class="typescript highlighted">import Player from '@vimeo/player';</code></pre>
+
+    <p>
+        Using the <code>enableTextTrack</code> function we can easily set the language. As developers / implementors I
+        believe we should be responsible in some way for knowing which languages are available to use. Meaning: which
+        subtitles / texttracks are implemented on the embedded video.
+    </p>
+
+    <pre><code class="typescript highlighted">const player = new Player(document.getElementById('intro_explanimation'));
+
+player.enableTextTrack(this.language, 'subtitles').then(function (track) {
+    // track contains language, kind and label
+}).catch(function (error) {
+    // error holds what happened in detail
+});</code></pre>
+
+    <p>
+        Please take a look at the complete example below:
+    </p>
+
+    <iframe src="https://stackblitz.com/edit/angular-vimeo-set-language-subtitles?embed=1&file=app/player.component.ts&hideExplorer=1&hideNavigation=1"
+            title="Angular example Vimeo player"
+            frameborder='0'
+            webkitAllowFullScreen
+            mozallowfullscreen allowFullScreen
+            style="width:100%; height: 500px;">
+    </iframe>
+
+</section>

@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Sanitizer, SecurityContext, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { isBrowser } from 'angular2-universal';
+import { DomSanitizer } from '@angular/platform-browser'
 
 import { Post } from './';
 import { PostsService } from '../';
@@ -23,7 +24,8 @@ export class PostComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private postsService: PostsService,
-              private seoService: SeoService) {
+              private seoService: SeoService,
+              private sanitizer: DomSanitizer) {
 
   }
 
@@ -32,10 +34,10 @@ export class PostComponent implements OnInit {
     this.postsService
       .getPost(slug)
       .then(post => {
+        this.post = post;
         this.seoService.setMeta(post.title + ' - Posts', post.short, this.route.snapshot.url, post.imgShare);
         this.postsService.getPostContent(slug).then(content => {
-          post.content = content;
-          this.post = post;
+          this.post.content = this.sanitizer.bypassSecurityTrustHtml(content);
         })
       })
       .catch(error => this.error = error);
