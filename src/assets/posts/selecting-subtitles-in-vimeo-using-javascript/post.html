@@ -1,18 +1,18 @@
 <section class="entry-content post-body " itemprop="articleBody">
 
-    <h2><span>Context</span></h2>
     <p>
         At <a href="https://sponsormatch.eu" target="_blank" rel="noopener">SponsorMatch</a> we deploy an Angular
-        Universal website & application that is shown in different languages. Currently we support Dutch(nl) and
-        English(en). On the homepage we use a simple introduction video / explainimation to show how the product
-        works. This video is made in English but for our Dutch-speaking market we provided Dutch subtitles.
+        Universal website & application that is shown in different languages. Currently we support Dutch (nl) and
+        English (en). On the homepage we use a simple introduction video / explainimation that is hosted on
+        <a href="https://vimeo.com/231377016" rel="noopener" target="_blank">Vimeo</a> to show how the product
+        works. This animation video is made in English but for the Dutch-speaking market we provided Dutch subtitles.
     </p>
 
     <h2><span>Problem</span></h2>
     <p>
-        It seems that it's not possible to set the default selected subtitle using the iframe embed solution. It's
+        It seems that it's not possible to set the default selected subtitle using the Vimeo iframe embed solution. It's
         probably possible but anyway, I couldn't find any information on Google or on the Vimeo documentation. There are
-        some questions on stackoverflow that remained unanswered for years:
+        even some questions on StackOverflow that remained unanswered for years:
     </p>
 
     <ul>
@@ -67,7 +67,8 @@ player.enableTextTrack(this.language, 'subtitles').then(function (track) {
 });</code></pre>
 
     <p>
-        Please take a look at the complete example below:
+        Please take a look at the full example below. The end result is implemented on the homepage of <a
+            href="https://sponsormatch.eu" target="_blank" rel="noopener">SponsorMatch</a>.
     </p>
 
     <iframe src="https://stackblitz.com/edit/angular-vimeo-set-language-subtitles?embed=1&file=app/player.component.ts&hideExplorer=1&hideNavigation=1"
