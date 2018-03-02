@@ -2,15 +2,15 @@
 
     <aside [class.open]="mobileNavToggled">
 
-        <a routerLink="/" id="picture">
-            <img src="assets/sam.jpg" alt="Sam"/>
+        <a routerLink="/" id="picture" title="Back to homepage">
+            <img src="assets/sam.jpg" alt="Sam Vloeberghs"/>
         </a>
 
         <h1>
             <a routerLink="/">Sam Vloeberghs</a>
         </h1>
 
-        <a routerLink="/" id="mobilemenu" target="navigation"
+        <a routerLink="/" id="mobilemenu" target="navigation" title="Open mobile navigation"
            [class.open]="mobileNavToggled"
            (click)="toggleMobileNav($event, true)">
             <i class="fa fa-bars" aria-hidden="true"></i>
@@ -19,8 +19,7 @@
         <div id="mobilenavcontainer">
             <p>
                 I'm a Belgium based freelance software architect and Internet entrepreneur, currently focussing on
-                frontend
-                technologies.
+                frontend technologies.
             </p>
 
             <ul class="social">
@@ -71,7 +70,7 @@
             <h2>Navigation</h2>
 
             <nav>
-                <ul id="navigation">
+                <ol id="navigation">
                     <li>
                         <a routerLink="/" routerLinkActive="active"
                            [routerLinkActiveOptions]="{exact: true}"
@@ -93,7 +92,7 @@
                         <a routerLink="/kwerri" routerLinkActive="active"
                            (click)="navigateMobile()">Kwerri</a>
                     </li>
-                </ul>
+                </ol>
             </nav>
         </div>
 
