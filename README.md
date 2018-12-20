@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Steps
+
+https://angular.io/guide/universal
+
+remove e2e stuff
+
+npm install --save @angular/platform-server @nguniversal/module-map-ngfactory-loader ts-loader
+
