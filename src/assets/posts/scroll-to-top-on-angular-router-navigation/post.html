@@ -1,0 +1,97 @@
+<section class="entry-content post-body " itemprop="articleBody">
+
+    <p>
+        When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly
+        behaviour when navigating from one route to the other with Angular.
+    </p>
+    <p>
+        The problem is that content on mobile can go very deep below the initial viewport height. So when you're
+        scrolling down and you press an internal link to another page, you'll be stuck at that height.
+    </p>
+
+    <p>
+        This is somewhat different from standard navigation between pages in a normal webapplication, where the page
+        reloads and you start from the top by default. In a S.P.A. this can easily be solved by scrolling to the top on
+        navigation by using the native <code>window.scroll</code> function:
+    </p>
+
+    <pre><code class="typescript highlighted">window.scroll(0,0)</code></pre>
+
+    <p>
+        A navigation in routing in Angular 1 and ngRoute or even the ui-router can easily be dectected by listening to
+        the event
+        <code>$routeChangeSuccess</code> or <code>$stateChangeSuccess</code>. So combining these 2 essentials gives us:
+    </p>
+
+    <pre><code class="typescript highlighted">// ngRoute:
+$rootScope.$on('$routeChangeSuccess', () => {
+    $window.scroll(0,0);
+});
+
+// ui-router:
+$rootScope.$on('$stateChangeSuccess', () => {
+    $window.scroll(0,0);
+});</code></pre>
+
+    <p>
+        I did not find anything similar in the documentation of the router of Angular so I went digging. The fact is
+        that I'm using the <a href="https://github.com/angulartics/angulartics2" target="_blank">Angulartics2 plugin</a>
+        by <a href="https://twitter.com/luisfarzati" target="_blank">@luisfarzati</a> to track you guys' behavior :).
+        This is also done on navigation so there must be something similar going on at that plugin. The plugin BTW works
+        great!
+    </p>
+
+    <h2><span>Listening to navigation events in Angular</span></h2>
+
+    <p>
+        It seems that the Angular v2+ router has an <code>events</code> Observable property which you can subscribe on.
+        Yes, it is as simple as that. Those events can be of any predefined type <code>NavigationStart</code>,
+        <code>NavigationCancel</code>, <code>NavigationEnd</code> or <code>NavigationError</code>. In my case I only
+        needed the <code>NavigationEnd</code>.
+    </p>
+
+    <p>
+        In the component that holds your navigation <code>router-outlet</code> you just need to setup the listener,
+        something like this:
+    </p>
+
+    <pre><code class="typescript highlighted">import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+
+@Component({
+  selector: 'sv-app',
+  template: '&lt;router-outlet&gt;&lt;/router-outlet&gt;'
+})
+export class AppComponent {
+
+  constructor(private router: Router) {
+
+    router.events
+      .filter(event => event instanceof NavigationEnd)
+      .subscribe((event: NavigationEnd) => {
+        window.scroll(0, 0);
+      });
+
+  }
+}
+</code></pre>
+
+    <p>
+        And that was it! Be aware that the <code>window</code> object might not be available in every context, except
+        the browser.
+        Check <a target="_blank" title="Read more about why to wrap the window object in Angular v2"
+                 href="http://juristr.com/blog/2016/09/ng2-get-window-ref/">this awesome article</a>
+        by <a href="https://twitter.com/juristr" target="_blank">@juristr</a> to read more about why
+        you might want to wrap your <code>window</code> object reference!
+    </p>
+    <p>
+        Please also be careful not to use these events to do business logic, like for example checking if
+        you can navigate to a specific route based on some authentication rules. For those cases you may want to
+        implement guards! More information about guards can be found in
+        <a target="_blank" title="Read more about Angular Guards"
+           href="http://blog.thoughtram.io/angular/2016/07/18/guards-in-angular-2.html">this splendid article</a> by <a
+            target="_blank" href="https://twitter.com/PascalPrecht">@PascalPrecht</a>
+        of Thoughtram.
+    </p>
+
+</section>

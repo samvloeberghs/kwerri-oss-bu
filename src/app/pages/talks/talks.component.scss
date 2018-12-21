@@ -1,0 +1,42 @@
+section#content {
+  :host {
+
+    display: block;
+
+
+
+    ul {
+
+      padding: 0;
+      margin: {
+        bottom: 20px;
+      }
+
+      li {
+
+        span.date {
+          color: #555;
+        }
+
+        a.title {
+
+        }
+
+        a.where,
+        span.where {
+
+          color: #555;
+
+        }
+
+        a.video,
+        span.video {
+
+        }
+
+      }
+
+    }
+
+  }
+}

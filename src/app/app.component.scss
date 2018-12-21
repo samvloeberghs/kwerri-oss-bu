@@ -1,0 +1,290 @@
+:host {
+  display: block;
+}
+
+aside {
+
+  display: block;
+
+  h1 {
+    text-transform: uppercase;
+    color: #666;
+    text-align: center;
+    font-size: 1em;
+    letter-spacing: 1px;
+
+    @media (min-width: 270px) {
+      font-size: 1em;
+      padding-top: 20px;
+    }
+
+    @media (min-width: 321px) {
+      font-size: 1.3em;
+      letter-spacing: 2px;
+      padding-top: 18px;
+    }
+
+    a {
+      color: #666;
+      text-decoration: none;
+      &:hover {
+        color: #222;
+      }
+    }
+
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+  }
+
+  h3 {
+    font-size: 1.6em;
+  }
+
+  nav ol {
+    margin: 0;
+    padding: 0;
+
+    li {
+      padding: 0 0 0 10px;
+      margin: 0 0 10px 15px;
+
+      a {
+        color: #444;
+        text-decoration: none;
+        font-size: 1.2em;
+        border-bottom: 1px dotted #666;
+
+        &:hover {
+          color: #222;
+          border-bottom: 1px solid #444;
+        }
+        &.active {
+          color: #000;
+          border-bottom: 1px solid #444;
+          font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+          padding: 10px 0px;
+          font-size: 1.2em;
+          letter-spacing: 2px;
+        }
+
+      }
+
+    }
+
+  }
+
+  ul.social {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+
+    li {
+      display: inline-block;
+      margin-right: 10px;
+
+      a {
+        display: block;
+        font-size: 18px;
+        color: #999;
+
+        -moz-transition: all .2s ease-in;
+        -o-transition: all .2s ease-in;
+        -webkit-transition: all .2s ease-in;
+        transition: all .2s ease-in;
+
+        &.facebook:hover {
+          color: #3b5998;
+        }
+
+        &.twitter:hover {
+          color: #1da1f2;
+        }
+
+        &.linkedin:hover {
+          color: #0777b4;
+        }
+
+        &.github:hover {
+          color: #333333;
+        }
+
+        &.skype:hover {
+          color: #1db0ed;
+        }
+
+        &.stack-overflow:hover {
+          color: #f48024;
+        }
+
+        @media (max-width: 768px) {
+          &.facebook {
+            color: #3b5998;
+          }
+
+          &.twitter {
+            color: #1da1f2;
+          }
+
+          &.linkedin {
+            color: #0777b4;
+          }
+
+          &.github {
+            color: #333333;
+          }
+
+          &.skype {
+            color: #1db0ed;
+          }
+
+          &.stack-overflow {
+            color: #f48024;
+          }
+        }
+
+      }
+
+    }
+
+  }
+
+  h2 {
+    text-transform: uppercase;
+    color: #666;
+    font-size: 1.3em;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+  }
+
+  p {
+    line-height: 17px;
+    font-size: 1.1em;
+    color: #888;
+    margin-bottom: 20px;
+  }
+
+  #mobilemenu {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+
+    display: block;
+    margin-top: 9px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    position: fixed;
+    width: 100%;
+    background: #fff;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(204, 204, 204, 1);
+    -moz-box-shadow: 0 2px 5px 0 rgba(204, 204, 204, 1);
+    box-shadow: 0 2px 5px 0 rgba(204, 204, 204, 1);
+    height: auto;
+
+    h1 {
+      margin-right: 65px;
+      margin-left: 83px;
+      text-align: center;
+    }
+
+    h2 {
+      display: none;
+    }
+
+    p {
+      line-height: 1.5em;
+      font-size: 1.4em;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    #picture {
+      display: block;
+      float: left;
+      margin-left: 20px;
+
+      img {
+        width: 40px;
+        border-radius: 110px;
+        border: 5px solid #eee;
+      }
+    }
+
+    #mobilemenu {
+      position: absolute;
+      display: block;
+      right: 20px;
+      top: 20px;
+      font-size: 2.5em;
+      color: #666;
+    }
+
+    #mobilenavcontainer {
+      padding: 30px 20px 0 20px;
+      display: none;
+    }
+
+    nav ol li {
+      margin: 0 0 20px 15px;
+      a {
+        text-transform: uppercase;
+      }
+    }
+
+    ul.social li {
+      margin-right: 15px;
+      a {
+        font-size: 25px;
+        color: #999;
+      }
+    }
+
+    &.open {
+      height: 100%;
+      #mobilenavcontainer {
+        display: block;
+      }
+    }
+
+  }
+
+  @media (min-width: 769px) {
+
+    position: fixed;
+    width: 280px;
+    margin-left: 50px;
+    padding-top: 50px;
+
+    h1 {
+      font-size: 1.5em;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    #picture img {
+      display: block;
+      width: 100px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      border: 10px solid #eee;
+    }
+
+    nav ul li {
+      margin: 10px 0 10px 15px;
+      a {
+        padding: 4px 0px;
+      }
+    }
+
+  }
+
+}

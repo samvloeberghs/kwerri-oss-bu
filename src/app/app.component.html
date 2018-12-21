@@ -1,21 +1,107 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div id="wrapper">
 
-<router-outlet></router-outlet>
+  <aside [class.open]="mobileNavToggled">
+
+    <a routerLink="/" id="picture" title="Back to homepage">
+      <img src="assets/sam.jpg" alt="Sam Vloeberghs"/>
+    </a>
+
+    <h1>
+      <a routerLink="/">Sam Vloeberghs</a>
+    </h1>
+
+    <a routerLink="/" id="mobilemenu" target="navigation" title="Open mobile navigation"
+       [class.open]="mobileNavToggled"
+       (click)="toggleMobileNav($event, true)">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </a>
+
+    <div id="mobilenavcontainer">
+      <p>
+        I'm a Belgium based freelance software architect and Internet entrepreneur, currently focussing on
+        frontend technologies.
+      </p>
+
+      <ul class="social">
+        <li>
+          <a href="https://www.facebook.com/sam.vloeberghs" class="facebook"
+             title="Sam on Facebook" target="_blank"
+             aria-label="Sam on Facebook">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/samvloeberghs" class="twitter"
+             title="Sam on Twitter" target="_blank"
+             aria-label="Sam on Twitter">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/samvloeberghs" class="github"
+             title="Sam on Github" target="_blank"
+             aria-label="Sam on Github">
+            <i class="fa fa-github" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="skype:sam.vloeberghs" class="skype"
+             title="Sam on Skype" target="_blank"
+             aria-label="Sam on Skype">
+            <i class="fa fa-skype" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://be.linkedin.com/in/samvloeberghs" class="linkedin"
+             title="Sam on LinkedIn" target="_blank"
+             aria-label="Sam on LinkedIn">
+            <i class="fa fa-linkedin" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="http://stackoverflow.com/users/288606/sam-vloeberghs" class="stack-overflow"
+             title="Sam on Stack Overflow" target="_blank"
+             aria-label="Sam on Stack Overflow">
+            <i class="fa fa-stack-overflow" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+
+      <h2>Navigation</h2>
+
+      <nav>
+        <ol id="navigation">
+          <li>
+            <a routerLink="/" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}"
+               (click)="navigateMobile()">Home</a>
+          </li>
+          <li>
+            <a routerLink="/posts" routerLinkActive="active"
+               (click)="navigateMobile()">Posts</a>
+          </li>
+          <li>
+            <a routerLink="/talks-workshops" routerLinkActive="active"
+               (click)="navigateMobile()">Talks &amp; workshops</a>
+          </li>
+          <li>
+            <a routerLink="/projects" routerLinkActive="active"
+               (click)="navigateMobile()">Projects</a>
+          </li>
+          <li>
+            <a routerLink="/kwerri" routerLinkActive="active"
+               (click)="navigateMobile()">Kwerri</a>
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+  </aside>
+
+  <section id="content">
+
+    <router-outlet></router-outlet>
+
+  </section>
+
+</div>

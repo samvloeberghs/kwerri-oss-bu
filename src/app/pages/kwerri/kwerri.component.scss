@@ -1,0 +1,87 @@
+section#content {
+  :host {
+
+    display: block;
+
+    img {
+      display: block;
+      float: right;
+      max-width: 200px;
+      margin: {
+        bottom: 25px;
+        left: 25px;
+      }
+
+      @media (max-width: 768px) {
+        width: 80%;
+        margin: {
+          bottom: 25px;
+          right: auto;
+          left: auto;
+        }
+      }
+    }
+    table {
+      tr {
+        td {
+          vertical-align: top;
+          &:first-child {
+            padding-right: 15px;
+          }
+        }
+      }
+    }
+
+    #algemene-voorwaarden {
+      margin: {
+        top: 40px;
+      }
+      h1 {
+        margin: {
+          bottom: 20px;
+        }
+        font: {
+          size: 1.8em;
+        }
+      }
+
+      h2 {
+        margin: {
+          bottom: 15px;
+        }
+        font: {
+          size: 1.6em;
+        }
+      }
+      h3 {
+        margin: {
+          bottom: 10px;
+        }
+        font: {
+          size: 1.4em;
+        }
+      }
+      h4 {
+        margin: {
+          bottom: 5px;
+        }
+        font: {
+          size: 1.2em;
+        }
+      }
+      p {
+        font: {
+          size: 1em;
+        }
+      }
+      ul, ol {
+        li {
+          font: {
+            size: 1em;
+          }
+        }
+      }
+    }
+
+  }
+}

@@ -1,1 +1,160 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#topborder {
+  border-top: 9px solid #555;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+#wrapper {
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+
+  @media (min-width: 769px) {
+    margin-top: 9px;
+  }
+}
+
+section#content {
+
+  @media (min-width: 769px) {
+    display: block;
+    float: left;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-left: 380px;
+    margin-right: 50px;
+  }
+
+  h1 {
+    font-weight: normal;
+    font-size: 2em;
+    margin-bottom: 50px;
+    color: #777;
+    span {
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 1.2em;
+      line-height: 1.5em;
+      padding: 5px 10px;
+      background: #f6f6f6;
+      border-radius: 5px;
+    }
+    strong {
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+  }
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+    line-height: 1.6em;
+  }
+
+  h3 {
+    font-size: 1.3em;
+    line-height: 1.4em;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  p {
+    font-size: 1.2em;
+    line-height: 1.5em;
+    word-spacing: 2px;
+    margin-bottom: 15px;
+    word-break: break-word;
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+  ul {
+    font-size: 1.2em;
+    line-height: 1.5em;
+    margin-left: 30px;
+    margin-bottom: 25px;
+    li {
+      word-spacing: 2px;
+      margin-bottom: 5px;
+    }
+  }
+  p a,
+  ul li a {
+    color: #77a5cf;
+    border-bottom: 1px dotted #77a5cf;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  p a:hover {
+    border-bottom: 1px solid #77a5cf;
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background: #f6f6f6;
+    display: block;
+    margin: 40px 0;
+  }
+
+  strong {
+    color: #000;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  section#content {
+    padding: 104px 0 20px 0;
+    margin: 0 20px;
+    h1 {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+      span {
+        letter-spacing: 2px;
+        font-size: 1.2em;
+        padding: 5px 10px;
+      }
+    }
+    hr {
+      margin: 20px 0;
+    }
+  }
+
+}
+
+.hljs {
+  font-size: 1.3em;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #f6f6f6;
+  border-radius: 5px;
+  box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}

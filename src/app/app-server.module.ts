@@ -9,9 +9,13 @@ import { AppModule } from './app.module';
   imports: [
     ServerModule,
     AppModule,
-    ModuleMapLoaderModule
+    ModuleMapLoaderModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: 'isBrowser', useValue: false},
+    {provide: 'isNode', useValue: true},
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppServerModule { }
+export class AppServerModule {
+}
