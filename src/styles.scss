@@ -22,7 +22,7 @@
   }
 }
 
-section#content {
+.content {
 
   @media (min-width: 769px) {
     display: block;
@@ -35,7 +35,7 @@ section#content {
 
   h1 {
     font-weight: normal;
-    font-size: 2em;
+    font-size: 2.5em;
     margin-bottom: 50px;
     color: #777;
     span {
@@ -53,7 +53,7 @@ section#content {
     }
   }
   h2 {
-    font-size: 1.5em;
+    font-size: 2em;
     margin-bottom: 20px;
     color: #333;
     line-height: 1.6em;
@@ -67,8 +67,8 @@ section#content {
   }
 
   p {
-    font-size: 1.2em;
-    line-height: 1.5em;
+    font-size: 1.7em;
+    line-height: 1.6em;
     word-spacing: 2px;
     margin-bottom: 15px;
     word-break: break-word;
@@ -76,8 +76,17 @@ section#content {
       margin-bottom: 0;
     }
   }
+
+  p.intro {
+    font-size: 2.0em;
+    line-height: 1.6em;
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #f6f6f6;
+  }
+
   ul {
-    font-size: 1.2em;
+    font-size: 1.7em;
     line-height: 1.5em;
     margin-left: 30px;
     margin-bottom: 25px;
@@ -109,15 +118,12 @@ section#content {
     color: #000;
   }
 
-}
+  @media (max-width: 768px) {
 
-@media (max-width: 768px) {
-
-  section#content {
     padding: 104px 0 20px 0;
     margin: 0 20px;
     h1 {
-      font-size: 1.4em;
+      font-size: 2em;
       margin-bottom: 20px;
       span {
         letter-spacing: 2px;
@@ -125,6 +131,7 @@ section#content {
         padding: 5px 10px;
       }
     }
+
     hr {
       margin: 20px 0;
     }
@@ -133,12 +140,16 @@ section#content {
 }
 
 .hljs {
-  font-size: 1.3em;
+  font-size: 1.7em;
   padding: 15px;
   margin-bottom: 15px;
   background: #f6f6f6;
   border-radius: 5px;
   box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
+
+  @media (max-width: 768px) {
+    font-size: 1.4em;
+  }
 }
 
 @keyframes shake {

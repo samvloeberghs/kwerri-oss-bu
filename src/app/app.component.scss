@@ -10,7 +10,7 @@ aside {
     text-transform: uppercase;
     color: #666;
     text-align: center;
-    font-size: 1em;
+    font-size: 1.7em;
     letter-spacing: 1px;
 
     @media (min-width: 270px) {
@@ -49,12 +49,12 @@ aside {
 
     li {
       padding: 0 0 0 10px;
-      margin: 0 0 10px 15px;
+      margin: 0 0 15px 15px;
 
       a {
         color: #444;
         text-decoration: none;
-        font-size: 1.2em;
+        font-size: 1.5em;
         border-bottom: 1px dotted #666;
 
         &:hover {
@@ -86,11 +86,11 @@ aside {
 
     li {
       display: inline-block;
-      margin-right: 10px;
+      margin-right: 20px;
 
       a {
         display: block;
-        font-size: 18px;
+        font-size: 22px;
         color: #999;
 
         -moz-transition: all .2s ease-in;
@@ -163,8 +163,8 @@ aside {
   }
 
   p {
-    line-height: 17px;
-    font-size: 1.1em;
+    line-height: 25px;
+    font-size: 1.5em;
     color: #888;
     margin-bottom: 20px;
   }
@@ -199,7 +199,7 @@ aside {
 
     p {
       line-height: 1.5em;
-      font-size: 1.4em;
+      font-size: 1.9em;
       padding-top: 20px;
       border-top: 1px solid #eee;
       padding-bottom: 20px;
@@ -233,8 +233,9 @@ aside {
     }
 
     nav ol li {
-      margin: 0 0 20px 15px;
+      margin: 0 0 25px 15px;
       a {
+        font-size: 1.3em;
         text-transform: uppercase;
       }
     }
@@ -285,6 +286,16 @@ aside {
       }
     }
 
+  }
+
+  @media (max-height: 570px) {
+    p {
+      font-size: 1.4em;
+      line-height: 1.4em;
+    }
+    ol li{
+      margin: 0 0 20px 15px !important;
+    }
   }
 
 }

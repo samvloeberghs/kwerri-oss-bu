@@ -13,8 +13,9 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     AppRoutingModule,
+    CommonModule,
     Angulartics2Module.forRoot(),
-    SharedModule.forRoot(),
+    SharedModule.forRoot()
   ],
   providers: [
     {provide: 'isProd', useValue: environment.production}

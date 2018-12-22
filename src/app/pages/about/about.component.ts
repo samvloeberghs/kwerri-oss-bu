@@ -4,13 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { SeoService } from '../../shared/seo.service';
 
 @Component({
-  selector: 'sv-kwerri',
-  templateUrl: './kwerri.component.html',
-  styleUrls: ['./kwerri.component.scss'],
+  selector: 'sv-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.scss'],
 })
-export class KwerriComponent {
-
-  generalConditionsShown = false;
+export class AboutComponent {
 
   constructor(
     private route: ActivatedRoute,
@@ -24,11 +22,6 @@ export class KwerriComponent {
       seoService.setMeta();
     }
 
-  }
-
-  toggleGeneralConditionsShown($event) {
-    $event.preventDefault();
-    this.generalConditionsShown = !this.generalConditionsShown;
   }
 
 }

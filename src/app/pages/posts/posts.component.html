@@ -3,6 +3,7 @@
         2. I try to <strong>write down</strong>, if it's worth reading it!
     </span>
 </h1>
+
 <article *ngFor="let post of posts; let i = index">
 
     <a [routerLink]="['/posts', post.slug]" class="img">

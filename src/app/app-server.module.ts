@@ -8,8 +8,8 @@ import { AppModule } from './app.module';
 @NgModule({
   imports: [
     ServerModule,
-    AppModule,
     ModuleMapLoaderModule,
+    AppModule,
   ],
   providers: [
     {provide: 'isBrowser', useValue: false},

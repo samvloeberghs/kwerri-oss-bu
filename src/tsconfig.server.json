@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "commonjs",
-    "types": []
+    "types": [
+      "node"
+    ]
   },
   "exclude": [
     "test.ts",

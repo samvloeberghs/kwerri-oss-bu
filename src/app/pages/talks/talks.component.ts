@@ -10,8 +10,10 @@ import { SeoService } from '../../shared/seo.service';
 })
 export class TalksComponent {
 
-  constructor(private route: ActivatedRoute,
-              private seoService: SeoService) {
+  constructor(
+    private route: ActivatedRoute,
+    private seoService: SeoService,
+  ) {
 
     const meta: any = route.snapshot.data['metadata'];
     if (meta) {

@@ -1,35 +1,16 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { HighlightJsModule, HighlightJsService, } from 'angular2-highlight-js';
 
 import { SeoService } from './seo.service';
-import { DisqusModule } from 'ngx-disqus';
-
-import { HighlightModule } from 'ngx-highlightjs';
-
-import scss from 'highlight.js/lib/languages/scss';
-import typescript from 'highlight.js/lib/languages/typescript';
-import xml from 'highlight.js/lib/languages/xml';
-
-/**
- * Import every language you wish to highlight here
- * NOTE: The name of each language must match the file name its imported from
- */
-export function hljsLanguages() {
-  return [
-    {name: 'typescript', func: typescript},
-    {name: 'scss', func: scss},
-    {name: 'xml', func: xml},
-  ];
-}
 
 const MODULES = [
   CommonModule,
   RouterModule,
-  HighlightModule.forRoot({
-    languages: hljsLanguages,
-  }),
-  DisqusModule.forRoot('samvloeberghs')
+  HttpClientModule,
+  HighlightJsModule
 ];
 
 const PIPES = [
@@ -41,15 +22,16 @@ const COMPONENTS = [
 ];
 
 const PROVIDERS = [
+  HighlightJsService,
   SeoService
 ];
 
 @NgModule({
   imports: [
-    ...MODULES,
-  ],
+  ...MODULES,
+],
   declarations: [
-    ...PIPES,
+  ...PIPES,
     ...COMPONENTS,
   ],
   providers: [

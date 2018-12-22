@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: './pages/kwerri/kwerri.module#KwerriModule',
   },
   {
+    path: 'about',
+    loadChildren: './pages/about/about.module#AboutModule',
+  },
+  {
     path: 'talks-workshops',
     loadChildren: './pages/talks/talks.module#TalksModule',
   },

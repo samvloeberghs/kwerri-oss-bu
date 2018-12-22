@@ -1,87 +1,104 @@
-section#content {
-  :host {
+:host {
+  display: block;
+}
 
+img {
+  display: block;
+  float: left;
+  max-width: 250px;
+  margin: {
+    bottom: 25px;
+    right: 50px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 80%;
+    max-width: none;
+    float:none;
+    margin: {
+      bottom: 50px;
+      right: auto;
+      left: auto;
+    }
+  }
+}
+
+table {
+  tr {
+    td {
+      vertical-align: top;
+      padding-right: 50px;
+      &:last-child {
+        padding-right: 0px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  table {
     display: block;
-
-    img {
+    tr {
       display: block;
-      float: right;
-      max-width: 200px;
-      margin: {
-        bottom: 25px;
-        left: 25px;
-      }
-
-      @media (max-width: 768px) {
-        width: 80%;
-        margin: {
-          bottom: 25px;
-          right: auto;
-          left: auto;
-        }
+      td {
+        display: block;
       }
     }
-    table {
-      tr {
-        td {
-          vertical-align: top;
-          &:first-child {
-            padding-right: 15px;
-          }
-        }
-      }
+  }
+}
+
+#algemene-voorwaarden {
+  margin: {
+    top: 40px;
+  }
+  h1 {
+    margin: {
+      bottom: 20px;
     }
-
-    #algemene-voorwaarden {
-      margin: {
-        top: 40px;
-      }
-      h1 {
-        margin: {
-          bottom: 20px;
-        }
-        font: {
-          size: 1.8em;
-        }
-      }
-
-      h2 {
-        margin: {
-          bottom: 15px;
-        }
-        font: {
-          size: 1.6em;
-        }
-      }
-      h3 {
-        margin: {
-          bottom: 10px;
-        }
-        font: {
-          size: 1.4em;
-        }
-      }
-      h4 {
-        margin: {
-          bottom: 5px;
-        }
-        font: {
-          size: 1.2em;
-        }
-      }
-      p {
-        font: {
-          size: 1em;
-        }
-      }
-      ul, ol {
-        li {
-          font: {
-            size: 1em;
-          }
-        }
-      }
+    font: {
+      size: 1.8em;
     }
+  }
 
+  h2 {
+    margin: {
+      bottom: 15px;
+    }
+    font: {
+      size: 1.6em;
+    }
+  }
+  h3 {
+    margin: {
+      bottom: 10px;
+    }
+    font: {
+      size: 1.4em;
+    }
+  }
+  h4 {
+    margin: {
+      bottom: 5px;
+    }
+    font: {
+      size: 1.2em;
+    }
+  }
+  p {
+    font: {
+      size: 1em;
+    }
+  }
+  ul, ol {
+    font: {
+      size: 1em;
+    }
+    margin-bottom: 10px;
+    li {
+      font: {
+        size: 1em;
+      }
+      margin-bottom: 5px;
+    }
   }
 }

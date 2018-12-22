@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DisqusModule } from 'ngx-disqus';
+import { HighlightJsModule } from 'angular2-highlight-js';
 
 import { SharedModule } from '../../shared/shared.module';
 import { PostComponent } from './post/post.component';
@@ -12,6 +14,8 @@ import { PostsComponent } from './posts.component';
     SharedModule,
     CommonModule,
     PostsRoutingModule,
+    HighlightJsModule,
+    DisqusModule.forRoot('samvloeberghs')
   ],
   providers: [
     PostsService,

@@ -1,67 +1,65 @@
-section#content{
-  :host {
+
+:host {
+  display: block;
+}
+
+article {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f6f6f6;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+    border: none;
+    margin: 0;
+  }
+
+  & > a {
     display: block;
+    width: 60%;
+    margin: 0 auto 20px auto;
 
-    article {
-      margin-bottom: 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #f6f6f6;
+    @media (min-width: 769px) {
+      float: left;
+      display: block;
+      max-width: 200px;
+      margin-right: 40px;
+    }
 
-      &:after {
-        content: "";
-        display: table;
-        clear: both;
-      }
+    img {
+      display: block;
+      width: 100%;
+    }
 
-      &:last-child {
-        padding-bottom: 0;
-        border: none;
-        margin: 0;
-      }
+    :hover img {
+      animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
 
-      & > a {
-        display: block;
-        width: 60%;
-        margin: 0 auto 20px auto;
+  }
 
-        @media (min-width: 769px) {
-          float: left;
-          display: block;
-          max-width: 80px;
-          margin-right: 40px;
-        }
+  h2 {
+    margin-bottom: 10px;
+  }
 
-        img {
-          display: block;
-          width: 100%;
-        }
+  p {
+    margin-bottom: 20px !important;
+    font-size: 1.5em !important;
+  }
 
-        :hover img {
-          animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-          transform: translate3d(0, 0, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
-        }
+  @media (min-width: 769px) {
 
-      }
-
-      h2 {
-        margin-bottom: 10px;
-      }
-
-      p {
-        margin-bottom: 20px;
-      }
-
-      @media (min-width: 769px) {
-
-        & > div {
-          margin-left: 120px;
-        }
-
-      }
+    & > div {
+      margin-left: 240px;
     }
 
   }
 }
-

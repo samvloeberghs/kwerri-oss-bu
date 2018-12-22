@@ -1,31 +1,34 @@
-<div *ngIf="post" id="post">
+<div *ngIf="post">
 
-    <h1>
+  <h1>
         <span [innerHtml]="post.title">
         </span>
-    </h1>
+  </h1>
 
-    <p class="posted">
-        Posted on
-        <time [attr.datetime]="post.datetime">{{ post.datetime | date:'fullDate'}}</time>
-    </p>
+  <p class="posted">
+    Posted on
+    <time [attr.datetime]="post.datetime">{{ post.datetime | date:'fullDate'}}</time>
+  </p>
 
-    <img [src]="post.imgFull" [alt]="post.title" class="introimage"/>
+  <img [src]="post.imgFull" [alt]="post.title" class="introimage"/>
 
-    <div [innerHtml]="post.content" highlight-js-content=".highlighted"></div>
+  <div [innerHtml]="post.content" highlight-js-content=".highlighted"></div>
 
-    <hr/>
+  <!--
+  <hr/>
 
-    <h2>Leave some feedback please!</h2>
+  <h2>Leave some feedback please!</h2>
 
-    <p>
-        Do you have anything to add? Or have some other remarks? Please let me know in the comment section below!
-        Looking forward to the discusion!
-    </p>
+  <p>
+      Do you have anything to add? Or have some other remarks? Please let me know in the comment section below!
+      Looking forward to the discusion!
+  </p>
 
-    <disqus *ngIf="isBrowser"
-            [identifier]="'/posts/' + post.slug"
-            [url]="domain + '/posts/' + post.slug"
-            [lang]="'en'"></disqus>
+  <disqus *ngIf="isBrowser"
+          [identifier]="'/posts/' + post.slug"
+          [url]="domain + '/posts/' + post.slug"
+          [lang]="'en'">
+  </disqus>
+  -->
 
 </div>

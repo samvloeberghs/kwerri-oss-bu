@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -9,20 +9,21 @@ import { SeoService } from '../../../shared/seo.service';
 @Component({
   selector: 'sv-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
 
   post: Post;
   error: any;
-  domain = 'https://samvloeberghs.be';
+  // domain = 'https://samvloeberghs.be';
 
-  constructor(@Inject('isBrowser') public isBrowser: boolean,
-              private route: ActivatedRoute,
-              private postsService: PostsService,
-              private seoService: SeoService,
-              private sanitizer: DomSanitizer) {
+  constructor(
+    @Inject('isBrowser') public isBrowser: boolean,
+    private route: ActivatedRoute,
+    private postsService: PostsService,
+    private seoService: SeoService,
+    private sanitizer: DomSanitizer,
+  ) {
 
   }
 
