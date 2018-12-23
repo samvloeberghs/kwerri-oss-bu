@@ -3,7 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  facebookAppId: '663623713804818',
+  url: 'http://localhost:4200',
+  seo: {
+    title: 'Sam Vloeberghs - Freelance Webdeveloper & Software Engineer',
+    description: 'I\'m a Belgium based freelance software engineer and Internet entrepreneur, building webapplications and trying to make the world wide web a better place for you to spend your days.',
+    shareImg: 'assets/share/home.jpg',
+    type: 'website',
+    author: 'Sam Vloeberghs',
+    section: 'Webdevelopment',
+    twittersitecreator: '@samvloeberghs'
+  },
 };
 
 /*
@@ -13,4 +24,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error';  // Included with Angular CLI.

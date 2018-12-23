@@ -1,24 +1,23 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Post } from './post/post.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class PostsService {
 
   private postsPath: string;
 
-  constructor(@Inject('isProd') private isProd: boolean,
-              private http: HttpClient) {
-
-    // URL to web api
-    this.postsPath = (this.isProd ? 'https://samvloeberghs.be/' : '') + 'assets/posts/';
+  constructor(
+    private http: HttpClient,
+  ) {
   }
 
   getPosts(): Promise<Post[]> {
 
     return this.http
-      .get(this.postsPath + 'data.json')
+      .get(environment.url + '/assets/posts/data.json')
       .toPromise()
       .then(response => response as Post[])
       .catch(this.handleError);
@@ -26,12 +25,16 @@ export class PostsService {
 
   getPost(slug: string): Promise<Post> {
     return this.getPosts()
-      .then(posts => posts.find(post => post.slug === slug));
+      .then((posts: Post[]) => {
+        return posts.find((post: Post) => {
+          return post.slug === slug;
+        });
+      });
   }
 
   getPostContent(slug: string): Promise<string> {
     return this.http
-      .get(this.postsPath + slug + '/post.html', {responseType: 'text'})
+      .get(environment.url + '/assets/posts/' + slug + '/post.html', {responseType: 'text'})
       .toPromise()
       .then(response => response as string)
       .catch(this.handleError);

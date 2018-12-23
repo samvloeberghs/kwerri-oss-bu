@@ -1,7 +1,5 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, tap } from 'rxjs/operators';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { Component, HostListener } from '@angular/core';
+import { Routehelper } from './shared/routehelper.service';
 
 @Component({
   selector: 'sv-app',
@@ -12,13 +10,9 @@ export class AppComponent {
 
   mobileNavToggled = false;
 
-  constructor(@Inject('isBrowser') private isBrowser: boolean,
-              private router: Router,
-              private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
-
-    angulartics2GoogleAnalytics.startTracking();
-    this.setupRouting();
-
+  constructor(
+    private routehelper: Routehelper
+  ) {
   }
 
   toggleMobileNav(event?: any, block = false) {
@@ -32,17 +26,9 @@ export class AppComponent {
     this.toggleMobileNav();
   }
 
-  private setupRouting() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      tap(() => {
-        if (this.isBrowser) {
-          scroll(0, 0);
-        }
-      })
-    ).subscribe((event: NavigationEnd) => {
-      // console.log('yo');
-    });
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    this.routehelper.keyboardNavigate(event.key);
   }
 
 }

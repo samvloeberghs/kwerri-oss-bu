@@ -3,7 +3,7 @@
   <aside [class.open]="mobileNavToggled">
 
     <a routerLink="/" id="picture" title="Back to homepage">
-      <img src="assets/sam.jpg" alt="Sam Vloeberghs"/>
+      <img src="assets/images/sam.jpg" alt="Sam Vloeberghs"/>
     </a>
 
     <h1>
@@ -19,49 +19,67 @@
 
     <div id="mobilenavcontainer">
       <p>
-        I'm a Belgium based freelance software architect and Internet entrepreneur, currently focussing on
+        I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on
         frontend technologies.
       </p>
 
       <ul class="social">
         <li>
-          <a href="https://www.facebook.com/sam.vloeberghs" class="facebook"
-             title="Sam on Facebook" target="_blank"
+          <a href="https://www.facebook.com/sam.vloeberghs"
+             class="facebook"
+             title="Sam on Facebook"
+             target="_blank"
+             rel="noopener"
              aria-label="Sam on Facebook">
             <i class="fa fa-facebook" aria-hidden="true"></i>
           </a>
         </li>
         <li>
-          <a href="https://twitter.com/samvloeberghs" class="twitter"
-             title="Sam on Twitter" target="_blank"
+          <a href="https://twitter.com/samvloeberghs"
+             class="twitter"
+             title="Sam on Twitter"
+             target="_blank"
+             rel="noopener"
              aria-label="Sam on Twitter">
             <i class="fa fa-twitter" aria-hidden="true"></i>
           </a>
         </li>
         <li>
-          <a href="https://github.com/samvloeberghs" class="github"
-             title="Sam on Github" target="_blank"
+          <a href="https://github.com/samvloeberghs"
+             class="github"
+             title="Sam on Github"
+             target="_blank"
+             rel="noopener"
              aria-label="Sam on Github">
             <i class="fa fa-github" aria-hidden="true"></i>
           </a>
         </li>
         <li>
-          <a href="skype:sam.vloeberghs" class="skype"
-             title="Sam on Skype" target="_blank"
+          <a href="skype:sam.vloeberghs"
+             class="skype"
+             title="Sam on Skype"
+             target="_blank"
+             rel="noopener"
              aria-label="Sam on Skype">
             <i class="fa fa-skype" aria-hidden="true"></i>
           </a>
         </li>
         <li>
-          <a href="https://be.linkedin.com/in/samvloeberghs" class="linkedin"
-             title="Sam on LinkedIn" target="_blank"
+          <a href="https://be.linkedin.com/in/samvloeberghs"
+             class="linkedin"
+             title="Sam on LinkedIn"
+             target="_blank"
+             rel="noopener"
              aria-label="Sam on LinkedIn">
             <i class="fa fa-linkedin" aria-hidden="true"></i>
           </a>
         </li>
         <li>
-          <a href="http://stackoverflow.com/users/288606/sam-vloeberghs" class="stack-overflow"
-             title="Sam on Stack Overflow" target="_blank"
+          <a href="http://stackoverflow.com/users/288606/sam-vloeberghs"
+             class="stack-overflow"
+             title="Sam on Stack Overflow"
+             target="_blank"
+             rel="noopener"
              aria-label="Sam on Stack Overflow">
             <i class="fa fa-stack-overflow" aria-hidden="true"></i>
           </a>
@@ -75,27 +93,39 @@
           <li>
             <a routerLink="/" routerLinkActive="active"
                [routerLinkActiveOptions]="{exact: true}"
-               (click)="navigateMobile()">Home</a>
+               (click)="navigateMobile()">
+              Home
+            </a>
           </li>
           <li>
             <a routerLink="/posts" routerLinkActive="active"
-               (click)="navigateMobile()">Posts</a>
+               (click)="navigateMobile()">
+              Posts
+            </a>
           </li>
           <li>
             <a routerLink="/talks-workshops" routerLinkActive="active"
-               (click)="navigateMobile()">Talks &amp; workshops</a>
+               (click)="navigateMobile()">
+              Talks &amp; workshops
+            </a>
           </li>
           <li>
             <a routerLink="/projects" routerLinkActive="active"
-               (click)="navigateMobile()">Projects</a>
+               (click)="navigateMobile()">
+              Projects
+            </a>
           </li>
           <li>
             <a routerLink="/about" routerLinkActive="active"
-               (click)="navigateMobile()">About me</a>
+               (click)="navigateMobile()">
+              About me
+            </a>
           </li>
           <li>
             <a routerLink="/kwerri" routerLinkActive="active"
-               (click)="navigateMobile()">Kwerri</a>
+               (click)="navigateMobile()">
+              Kwerri
+            </a>
           </li>
         </ol>
       </nav>

@@ -250,6 +250,7 @@ aside {
 
     &.open {
       height: 100%;
+      z-index: 1;
       #mobilenavcontainer {
         display: block;
       }
@@ -261,7 +262,7 @@ aside {
 
     position: fixed;
     width: 280px;
-    margin-left: 50px;
+    margin-left: 60px;
     padding-top: 50px;
 
     h1 {
@@ -293,7 +294,7 @@ aside {
       font-size: 1.4em;
       line-height: 1.4em;
     }
-    ol li{
+    ol li {
       margin: 0 0 20px 15px !important;
     }
   }

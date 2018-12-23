@@ -2,7 +2,7 @@
   display: block;
 }
 
-img {
+img#kwerri {
   display: block;
   float: left;
   max-width: 250px;
@@ -10,11 +10,13 @@ img {
     bottom: 25px;
     right: 50px;
   }
+  border: 15px solid #f6f6f6;
+  padding: 15px;
 
   @media (max-width: 1024px) {
     width: 80%;
     max-width: none;
-    float:none;
+    float: none;
     margin: {
       bottom: 50px;
       right: auto;
@@ -31,8 +33,34 @@ table {
       &:last-child {
         padding-right: 0px;
       }
+      p {
+        margin-bottom: 0;
+      }
     }
   }
+}
+
+.clients {
+  list-style: none;
+  margin: 25px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  li {
+    margin: 0;
+    width: calc(1 / 3 * 100%);
+    @media (min-width: 1300px) {
+      width: calc(1 / 6 * 100%);
+    }
+    img {
+      display: block;
+      margin: 0 auto;
+      width: calc(100% - 50px);
+    }
+  }
+
 }
 
 @media (max-width: 480px) {

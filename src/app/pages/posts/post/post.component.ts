@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { Post } from './post.model';
@@ -9,16 +9,17 @@ import { SeoService } from '../../../shared/seo.service';
 @Component({
   selector: 'sv-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss']
+  styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
 
   post: Post;
   error: any;
+
   // domain = 'https://samvloeberghs.be';
 
   constructor(
-    @Inject('isBrowser') public isBrowser: boolean,
+    private router: Router,
     private route: ActivatedRoute,
     private postsService: PostsService,
     private seoService: SeoService,
@@ -33,7 +34,7 @@ export class PostComponent implements OnInit {
       .getPost(slug)
       .then(post => {
         this.post = post;
-        this.seoService.setMeta(post.title + ' - Posts', post.short, this.route.snapshot.url.join('/'), post.imgShare);
+        this.seoService.setMeta(post.title + ' - Posts', post.short, post.imgShare, this.router.routerState.snapshot.url);
         this.postsService.getPostContent(slug).then(content => {
           this.post.content = this.sanitizer.bypassSecurityTrustHtml(content);
         });

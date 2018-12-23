@@ -19,9 +19,6 @@ import { BrowserModule } from '@angular/platform-browser';
     Angulartics2Module.forRoot(),
     SharedModule.forRoot()
   ],
-  providers: [
-    {provide: 'isProd', useValue: environment.production}
-  ],
   exports: [
     AppComponent,
   ],

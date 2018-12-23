@@ -11,10 +11,6 @@ import { AppModule } from './app.module';
     ServerModule,
     ModuleMapLoaderModule,
   ],
-  providers: [
-    {provide: 'isBrowser', useValue: false},
-    {provide: 'isNode', useValue: true},
-  ],
   bootstrap: [AppComponent],
 })
 export class AppServerModule {

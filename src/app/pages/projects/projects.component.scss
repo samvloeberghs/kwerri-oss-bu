@@ -28,6 +28,13 @@ article {
     @media (min-width: 769px) {
       float: left;
       display: block;
+      max-width: 120px;
+      margin-right: 30px;
+    }
+
+    @media (min-width: 1281px) {
+      float: left;
+      display: block;
       max-width: 200px;
       margin-right: 40px;
     }
@@ -62,4 +69,17 @@ article {
     }
 
   }
+
+  @media (min-width: 769px) {
+    & > div {
+      margin-left: 150px;
+    }
+  }
+
+  @media (min-width: 1281px) {
+    & > div {
+      margin-left: 240px;
+    }
+  }
+
 }

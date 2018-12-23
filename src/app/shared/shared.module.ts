@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HighlightJsModule, HighlightJsService, } from 'angular2-highlight-js';
 
 import { SeoService } from './seo.service';
+import { Routehelper } from './routehelper.service';
 
 const MODULES = [
   CommonModule,
@@ -23,7 +24,8 @@ const COMPONENTS = [
 
 const PROVIDERS = [
   HighlightJsService,
-  SeoService
+  Routehelper,
+  SeoService,
 ];
 
 @NgModule({

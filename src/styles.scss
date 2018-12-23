@@ -22,6 +22,16 @@
   }
 }
 
+em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+strong {
+  font-weight: normal;
+  font-style: italic;
+}
+
 .content {
 
   @media (min-width: 769px) {
@@ -29,8 +39,8 @@
     float: left;
     padding-top: 50px;
     padding-bottom: 50px;
-    margin-left: 380px;
-    margin-right: 50px;
+    margin-left: 400px;
+    margin-right: 60px;
   }
 
   h1 {
@@ -114,8 +124,50 @@
     margin: 40px 0;
   }
 
-  strong {
+  em {
     color: #000;
+  }
+
+  .sidepic {
+    margin: {
+      bottom: 25px;
+      top: 10px;
+    }
+    img {
+      display: block;
+      width: 100%;
+      @media (min-width: 768px) {
+        box-shadow: 10px 10px 5px #ddd;
+        border: 1px solid #fff;
+      }
+    }
+    p {
+      margin-top: 10px;
+      font-size: 1em;
+      @media (min-width: 768px) {
+        margin-top: 20px;
+      }
+      &:before {
+        content: '–';
+        display: inline-block;
+        margin-right: 5px;
+        margin-left: 10px;
+      }
+    }
+
+    @media (min-width: 1281px) {
+      max-width: 500px;
+      width: 40%;
+      &.right {
+        float: right;
+        margin-left: 50px;
+      }
+      &.left {
+        float: left;
+        margin-right: 50px;
+      }
+    }
+
   }
 
   @media (max-width: 768px) {
@@ -132,8 +184,20 @@
       }
     }
 
+    p, ul {
+      font-size: 1.5em;
+      line-height: 1.4em;
+    }
+
+    p.intro {
+      font-size: 1.8em;
+      line-height: 1.4em;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+    }
+
     hr {
-      margin: 20px 0;
+      margin: 30px 0;
     }
   }
 
@@ -150,6 +214,98 @@
   @media (max-width: 768px) {
     font-size: 1.4em;
   }
+}
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  & > p,
+  & > ul {
+    margin-bottom: 0;
+  }
+  & > p + p {
+    margin-top: 5px;
+  }
+
+  &-link {
+    font-weight: bold;
+  }
+
+  &-dismissible {
+    padding-right: 35px;
+    .close {
+      position: relative;
+      top: -2px;
+      right: -21px;
+      color: inherit;
+    }
+  }
+  &-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    hr {
+      border-top-color: #c9e2b3;
+    }
+    em {
+      color: #3c763d;
+    }
+    .alert-link {
+      color: #2b542c;
+    }
+  }
+  &-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    hr {
+      border-top-color: #a6e1ec;
+    }
+    em {
+      color: #31708f;
+    }
+    .alert-link {
+      color: #245269;
+    }
+  }
+  &-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+
+    hr {
+      border-top-color: #f7e1b5;
+    }
+    em {
+      color: #8a6d3b;
+    }
+    .alert-link {
+      color: #66512c;
+    }
+  }
+  &-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    hr {
+      border-top-color: #e4b9c0;
+    }
+    em {
+      color: #a94442;
+    }
+    .alert-link {
+      color: #843534;
+    }
+  }
+
+}
+
+h4 {
+  margin-top: 0;
+  color: inherit;
 }
 
 @keyframes shake {

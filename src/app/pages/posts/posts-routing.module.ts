@@ -32,7 +32,7 @@ import { PostComponent } from './post/post.component';
   ],
   exports: [
     RouterModule,
-  ],
+  ]
 })
 export class PostsRoutingModule {
 }

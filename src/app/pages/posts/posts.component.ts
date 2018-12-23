@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { Post } from './post/post.model';
 import { PostsService } from './posts.service';
-import { SeoService } from '../../shared/seo.service';
 
 @Component({
   selector: 'sv-posts',
@@ -15,16 +13,9 @@ export class PostsComponent {
   posts: Post[];
   error: any;
 
-  constructor(private postsService: PostsService,
-              private route: ActivatedRoute,
-              private seoService: SeoService) {
-
-    const meta: any = route.snapshot.data['metadata'];
-    if (meta) {
-      seoService.setMeta(meta.title, meta.description, route.snapshot.url.join('/'), meta.shareImg);
-    } else {
-      seoService.setMeta();
-    }
+  constructor(
+    private postsService: PostsService,
+  ) {
 
     this.postsService
       .getPosts()

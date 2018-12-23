@@ -5,11 +5,7 @@ import { AppModule } from './app.module';
 
 @NgModule({
   imports: [
-    AppModule
-  ],
-  providers: [
-    {provide: 'isBrowser', useValue: true},
-    {provide: 'isNode', useValue: false},
+    AppModule,
   ],
   bootstrap: [AppComponent],
 })
