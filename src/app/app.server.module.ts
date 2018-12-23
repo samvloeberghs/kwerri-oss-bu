@@ -7,9 +7,9 @@ import { AppModule } from './app.module';
 
 @NgModule({
   imports: [
+    AppModule,
     ServerModule,
     ModuleMapLoaderModule,
-    AppModule,
   ],
   providers: [
     {provide: 'isBrowser', useValue: false},

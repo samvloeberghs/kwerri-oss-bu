@@ -6,14 +6,16 @@ import { Angulartics2Module } from 'angulartics2';
 import { SharedModule } from './shared/shared.module';
 import { environment } from '../environments/environment';
 import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    AppRoutingModule,
+    BrowserModule.withServerTransition({appId: 'my-app'}),
     CommonModule,
+    AppRoutingModule,
     Angulartics2Module.forRoot(),
     SharedModule.forRoot()
   ],

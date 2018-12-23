@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",
-    "build:client-and-server-bundles": "ng build samvloeberghs --prod && ng run samvloeberghs:server --output-hashing=none",
+    "build:client-and-server-bundles": "ng build samvloeberghs --prod && ng run samvloeberghs:server",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
   },
   "private": true,

@@ -41,7 +41,7 @@ export class AppComponent {
         }
       })
     ).subscribe((event: NavigationEnd) => {
-      console.log('yo');
+      // console.log('yo');
     });
   }
 
