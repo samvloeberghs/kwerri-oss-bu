@@ -20,7 +20,8 @@
       "command": "node dist/server.js",
       "env": {
         "HTTPS": "1",
-        "PORT": "443"
+        "PORT": "443",
+        "PROD": "1"
       }
     }
   },
