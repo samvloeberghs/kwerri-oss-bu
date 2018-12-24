@@ -12,7 +12,7 @@
     "serve:ssr": "node dist/server",
     "serve:ssr:prod": "bnr serve:ssr:prod",
     "build:ssr": "npm run build:bundles && npm run build:server",
-    "build:bundles": "ng build samvloeberghs --prod && ng run samvloeberghs:server",
+    "build:bundles": "ng build samvloeberghs --prod && ng run samvloeberghs:server --configuration=production",
     "build:server": "webpack --config webpack.server.config.js --progress --colors"
   },
   "betterScripts": {

@@ -182,7 +182,7 @@ if (HTTPS) {
     if (err) {
       throw new Error(err);
     }
-    console.log('Listening on port: ' + app.get('port'));
+    console.log(`Node server listening on ${app.get('port')}`);
   });
 
   /*
@@ -196,7 +196,9 @@ if (HTTPS) {
   http.createServer(function (req, res) {
     res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
     res.end();
-  }).listen(httpPort);
+  }).listen(httpPort, () => {
+    console.log(`Node server listening on ${httpPort}`);
+  });
 
 } else {
 
