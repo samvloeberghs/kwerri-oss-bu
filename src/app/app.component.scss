@@ -5,6 +5,7 @@
 aside {
 
   display: block;
+  z-index: 1;
 
   #picture {
     display: block;
@@ -263,7 +264,6 @@ aside {
 
     &.open {
       height: 100%;
-      z-index: 1;
 
       #mobilenavcontainer {
         display: block;

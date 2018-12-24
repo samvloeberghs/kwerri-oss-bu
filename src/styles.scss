@@ -11,6 +11,7 @@
   left: 0;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 #wrapper {
@@ -70,6 +71,7 @@ a:focus {
     font-size: 2.5em;
     margin-bottom: 50px;
     color: #777;
+
     span {
       font-weight: bold;
       letter-spacing: 2px;
@@ -79,11 +81,13 @@ a:focus {
       background: #f6f6f6;
       border-radius: 5px;
     }
+
     strong {
       font-weight: bold;
       letter-spacing: 2px;
     }
   }
+
   h2 {
     font-size: 2em;
     margin-bottom: 20px;
@@ -104,8 +108,9 @@ a:focus {
     word-spacing: 2px;
     margin-bottom: 15px;
     word-break: break-word;
+
     :last-child {
-      margin-bottom: 0;
+      margin-bottom: 0 !important;
     }
   }
 
@@ -122,6 +127,7 @@ a:focus {
     line-height: 1.5em;
     margin-left: 30px;
     margin-bottom: 25px;
+
     li {
       word-spacing: 2px;
       margin-bottom: 5px;
@@ -145,6 +151,7 @@ a:focus {
       bottom: 25px;
       top: 10px;
     }
+
     img {
       display: block;
       width: 100%;
@@ -153,12 +160,14 @@ a:focus {
         border: 1px solid #fff;
       }
     }
+
     p {
       margin-top: 10px;
       font-size: 1em;
       @media (min-width: 768px) {
         margin-top: 20px;
       }
+
       &:before {
         content: '–';
         display: inline-block;
@@ -189,6 +198,7 @@ a:focus {
     h1 {
       font-size: 1.8em;
       margin-bottom: 20px;
+
       span {
         letter-spacing: 2px;
         font-size: 1.2em;
@@ -248,6 +258,7 @@ a:focus {
   & > ul {
     margin-bottom: 0;
   }
+
   & > p + p {
     margin-top: 5px;
   }
@@ -258,6 +269,7 @@ a:focus {
 
   &-dismissible {
     padding-right: 35px;
+
     .close {
       position: relative;
       top: -2px;
@@ -265,34 +277,43 @@ a:focus {
       color: inherit;
     }
   }
+
   &-success {
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #d6e9c6;
+
     hr {
       border-top-color: #c9e2b3;
     }
+
     em {
       color: #3c763d;
     }
+
     .alert-link {
       color: #2b542c;
     }
   }
+
   &-info {
     color: #31708f;
     background-color: #d9edf7;
     border-color: #bce8f1;
+
     hr {
       border-top-color: #a6e1ec;
     }
+
     em {
       color: #31708f;
     }
+
     .alert-link {
       color: #245269;
     }
   }
+
   &-warning {
     color: #8a6d3b;
     background-color: #fcf8e3;
@@ -301,23 +322,29 @@ a:focus {
     hr {
       border-top-color: #f7e1b5;
     }
+
     em {
       color: #8a6d3b;
     }
+
     .alert-link {
       color: #66512c;
     }
   }
+
   &-danger {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+
     hr {
       border-top-color: #e4b9c0;
     }
+
     em {
       color: #a94442;
     }
+
     .alert-link {
       color: #843534;
     }
