@@ -13,8 +13,8 @@
     <a routerLink="/" id="mobilemenu" target="navigation" title="Open mobile navigation"
        [class.open]="mobileNavToggled"
        (click)="toggleMobileNav($event, true)">
-      <i class="fa fa-bars" aria-hidden="true" *ngIf="!mobileNavToggled"></i>
-      <i class="fa fa-times" aria-hidden="true" *ngIf="mobileNavToggled"></i>
+      <i class="fa fa-bars" aria-hidden="true" [class.hidden]="mobileNavToggled"></i>
+      <i class="fa fa-times" aria-hidden="true" [class.hidden]="!mobileNavToggled"></i>
     </a>
 
     <div id="mobilenavcontainer">
