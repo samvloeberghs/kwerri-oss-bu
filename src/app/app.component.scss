@@ -6,6 +6,10 @@ aside {
 
   display: block;
 
+  #picture {
+    display: block;
+  }
+
   h1 {
     text-transform: uppercase;
     color: #666;
@@ -27,6 +31,7 @@ aside {
     a {
       color: #666;
       text-decoration: none;
+
       &:hover {
         color: #222;
       }
@@ -61,6 +66,7 @@ aside {
           color: #222;
           border-bottom: 1px solid #444;
         }
+
         &.active {
           color: #000;
           border-bottom: 1px solid #444;
@@ -239,6 +245,7 @@ aside {
 
     nav ol li {
       margin: 0 0 25px 15px;
+
       a {
         font-size: 1.3em;
         text-transform: uppercase;
@@ -247,6 +254,7 @@ aside {
 
     ul.social li {
       margin-right: 15px;
+
       a {
         font-size: 25px;
         color: #999;
@@ -256,6 +264,7 @@ aside {
     &.open {
       height: 100%;
       z-index: 1;
+
       #mobilenavcontainer {
         display: block;
       }
@@ -287,6 +296,7 @@ aside {
 
     nav ul li {
       margin: 10px 0 10px 15px;
+
       a {
         padding: 4px 0px;
       }
@@ -311,8 +321,12 @@ footer {
   margin-top: 25px;
   padding-top: 25px;
   border-top: 1px solid #f6f6f6;
+
   p {
-    font-size: 1.1em;
+    font: {
+      style: italic;
+      size: 1.1em;
+    }
     margin: 0;
   }
 }

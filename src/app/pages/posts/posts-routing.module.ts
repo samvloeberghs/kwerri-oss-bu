@@ -14,7 +14,7 @@ import { PostComponent } from './post/post.component';
           metadata: {
             title: 'Posts',
             description: `Whenever I find the time, I try to write down what I've been working on. Here you can find all of my posts.`,
-            shareImg: 'assets/share/posts.jpg',
+            shareImg: 'assets/share/projects-talksworkshops.png',
           },
         },
       },
@@ -25,6 +25,7 @@ import { PostComponent } from './post/post.component';
           metadata: {
             title: 'Posts',
             description: `Whenever I find the time, I try to write down what I've been working on. Here you can find all of my posts.`,
+            shareImg: 'assets/share/projects-talksworkshops.png',
           },
         },
       },
@@ -32,7 +33,7 @@ import { PostComponent } from './post/post.component';
   ],
   exports: [
     RouterModule,
-  ]
+  ],
 })
 export class PostsRoutingModule {
 }

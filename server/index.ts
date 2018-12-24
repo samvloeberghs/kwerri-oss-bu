@@ -166,9 +166,9 @@ const ciphers = [
 
 const server = spdy.createServer(
   {
-    key: readFileSync('../cert/samvloeberghs_be.key'),
-    cert: readFileSync('../cert/samvloeberghs_be.crt'),
-    ca: readFileSync('../cert/samvloeberghs_be.ca-bundle'),
+    key: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.key'),
+    cert: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.crt'),
+    ca: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.ca-bundle'),
     ciphers: ciphers.join(':'),
   }, app,
 );

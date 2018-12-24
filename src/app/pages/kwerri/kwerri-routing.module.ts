@@ -9,18 +9,19 @@ import { KwerriComponent } from './kwerri.component';
       {
         path: '',
         component: KwerriComponent,
-        data : {
-          metadata : {
-            title : 'Kwerri',
-            description : 'I operate profesionally trough the company Kwerri BVBA',
-            shareImg: 'assets/share/kwerri.jpg'
-          }
-        }
-      }
-    ])
+        data: {
+          metadata: {
+            title: 'Kwerri',
+            description: 'Kwerri provides specialised consultancy in web engineering. For me personally, Kwerri acts as my own incubator, allowing me to freelance on different projects + start my own.',
+            shareImg: 'assets/share/kwerri.png',
+          },
+        },
+      },
+    ]),
   ],
   exports: [
     RouterModule,
   ],
 })
-export class KwerriRoutingModule { }
+export class KwerriRoutingModule {
+}
