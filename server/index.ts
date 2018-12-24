@@ -4,27 +4,33 @@ import 'reflect-metadata';
 
 import { renderModuleFactory } from '@angular/platform-server';
 import { enableProdMode } from '@angular/core';
-
 import * as express from 'express';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+
+// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../dist/server/main');
+const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
+const spdy = require('spdy');
+const compression = require('compression');
+
+import { MemoryCacheStore, getCachePath, isCacheAllowed, FileCacheStore } from './cache';
+import { allowedPaths, type } from './cache.config';
+
+const minify = require('html-minifier').minify;
+const minifyOptions = require('./options').htmlMinifyOptions;
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 
 // Express server
 const app = express();
-
 const PORT = process.env.PORT || 4000;
+const PROD = process.env.PROD || true;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
-
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../dist/server/main');
-
-const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 
 app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
@@ -33,8 +39,8 @@ app.engine('html', (_, options, callback) => {
     url: options.req.url,
     // DI so that we can get lazy-loading to work differently (since we need it to just instantly render it)
     extraProviders: [
-      provideModuleMap(LAZY_MODULE_MAP)
-    ]
+      provideModuleMap(LAZY_MODULE_MAP),
+    ],
   }).then(html => {
     callback(null, html);
   });
@@ -42,16 +48,147 @@ app.engine('html', (_, options, callback) => {
 
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
+app.set('port', PORT);
+app.use(compression());
 
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
-// All regular routes use the Universal engine
-app.get('*', (req, res) => {
-  res.render(join(DIST_FOLDER, 'browser', 'index.html'), { req });
+let myCache;
+switch (type) {
+  case 'memory':
+    myCache = new MemoryCacheStore();
+    break;
+  default:
+    myCache = new FileCacheStore();
+    break;
+}
+
+allowedPaths.forEach((aPath) => {
+  aPath = '/' + aPath;
+  app.get(aPath, ngApp);
 });
 
-// Start up the Node server
-app.listen(PORT, () => {
-  console.log(`Node server listening on http://localhost:${PORT}`);
+app.get('*', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  const pojo = {status: 404, message: 'No Content'};
+  const json = JSON.stringify(pojo, null, 2);
+  res.status(404).send(json);
 });
+
+function ngApp(req, res) {
+
+  const config = {
+    req,
+    res,
+    preboot: false,
+    baseUrl: '/',
+    requestUrl: req.originalUrl,
+    originUrl: PROD ? 'https://samvloeberghs.be' : 'http://localhost:4000',
+  };
+
+  if (isCacheAllowed(req.originalUrl)) {
+
+    // IF CACHE ALLOWED
+    // ----------------
+
+    const cachePath = getCachePath(req.originalUrl);
+
+    myCache.get(cachePath, (entry) => {
+
+      if (entry) {
+        res.status(200).send(entry);
+      } else {
+
+        res.render('index', config, (err, html) => {
+
+          if (err) {
+            console.log(err);
+          }
+
+          const minifiedHtml = minify(html, minifyOptions);
+          myCache.put(cachePath, minifiedHtml);
+          res.status(200).send(minifiedHtml);
+
+        });
+
+      }
+
+    });
+
+  } else {
+
+    // CACHE NOT ALLOWED
+    // -----------------
+
+    res.render('index', config, (err, html) => {
+
+      if (err) {
+        console.log(err);
+      }
+
+      res.status(200).send(minify(html, minifyOptions));
+
+    });
+  }
+
+}
+
+/*
+ SERVERS :
+ ---------
+ */
+
+/*
+ HTTPS SERVER
+ -------------
+ Our main server serving over HTTPS
+ */
+
+const ciphers = [
+  'ECDHE-RSA-AES256-SHA384',
+  'DHE-RSA-AES256-SHA384',
+  'ECDHE-RSA-AES256-SHA256',
+  'DHE-RSA-AES256-SHA256',
+  'ECDHE-RSA-AES128-SHA256',
+  'DHE-RSA-AES128-SHA256',
+  'HIGH',
+  '!aNULL',
+  '!eNULL',
+  '!EXPORT',
+  '!DES',
+  '!RC4',
+  '!MD5',
+  '!PSK',
+  '!SRP',
+  '!CAMELLIA',
+];
+
+const server = spdy.createServer(
+  {
+    key: readFileSync('../cert/samvloeberghs_be.key'),
+    cert: readFileSync('../cert/samvloeberghs_be.crt'),
+    ca: readFileSync('../cert/samvloeberghs_be.ca-bundle'),
+    ciphers: ciphers.join(':'),
+  }, app,
+);
+
+server.listen(app.get('port'), (err) => {
+  if (err) {
+    throw new Error(err);
+  }
+  console.log('Listening on port: ' + app.get('port'));
+});
+
+/*
+ HTTP SERVER:
+ -------------
+ used a 301 redirect to the HTTPS server
+ */
+
+const http = require('http');
+const httpPort = PROD ? 80 : 8080;
+http.createServer(function (req, res) {
+  res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
+  res.end();
+}).listen(httpPort);

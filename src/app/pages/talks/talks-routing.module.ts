@@ -18,6 +18,9 @@ import { TalksComponent } from './talks.component';
         }
       }
     ])
-  ]
+  ],
+  exports: [
+    RouterModule,
+  ],
 })
 export class TalksRoutingModule { }

@@ -19,6 +19,9 @@ import { ProjectsComponent } from './projects.component';
       },
     ]),
   ],
+  exports: [
+    RouterModule,
+  ],
 })
 export class ProjectsRoutingModule {
 }

@@ -66,10 +66,18 @@ table {
 @media (max-width: 480px) {
   table {
     display: block;
+    tbody {
+      display: block;
+    }
     tr {
       display: block;
       td {
+        margin-bottom: 15px;
         display: block;
+        padding: 0;
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
   }

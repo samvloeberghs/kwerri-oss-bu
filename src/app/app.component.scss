@@ -97,6 +97,11 @@ aside {
         -o-transition: all .2s ease-in;
         -webkit-transition: all .2s ease-in;
         transition: all .2s ease-in;
+        border: none;
+
+        &:hover {
+          border: none;
+        }
 
         &.facebook:hover {
           color: #3b5998;
@@ -300,3 +305,15 @@ aside {
   }
 
 }
+
+footer {
+  display: block;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid #f6f6f6;
+  p {
+    font-size: 1.1em;
+    margin: 0;
+  }
+}
+

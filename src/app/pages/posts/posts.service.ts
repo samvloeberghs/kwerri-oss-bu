@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class PostsService {
 
-  private postsPath: string;
+  private postsPath = `${environment.url}/assets/posts/`;
 
   constructor(
     private http: HttpClient,
@@ -17,7 +17,7 @@ export class PostsService {
   getPosts(): Promise<Post[]> {
 
     return this.http
-      .get(environment.url + '/assets/posts/data.json')
+      .get(`${this.postsPath}data.json`)
       .toPromise()
       .then(response => response as Post[])
       .catch(this.handleError);
@@ -34,7 +34,7 @@ export class PostsService {
 
   getPostContent(slug: string): Promise<string> {
     return this.http
-      .get(environment.url + '/assets/posts/' + slug + '/post.html', {responseType: 'text'})
+      .get(`${this.postsPath}${slug}/post.html`, {responseType: 'text'})
       .toPromise()
       .then(response => response as string)
       .catch(this.handleError);

@@ -18,6 +18,9 @@ import { KwerriComponent } from './kwerri.component';
         }
       }
     ])
-  ]
+  ],
+  exports: [
+    RouterModule,
+  ],
 })
 export class KwerriRoutingModule { }

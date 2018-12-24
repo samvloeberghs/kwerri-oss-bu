@@ -18,6 +18,9 @@ import { AboutComponent } from './about.component';
         }
       }
     ])
-  ]
+  ],
+  exports: [
+    RouterModule,
+  ],
 })
 export class AboutRoutingModule { }

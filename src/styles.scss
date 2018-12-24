@@ -32,6 +32,28 @@ strong {
   font-style: italic;
 }
 
+p a,
+ul li a {
+  color: #77a5cf;
+  border-bottom: 1px dotted #77a5cf;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+p a:hover {
+  border-bottom: 1px solid #77a5cf;
+}
+
+a[rel="noopener"]:not(.ignoreexternal):after {
+  font-family: 'FontAwesome';
+  content: " \f08e";
+  font-size: .8em;
+}
+
+a:focus {
+  outline-color: #77a5cf;
+}
+
 .content {
 
   @media (min-width: 769px) {
@@ -105,16 +127,6 @@ strong {
       margin-bottom: 5px;
     }
   }
-  p a,
-  ul li a {
-    color: #77a5cf;
-    border-bottom: 1px dotted #77a5cf;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  p a:hover {
-    border-bottom: 1px solid #77a5cf;
-  }
 
   hr {
     border: 0;
@@ -175,13 +187,23 @@ strong {
     padding: 104px 0 20px 0;
     margin: 0 20px;
     h1 {
-      font-size: 2em;
+      font-size: 1.8em;
       margin-bottom: 20px;
       span {
         letter-spacing: 2px;
         font-size: 1.2em;
         padding: 5px 10px;
       }
+    }
+
+    h2 {
+      font-size: 1.6em;
+      line-height: 1.3em;
+    }
+
+    h3 {
+      font-size: 1.1em;
+      line-height: 1em;
     }
 
     p, ul {
