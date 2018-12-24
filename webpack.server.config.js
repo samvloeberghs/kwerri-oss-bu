@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {  server: './server/index.ts' },
   resolve: { extensions: ['.js', '.ts'] },
   target: 'node',

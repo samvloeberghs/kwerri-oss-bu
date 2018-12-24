@@ -11,7 +11,7 @@ export class AppComponent {
   mobileNavToggled = false;
 
   constructor(
-    private routehelper: Routehelper
+    private routehelper: Routehelper,
   ) {
   }
 
