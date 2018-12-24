@@ -106,7 +106,6 @@ export class SeoService {
   }
 
   private setUrl(url: string) {
-    console.log(url);
     url = environment.url + (url.length ? url : '');
     this.metaService.addTags([
       {property: 'og:url', content: url},
