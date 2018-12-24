@@ -68,7 +68,7 @@ export class SeoService {
     if (!(type && type.length)) {
       type = environment.seo.type;
     }
-    this.metaService.addTag({name: 'og:type', content: type});
+    this.metaService.addTag({property: 'og:type', content: type});
   }
 
   private setMetaDescription(description: string) {
