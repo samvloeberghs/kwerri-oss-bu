@@ -88,8 +88,6 @@ function ngApp(req, res) {
     originUrl: PROD ? 'https://samvloeberghs.be' : HTTPS ? `https://localhost:${PORT}` : `http://localhost:${PORT}`,
   };
 
-  console.log('req.originalUrl', req.originalUrl);
-
   if (isCacheAllowed(req.originalUrl)) {
 
     // IF CACHE ALLOWED
