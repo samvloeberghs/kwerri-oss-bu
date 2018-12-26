@@ -54,13 +54,11 @@ export class SeoService {
     }
     this.titleService.setTitle(fullTitle);
     if (isPlatformServer(this.platformId)) {
-      this.metaService.addTags([
-        {name: 'twitter:title', content: fullTitle},
-        {name: 'twitter:image:alt', content: fullTitle},
-        {property: 'og:image:alt', content: fullTitle},
-        {property: 'og:title', content: fullTitle},
-        {name: 'title', content: fullTitle},
-      ]);
+      this.metaService.updateTag({name: 'twitter:title', content: fullTitle});
+      this.metaService.updateTag({name: 'twitter:image:alt', content: fullTitle});
+      this.metaService.updateTag({property: 'og:image:alt', content: fullTitle});
+      this.metaService.updateTag({property: 'og:title', content: fullTitle});
+      this.metaService.updateTag({name: 'title', content: fullTitle});
     }
   }
 
@@ -68,7 +66,7 @@ export class SeoService {
     if (!(type && type.length)) {
       type = environment.seo.type;
     }
-    this.metaService.addTag({property: 'og:type', content: type});
+    this.metaService.updateTag({property: 'og:type', content: type});
   }
 
   private setMetaDescription(description: string) {
@@ -80,11 +78,9 @@ export class SeoService {
       allowedTags: [],
     });
 
-    this.metaService.addTags([
-      {name: 'twitter:description', content: description},
-      {property: 'og:description', content: description},
-      {name: 'description', content: description},
-    ]);
+    this.metaService.updateTag({name: 'twitter:description', content: description});
+    this.metaService.updateTag({property: 'og:description', content: description});
+    this.metaService.updateTag({name: 'description', content: description});
   }
 
   private setImage(image: string) {
@@ -92,42 +88,34 @@ export class SeoService {
       image = environment.seo.shareImg;
     }
     image = environment.url + '/' + image;
-    this.metaService.addTags([
-      {name: 'twitter:image', content: image},
-      {property: 'og:image', content: image, name: 'image'},
-      {property: 'og:image:height', content: '630'},
-      {property: 'og:image:width', content: '1200'},
-    ]);
+    this.metaService.updateTag({name: 'twitter:image', content: image});
+    this.metaService.updateTag({property: 'og:image', content: image, name: 'image'});
+    this.metaService.updateTag({property: 'og:image', content: image, name: 'image'});
+    this.metaService.updateTag({property: 'og:image:height', content: '630'});
 
   }
 
   private setTwitterCard(card: string) {
-    this.metaService.addTag({name: 'twitter:card', content: card});
+    this.metaService.updateTag({name: 'twitter:card', content: card});
   }
 
   private setUrl(url: string) {
     url = environment.url + (url.length ? url : '');
-    this.metaService.addTags([
-      {property: 'og:url', content: url},
-    ]);
+    this.metaService.updateTag({property: 'og:url', content: url});
   }
 
   private setPublished(newDateNumber: number) {
     if (newDateNumber) {
       const newDate = new Date(newDateNumber);
-      this.metaService.addTag(
-        {name: 'article:published_time', content: newDate.toISOString()},
-      );
+      this.metaService.updateTag({name: 'article:published_time', content: newDate.toISOString()});
     }
   }
 
   private setModified(newDateNumber: number) {
     if (newDateNumber) {
       const newDate = new Date(newDateNumber);
-      this.metaService.addTags([
-        {name: 'article:modified_time', content: newDate.toISOString()},
-        {name: 'og:updated_time', content: newDate.toISOString()},
-      ]);
+      this.metaService.updateTag({name: 'article:modified_time', content: newDate.toISOString()});
+      this.metaService.updateTag({name: 'og:updated_time', content: newDate.toISOString()});
     }
   }
 
@@ -135,37 +123,30 @@ export class SeoService {
     if (!(author && author.length)) {
       author = environment.seo.author;
     }
-    this.metaService.addTag(
-      {name: 'article:author', content: author},
-    );
+    this.metaService.updateTag({name: 'article:author', content: author});
   }
 
   private setSection(newSection: string) {
     if (!(newSection && newSection.length)) {
       newSection = environment.seo.section;
     }
-    this.metaService.addTag(
-      {name: 'article:section', content: newSection},
-    );
+    this.metaService.updateTag({name: 'article:section', content: newSection});
   }
 
   private setTwitterSiteCreator(site?: string) {
     if (!site) {
       site = environment.seo.twittersitecreator;
     }
-    this.metaService.addTags([
-      {name: 'twitter:site', content: site},
-      {name: 'twitter:creator', content: site},
-    ]);
+    this.metaService.updateTag({name: 'twitter:site', content: site});
+    this.metaService.updateTag({name: 'twitter:creator', content: site});
+
   }
 
   private setFbAppId(appId?: string) {
     if (!(appId && appId.length)) {
       appId = environment.facebookAppId;
     }
-    this.metaService.addTags([
-      {property: 'fb:app_id', content: appId},
-    ]);
+    this.metaService.updateTag({property: 'fb:app_id', content: appId});
   }
 
 }
