@@ -237,6 +237,21 @@ aside {
       top: 20px;
       font-size: 2.5em;
       color: #666;
+
+      .fa-times {
+        display: none;
+      }
+
+      &.open {
+        .fa-bars {
+          display: none;
+        }
+
+        .fa-times {
+          display: inline;
+        }
+      }
+
     }
 
     #mobilenavcontainer {
