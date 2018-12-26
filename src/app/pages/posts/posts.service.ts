@@ -20,6 +20,7 @@ export class PostsService {
       this.http
         .get(`${this.postsPath}data.json`).subscribe(
         (res: any) => {
+          console.log(res);
           resolve(res);
         },
         (err) => {
