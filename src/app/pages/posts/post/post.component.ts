@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { switchMap } from 'rxjs/operators';
 
 import { Post } from './post.model';
 import { PostsService } from '../posts.service';
@@ -32,14 +33,22 @@ export class PostComponent implements OnInit {
     const slug = this.route.snapshot.params['slug'];
     this.postsService
       .getPost(slug)
-      .then(post => {
-        this.post = post;
-        this.seoService.setMeta(post.title + ' - Posts', post.short, post.imgShare, this.router.routerState.snapshot.url);
-        this.postsService.getPostContent(slug).then(content => {
+      .pipe(
+        switchMap((post: Post) => {
+            this.post = post;
+            this.seoService.setMeta(post.title + ' - Posts', post.short, post.imgShare, this.router.routerState.snapshot.url);
+            return this.postsService.getPostContent(slug);
+          },
+        ),
+      )
+      .subscribe(
+        content => {
           this.post.content = this.sanitizer.bypassSecurityTrustHtml(content);
-        });
-      })
-      .catch(error => this.error = error);
+        },
+        error => {
+          this.error = error;
+        },
+      );
   }
 
 }

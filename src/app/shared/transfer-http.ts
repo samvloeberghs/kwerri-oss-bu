@@ -45,15 +45,16 @@ export class TransferHttp {
 
   private getData(url: string, options: any, callback: (uri: string, options: any) => Observable<any>) {
 
-    console.log('url', url);
     const key = makeStateKey(url);
+    console.log('url', url);
+    console.log('key', key);
 
     if (this.hasCache(key)) {
       return this.getFromCache(key);
     } else {
       return callback(url, options).pipe(
         tap(data => {
-          console.log('data from remote', data);
+          console.log('data from remote');
           this.setCache(key, data);
         }),
       );
@@ -70,7 +71,7 @@ export class TransferHttp {
 
   private getFromCache(key): any {
     const data = this.transferState.get(key, null);
-    console.log('data from cache', data);
+    console.log('data from cache');
     return from(Promise.resolve(data));
   }
 }

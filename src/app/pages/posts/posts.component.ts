@@ -19,8 +19,10 @@ export class PostsComponent {
 
     this.postsService
       .getPosts()
-      .then(posts => this.posts = posts)
-      .catch(error => this.error = error);
+      .subscribe(
+        posts => this.posts = posts,
+        error => this.error = error,
+      );
   }
 
 }

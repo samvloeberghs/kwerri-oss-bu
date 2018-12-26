@@ -1,5 +1,10 @@
 import { Component, HostListener } from '@angular/core';
+
 import { Routehelper } from './shared/routehelper.service';
+import { TransferHttp } from './shared/transfer-http';
+import { Post } from './pages/posts/post/post.model';
+import { environment } from '../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'sv-app',
@@ -9,10 +14,20 @@ import { Routehelper } from './shared/routehelper.service';
 export class AppComponent {
 
   mobileNavToggled = false;
+  private postsPath = `${environment.url}/assets/posts/`;
+  private posts: any;
 
   constructor(
     private routehelper: Routehelper,
+    private http: TransferHttp,
   ) {
+    this.http
+      .get(`${this.postsPath}data.json`, {})
+      .pipe(
+        map(response => response as Post[]),
+      ).subscribe(
+      posts => this.posts = posts,
+    );
   }
 
   toggleMobileNav(event?: any, block = false) {

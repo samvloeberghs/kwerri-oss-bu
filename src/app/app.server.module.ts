@@ -9,8 +9,8 @@ import { AppModule } from './app.module';
   imports: [
     AppModule,
     ServerModule,
-    ModuleMapLoaderModule,
     ServerTransferStateModule,
+    ModuleMapLoaderModule,
   ],
   bootstrap: [AppComponent],
 })
