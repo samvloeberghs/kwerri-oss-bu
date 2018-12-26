@@ -15,15 +15,15 @@ aside {
     text-transform: uppercase;
     color: #666;
     text-align: center;
-    font-size: 1.7em;
+    font-size: 1.3em;
     letter-spacing: 1px;
+    padding-top: 10px;
 
-    @media (min-width: 270px) {
-      font-size: 1.3em;
+    @media (min-width: 303px) {
       padding-top: 17px;
     }
 
-    @media (min-width: 321px) {
+    @media (min-width: 341px) {
       font-size: 1.5em;
       letter-spacing: 2px;
       padding-top: 16px;
