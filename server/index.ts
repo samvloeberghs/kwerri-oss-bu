@@ -53,8 +53,13 @@ app.set('port', PORT);
 
 app.use(compression({
   filter: (req, res) => {
-    const userAgent = req.headers['user-agent'];
-    const ignore = /iPhone|iPad|FxiOS|CriOS/i.test(userAgent) || (userAgent.indexOf('AppleWebKit') > -1 && userAgent.indexOf('Chrome') === -1);
+    let ignore = false;
+    try {
+      const userAgent = req.headers['user-agent'];
+      ignore = /iPhone|iPad|FxiOS|CriOS/i.test(userAgent) || (userAgent.indexOf('AppleWebKit') > -1 && userAgent.indexOf('Chrome') === -1);
+    } catch (e) {
+      console.log(e);
+    }
     return ignore ? false : compression.filter(req, res);
   },
 }));
