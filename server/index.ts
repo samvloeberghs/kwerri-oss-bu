@@ -12,7 +12,7 @@ import { readFileSync } from 'fs';
 const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../dist/server/main');
 const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
 const spdy = require('spdy');
-const compression = require('compression');
+// const compression = require('compression');
 
 import { MemoryCacheStore, getCachePath, isCacheAllowed, FileCacheStore } from './cache';
 import { allowedPaths, type } from './cache.config';
@@ -50,7 +50,7 @@ app.engine('html', (_, options, callback) => {
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
-app.use(compression());
+// app.use(compression());
 
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
