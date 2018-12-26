@@ -50,8 +50,13 @@ app.engine('html', (_, options, callback) => {
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
+
 app.use(compression({
-  level: 1,
+  level: 9,
+  filter: (req, res) => {
+    console.log('User-Agent: ' + req.headers['user-agent']);
+    return compression.filter(req, res);
+  },
 }));
 
 // Server static files from /browser
