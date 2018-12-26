@@ -20,6 +20,9 @@ import { allowedPaths, type } from './cache.config';
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
 
+(global as any).WebSocket = require('ws');
+(global as any).XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 

@@ -61,6 +61,8 @@
     "spdy": "^4.0.0",
     "ts-loader": "^5.3.1",
     "tslib": "^1.9.0",
+    "ws": "^6.1.2",
+    "xmlhttprequest": "^1.8.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
