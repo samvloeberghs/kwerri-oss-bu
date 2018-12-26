@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TransferState } from '@angular/platform-browser';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { from } from 'rxjs';
@@ -46,27 +46,18 @@ export class TransferHttp {
   private getData(url: string, options: any, callback: (uri: string, options: any) => Observable<any>) {
 
     console.log('url', url);
+    const key = makeStateKey(url);
 
-    if (this.hasCache(url)) {
-      return this.getFromCache(url);
+    if (this.hasCache(key)) {
+      return this.getFromCache(key);
     } else {
       return callback(url, options).pipe(
         tap(data => {
           console.log('data from remote', data);
-          this.setCache(url, data);
+          this.setCache(key, data);
         }),
       );
     }
-  }
-
-  private resolveData(key: string) {
-    const data = this.getFromCache(key);
-
-    if (!data) {
-      throw new Error();
-    }
-    console.log('data from cache', data);
-    return from(Promise.resolve(data));
   }
 
   private hasCache(key) {
