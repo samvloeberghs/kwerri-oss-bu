@@ -26,6 +26,11 @@ article {
 
     @media (min-width: 769px) {
       float: left;
+      width: 120px;
+    }
+
+    @media (min-width: 1281px) {
+      float: left;
       width: 225px;
       display: block;
     }
@@ -51,9 +56,14 @@ article {
     text-align: justify;
 
     @media (min-width: 769px) {
-      margin-left: 275px;
+      margin-left: 150px;
       margin-top: 0;
       text-align: left;
+    }
+
+    @media (min-width: 1281px) {
+      margin-left: 275px;
+
     }
 
     h2 {
@@ -73,7 +83,7 @@ article {
 
     .posted {
       margin-bottom: 20px;
-      font-size: 12px ;
+      font-size: 12px;
       word-spacing: 0;
     }
 
@@ -81,6 +91,7 @@ article {
       h2 {
         border-bottom: 1px solid #000;
       }
+
       span {
         border-bottom: 1px solid #77a5cf;
       }
