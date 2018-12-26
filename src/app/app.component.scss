@@ -237,6 +237,14 @@ aside {
       top: 20px;
       font-size: 2.5em;
       color: #666;
+      text-decoration: none;
+      border: none;
+
+      &:focus,
+      &:hover {
+        text-decoration: none;
+        border: none;
+      }
 
       .fa-times {
         display: none;

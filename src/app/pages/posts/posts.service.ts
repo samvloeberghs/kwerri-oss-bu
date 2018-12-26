@@ -16,12 +16,27 @@ export class PostsService {
 
   getPosts(): Promise<Post[]> {
 
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.postsPath}data.json`).subscribe(
+        (res: any) => {
+          resolve(res);
+        },
+        (err) => {
+          console.log(err);
+          reject(err);
+        },
+      );
+    });
+
+    /*
     console.log(`${this.postsPath}data.json`);
     return this.http
       .get(`${this.postsPath}data.json`)
       .toPromise()
       .then(response => response as Post[])
       .catch(this.handleError);
+      */
   }
 
   getPost(slug: string): Promise<Post> {
