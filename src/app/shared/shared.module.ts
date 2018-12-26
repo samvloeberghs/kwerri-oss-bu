@@ -2,16 +2,17 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { HighlightJsModule, HighlightJsService, } from 'angular2-highlight-js';
+import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
 import { SeoService } from './seo.service';
 import { Routehelper } from './routehelper.service';
+import { TransferHttp } from './transfer-http';
 
 const MODULES = [
   CommonModule,
   RouterModule,
   HttpClientModule,
-  HighlightJsModule
+  HighlightJsModule,
 ];
 
 const PIPES = [
@@ -26,14 +27,15 @@ const PROVIDERS = [
   HighlightJsService,
   Routehelper,
   SeoService,
+  TransferHttp,
 ];
 
 @NgModule({
   imports: [
-  ...MODULES,
-],
+    ...MODULES,
+  ],
   declarations: [
-  ...PIPES,
+    ...PIPES,
     ...COMPONENTS,
   ],
   providers: [
@@ -46,7 +48,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        ...PROVIDERS
+        ...PROVIDERS,
       ],
     };
   }

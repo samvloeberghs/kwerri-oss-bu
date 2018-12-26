@@ -13,7 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
     AppComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'my-app'}),
+    BrowserModule.withServerTransition({appId: 'samvloeberghs'}),
     CommonModule,
     AppRoutingModule,
     Angulartics2Module.forRoot(),

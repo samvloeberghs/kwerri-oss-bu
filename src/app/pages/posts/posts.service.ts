@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { Post } from './post/post.model';
 import { environment } from '../../../environments/environment';
+import { TransferHttp } from '../../shared/transfer-http';
 
 @Injectable()
 export class PostsService {
@@ -10,14 +10,14 @@ export class PostsService {
   private postsPath = `${environment.url}/assets/posts/`;
 
   constructor(
-    private http: HttpClient,
+    private http: TransferHttp,
   ) {
   }
 
   getPosts(): Promise<Post[]> {
 
     return this.http
-      .get(`${this.postsPath}data.json`)
+      .get(`${this.postsPath}data.json`, {})
       .toPromise()
       .then(response => response as Post[])
       .catch(this.handleError);
