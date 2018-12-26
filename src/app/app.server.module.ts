@@ -8,9 +8,9 @@ import { AppModule } from './app.module';
 @NgModule({
   imports: [
     AppModule,
+    ModuleMapLoaderModule,
     ServerModule,
     ServerTransferStateModule,
-    ModuleMapLoaderModule,
   ],
   bootstrap: [AppComponent],
 })

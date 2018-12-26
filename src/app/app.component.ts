@@ -14,8 +14,8 @@ import { map } from 'rxjs/operators';
 export class AppComponent {
 
   mobileNavToggled = false;
+  posts: any;
   private postsPath = `${environment.url}/assets/posts/`;
-  private posts: any;
 
   constructor(
     private routehelper: Routehelper,
