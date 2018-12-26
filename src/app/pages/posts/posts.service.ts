@@ -16,6 +16,7 @@ export class PostsService {
 
   getPosts(): Promise<Post[]> {
 
+    console.log(`${this.postsPath}data.json`);
     return this.http
       .get(`${this.postsPath}data.json`)
       .toPromise()
