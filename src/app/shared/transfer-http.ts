@@ -46,9 +46,10 @@ export class TransferHttp {
   private getData(url: string, options: any, callback: (uri: string, options: any) => Observable<any>) {
 
     console.log('url', url);
-    try {
-      return this.resolveData(url);
-    } catch (e) {
+
+    if (this.hasCache(url)) {
+      return this.getFromCache(url);
+    } else {
       return callback(url, options).pipe(
         tap(data => {
           console.log('data from remote', data);
@@ -60,6 +61,7 @@ export class TransferHttp {
 
   private resolveData(key: string) {
     const data = this.getFromCache(key);
+
     if (!data) {
       throw new Error();
     }
@@ -67,11 +69,17 @@ export class TransferHttp {
     return from(Promise.resolve(data));
   }
 
+  private hasCache(key) {
+    return this.transferState.hasKey(key);
+  }
+
   private setCache(key, data) {
     return this.transferState.set(key, data);
   }
 
   private getFromCache(key): any {
-    return this.transferState.get(key, null);
+    const data = this.transferState.get(key, null);
+    console.log('data from cache', data);
+    return from(Promise.resolve(data));
   }
 }
