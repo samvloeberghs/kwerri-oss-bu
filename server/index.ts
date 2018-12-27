@@ -23,6 +23,12 @@ const minifyOptions = require('./options').htmlMinifyOptions;
 (global as any).WebSocket = require('ws');
 (global as any).XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
+// TODO: do this with proper DI
+(global as any).hljs = {
+  configure: () => {},
+  highlightBlock: () => {},
+};
+
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 

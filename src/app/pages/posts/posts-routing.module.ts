@@ -8,7 +8,7 @@ import { PostComponent } from './post/post.component';
   imports: [
     RouterModule.forChild([
       {
-        path: '',
+        path: 'posts',
         component: PostsComponent,
         data: {
           metadata: {
@@ -19,7 +19,7 @@ import { PostComponent } from './post/post.component';
         },
       },
       {
-        path: ':slug',
+        path: 'posts/:slug',
         component: PostComponent,
         data: {
           metadata: {
