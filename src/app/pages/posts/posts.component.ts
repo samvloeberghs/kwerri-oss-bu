@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 import { Post } from './post/post.model';
-import { PostsService } from './posts.service';
+import { DataService } from '../../shared/data.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'sv-posts',
@@ -14,11 +15,14 @@ export class PostsComponent {
   error: any;
 
   constructor(
-    private postsService: PostsService,
+    private dataService: DataService,
   ) {
 
-    this.postsService
-      .getPosts()
+    this.dataService
+      .getData('posts/data.json')
+      .pipe(
+        map(response => response as Post[]),
+      )
       .subscribe(
         posts => this.posts = posts,
         error => this.error = error,

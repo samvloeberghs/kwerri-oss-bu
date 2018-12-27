@@ -49,8 +49,6 @@ export class Routehelper {
       const meta: any = route.snapshot.data['metadata'];
       if (meta) {
         this.seoService.setMeta(meta.title, meta.description, meta.shareImg, this.router.routerState.snapshot.url);
-      } else {
-        this.seoService.setMeta();
       }
     });
   }

@@ -13,7 +13,7 @@ export const environment = {
     type: 'website',
     author: 'Sam Vloeberghs',
     section: 'Webdevelopment',
-    twittersitecreator: '@samvloeberghs'
+    twittersitecreator: '@samvloeberghs',
   },
 };
 

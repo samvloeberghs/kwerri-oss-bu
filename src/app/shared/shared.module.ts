@@ -6,7 +6,7 @@ import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
 import { SeoService } from './seo.service';
 import { Routehelper } from './routehelper.service';
-import { TransferHttp } from './transfer-http';
+import { DataService } from './data.service';
 
 const MODULES = [
   CommonModule,
@@ -27,7 +27,7 @@ const PROVIDERS = [
   HighlightJsService,
   Routehelper,
   SeoService,
-  TransferHttp,
+  DataService,
 ];
 
 @NgModule({
