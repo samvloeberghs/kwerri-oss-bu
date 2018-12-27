@@ -9,5 +9,7 @@ export interface Post {
   imgShare?: string;
   slug?: string;
   short?: string;
+  author?: string;
+  section?: string;
   content?: string | SafeHtml;
 }

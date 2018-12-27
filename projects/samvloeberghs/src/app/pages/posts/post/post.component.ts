@@ -45,7 +45,7 @@ export class PostComponent implements OnInit {
               post.imgShare,
               this.router.routerState.snapshot.url,
               'article',
-              '',
+              post.author,
               '',
               post.publishDatetime,
               post.updateDatetime,

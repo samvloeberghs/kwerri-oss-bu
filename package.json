@@ -9,18 +9,18 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "serve:ssr": "node dist/server",
+    "serve:ssr": "node dist/server/index.js",
     "serve:ssr:prod": "bnr serve:ssr:prod",
     "build:ssr": "npm run build:bundles:prod && npm run build:server",
     "build:ssr:local": "npm run build:bundles:local && npm run build:server",
     "build:ssr:prod": "npm run build:bundles:prod && npm run build:server",
     "build:bundles:local": "ng build samvloeberghs --configuration=local && ng run samvloeberghs:server --configuration=local",
     "build:bundles:prod": "ng build samvloeberghs --prod && ng run samvloeberghs:server --configuration=production",
-    "build:server": "webpack --config webpack.server.config.js --progress --colors"
+    "build:server": "webpack --config projects/server/webpack.server.config.js --progress --colors"
   },
   "betterScripts": {
     "serve:ssr:prod": {
-      "command": "node dist/server.js",
+      "command": "node dist/server/index.js",
       "env": {
         "HTTPS": "1",
         "PORT": "443",
@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.11.0",
+    "@angular-devkit/build-ng-packagr": "~0.11.0",
     "@angular/cli": "~7.1.4",
     "@angular/compiler-cli": "~7.1.4",
     "@angular/language-service": "~7.1.4",
@@ -75,7 +76,10 @@
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
+    "ng-packagr": "^4.2.0",
     "ts-node": "~7.0.0",
+    "tsickle": ">=0.29.0",
+    "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6",
     "webpack-cli": "^3.1.2",

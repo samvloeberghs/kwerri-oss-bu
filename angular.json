@@ -4,8 +4,8 @@
   "newProjectRoot": "projects",
   "projects": {
     "samvloeberghs": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/samvloeberghs/",
+      "sourceRoot": "projects/samvloeberghs/src",
       "projectType": "application",
       "prefix": "sv",
       "schematics": {
@@ -17,18 +17,18 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/browser",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "outputPath": "dist/samvloeberghs/browser",
+            "index": "projects/samvloeberghs/src/index.html",
+            "main": "projects/samvloeberghs/src/main.ts",
+            "polyfills": "projects/samvloeberghs/src/polyfills.ts",
+            "tsConfig": "projects/samvloeberghs/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.json"
+              "projects/samvloeberghs/src/favicon.ico",
+              "projects/samvloeberghs/src/assets",
+              "projects/samvloeberghs/src/manifest.json"
             ],
             "styles": [
-              "src/styles.scss"
+              "projects/samvloeberghs/src/styles.scss"
             ],
             "scripts": []
           },
@@ -36,8 +36,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/samvloeberghs/src/environments/environment.ts",
+                  "with": "projects/samvloeberghs/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -61,8 +61,8 @@
             "local": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
+                  "replace": "projects/samvloeberghs/src/environments/environment.ts",
+                  "with": "projects/samvloeberghs/src/environments/environment.local.ts"
                 }
               ],
               "optimization": true,
@@ -102,30 +102,12 @@
             "browserTarget": "samvloeberghs:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.json"
-            ]
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "projects/samvloeberghs/tsconfig.app.json",
+              "projects/samvloeberghs/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -135,27 +117,54 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/server",
-            "main": "src/main.server.ts",
-            "tsConfig": "src/tsconfig.server.json"
+            "outputPath": "dist/samvloeberghs/server",
+            "main": "projects/samvloeberghs/src/main.server.ts",
+            "tsConfig": "projects/samvloeberghs/tsconfig.server.json"
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/samvloeberghs/src/environments/environment.ts",
+                  "with": "projects/samvloeberghs/src/environments/environment.prod.ts"
                 }
               ]
             },
             "local": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
+                  "replace": "projects/samvloeberghs/src/environments/environment.ts",
+                  "with": "projects/samvloeberghs/src/environments/environment.local.ts"
                 }
               ]
             }
+          }
+        }
+      }
+    },
+    "jsonld": {
+      "root": "projects/jsonld",
+      "sourceRoot": "projects/jsonld/src",
+      "projectType": "library",
+      "prefix": "sv-jsonld",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/jsonld/tsconfig.lib.json",
+            "project": "projects/jsonld/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/jsonld/tsconfig.lib.json",
+              "projects/jsonld/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

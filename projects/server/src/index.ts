@@ -9,7 +9,7 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../dist/server/main');
+const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvloeberghs/server/main');
 const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
 const spdy = require('spdy');
 const compression = require('compression');
@@ -37,7 +37,7 @@ const app = express();
 const PORT = +process.env.PORT || 4000;
 const PROD = !!process.env.PROD || false;
 const HTTPS = !!process.env.HTTPS || false;
-const DIST_FOLDER = join(process.cwd(), 'dist');
+const DIST_FOLDER = join(process.cwd(), 'dist', 'samvloeberghs');
 
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();

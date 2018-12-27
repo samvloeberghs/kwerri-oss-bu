@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "jsonld": [
+        "dist/jsonld"
+      ],
+      "jsonld/*": [
+        "dist/jsonld/*"
+      ]
+    }
   }
 }
