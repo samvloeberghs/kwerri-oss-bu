@@ -7,7 +7,7 @@
 
   <p class="posted">
     Posted on
-    <time [attr.datetime]="post.datetime">{{ post.datetime | date:'fullDate'}}</time>
+    <time [attr.datetime]="post.publishDatetime">{{ post.datetime | date:'fullDate'}}</time>
   </p>
 
   <img [src]="post.imgFull" [alt]="post.title" class="introimage"/>

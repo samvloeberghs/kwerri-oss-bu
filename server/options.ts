@@ -13,6 +13,7 @@ const tooMuchHtmlMinifyOptions = {
 
 const goodHtmlMinifyOptions = Object.assign({}, tooMuchHtmlMinifyOptions, {
   removeAttributeQuotes: false,
+  removeOptionalTags: false,
 });
 
 export const htmlMinifyOptions = goodHtmlMinifyOptions;
