@@ -6,10 +6,6 @@ aside {
 
   display: block;
   z-index: 1;
-  overflow: scroll;
-  height: 100vh;
-  overflow-style: unset;
-  -ms-overflow-style: none;
 
   #picture {
     display: block;
@@ -304,6 +300,9 @@ aside {
     width: 280px;
     margin-left: 60px;
     padding-top: 50px;
+    overflow: scroll;
+    height: 100vh;
+    -ms-overflow-style: none;
 
     h1 {
       font-size: 1.5em;
