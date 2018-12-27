@@ -6,6 +6,8 @@ aside {
 
   display: block;
   z-index: 1;
+  overflow: scroll;
+  height: 100vh;
 
   #picture {
     display: block;
