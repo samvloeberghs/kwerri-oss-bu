@@ -8,6 +8,8 @@ aside {
   z-index: 1;
   overflow: scroll;
   height: 100vh;
+  overflow-style: unset;
+  -ms-overflow-style: none;
 
   #picture {
     display: block;
