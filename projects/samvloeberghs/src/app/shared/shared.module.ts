@@ -4,10 +4,6 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
-import { SeoService } from './seo.service';
-import { Routehelper } from './routehelper.service';
-import { DataService } from './data.service';
-
 const MODULES = [
   CommonModule,
   RouterModule,
@@ -25,9 +21,6 @@ const COMPONENTS = [
 
 const PROVIDERS = [
   HighlightJsService,
-  Routehelper,
-  SeoService,
-  DataService,
 ];
 
 @NgModule({

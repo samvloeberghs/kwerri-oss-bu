@@ -11,7 +11,6 @@
     "e2e": "ng e2e",
     "serve:ssr": "node dist/server/index.js",
     "serve:ssr:prod": "bnr serve:ssr:prod",
-    "build:ssr": "npm run build:bundles:prod && npm run build:server",
     "build:ssr:local": "npm run build:bundles:local && npm run build:server",
     "build:ssr:prod": "npm run build:bundles:prod && npm run build:server",
     "build:bundles:local": "ng build samvloeberghs --configuration=local && ng run samvloeberghs:server --configuration=local",
