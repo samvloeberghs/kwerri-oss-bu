@@ -8,22 +8,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { environment } from '../environments/environment';
-import { PostsModule } from './pages/posts/posts.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     BrowserModule.withServerTransition({appId: 'samvloeberghs'}),
     BrowserTransferStateModule,
     CommonModule,
     AppRoutingModule,
     Angulartics2Module.forRoot(),
     SharedModule.forRoot(),
-
-    PostsModule
   ],
   exports: [
     AppComponent,

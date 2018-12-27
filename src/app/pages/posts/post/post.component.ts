@@ -39,7 +39,17 @@ export class PostComponent implements OnInit {
         }),
         switchMap((post: Post) => {
             this.post = post;
-            this.seoService.setMeta(post.title + ' - Posts', post.short, post.imgShare, this.router.routerState.snapshot.url);
+            this.seoService.setMeta(
+              post.title + ' - Posts',
+              post.short,
+              post.imgShare,
+              this.router.routerState.snapshot.url,
+              'article',
+              '',
+              '',
+              post.publishDatetime,
+              post.updateDatetime,
+            );
             return this.dataService.getDataText(`posts/${slug}/post.html`);
           },
         ),

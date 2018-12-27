@@ -8,9 +8,9 @@ import { AppModule } from './app.module';
 @NgModule({
   imports: [
     AppModule,
-    ModuleMapLoaderModule,
     ServerModule,
-    ServerTransferStateModule,
+    ModuleMapLoaderModule, // <-- *Important* to have lazy-loaded routes work,
+    ServerTransferStateModule
   ],
   bootstrap: [AppComponent],
 })

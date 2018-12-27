@@ -21,11 +21,11 @@ const routes: Routes = [
   {
     path: 'projects',
     loadChildren: './pages/projects/projects.module#ProjectsModule',
-  }/*,
+  },
   {
     path: 'posts',
     loadChildren: './pages/posts/posts.module#PostsModule',
-  },*/
+  },
 ];
 
 @NgModule({

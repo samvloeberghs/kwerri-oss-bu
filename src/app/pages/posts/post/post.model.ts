@@ -2,7 +2,8 @@ import { SafeHtml } from '@angular/platform-browser';
 
 export interface Post {
   title: string;
-  datetime: string;
+  publishDatetime: string;
+  updateDatetime: string;
   img?: string;
   imgFull?: string;
   imgShare?: string;

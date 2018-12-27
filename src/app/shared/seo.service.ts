@@ -6,7 +6,6 @@ const sanitizeHtml = require('sanitize-html');
 
 import { environment } from '../../environments/environment';
 
-// inject in root
 @Injectable({
   providedIn: 'root',
 })
@@ -28,8 +27,8 @@ export class SeoService {
     type: string = '',
     author: string = '',
     section: string = '',
-    published?: number,
-    modified?: number,
+    published?: string,
+    modified?: string,
   ) {
     this.setTitle(title);
 
@@ -104,18 +103,18 @@ export class SeoService {
     this.metaService.updateTag({property: 'og:url', content: url});
   }
 
-  private setPublished(newDateNumber: number) {
-    if (newDateNumber) {
-      const newDate = new Date(newDateNumber);
-      this.metaService.updateTag({name: 'article:published_time', content: newDate.toISOString()});
+  private setPublished(publishedDateString: string) {
+    if (publishedDateString) {
+      const publishedDate = new Date(publishedDateString);
+      this.metaService.updateTag({name: 'article:published_time', content: publishedDate.toISOString()});
     }
   }
 
-  private setModified(newDateNumber: number) {
-    if (newDateNumber) {
-      const newDate = new Date(newDateNumber);
-      this.metaService.updateTag({name: 'article:modified_time', content: newDate.toISOString()});
-      this.metaService.updateTag({name: 'og:updated_time', content: newDate.toISOString()});
+  private setModified(modifiedDateString: string) {
+    if (modifiedDateString) {
+      const modifiedDate = new Date(modifiedDateString);
+      this.metaService.updateTag({name: 'article:modified_time', content: modifiedDate.toISOString()});
+      this.metaService.updateTag({name: 'og:updated_time', content: modifiedDate.toISOString()});
     }
   }
 
