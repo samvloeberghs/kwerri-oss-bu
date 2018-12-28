@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { Base, Article } from './interfaces';
-
 @Injectable({
   providedIn: 'root',
 })
