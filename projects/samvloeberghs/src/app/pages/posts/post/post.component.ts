@@ -61,10 +61,10 @@ export class PostComponent implements OnInit {
             };
             this.jsonLdService.setData('BlogPosting', jsonLd);
             const seoData: SeoData = {
-              title: environment.seo.title,
-              description: environment.seo.description,
-              image: environment.seo.shareImg,
-              url: environment.url,
+              title: `${post.title} - Posts - ${environment.seo.title}`,
+              description: post.short,
+              image: `${environment.url}/${post.imgShare}`,
+              url: environment.url + this.router.routerState.snapshot.url,
               type: 'article',
               author: post.author,
               published: post.publishDatetime,
