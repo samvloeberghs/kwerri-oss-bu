@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
+import { JsonLdService } from 'jsonld';
 
 import { Post } from './post.model';
 import { SeoService } from '../../../shared/seo.service';
 import { DataService } from '../../../shared/data.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'sv-post',
@@ -23,6 +25,7 @@ export class PostComponent implements OnInit {
     private dataService: DataService,
     private seoService: SeoService,
     private sanitizer: DomSanitizer,
+    private jsonLdService: JsonLdService,
   ) {
 
   }
@@ -39,8 +42,15 @@ export class PostComponent implements OnInit {
         }),
         switchMap((post: Post) => {
             this.post = post;
+            this.jsonLdService.setData(
+              `${post.title} - Posts - ${environment.seo.title}`,
+              this.router.routerState.snapshot.url,
+              'Article',
+              post.publishDatetime,
+              post.updateDatetime,
+            );
             this.seoService.setMeta(
-              post.title + ' - Posts',
+              `${post.title} - Posts - ${environment.seo.title}`,
               post.short,
               post.imgShare,
               this.router.routerState.snapshot.url,

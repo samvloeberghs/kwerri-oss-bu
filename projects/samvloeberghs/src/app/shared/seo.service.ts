@@ -47,17 +47,13 @@ export class SeoService {
   }
 
   private setTitle(title: string) {
-    let fullTitle = environment.seo.title;
-    if (title && title.length) {
-      fullTitle = `${title} - ` + environment.seo.title;
-    }
-    this.titleService.setTitle(fullTitle);
+    this.titleService.setTitle(title);
     if (isPlatformServer(this.platformId)) {
-      this.metaService.updateTag({name: 'twitter:title', content: fullTitle});
-      this.metaService.updateTag({name: 'twitter:image:alt', content: fullTitle});
-      this.metaService.updateTag({property: 'og:image:alt', content: fullTitle});
-      this.metaService.updateTag({property: 'og:title', content: fullTitle});
-      this.metaService.updateTag({name: 'title', content: fullTitle});
+      this.metaService.updateTag({name: 'twitter:title', content: title});
+      this.metaService.updateTag({name: 'twitter:image:alt', content: title});
+      this.metaService.updateTag({property: 'og:image:alt', content: title});
+      this.metaService.updateTag({property: 'og:title', content: title});
+      this.metaService.updateTag({name: 'title', content: title});
     }
   }
 

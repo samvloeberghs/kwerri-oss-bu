@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
-import { AboutComponent } from '../about/about.component';
+import { environment } from '../../../environments/environment';
 
 @NgModule({
   imports: [
@@ -11,8 +11,8 @@ import { AboutComponent } from '../about/about.component';
         path: '',
         component: HomeComponent,
         data: {
-          metadata: {
-            title: '',
+          seo: {
+            title: environment.seo.title,
             description: `Hi there! 👋 Thank you for visiting my website! I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on frontend technologies.`,
             shareImg: 'assets/share/home.png',
           },

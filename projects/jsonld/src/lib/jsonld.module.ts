@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
+import { JsonLdService } from './jsonld.service';
 
 @NgModule({
-  imports: [
+  providers: [
+    JsonLdService,
   ],
-  exports: []
 })
-export class JsonldModule { }
+export class BrowserJsonLdModule {
+}

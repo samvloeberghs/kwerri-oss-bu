@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ViewportScroller } from '@angular/common';
 import { filter, map, tap } from 'rxjs/operators';
-import { ActivatedRoute, NavigationEnd, Router, RouterState } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { JsonLdService } from 'jsonld';
 
 import { SeoService } from './seo.service';
+import { environment } from '../../environments/environment';
 
 // inject in root
 @Injectable({
@@ -20,6 +22,7 @@ export class Routehelper {
     private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     private viewportScroller: ViewportScroller,
     private seoService: SeoService,
+    private jsonLdService: JsonLdService,
   ) {
     this.angulartics2GoogleAnalytics.startTracking();
     this.setupRouting();
@@ -46,9 +49,13 @@ export class Routehelper {
       }),
       filter(route => route.outlet === 'primary'),
     ).subscribe((route: ActivatedRoute) => {
-      const meta: any = route.snapshot.data['metadata'];
-      if (meta) {
-        this.seoService.setMeta(meta.title, meta.description, meta.shareImg, this.router.routerState.snapshot.url);
+      const seo: any = route.snapshot.data['seo'];
+      if (seo) {
+        this.jsonLdService.setData(seo.title, environment.url + this.router.routerState.snapshot.url);
+        this.seoService.setMeta(seo.title, seo.description, seo.shareImg, this.router.routerState.snapshot.url);
+      } else {
+        this.jsonLdService.setData(seo.title, environment.url);
+        this.seoService.setMeta(environment.seo.title, environment.url);
       }
     });
   }
