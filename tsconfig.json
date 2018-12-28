@@ -24,6 +24,12 @@
       ],
       "jsonld/*": [
         "dist/jsonld/*"
+      ],
+      "seo": [
+        "dist/seo"
+      ],
+      "seo/*": [
+        "dist/seo/*"
       ]
     }
   }

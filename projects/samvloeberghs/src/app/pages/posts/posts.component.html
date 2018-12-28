@@ -6,20 +6,20 @@
 
 <article *ngFor="let post of posts; let i = index">
 
-    <a [routerLink]="['/posts', post.slug]" class="img">
-        <img [src]="post.img" [alt]="post.title"/>
-    </a>
+  <a [routerLink]="['/posts', post.slug]" class="img">
+    <img [src]="post.img" [alt]="post.title"/>
+  </a>
 
-    <a [routerLink]="['/posts', post.slug]" class="excerpt">
+  <a [routerLink]="['/posts', post.slug]" class="excerpt">
 
-        <h2>{{post.title}}</h2>
+    <h2>{{post.title}}</h2>
 
-        <p class="posted">
-            Posted on
-            <time [attr.datetime]="post.datetime">{{ post.datetime | date:'fullDate'}}</time>
-        </p>
+    <p class="posted">
+      Posted on
+      <time [attr.datetime]="post.publishDatetime">{{ post.publishDatetime | date:'fullDate'}}</time>
+    </p>
 
-        <p [innerHtml]="post.short"></p>
-    </a>
+    <p [innerHtml]="post.short"></p>
+  </a>
 
 </article>

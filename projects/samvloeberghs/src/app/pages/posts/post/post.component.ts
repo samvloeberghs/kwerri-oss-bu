@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
 import { JsonLdService } from 'jsonld';
+import { SeoData, SeoService } from 'seo';
 
 import { Post } from './post.model';
-import { SeoService } from '../../../shared/seo.service';
 import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
 
@@ -52,35 +52,25 @@ export class PostComponent implements OnInit {
               publisher: this.jsonLdService.getObject('Person', {
                 name: 'Sam Vloeberghs',
               }),
-              /*
               headline: post.title,
-              author: {
-                name: 'Sam Vloeberghs',
-              },
-              publisher: {
-                name: 'Sam Vloeberghs',
-                itemtype: 'Person',
-              },
-              */
+              description: post.short,
               image: `${environment.url}/${post.imgShare}`,
-              proficiencyLevel: post.proficiencyLevel,
               dateCreated: post.publishDatetime,
               datePublished: post.publishDatetime,
               dateModified: post.updateDatetime,
             };
-            this.jsonLdService.setData('TechArticle', jsonLd);
-
-            this.seoService.setMeta(
-              `${post.title} - Posts - ${environment.seo.title}`,
-              post.short,
-              post.imgShare,
-              this.router.routerState.snapshot.url,
-              'article',
-              post.author,
-              '',
-              post.publishDatetime,
-              post.updateDatetime,
-            );
+            this.jsonLdService.setData('BlogPosting', jsonLd);
+            const seoData: SeoData = {
+              title: environment.seo.title,
+              description: environment.seo.description,
+              image: environment.seo.shareImg,
+              url: environment.url,
+              type: 'article',
+              author: post.author,
+              published: post.publishDatetime,
+              modified: post.updateDatetime,
+            };
+            this.seoService.setData(seoData);
             return this.dataService.getDataText(`posts/${slug}/post.html`);
           },
         ),

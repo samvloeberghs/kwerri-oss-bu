@@ -4,8 +4,8 @@ import { ViewportScroller } from '@angular/common';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { JsonLdService } from 'jsonld';
+import { SeoData, SeoService } from 'seo';
 
-import { SeoService } from './seo.service';
 import { environment } from '../../environments/environment';
 
 // inject in root
@@ -57,7 +57,14 @@ export class Routehelper {
           url: environment.url + this.router.routerState.snapshot.url,
         };
         this.jsonLdService.setData('Website', jsonLd);
-        this.seoService.setMeta(seo.title, seo.description, seo.shareImg, this.router.routerState.snapshot.url);
+        const seoData: SeoData = {
+          title: `${seo.title} - ${environment.seo.title}`,
+          description: seo.description,
+          image: seo.shareImg,
+          url: environment.url + this.router.routerState.snapshot.url,
+          type: 'website',
+        };
+        this.seoService.setData(seoData);
       } else {
         // TODO: set type
         const jsonLd = {
@@ -65,7 +72,14 @@ export class Routehelper {
           url: environment.url,
         };
         this.jsonLdService.setData('Website', jsonLd);
-        this.seoService.setMeta(environment.seo.title, environment.url);
+        const seoData: SeoData = {
+          title: environment.seo.title,
+          description: environment.seo.description,
+          image: environment.seo.shareImg,
+          url: environment.url,
+          type: 'website',
+        };
+        this.seoService.setData(seoData);
       }
     });
   }

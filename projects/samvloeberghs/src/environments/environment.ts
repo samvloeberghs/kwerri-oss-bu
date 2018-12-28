@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  facebookAppId: '663623713804818',
   url: 'http://localhost:4200',
+  facebookAppId: '663623713804818',
+  twitterSiteCreator: '@samvloeberghs',
   seo: {
     title: 'Sam Vloeberghs - Freelance Webdeveloper & Software Engineer',
     description: 'I\'m a Belgium based freelance software engineer and Internet entrepreneur, building webapplications and trying to make the world wide web a better place for you to spend your days.',
@@ -13,7 +14,6 @@ export const environment = {
     type: 'website',
     author: 'Sam Vloeberghs',
     section: 'Webdevelopment',
-    twittersitecreator: '@samvloeberghs',
   },
 };
 

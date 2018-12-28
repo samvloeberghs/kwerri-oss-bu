@@ -2,9 +2,9 @@
   "name": "jsonld",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/platform-browser": "^7.1.0",
-    "@angular/platform-server": "^7.1.0",
     "@angular/common": "^7.1.0",
-    "@angular/core": "^7.1.0"
+    "@angular/core": "^7.1.0",
+    "@angular/platform-browser": "^7.1.0",
+    "@angular/platform-server": "^7.1.0"
   }
 }

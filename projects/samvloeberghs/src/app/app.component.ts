@@ -1,6 +1,8 @@
 import { Component, HostListener } from '@angular/core';
+import { SeoService } from 'seo';
 
 import { Routehelper } from './shared/routehelper.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'sv-app',
@@ -13,7 +15,11 @@ export class AppComponent {
 
   constructor(
     private routehelper: Routehelper,
+    private seoService: SeoService,
   ) {
+    this.seoService.setFbAppId(environment.facebookAppId);
+    this.seoService.setTwitterSiteCreator(environment.twitterSiteCreator);
+    this.seoService.setTwitterCard('summary_large_image');
   }
 
   toggleMobileNav(event?: any, block = false) {

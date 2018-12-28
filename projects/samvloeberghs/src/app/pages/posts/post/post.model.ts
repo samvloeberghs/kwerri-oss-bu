@@ -11,6 +11,5 @@ export interface Post {
   short?: string;
   author?: string;
   section?: string;
-  proficiencyLevel?: string;
   content?: string | SafeHtml;
 }
