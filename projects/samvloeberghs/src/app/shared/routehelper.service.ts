@@ -51,10 +51,20 @@ export class Routehelper {
     ).subscribe((route: ActivatedRoute) => {
       const seo: any = route.snapshot.data['seo'];
       if (seo) {
-        this.jsonLdService.setData(seo.title, environment.url + this.router.routerState.snapshot.url);
+        // TODO: set type
+        const jsonLd = {
+          name: `${seo.title} - ${environment.seo.title}`,
+          url: environment.url + this.router.routerState.snapshot.url,
+        };
+        this.jsonLdService.setData('Website', jsonLd);
         this.seoService.setMeta(seo.title, seo.description, seo.shareImg, this.router.routerState.snapshot.url);
       } else {
-        this.jsonLdService.setData(seo.title, environment.url);
+        // TODO: set type
+        const jsonLd = {
+          name: environment.seo.title,
+          url: environment.url,
+        };
+        this.jsonLdService.setData('Website', jsonLd);
         this.seoService.setMeta(environment.seo.title, environment.url);
       }
     });
