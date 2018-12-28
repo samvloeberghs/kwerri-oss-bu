@@ -46,13 +46,13 @@ export class PostComponent implements OnInit {
             const jsonLd = {
               name: `${post.title} - Posts - ${environment.seo.title}`,
               url: environment.url + this.router.routerState.snapshot.url,
-              /*
-              author: this.jsonLdService.getObject('Author', {
+              author: this.jsonLdService.getObject('Person', {
                 name: 'Sam Vloeberghs',
               }),
-              publisher: this.jsonLdService.getObject('Publisher', {
+              publisher: this.jsonLdService.getObject('Person', {
                 name: 'Sam Vloeberghs',
-              }),*/
+              }),
+              /*
               headline: post.title,
               author: {
                 name: 'Sam Vloeberghs',
@@ -61,6 +61,7 @@ export class PostComponent implements OnInit {
                 name: 'Sam Vloeberghs',
                 itemtype: 'Person',
               },
+              */
               image: `${environment.url}/${post.imgShare}`,
               proficiencyLevel: post.proficiencyLevel,
               dateCreated: post.publishDatetime,
