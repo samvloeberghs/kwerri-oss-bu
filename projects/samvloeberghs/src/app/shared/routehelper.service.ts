@@ -58,7 +58,7 @@ export class Routehelper {
         };
         this.jsonLdService.setData('Website', jsonLd);
         const seoData: SeoData = {
-          title: `${seo.title} - ${environment.seo.title}`,
+          title: seo.title,
           description: seo.description,
           image: seo.shareImg,
           url: environment.url + this.router.routerState.snapshot.url,

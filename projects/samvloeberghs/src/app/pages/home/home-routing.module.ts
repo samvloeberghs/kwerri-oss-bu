@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
         component: HomeComponent,
         data: {
           seo: {
-            title: '',
+            title: environment.seo.title,
             description: `Hi there! 👋 Thank you for visiting my website! I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on frontend technologies.`,
             shareImg: 'assets/share/home.png',
           },
