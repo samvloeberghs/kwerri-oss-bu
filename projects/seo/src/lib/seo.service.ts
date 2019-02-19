@@ -72,7 +72,7 @@ export class SeoService {
 
   private setTitle(title: string = '') {
     this.titleService.setTitle(title);
-    if (!(title && title.length)) {
+    if (title && title.length) {
       this.metaService.updateTag({name: 'twitter:title', content: title});
       this.metaService.updateTag({name: 'twitter:image:alt', content: title});
       this.metaService.updateTag({property: 'og:image:alt', content: title});
