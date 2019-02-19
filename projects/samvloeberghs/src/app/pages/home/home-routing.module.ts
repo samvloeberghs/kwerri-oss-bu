@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
           seo: {
             title: environment.seo.title,
             description: `Hi there! 👋 Thank you for visiting my website! I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on frontend technologies.`,
-            shareImg: 'assets/share/home.png',
+            shareImg: '/assets/share/home.png',
           },
         },
       },

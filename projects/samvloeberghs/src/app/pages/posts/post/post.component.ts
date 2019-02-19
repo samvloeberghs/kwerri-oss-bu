@@ -63,7 +63,7 @@ export class PostComponent implements OnInit {
             const seoData: SeoData = {
               title: `${post.title} - Posts - ${environment.seo.title}`,
               description: post.short,
-              image: `${environment.url}/${post.imgShare}`,
+              image: `${environment.url}${post.imgShare}`,
               url: environment.url + this.router.routerState.snapshot.url,
               type: 'article',
               author: post.author,
