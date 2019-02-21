@@ -2,20 +2,20 @@
   "name": "samvloeberghs",
   "version": "3.0.0",
   "scripts": {
-    "ng": "ng",
-    "bnr": "bnr",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
+    "ng": "npx ng",
+    "bnr": "npx bnr",
+    "start": "npx ng serve",
+    "build": "npx ng build",
+    "test": "npx ng test",
+    "lint": "npx ng lint",
+    "e2e": "npx ng e2e",
     "serve:ssr": "node dist/server/index.js",
-    "serve:ssr:prod": "bnr serve:ssr:prod",
-    "build:ssr:local": "ng build jsonld && ng build seo && npm run build:bundles:local && npm run build:server",
-    "build:ssr:prod": "ng build jsonld && ng build seo && npm run build:bundles:prod && npm run build:server",
-    "build:bundles:local": "ng build samvloeberghs --configuration=local && ng run samvloeberghs:server --configuration=local",
-    "build:bundles:prod": "ng build samvloeberghs --prod && ng run samvloeberghs:server --configuration=production",
-    "build:server": "webpack --config projects/server/webpack.server.config.js --progress --colors"
+    "serve:ssr:prod": "npx bnr serve:ssr:prod",
+    "build:ssr:local": "npx ng build jsonld && npx ng build seo && npm run build:bundles:local && npm run build:server",
+    "build:ssr:prod": "npx ng build jsonld && npx ng build seo && npm run build:bundles:prod && npm run build:server",
+    "build:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
+    "build:bundles:prod": "npx ng build samvloeberghs --prod && npx ng run samvloeberghs:server --configuration=production",
+    "build:server": "npx webpack --config projects/server/webpack.server.config.js --progress --colors"
   },
   "betterScripts": {
     "serve:ssr:prod": {
