@@ -9,15 +9,7 @@
           "/favicon.ico",
           "/index.html",
           "/*.css",
-          "/*.js"
-        ]
-      }
-    }, {
-      "name": "assets",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
-      "resources": {
-        "files": [
+          "/*.js",
           "/assets/**"
         ]
       }
