@@ -25,8 +25,10 @@ const minifyOptions = require('./options').htmlMinifyOptions;
 
 // TODO: do this with proper DI
 (global as any).hljs = {
-  configure: () => {},
-  highlightBlock: () => {},
+  configure: () => {
+  },
+  highlightBlock: () => {
+  },
 };
 
 // Faster server renders w/ Prod mode (dev mode never needed)
@@ -198,7 +200,7 @@ if (HTTPS) {
     }, app,
   );
 
-  server.listen(app.get('port'), (err) => {
+  server.listen(app.get('port'), '0.0.0.0', (err) => {
     if (err) {
       throw new Error(err);
     }
@@ -215,7 +217,7 @@ if (HTTPS) {
   http.createServer(function (req, res) {
     res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
     res.end();
-  }).listen(HTTP_PORT, () => {
+  }).listen(HTTP_PORT, '0.0.0.0', () => {
     console.log(`Node server listening on ${HTTP_PORT}`);
   });
 

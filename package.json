@@ -10,7 +10,7 @@
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
     "serve:ssr": "node dist/server/index.js",
-    "serve:ssr:prod": "npx bnr serve:ssr:prod",
+    "serve:ssr:prod": "bnr serve:ssr:prod",
     "build:ssr:local": "npx ng build jsonld && npx ng build seo && npm run build:bundles:local && npm run build:server",
     "build:ssr:prod": "npx ng build jsonld && npx ng build seo && npm run build:bundles:prod && npm run build:server",
     "build:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
