@@ -61,6 +61,7 @@ export class Routehelper {
           title: seo.title,
           description: seo.description,
           image: seo.shareImg,
+          author: environment.seo.author,
           url: environment.url + this.router.routerState.snapshot.url,
           type: 'website',
         };

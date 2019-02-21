@@ -131,8 +131,10 @@ export class SeoService {
     if (publishedDateString) {
       const publishedDate = new Date(publishedDateString);
       this.metaService.updateTag({name: 'article:published_time', content: publishedDate.toISOString()});
+      this.metaService.updateTag({name: 'published_date', content: publishedDate.toISOString()});
     } else {
       this.metaService.removeTag(`name='article:published_time'`);
+      this.metaService.removeTag(`name='published_date'`);
     }
   }
 
@@ -150,8 +152,10 @@ export class SeoService {
   private setAuthor(author?: string) {
     if (author && author.length) {
       this.metaService.updateTag({name: 'article:author', content: author});
+      this.metaService.updateTag({name: 'author', content: author});
     } else {
       this.metaService.removeTag(`name='article:author'`);
+      this.metaService.removeTag(`name='author'`);
     }
   }
 
