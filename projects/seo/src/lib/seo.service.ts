@@ -134,7 +134,7 @@ export class SeoService {
       this.metaService.updateTag({name: 'published_date', content: publishedDate.toISOString()});
     } else {
       this.metaService.removeTag(`name='article:published_time'`);
-      this.metaService.removeTag(`name='published_date'`);
+      this.metaService.removeTag(`name='publication_date'`);
     }
   }
 
