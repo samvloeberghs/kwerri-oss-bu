@@ -22,8 +22,8 @@
       "command": "node dist/server/index.js",
       "env": {
         "HTTPS": "1",
-        "PORT": "443",
-        "HTTP_PORT": "80",
+        "PORT": "20443",
+        "HTTP_PORT": "20080",
         "PROD": "1"
       }
     }
