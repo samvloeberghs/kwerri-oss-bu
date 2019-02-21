@@ -164,74 +164,78 @@ function ngApp(req, res) {
  ---------
  */
 
-if (HTTPS) {
+try {
+  if (HTTPS) {
 
-  /*
-   HTTPS SERVER
-   -------------
-   Our main server serving over HTTPS
-   */
+    /*
+     HTTPS SERVER
+     -------------
+     Our main server serving over HTTPS
+     */
 
-  const ciphers = [
-    'ECDHE-RSA-AES256-SHA384',
-    'DHE-RSA-AES256-SHA384',
-    'ECDHE-RSA-AES256-SHA256',
-    'DHE-RSA-AES256-SHA256',
-    'ECDHE-RSA-AES128-SHA256',
-    'DHE-RSA-AES128-SHA256',
-    'HIGH',
-    '!aNULL',
-    '!eNULL',
-    '!EXPORT',
-    '!DES',
-    '!RC4',
-    '!MD5',
-    '!PSK',
-    '!SRP',
-    '!CAMELLIA',
-  ];
+    const ciphers = [
+      'ECDHE-RSA-AES256-SHA384',
+      'DHE-RSA-AES256-SHA384',
+      'ECDHE-RSA-AES256-SHA256',
+      'DHE-RSA-AES256-SHA256',
+      'ECDHE-RSA-AES128-SHA256',
+      'DHE-RSA-AES128-SHA256',
+      'HIGH',
+      '!aNULL',
+      '!eNULL',
+      '!EXPORT',
+      '!DES',
+      '!RC4',
+      '!MD5',
+      '!PSK',
+      '!SRP',
+      '!CAMELLIA',
+    ];
 
-  const server = spdy.createServer(
-    {
-      key: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.key'),
-      cert: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.crt'),
-      ca: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.ca-bundle'),
-      ciphers: ciphers.join(':'),
-    }, app,
-  );
+    const server = spdy.createServer(
+      {
+        key: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.key'),
+        cert: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.crt'),
+        ca: readFileSync('../cert/samvloeberghs.be/samvloeberghs_be.ca-bundle'),
+        ciphers: ciphers.join(':'),
+      }, app,
+    );
 
-  server.listen(app.get('port'), (err) => {
-    if (err) {
-      throw new Error(err);
-    }
-    console.log(`Node server listening on ${app.get('port')}`);
-  });
+    server.listen(app.get('port'), (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+      console.log(`Node server listening on ${app.get('port')}`);
+    });
 
-  /*
-   HTTP SERVER:
-   -------------
-   used a 301 redirect to the HTTPS server
-   */
+    /*
+     HTTP SERVER:
+     -------------
+     used a 301 redirect to the HTTPS server
+     */
 
-  const http = require('http');
-  http.createServer(function (req, res) {
-    res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
-    res.end();
-  }).listen(HTTP_PORT, () => {
-    console.log(`Node server listening on ${HTTP_PORT}`);
-  });
+    const http = require('http');
+    http.createServer(function (req, res) {
+      res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
+      res.end();
+    }).listen(HTTP_PORT, () => {
+      console.log(`Node server listening on ${HTTP_PORT}`);
+    });
 
-} else {
+  } else {
 
-  /*
-   HTTP SERVER:
-   -------------
-   local development
-   */
+    /*
+     HTTP SERVER:
+     -------------
+     local development
+     */
 
-  // Start up the Node server
-  app.listen(PORT, () => {
-    console.log(`Node server listening on http://localhost:${PORT}`);
-  });
+    // Start up the Node server
+    app.listen(PORT, () => {
+      console.log(`Node server listening on http://localhost:${PORT}`);
+    });
 
+  }
+} catch (e) {
+  console.log(e);
 }
