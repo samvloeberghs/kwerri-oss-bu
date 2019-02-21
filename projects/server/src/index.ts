@@ -34,7 +34,8 @@ enableProdMode();
 
 // Express server
 const app = express();
-const PORT = +process.env.PORT || 4000;
+const PORT = +process.env.PORT || 8443;
+const HTTP_PORT = +process.env.PORT || 8080;
 const PROD = !!process.env.PROD || false;
 const HTTPS = !!process.env.HTTPS || false;
 const DIST_FOLDER = join(process.cwd(), 'dist', 'samvloeberghs');
@@ -211,12 +212,11 @@ if (HTTPS) {
    */
 
   const http = require('http');
-  const httpPort = PROD ? 80 : 8080;
   http.createServer(function (req, res) {
     res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
     res.end();
-  }).listen(httpPort, () => {
-    console.log(`Node server listening on ${httpPort}`);
+  }).listen(HTTP_PORT, () => {
+    console.log(`Node server listening on ${HTTP_PORT}`);
   });
 
 } else {
