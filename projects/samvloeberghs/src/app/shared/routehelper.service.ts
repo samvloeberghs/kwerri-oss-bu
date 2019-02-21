@@ -17,12 +17,12 @@ export class Routehelper {
   private routes = [, '/', '/posts', '/talks-workshops', '/projects', '/about', '/kwerri'];
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private viewportScroller: ViewportScroller,
-    private seoService: SeoService,
-    private jsonLdService: JsonLdService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    private readonly viewportScroller: ViewportScroller,
+    private readonly seoService: SeoService,
+    private readonly jsonLdService: JsonLdService,
   ) {
     this.angulartics2GoogleAnalytics.startTracking();
     this.setupRouting();
@@ -53,7 +53,7 @@ export class Routehelper {
       if (seo) {
         // TODO: set type
         const jsonLd = {
-          name: `${seo.title} - ${environment.seo.title}`,
+          name: seo.title,
           url: environment.url + this.router.routerState.snapshot.url,
         };
         this.jsonLdService.setData('Website', jsonLd);

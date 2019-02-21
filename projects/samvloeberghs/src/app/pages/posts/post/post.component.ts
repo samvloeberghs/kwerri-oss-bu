@@ -20,12 +20,12 @@ export class PostComponent implements OnInit {
   error: any;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private dataService: DataService,
-    private seoService: SeoService,
-    private sanitizer: DomSanitizer,
-    private jsonLdService: JsonLdService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly dataService: DataService,
+    private readonly seoService: SeoService,
+    private readonly sanitizer: DomSanitizer,
+    private readonly jsonLdService: JsonLdService,
   ) {
 
   }

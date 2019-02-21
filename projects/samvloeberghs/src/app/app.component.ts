@@ -14,8 +14,8 @@ export class AppComponent {
   mobileNavToggled = false;
 
   constructor(
-    private routehelper: Routehelper,
-    private seoService: SeoService,
+    private readonly routehelper: Routehelper,
+    private readonly seoService: SeoService,
   ) {
     this.seoService.setFbAppId(environment.facebookAppId);
     this.seoService.setTwitterSiteCreator(environment.twitterSiteCreator);

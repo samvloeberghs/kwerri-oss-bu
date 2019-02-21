@@ -14,8 +14,8 @@ export class DataService {
   private path = `${environment.url}/assets/`;
 
   constructor(
-    private http: HttpClient,
-    private transferState: TransferState,
+    private readonly http: HttpClient,
+    private readonly transferState: TransferState,
   ) {
   }
 

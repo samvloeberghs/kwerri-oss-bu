@@ -73,8 +73,8 @@ import { ViewportScroller } from '@angular/common';
 export class AppComponent {
 
   constructor(
-    private router: Router,
-    private viewportScroller: ViewportScroller
+    private readonly router: Router,
+    private readonly viewportScroller: ViewportScroller
   ) {
 
     router.events

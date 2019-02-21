@@ -15,7 +15,7 @@ export class PostsComponent implements OnInit {
   error: any;
 
   constructor(
-    private dataService: DataService,
+    private readonly dataService: DataService,
   ) {
   }
 

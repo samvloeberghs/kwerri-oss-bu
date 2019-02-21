@@ -163,7 +163,7 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
 
-  constructor(private router: Router) {
+  constructor(private readonly router: Router) {
 
     router.events
       .filter(event => event instanceof NavigationEnd)

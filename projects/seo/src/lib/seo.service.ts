@@ -19,8 +19,8 @@ export interface SeoData {
 export class SeoService {
 
   constructor(
-    private metaService: Meta,
-    private titleService: Title,
+    private readonly metaService: Meta,
+    private readonly titleService: Title,
   ) {
   }
 
