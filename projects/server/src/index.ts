@@ -201,12 +201,16 @@ try {
       }, app,
     );
 
-    server.listen(app.get('port'), (err) => {
-      if (err) {
-        throw new Error(err);
-      }
-      console.log(`Node server listening on ${app.get('port')}`);
-    });
+    try {
+      server.listen(app.get('port'), (err) => {
+        if (err) {
+          throw new Error(err);
+        }
+        console.log(`Node server listening on ${app.get('port')}`);
+      });
+    } catch (e) {
+      console.log(e);
+    }
 
     /*
      HTTP SERVER:
