@@ -182,20 +182,98 @@
             "project": "projects/seo/ng-package.json"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/seo/src/test.ts",
-            "tsConfig": "projects/seo/tsconfig.spec.json",
-            "karmaConfig": "projects/seo/karma.conf.js"
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
               "projects/seo/tsconfig.lib.json",
               "projects/seo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "social-share-check": {
+      "root": "projects/social-share-check/",
+      "sourceRoot": "projects/social-share-check/src",
+      "projectType": "application",
+      "prefix": "ssc",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/social-share-check",
+            "index": "projects/social-share-check/src/index.html",
+            "main": "projects/social-share-check/src/main.ts",
+            "polyfills": "projects/social-share-check/src/polyfills.ts",
+            "tsConfig": "projects/social-share-check/tsconfig.app.json",
+            "assets": [
+              "projects/social-share-check/src/favicon.ico",
+              "projects/social-share-check/src/assets"
+            ],
+            "styles": [
+              "projects/social-share-check/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/social-share-check/src/environments/environment.ts",
+                  "with": "projects/social-share-check/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "social-share-check:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "social-share-check:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "social-share-check:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/social-share-check/tsconfig.app.json",
+              "projects/social-share-check/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
