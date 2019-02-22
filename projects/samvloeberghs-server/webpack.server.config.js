@@ -13,7 +13,7 @@ module.exports = {
     nodeExternals()
   ],
   output: {
-    path: path.join(__dirname, '..', '..', 'dist', 'server/'),
+    path: path.join(__dirname, '..', '..', 'dist', 'samvloeberghs-server/'),
     filename: '[name].js'
   },
   module: {

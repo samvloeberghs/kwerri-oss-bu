@@ -9,17 +9,17 @@
     "test": "npx ng test",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
-    "serve:ssr": "node dist/server/index.js",
-    "serve:ssr:prod": "bnr serve:ssr:prod",
-    "build:ssr:local": "npx ng build jsonld && npx ng build seo && npm run build:bundles:local && npm run build:server",
-    "build:ssr:prod": "npx ng build jsonld && npx ng build seo && npm run build:bundles:prod && npm run build:server",
-    "build:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
-    "build:bundles:prod": "npx ng build samvloeberghs --prod && npx ng run samvloeberghs:server --configuration=production",
-    "build:server": "npx webpack --config projects/server/webpack.server.config.js --progress --colors"
+    "serve:samvloeberghs:ssr": "node dist/server/index.js",
+    "serve:samvloeberghs:ssr:prod": "bnr serve:samvloeberghs:ssr:prod",
+    "build:samvloeberghs:ssr:local": "npx ng build jsonld && npx ng build seo && npm run build:bundles:local && npm run build:server",
+    "build:samvloeberghs:ssr:prod": "npx ng build jsonld && npx ng build seo && npm run build:bundles:prod && npm run build:server",
+    "build:samvloeberghs:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
+    "build:samvloeberghs:bundles:prod": "npx ng build samvloeberghs --prod && npx ng run samvloeberghs:server --configuration=production",
+    "build:samvloeberghs:server": "npx webpack --config projects/samvloeberghs-server/webpack.server.config.js --progress --colors"
   },
   "betterScripts": {
-    "serve:ssr:prod": {
-      "command": "node dist/server/index.js",
+    "serve:samvloeberghs:ssr:prod": {
+      "command": "node dist/samvloeberghs-server/index.js",
       "env": {
         "HTTPS": "1",
         "PORT": "20443",
