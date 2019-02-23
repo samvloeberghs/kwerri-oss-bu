@@ -106,9 +106,16 @@ a:focus {
     color: #333;
   }
 
+  h4 {
+    font-weight: bold;
+    font-size: 1.6em;
+    line-height: 1.4em;
+    margin-bottom: 15px;
+  }
+
   p {
-    font-size: 1.7em;
-    line-height: 1.6em;
+    font-size: 1.5em;
+    line-height: 1.4em;
     word-spacing: 2px;
     margin-bottom: 15px;
     word-break: break-word;
@@ -195,6 +202,56 @@ a:focus {
 
   }
 
+  .post-body {
+
+    h2 {
+
+      span {
+        font-weight: bold;
+        letter-spacing: 2px;
+        padding: 5px 10px;
+        background: #f6f6f6;
+        border-radius: 5px;
+      }
+
+    }
+
+    h3 {
+
+      span {
+        font-weight: bold;
+        letter-spacing: 2px;
+        padding: 5px 10px;
+        background: #f6f6f6;
+        border-radius: 5px;
+      }
+
+    }
+
+    pre {
+      margin-bottom: 15px;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    code:not(.highlighted) {
+      display: inline-block;
+      padding: 2px 2px;
+      background: #f6f6f6;
+    }
+
+    .copy {
+      small {
+        font-size: 0.6em;
+      }
+    }
+
+  }
+
   @media (max-width: 768px) {
 
     padding: 104px 0 20px 0;
@@ -212,12 +269,12 @@ a:focus {
 
     h2 {
       font-size: 1.6em;
-      line-height: 1.3em;
+      line-height: 1.8em;
     }
 
     h3 {
       font-size: 1.3em;
-      line-height: 1em;
+      line-height: 1.5em;
     }
 
     p, ul {
@@ -240,15 +297,15 @@ a:focus {
 }
 
 .hljs {
-  font-size: 1.7em;
-  padding: 15px;
+  font-size: 1.3em;
+  padding: 10px;
   margin-bottom: 15px;
   background: #f6f6f6;
   border-radius: 5px;
   box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
 
   @media (max-width: 768px) {
-    font-size: 1.4em;
+    font-size: 1.2em;
   }
 }
 

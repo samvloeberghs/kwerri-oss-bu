@@ -1,5 +1,15 @@
 [
   {
+    "title": "Better SEO for social sharing with Angular Universal",
+    "slug": "better-seo-for-social-sharing-with-angular-universal",
+    "publishDatetime": "2019-02-24T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/posts/better-seo-for-social-sharing-with-angular-universal.jpg",
+    "imgFull": "/assets/posts/better-seo-for-social-sharing-with-angular-universal_full.jpg",
+    "imgShare": "/assets/posts/better-seo-for-social-sharing-with-angular-universal_share.jpg",
+    "short": "This article and guide on better SEO for social sharing with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running. We are going to describe some services that will enable better social sharing on for example Facebook, Twitter and LinkedIn. <span>Keep reading to find out how you can optimise your Angular application for search engines.</span>"
+  },
+  {
     "title": "Selecting subtitles in Vimeo using JavaScript",
     "slug": "selecting-subtitles-in-vimeo-using-javascript",
     "publishDatetime": "2018-03-01T12:00:00+01:00",

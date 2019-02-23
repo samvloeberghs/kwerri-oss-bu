@@ -3,12 +3,12 @@ const tooMuchHtmlMinifyOptions = {
   removeCommentsFromCDATA: true,
   collapseWhitespace: true,
   collapseBooleanAttributes: true,
-  removeAttributeQuotes: true,
   removeRedundantAttributes: true,
   useShortDoctype: true,
   removeEmptyAttributes: true,
-  removeOptionalTags: true,
   minifyCSS: true,
+  removeAttributeQuotes: true,
+  removeOptionalTags: true
 };
 
 const goodHtmlMinifyOptions = Object.assign({}, tooMuchHtmlMinifyOptions, {
@@ -16,5 +16,5 @@ const goodHtmlMinifyOptions = Object.assign({}, tooMuchHtmlMinifyOptions, {
   removeOptionalTags: false,
 });
 
-export const htmlMinifyOptions = goodHtmlMinifyOptions;
-// export const htmlMinifyOptions = tooMuchHtmlMinifyOptions;
+// export const htmlMinifyOptions = goodHtmlMinifyOptions;
+export const htmlMinifyOptions = tooMuchHtmlMinifyOptions;

@@ -1,0 +1,353 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <p>
+    It’s not a new concept, running Angular on the server with Universal. The first version of this website was build
+    with Angular v2 and Universal concepts back in November 2016. The tooling around it has grown a lot since then and
+    my website evolved with those tooling updates.
+  </p>
+  <p>
+    It’s much easier building an Angular universal website or app today because it’s <a
+    href="https://angular.io/guide/universal" rel="noopener" target="_blank">completely documented</a> and there are a
+    lot of <a href="https://github.com/angular/universal" rel="noopener" target="_blank">example projects</a>
+    available. Angular CLI also gives us the tooling to add the functionality automatically by <a
+    href="https://github.com/angular/universal" rel="noopener" target="_blank">simple commands</a>.
+  </p>
+  <p>
+    But the fact that SPAs in general have big problems with indexing and social sharing has been a topic for many
+    discussions. Different approaches have been considered and one of them, like prerendering and serving different
+    content for different consumers, bots vs real visitors, can be categorized as <a
+    href="https://www.webopedia.com/TERM/B/Black_Hat_SEO.html" rel="noopener" target="_blank">black hat SEO</a>.
+  </p>
+
+  <h2>
+    <span>
+    Target audience
+    </span>
+  </h2>
+
+  <p>
+    This article and guide on better SEO for social sharing with Angular Universal is targeted to developers that have a
+    good understanding of Angular and might already have an Angular Universal implementation running. We are going to
+    describe some services that will enable better social sharing on for example Facebook, Twitter and LinkedIn.
+  </p>
+
+  <h2>
+    <span>
+    The idea
+    </span>
+  </h2>
+  <p>
+    When you generate an Angular application via the angular-cli a <code>polyfills.ts</code> file gets generated. It
+    includes the
+    following content:
+  </p>
+
+  <pre><code class="typescript highlighted">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
+* This also includes Android Emulators with older versions of Chrome
+* and Google Search/Googlebot
+*/
+</code></pre>
+
+  <p>
+    This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
+    specific
+    polyfills. This does not mention any other search engines. The other typical search engines, like
+    Bing, Yahoo, DuckDuckGo, etc have problems parsing JavaScript heavy websites, like SPAs, applications that use
+    frameworks like for example jQuery.
+  </p>
+
+  <p>
+    The overview below gives us a good idea about which search engines are capable of indexing JavaScript heavy
+    applications, build with different frameworks and libraries.
+  </p>
+
+  <img src="assets/posts/better-seo-for-social-sharing-with-angular-universal/se_overview.png"
+       alt="Going Beyond Google: Are Search Engines Ready for JavaScript Crawling & Indexing?"/>
+
+  <p class="copy">
+    <small>
+      All credits for this overview go to <a href="https://twitter.com/bart_goralewicz" rel="noopener" target="_blank">
+      Bartosz Góralewiczm</a>, see also blogpost linked below
+    </small>
+  </p>
+  <p>
+    If you want to read more about this topic, I suggest reading
+    <a href="https://moz.com/blog/search-engines-ready-for-javascript-crawling" rel="noopener" target="_blank">https://moz.com/blog/search-engines-ready-for-javascript-crawling</a>.
+    The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, but the
+    general idea remains: <strong>Search engines are, in general, not very capable of rendering JavaScript while
+    indexing</strong>.
+  </p>
+
+  <h2>
+    <span>
+    Google, Bing and others are not the only search engines
+    </span>
+  </h2>
+
+  <p>
+    Everything that is described above is also true for other crawlers, like those of Facebook, Twitter and LinkedIn,
+    just to name a few of the social media platforms I consider to be important for my cases. These can also be
+    considered search engines, because they parse and cache the content of your website or application when users
+    are sharing your content.
+  </p>
+
+  <p>
+    And just like the other typical search engines, most of them, if not all, are not capable of parsing JavaScript and
+    only rely on the statically generated HTML.
+  </p>
+
+  <h2>
+    <span>
+    How do social media platforms crawl your page?
+    </span>
+  </h2>
+
+  <p>
+    Social media platforms use your statically generated HTML to show a preview when sharing one of
+    your pages on their feed. Therefor they parse the <code>title</code> and <code>meta</code> tags that can be found in
+    the <code>&#x3C;head&#x3E;</code>
+    tag.
+  </p>
+
+  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
+&#x3C;html lang=&#x22;en&#x22;&#x3E;
+   &#x3C;head&#x3E;
+      &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
+      &#x3C;title&#x3E;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x3C;/title&#x3E;
+      &#x3C;meta name=&#x22;description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
+      &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
+   &#x3C;/head&#x3E;
+   ...</code></pre>
+
+  <p class="alert alert-warning">
+    <i class="fa fa-warning"></i>
+    This seems easy, but it's not that easy to get it right. Because <strong>all the different social media platforms
+    expect other <code>meta</code> tags</strong> for rendering their previews. They don't even use the same attribute to
+    identify the
+    correct <code>meta</code> tags. Some use the <code>name</code> attribute and others use the <code>property</code>
+    attribute. It means you'll have to support around 15 different <code>meta</code> tags to get it right (for Facebook,
+    LinkedIn and Twitter).
+  </p>
+
+  <p>
+    All of the discussed social media platforms provide us with tools to <strong>validate our pages or posts before
+    sharing them</strong>. Some platforms, like Facebook and LinkedIn cache all the shared content, so these tools also
+    allows us to <em>invalidate cached content</em>. Super handy if you have already shared your page before, or if you
+    want to invalidate the cache of a set of pages in one go.
+  </p>
+
+  <h3>
+    <span>
+    Facebook
+    </span>
+  </h3>
+
+  <p>
+    To get your post to show correctly on Facebook you need to implement the following basic <code>meta</code> tags.
+    Please
+    note that Facebook uses the <code>property</code> attribute to define the type of <code>meta</code> value and that
+    those types are always prefixed with <code>og:</code>, which is the prefix for the open-graph protocol.
+  </p>
+
+  <pre><code class="html highlighted">&#x3C;head&#x3E;
+  &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:url&#x22; content=&#x22;https://samvloeberghs.be/&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share_img.png&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:image:height&#x22; content=&#x22;xxx&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:image:width&#x22; content=&#x22;xxx&#x22;&#x3E;
+&#x3C;/head&#x3E;</code></pre>
+
+  <p>
+    The open-graph protocol allows for a lot more <code>meta</code> tags to be defined. Especially Facebook supports a
+    lot more, like video. Check the <a href="https://developers.facebook.com/docs/sharing/webmasters" rel="noopener"
+                                       target="_blank">documentation
+    for Facebook sharing</a> to learn more.
+  </p>
+
+  <h4>
+    <span>
+    Facebook Sharing Debugger
+    </span>
+  </h4>
+
+  <p>
+    Validating the previews of your post on Facebook can be done on <a
+    href="https://developers.facebook.com/tools/debug/sharing" target="_blank" rel="noopener">https://developers.facebook.com/tools/debug/sharing</a>.
+    Facebook also allows you to invalidate a batch of pages and do it programmaticaly via their API.
+  </p>
+
+  <h3>
+    <span>
+    LinkedIn
+    </span>
+  </h3>
+
+  <p>
+    To get your post to show correctly on LinkedIn you need to implement the following basic <code>meta</code> tags.
+    Please
+    note that LinkedIn also uses the <code>og:</code> prefixes, but not for all values, like the author
+    <code>meta</code> tag.
+  </p>
+
+  <pre><code class="html highlighted">&#x3C;head&#x3E;
+  &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:type&#x22; content=&#x22;website&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
+  &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
+  &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
+&#x3C;/head&#x3E;</code></pre>
+
+  <h4>
+    <span>
+    LinkedIn Post Inspector
+    </span>
+  </h4>
+
+  <p>
+    Validating the previews of your post and refreshing the cache on LinkedIn can be done on <a
+    href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener">https://www.linkedin.com/post-inspector/</a>.
+  </p>
+
+  <p>
+    The only thing I'm still not sure about is which <code>meta</code> <code>property</code> or <code>name</code> they
+    use to correctly read out the "Publish date". I have asked the question to their support and I'm still waiting for
+    the answer. And sadly there is little to no documentation to be found..
+  </p>
+
+
+  <h3>
+    <span>
+    Twitter
+    </span>
+  </h3>
+
+  <p>
+    To get your post to show correctly on Twitter as a card you need to implement the following <code>meta</code> tags.
+    Please
+    note that, <em>compared to Facebook and LinkedIn,</em> Twitter uses the <code>name</code> attribute to define the
+    type of <code>meta</code> value and that
+    those types are always prefixed with <code>twitter:</code>.
+  </p>
+
+  <pre><code class="html highlighted">&#x3C;head&#x3E;
+  &#x3C;meta name=&#x22;twitter:card&#x22; content=&#x22;summary_large_image&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:site&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:creator&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
+&#x3C;/head&#x3E;</code></pre>
+
+  <h2>
+    <span>
+    Using the Meta and Title services in Angular
+    </span>
+  </h2>
+
+  <h2>
+    <span>
+    Watch out for over optimization
+    </span>
+  </h2>
+
+  <p>
+    When generating static pages on the server side you might consider optimizing the rendered HTML as well. Tools like
+    <a href="https://github.com/kangax/html-minifier" rel="noopener" target="_blank">HTMLMinifier</a> take out all the
+    bloat from your HTML, to keep the bare minimum that the browser need to be capable of rendering it.
+  </p>
+  <p>
+    But be careful. Browsers like Chrome, Firefox and others are able to parse your minified HTML, as they are
+    very forgiving and fix errors for us. But parsers that rely heavily on structured HTML, like the ones the social
+    platforms use, might not be able to parse it correctly and get out the information they need.
+  </p>
+
+  <h3>
+    <span>
+    A simple example
+    </span>
+  </h3>
+  <p>
+    The following minify options strip out all the stuff the browser does not need to correctly show your page:
+  </p>
+
+  <pre><code class="javascript highlighted">const tooMuchHtmlMinifyOptions = {
+    removeComments: true,
+    removeCommentsFromCDATA: true,
+    collapseWhitespace: true,
+    collapseBooleanAttributes: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    minifyCSS: true,
+    removeAttributeQuotes: true,
+    removeOptionalTags: true
+};
+
+const minify = require('html-minifier').minify;
+const minifiedHtml = minify(html, minifyOptions);</code></pre>
+
+  <p>
+    Now, processing the following HTML:
+  </p>
+
+  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
+&#x3C;html lang=&#x22;en&#x22;&#x3E;
+   &#x3C;head&#x3E;
+      &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
+      &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
+      ...</code></pre>
+  <p>
+    results in
+  </p>
+
+  <pre><code
+    class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
+
+  <p>
+    This is too much optimization for for example the LinkedIn Post Inspector. If you look close enough, you'll notice
+    that the
+    optional <code>&#x3C;head&#x3E;</code> tag was removed and that the quotes around simple attribute values, with a
+    single non-spaced value were removed. To be able to minify the HTML and keep the LinkedIn Post Inspector happy we
+    need to change our configuration options a little bit. We have to keep the attribute quotes and don’t remove
+    optional tags tag:
+  </p>
+
+  <pre><code class="javascript highlighted">const goodHtmlMinifyOptions = {
+    …
+    removeAttributeQuotes: true,
+    removeOptionalTags: true
+};</code></pre>
+
+  <p>
+    Now the same HTML mentioned above, processed with these less drastic minify options, results in
+  </p>
+
+  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;</code></pre>
+
+  <p>
+    We are keeping the <code>&#x3C;head&#x3E;</code> tag and the attribute quotes. And now the LinkedIn Post Inspector
+    is happy :).
+  </p>
+
+  <h2>
+    <span>
+    Conclusion
+    </span>
+  </h2>
+  <p>
+    Not all search engines behave the same way. <em>Not only Google, Bing etc. can be categorized as search
+    engines</em> but we have to think about Social platforms like Facebook, Twitter and LinkedIn, that also crawl
+    and cache external content. <em>Each crawler behaves in a different way</em> and most of them are not capable of
+    parsing JavaScript heavy applications.
+  </p>
+  <p>
+    This means we have to <em>program and configure our applications very specifically for the different
+    crawlers</em> of the social platforms we want to support. By using Angular Universal, we are sable to generate a
+    static version of your application on the server and output static HTML. When minifying this static HTML we need to
+    be careful and <em>keep our HTML as strict and structured as possible</em>.
+  </p>
+
+</section>
