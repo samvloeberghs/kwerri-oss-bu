@@ -13,6 +13,7 @@ const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvl
 const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
 const spdy = require('spdy');
 const compression = require('compression');
+const cors = require('cors');
 
 import { MemoryCacheStore, getCachePath, isCacheAllowed, FileCacheStore } from './cache';
 import { allowedPaths, type } from './cache.config';
@@ -63,6 +64,7 @@ app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
 
+app.use(cors());
 app.use(compression({
   filter: (req, res) => {
     let ignore = false;
