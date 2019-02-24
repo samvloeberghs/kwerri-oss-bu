@@ -64,7 +64,7 @@ app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
 
-app.use(cors());
+app.use(cors);
 app.use(compression({
   filter: (req, res) => {
     let ignore = false;
