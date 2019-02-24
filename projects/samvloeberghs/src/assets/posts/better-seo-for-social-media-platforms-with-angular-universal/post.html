@@ -272,23 +272,23 @@
   </p>
 
   <pre><code class="typescript highlighted">RouterModule.forChild([{
-  path: '',
-  component: AboutComponent,
-  data: {
-    seo: {
-      title: `About Sam - ${environment.seo.title}`,
+    path: '',
+    component: AboutComponent,
+    data: {
+      seo: {
+        title: `About Sam - ${environment.seo.title}`,
       description: `I'm a 30 year old software engineer living in Belgium.`,
       shareImg: '/assets/share/about.png',
-    }
-  }
-}])</code></pre>
+          }
+      }
+    }])</code></pre>
 
   <p>
     Using a service we can subscribe to route changes to extract this data and update our title and meta tags.
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class Routehelper {
 
@@ -305,7 +305,7 @@ export class Routehelper {
       filter(event => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
       map(route => {
-        while (route.firstChild) {
+    while (route.firstChild) {
           route = route.firstChild;
         }
         return route;
@@ -353,11 +353,11 @@ export class SeoService {
       this.metaService.updateTag({property: 'og:title', content: title});
       this.metaService.updateTag({name: 'title', content: title});
     } else {
-      this.metaService.removeTag(`name='twitter:title'`);
-      this.metaService.removeTag(`name='twitter:image:alt'`);
-      this.metaService.removeTag(`property='og:image:alt'`);
-      this.metaService.removeTag(`property='og:title'`);
-      this.metaService.removeTag(`name='title'`);
+    this.metaService.removeTag(`name='twitter:title'`);
+    this.metaService.removeTag(`name='twitter:image:alt'`);
+    this.metaService.removeTag(`property='og:image:alt'`);
+    this.metaService.removeTag(`property='og:title'`);
+    this.metaService.removeTag(`name='title'`);
     }
   }
 
@@ -470,14 +470,12 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
 
   <h2>Special thanks to</h2>
 
-  <div class="special-thanks">
-    <ul>
-      <li>
-        <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
-      </li>
-    </ul>
+  <ul>
+    <li>
+      <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
+    </li>
+  </ul>
 
-    <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
-  </div>
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
 
 </section>

@@ -40,6 +40,11 @@ const PROD = !!process.env.PROD || false;
 const HTTPS = !!process.env.HTTPS || false;
 const DIST_FOLDER = join(process.cwd(), 'dist', 'samvloeberghs');
 
+if (!PROD) {
+  (global as any).WebSocket = require('ws');
+  (global as any).XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+}
+
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
