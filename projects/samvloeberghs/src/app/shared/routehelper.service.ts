@@ -49,6 +49,7 @@ export class Routehelper {
       }),
       filter(route => route.outlet === 'primary'),
     ).subscribe((route: ActivatedRoute) => {
+      this.viewportScroller.scrollToPosition([0, 0]);
       const seo: any = route.snapshot.data['seo'];
       if (seo) {
         // TODO: set type

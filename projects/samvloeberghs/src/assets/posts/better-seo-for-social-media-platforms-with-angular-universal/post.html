@@ -3,7 +3,7 @@
   <p>
     It’s not a new concept, running Angular on the server with Universal. The first version of this website was build
     with Angular v2 and Universal concepts back in November 2016. The tooling around it has grown a lot since then and
-    my website evolved with those tooling updates.
+    my website evolved together with those tooling updates.
   </p>
   <p>
     It’s much easier building an Angular universal website or app today because it’s <a
@@ -13,7 +13,7 @@
     href="https://github.com/angular/universal" rel="noopener" target="_blank">simple commands</a>.
   </p>
   <p>
-    But the fact that SPAs in general have big problems with indexing and social sharing has been a topic for many
+    But the fact that <em>SPAs in general have big problems with indexing and social sharing</em> has been a topic for many
     discussions. Different approaches have been considered and one of them, like prerendering and serving different
     content for different consumers, bots vs real visitors, can be categorized as <a
     href="https://www.webopedia.com/TERM/B/Black_Hat_SEO.html" rel="noopener" target="_blank">black hat SEO</a>.
@@ -26,9 +26,10 @@
   </h2>
 
   <p>
-    This article and guide on better SEO for social sharing with Angular Universal is targeted to developers that have a
-    good understanding of Angular and might already have an Angular Universal implementation running. We are going to
-    describe some services that will enable better social sharing on for example Facebook, Twitter and LinkedIn.
+    This article and guide on better SEO for social media platforms with Angular Universal is targeted to developers
+    that have a good understanding of Angular and might already have an Angular Universal implementation running. We are
+    going to describe some high-level ideas and concepts, different tools and Angular services that will enable better
+    social sharing on for example Facebook, Twitter and LinkedIn.
   </p>
 
   <h2>
@@ -61,7 +62,7 @@
     applications, build with different frameworks and libraries.
   </p>
 
-  <img src="assets/posts/better-seo-for-social-sharing-with-angular-universal/se_overview.png"
+  <img src="assets/posts/better-seo-for-social-media-platforms-with-angular-universal/se_overview.png"
        alt="Going Beyond Google: Are Search Engines Ready for JavaScript Crawling & Indexing?"/>
 
   <p class="copy">
@@ -73,8 +74,8 @@
   <p>
     If you want to read more about this topic, I suggest reading
     <a href="https://moz.com/blog/search-engines-ready-for-javascript-crawling" rel="noopener" target="_blank">https://moz.com/blog/search-engines-ready-for-javascript-crawling</a>.
-    The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, but the
-    general idea remains: <strong>Search engines are, in general, not very capable of rendering JavaScript while
+    The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, like for example the ability to parse Angular v2+ applications. The
+    general problem remains: <strong>Search engines are, in general, not very capable of rendering JavaScript while
     indexing</strong>.
   </p>
 
@@ -87,7 +88,7 @@
   <p>
     Everything that is described above is also true for other crawlers, like those of Facebook, Twitter and LinkedIn,
     just to name a few of the social media platforms I consider to be important for my cases. These can also be
-    considered search engines, because they parse and cache the content of your website or application when users
+    considered search engines, because they parse and cache the content of your website or application when their users
     are sharing your content.
   </p>
 
@@ -247,6 +248,77 @@
     </span>
   </h2>
 
+  <p>
+    To achieve all this, the only 2 services we need to use are the <a
+    href="https://angular.io/api/platform-browser/Title" rel="noopener" target="_blank">Title</a> and <a
+    href="https://angular.io/api/platform-browser/Meta" rel="noopener" target="_blank">Meta</a> service. We use them to
+    dynamically update the title of the webpage and for setting the required meta tags described before.
+  </p>
+
+  <p>
+    Using the router we can attach the to-use metadata to our routes. If we want to set the title for a dynamic page,
+    like for example a blogpost, we need to get the data first and then call the same services to update the meta tags
+    and title. As you can see in the example below, for the about page, we've configured these values attached to the
+    route.
+  </p>
+
+  <pre><code class="typescript highlighted">RouterModule.forChild([{
+    path: '',
+    component: AboutComponent,
+    data: {
+      seo: {
+        title: `About Sam - ${environment.seo.title}`,
+      description: `I'm a 30 year old software engineer living in Belgium.`,
+      shareImg: '/assets/share/about.png',
+          }
+      }
+    }])</code></pre>
+
+  <p>
+    Using a service we can subscribe to route changes to take this data and update our title and meta tags.
+  </p>
+
+  <pre><code class="typescript highlighted">@Injectable({
+    providedIn: 'root',
+})
+export class Routehelper {
+
+    constructor(
+      private readonly router: Router,
+      private readonly activatedRoute: ActivatedRoute,
+      private readonly seoService: SeoService
+    ) {
+    this.setupRouting();
+  }
+
+  private setupRouting() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.activatedRoute),
+      map(route => {
+    while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+      filter(route => route.outlet === 'primary'),
+    ).subscribe((route: ActivatedRoute) => {
+    const seo = route.snapshot.data['seo'];
+    // set your meta tags & title here
+    this.seoService.setData(seo);
+    });
+  }
+
+}</code></pre>
+
+  <p>
+    As explained above, all our social platforms expect other meta tags. Therefor it's best to create a SEO wrapper
+    service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
+    method to update the title value on our pages. If you want to see the full example, please refer to the <a
+    href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
+    target="_blank">full implementation of my SeoService</a>.
+  </p>
+
   <h2>
     <span>
     Watch out for over optimization
@@ -325,11 +397,11 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     Now the same HTML mentioned above, processed with these less drastic minify options, results in
   </p>
 
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;</code></pre>
+  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
 
   <p>
     We are keeping the <code>&#x3C;head&#x3E;</code> tag and the attribute quotes. And now the LinkedIn Post Inspector
-    is happy :).
+    is happy 😃.
   </p>
 
   <h2>

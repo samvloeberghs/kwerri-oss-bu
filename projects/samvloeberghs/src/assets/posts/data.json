@@ -1,22 +1,22 @@
 [
   {
-    "title": "Better SEO for social sharing with Angular Universal",
-    "slug": "better-seo-for-social-sharing-with-angular-universal",
+    "title": "Better SEO for social media platforms with Angular Universal",
+    "slug": "better-seo-for-social-media-platforms-with-angular-universal",
     "publishDatetime": "2019-02-24T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/assets/posts/better-seo-for-social-sharing-with-angular-universal.jpg",
-    "imgFull": "/assets/posts/better-seo-for-social-sharing-with-angular-universal_full.jpg",
-    "imgShare": "/assets/posts/better-seo-for-social-sharing-with-angular-universal_share.jpg",
-    "short": "This article and guide on better SEO for social sharing with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running. We are going to describe some services that will enable better social sharing on for example Facebook, Twitter and LinkedIn. <span>Keep reading to find out how you can optimise your Angular application for search engines.</span>"
+    "img": "/assets/posts/better-seo-for-social-media-platforms-with-angular-universal/img.jpg",
+    "imgFull": "/assets/posts/better-seo-for-social-media-platforms-with-angular-universal/img_full.jpg",
+    "imgShare": "/assets/posts/better-seo-for-social-media-platforms-with-angular-universal/img_share.jpg",
+    "short": "This article and guide on better SEO for social media platforms with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running.  We are going to describe some high-level ideas and concepts, different tools and Angular services that will enable better social sharing on for example Facebook, Twitter and LinkedIn</span>"
   },
   {
     "title": "Selecting subtitles in Vimeo using JavaScript",
     "slug": "selecting-subtitles-in-vimeo-using-javascript",
     "publishDatetime": "2018-03-01T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/assets/posts/selecting-subtitles-in-vimeo-using-javascript/selectingsubtitles.jpg",
-    "imgFull": "/assets/posts/selecting-subtitles-in-vimeo-using-javascript/selectingsubtitles_full.jpg",
-    "imgShare": "/assets/posts/selecting-subtitles-in-vimeo-using-javascript/selectingsubtitles_share.jpg",
+    "img": "/assets/posts/selecting-subtitles-in-vimeo-using-javascript/img.jpg",
+    "imgFull": "/assets/posts/selecting-subtitles-in-vimeo-using-javascript/img_full.jpg",
+    "imgShare": "/assets/posts/selecting-subtitles-in-vimeo-using-javascript/img_share.jpg",
     "short": "Implementing 3th party functionality it not always clear. In the case of Vimeo, the iframe embed does not provide as many options and is not as extended as the JavaScript Player API. <span>Keep reading to find out how you can easily set Vimeo subtitles on runtime.</span>"
   },
   {
@@ -25,9 +25,9 @@
     "publishDatetime": "2016-11-19T12:00:00+01:00",
     "updateDatetime": "2018-12-28T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop.jpg",
-    "imgFull": "/assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop_full.jpg",
-    "imgShare": "/assets/posts/scroll-to-top-on-angular-router-navigation/scrolltotop_share.jpg",
+    "img": "/assets/posts/scroll-to-top-on-angular-router-navigation/img.jpg",
+    "imgFull": "/assets/posts/scroll-to-top-on-angular-router-navigation/img_full.jpg",
+    "imgShare": "/assets/posts/scroll-to-top-on-angular-router-navigation/img_share.jpg",
     "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular v2+. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
   },
   {
@@ -35,9 +35,9 @@
     "slug": "whats-with-the-subjects-in-rxjs5",
     "publishDatetime": "2016-07-14T09:08:25+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/assets/posts/whats-with-the-subjects-in-rxjs5/rxjs.png",
-    "imgFull": "/assets/posts/whats-with-the-subjects-in-rxjs5/rxjs_full.png",
-    "imgShare": "/assets/posts/whats-with-the-subjects-in-rxjs5/rxjs_share.jpg",
+    "img": "/assets/posts/whats-with-the-subjects-in-rxjs5/img.png",
+    "imgFull": "/assets/posts/whats-with-the-subjects-in-rxjs5/img_full.png",
+    "imgShare": "/assets/posts/whats-with-the-subjects-in-rxjs5/img_share.jpg",
     "short": "RxJS is a great library, it is used more and more in different places & frameworks across the web. Soon it will dominate the asynchronous part of web apps, so that’s why it’s important to know how subjects work. <span>Keep reading to find out how we can leverage Subjects in modern web applications!</span>"
   }
 ]
