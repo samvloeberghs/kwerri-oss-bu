@@ -21,13 +21,16 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     this.dataService
-      .getData('posts/data.json')
+      .getData('/assets/posts/data.json')
       .pipe(
         map(response => response as Post[]),
       )
       .subscribe(
         posts => this.posts = posts,
-        error => this.error = error,
+        error => {
+          console.log(error);
+          this.error = error;
+        },
       );
   }
 

@@ -11,8 +11,6 @@ import { environment } from '../../environments/environment';
 })
 export class DataService {
 
-  private path = `${environment.url}/assets/`;
-
   constructor(
     private readonly http: HttpClient,
     private readonly transferState: TransferState,
@@ -25,9 +23,8 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
-    console.log(`${this.path}${file}`);
     return this.http
-      .get(`${this.path}${file}`)
+      .get(`${environment.url}${file}`)
       .pipe(
         tap(response => this.transferState.set(key, response)),
       );
@@ -40,9 +37,8 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
-    console.log(`${this.path}${file}`);
     return this.http
-      .get(`${this.path}${file}&callback=JSONP_CALLBACK`, {responseType: 'text'})
+      .get(`${environment.url}${file}`, {responseType: 'text'})
       .pipe(
         tap(response => this.transferState.set(key, response)),
       );
