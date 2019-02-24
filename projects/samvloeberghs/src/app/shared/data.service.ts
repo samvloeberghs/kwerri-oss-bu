@@ -25,6 +25,7 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
+    console.log('doing http call');
     return this.http
       .get(`${this.path}${file}`)
       .pipe(
@@ -39,6 +40,7 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
+    console.log('doing http call text');
     return this.http
       .get(`${this.path}${file}`, {responseType: 'text'})
       .pipe(
