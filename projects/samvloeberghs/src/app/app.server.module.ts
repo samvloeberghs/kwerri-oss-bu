@@ -13,7 +13,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     ServerModule,
     ModuleMapLoaderModule, // <-- *Important* to have lazy-loaded routes work,
     ServerTransferStateModule,
-    NoopAnimationsModule,
     ServerJsonLdModule,
   ],
   bootstrap: [AppComponent],

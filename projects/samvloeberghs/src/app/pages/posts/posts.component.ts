@@ -27,7 +27,11 @@ export class PostsComponent implements OnInit {
       )
       .subscribe(
         posts => this.posts = posts,
-        error => this.error = error,
+        error => {
+          console.log('in error');
+          console.log(error);
+          this.error = error;
+        },
       );
   }
 
