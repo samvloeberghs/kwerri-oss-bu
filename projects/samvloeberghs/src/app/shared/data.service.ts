@@ -25,15 +25,10 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
-    console.log('doing http call');
     return this.http
       .get(`${this.path}${file}`)
       .pipe(
-        tap(response => {
-          console.log('in tap get data');
-          console.log(response);
-          this.transferState.set(key, response);
-        }),
+        tap(response => this.transferState.set(key, response)),
       );
 
   }
@@ -44,15 +39,10 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
-    console.log('doing http call text');
     return this.http
       .get(`${this.path}${file}`, {responseType: 'text'})
       .pipe(
-        tap(response => {
-          console.log('in tap get data text');
-          console.log(response);
-          this.transferState.set(key, response);
-        }),
+        tap(response => this.transferState.set(key, response)),
       );
 
   }

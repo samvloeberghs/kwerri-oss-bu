@@ -9,8 +9,8 @@
   <p>
     This article and guide on better SEO for social media platforms with Angular Universal is targeted to developers
     that have at least a basic understanding of Angular and might already have an Angular Universal implementation
-    running. We are going to describe some high-level ideas and concepts, different tools and Angular services that will
-    enable better social sharing on for example Facebook, Twitter and LinkedIn.
+    up and running. We are going to describe some high-level ideas and concepts, different tools and Angular services
+    that will enable better social sharing for platforms like Facebook, Twitter and LinkedIn.
   </p>
 
   <h2>
@@ -25,15 +25,15 @@
     my website evolved together with those tooling updates.
   </p>
   <p>
-    It’s much easier building an Angular universal website or app today because it’s <a
+    It’s much easier to build an Angular universal website or app today because it’s <a
     href="https://angular.io/guide/universal" rel="noopener" target="_blank">completely documented</a> and there are a
     lot of <a href="https://github.com/angular/universal" rel="noopener" target="_blank">example projects</a>
-    available. Angular CLI also gives us the tooling to add the functionality automatically by <a
+    available. Angular CLI also gives us the tools to add this functionality automatically by using <a
     href="https://github.com/angular/universal" rel="noopener" target="_blank">simple commands</a>.
   </p>
   <p>
     But the fact that <em>SPAs in general have big problems with indexing and social sharing</em> has been a topic for
-    many discussions, and for many years, ever-since the first JS applications weere build. Different approaches have
+    many discussions, and for many years, ever-since the first JS applications were build. Different approaches have
     been considered and one of them, like prerendering the application with a headless browser like PhantomJS or
     Puppeteer and serving different content for different consumers, bots vs real visitors, can be categorized as <a
     href="https://www.webopedia.com/TERM/B/Black_Hat_SEO.html" rel="noopener"
@@ -47,8 +47,7 @@
   </h2>
   <p>
     When you generate an Angular application via the angular-cli a <code>polyfills.ts</code> file gets generated. It
-    includes the
-    following content:
+    includes the following content:
   </p>
 
   <pre><code class="typescript highlighted">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
@@ -59,14 +58,13 @@
 
   <p>
     This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
-    specific
-    polyfills. This does not mention any other search engines. The other typical search engines, like
-    Bing, Yahoo, DuckDuckGo, etc have problems parsing JavaScript heavy websites, like SPAs, applications that use
+    specific polyfills. It does not mention any other search engines. The other typical search engines, like
+    Bing, Yahoo, DuckDuckGo, etc have problems parsing JavaScript heavy websites, like SPAs or applications that use
     frameworks like for example jQuery.
   </p>
 
   <p>
-    The overview below gives us a good idea about which search engines are capable of indexing JavaScript heavy
+    The overview below gives us a good idea which search engines are capable of indexing JavaScript heavy
     applications, build with different frameworks and libraries.
   </p>
 
@@ -83,9 +81,8 @@
     If you want to read more about this topic, I suggest reading
     <a href="https://moz.com/blog/search-engines-ready-for-javascript-crawling" rel="noopener" target="_blank">https://moz.com/blog/search-engines-ready-for-javascript-crawling</a>.
     The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, like for
-    example the ability to parse Angular v2+ applications. The
-    general problem remains: <strong>Search engines are, in general, not very capable of rendering JavaScript while
-    indexing</strong>.
+    example the ability to parse Angular v2+ applications. The general problem remains: <strong>Search engines are, in
+    general, not very capable of rendering JavaScript while indexing</strong>.
   </p>
 
   <h2>
@@ -98,7 +95,7 @@
     Everything that is described above is also true for other crawlers, like those of Facebook, Twitter and LinkedIn,
     just to name a few of the social media platforms I consider to be important for my cases. These can also be
     considered search engines, because they parse and cache the content of your website or application when their users
-    are sharing your content.
+    share your content.
   </p>
 
   <p>
@@ -113,9 +110,8 @@
   </h2>
 
   <p>
-    Social media platforms use your statically generated HTML to show a preview when sharing one of
-    your pages on their feed. Therefor they parse the <code>title</code> and <code>meta</code> tags that can be found in
-    the <code>&#x3C;head&#x3E;</code>
+    Social media platforms use your statically generated HTML to show a preview when sharing one of your pages on their
+    feed. Therefor they parse the <code>title</code> and <code>meta</code> tags that can be found in the <code>&#x3C;head&#x3E;</code>
     tag.
   </p>
 
@@ -133,8 +129,7 @@
     <i class="fa fa-warning"></i>
     This seems easy, but it's not that easy to get it right. Because <strong>all the different social media platforms
     expect other <code>meta</code> tags</strong> for rendering their previews. They don't even use the same attribute to
-    identify the
-    correct <code>meta</code> tags. Some use the <code>name</code> attribute and others use the <code>property</code>
+    identify the correct <code>meta</code> tags. Some use the <code>name</code> attribute and others use the <code>property</code>
     attribute. It means you'll have to support around 15 different <code>meta</code> tags to get it right (for Facebook,
     LinkedIn and Twitter).
   </p>
@@ -142,7 +137,7 @@
   <p>
     All of the discussed social media platforms provide us with tools to <strong>validate our pages or posts before
     sharing them</strong>. Some platforms, like Facebook and LinkedIn cache all the shared content, so these tools also
-    allows us to <em>invalidate cached content</em>. Super handy if you have already shared your page before, or if you
+    allow us to <em>invalidate cached content</em>. Super handy if you have already shared your page before, or if you
     want to invalidate the cache of a set of pages in one go.
   </p>
 
@@ -153,10 +148,9 @@
   </h3>
 
   <p>
-    To get your post to show correctly on Facebook you need to implement the following basic <code>meta</code> tags.
-    Please
-    note that Facebook uses the <code>property</code> attribute to define the type of <code>meta</code> value and that
-    those types are always prefixed with <code>og:</code>, which is the prefix for the open-graph protocol.
+    To get Facebook to show your content correctly you need to implement the following basic <code>meta</code> tags.
+    Please note that Facebook uses the <code>property</code> attribute to define the type of <code>meta</code> value and
+    that those types are always prefixed with <code>og:</code>, which is the prefix for the open-graph protocol.
   </p>
 
   <pre><code class="html highlighted">&#x3C;head&#x3E;
@@ -172,8 +166,7 @@
   <p>
     The open-graph protocol allows for a lot more <code>meta</code> tags to be defined. Especially Facebook supports a
     lot more, like video. Check the <a href="https://developers.facebook.com/docs/sharing/webmasters" rel="noopener"
-                                       target="_blank">documentation
-    for Facebook sharing</a> to learn more.
+                                       target="_blank">documentation for Facebook sharing</a> to learn more.
   </p>
 
   <h4>
@@ -183,9 +176,9 @@
   </h4>
 
   <p>
-    Validating the previews of your post on Facebook can be done on <a
+    Validating a preview of your post on Facebook can be done via <a
     href="https://developers.facebook.com/tools/debug/sharing" target="_blank" rel="noopener">https://developers.facebook.com/tools/debug/sharing</a>.
-    Facebook also allows you to invalidate a batch of pages and do it programmaticaly via their API.
+    Facebook also provides a way to invalidate a batch of pages, which can also be done programmaticaly via their API.
   </p>
 
   <h3>
@@ -196,9 +189,8 @@
 
   <p>
     To get your post to show correctly on LinkedIn you need to implement the following basic <code>meta</code> tags.
-    Please
-    note that LinkedIn also uses the <code>og:</code> prefixes, but not for all values, like the author
-    <code>meta</code> tag.
+    Please note that LinkedIn also uses the <code>og:</code> prefixes, but not for all values, like the author <code>meta</code>
+    tag.
   </p>
 
   <pre><code class="html highlighted">&#x3C;head&#x3E;
@@ -216,16 +208,15 @@
   </h4>
 
   <p>
-    Validating the previews of your post and refreshing the cache on LinkedIn can be done on <a
+    Validating a preview of your post or website and refreshing the cache on LinkedIn can be done via <a
     href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener">https://www.linkedin.com/post-inspector/</a>.
   </p>
 
   <p>
     The only thing I'm still not sure about is which <code>meta</code> <code>property</code> or <code>name</code> they
     use to correctly read out the "Publish date". I have asked the question to their support and I'm still waiting for
-    the answer. And sadly there is little to no documentation to be found..
+    an answer. And sadly there is little to no documentation to be found on this subject.
   </p>
-
 
   <h3>
     <span>
@@ -235,10 +226,8 @@
 
   <p>
     To get your post to show correctly on Twitter as a card you need to implement the following <code>meta</code> tags.
-    Please
-    note that, <em>compared to Facebook and LinkedIn,</em> Twitter uses the <code>name</code> attribute to define the
-    type of <code>meta</code> value and that
-    those types are always prefixed with <code>twitter:</code>.
+    Please note that, <em>compared to Facebook and LinkedIn,</em> Twitter uses the <code>name</code> attribute to define
+    the type of <code>meta</code> value and that those types are always prefixed with <code>twitter:</code>.
   </p>
 
   <pre><code class="html highlighted">&#x3C;head&#x3E;
@@ -261,14 +250,14 @@
     To achieve all this, the only 2 services we need to use are the <a
     href="https://angular.io/api/platform-browser/Title" rel="noopener" target="_blank">Title</a> and <a
     href="https://angular.io/api/platform-browser/Meta" rel="noopener" target="_blank">Meta</a> service. We use them to
-    dynamically update the title of the webpage and for setting the required meta tags described before.
+    dynamically update the title of a webpage and for setting the required meta tags described before.
   </p>
 
   <p>
-    Using the router we can attach the to-use metadata to our routes. If we want to set the title for a dynamic page,
-    like for example a blogpost, we need to get the data first and then call the same services to update the meta tags
-    and title. As you can see in the example below, for the about page, we've configured these values attached to the
-    route.
+    Using the router we can attach metadata that needs to be coupled to our routes. If we want to set the title for a
+    dynamic page, like for example a blogpost, we need to get the data first and then call the same services to update
+    the meta tags and title. As you can see in the example below, for the about page, we've configured these values and
+    attached them to the route.
   </p>
 
   <pre><code class="typescript highlighted">RouterModule.forChild([{
@@ -284,7 +273,7 @@
     }])</code></pre>
 
   <p>
-    Using a service we can subscribe to route changes to take this data and update our title and meta tags.
+    Using a service we can subscribe to route changes to extract this data and update our title and meta tags.
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
@@ -323,7 +312,7 @@ export class Routehelper {
   <p>
     As explained above, all our social platforms expect other meta tags. Therefor it's best to create a SEO wrapper
     service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
-    method to update the title value on our pages. If you want to see the full example, please refer to the <a
+    method to update the title value on our pages. If you want to see the full example, have a look at the <a
     href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
     target="_blank">full implementation of my SeoService</a>.
   </p>
@@ -371,9 +360,9 @@ export class SeoService {
   </h2>
 
   <p>
-    When generating static pages on the server side you might consider optimizing the rendered HTML as well. Tools like
+    When generating static pages server side you might consider optimizing the rendered HTML as well. Tools like
     <a href="https://github.com/kangax/html-minifier" rel="noopener" target="_blank">HTMLMinifier</a> take out all the
-    bloat from your HTML, to keep the bare minimum that the browser need to be capable of rendering it.
+    bloat from your HTML, to keep the bare minimum that the browser needs to be capable of rendering it.
   </p>
   <p>
     But be careful. Browsers like Chrome, Firefox and others are able to parse your minified HTML, as they are
@@ -387,7 +376,7 @@ export class SeoService {
     </span>
   </h3>
   <p>
-    The following minify options strip out all the stuff the browser does not need to correctly show your page:
+    The following HTMLminifier options remove all the stuff the browser does not need to correctly show your page:
   </p>
 
   <pre><code class="javascript highlighted">const tooMuchHtmlMinifyOptions = {
@@ -407,7 +396,7 @@ const minify = require('html-minifier').minify;
 const minifiedHtml = minify(html, minifyOptions);</code></pre>
 
   <p>
-    Now, processing the following HTML:
+    Let's process the following HTML:
   </p>
 
   <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
@@ -424,12 +413,12 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
 
   <p>
-    This is too much optimization for for example the LinkedIn Post Inspector. If you look close enough, you'll notice
-    that the
-    optional <code>&#x3C;head&#x3E;</code> tag was removed and that the quotes around simple attribute values, with a
-    single non-spaced value were removed. To be able to minify the HTML and keep the LinkedIn Post Inspector happy we
-    need to change our configuration options a little bit. We have to keep the attribute quotes and don’t remove
-    optional tags tag:
+    This is too much optimization for the LinkedIn Post Inspector. If you look closely, you'll notice
+    that the optional <code>&#x3C;head&#x3E;</code> tag was removed and that the quotes around simple attribute values,
+    with a
+    single non-spaced value, were removed as well. To be able to minify the HTML and keep the LinkedIn Post Inspector
+    happy we
+    need to change our configuration a little bit. We want to keep the attribute quotes and optional tags:
   </p>
 
   <pre><code class="javascript highlighted">const goodHtmlMinifyOptions = {
@@ -439,7 +428,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
 };</code></pre>
 
   <p>
-    Now the same HTML mentioned above, processed with these less drastic minify options, results in
+    Now let's rerun the minfier again with the same HTML as mentioned above and see what the final result looks like:
   </p>
 
   <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
@@ -461,10 +450,20 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     parsing JavaScript heavy applications.
   </p>
   <p>
-    This means we have to <em>program and configure our applications very specifically for the different
+    This means we have to <em>adjust and configure our applications very specifically for the different
     crawlers</em> of the social platforms we want to support. By using Angular Universal, we are sable to generate a
     static version of your application on the server and output static HTML. When minifying this static HTML we need to
     be careful and <em>keep our HTML as strict and structured as possible</em>.
   </p>
+
+  <h2>Special thanks to</h2>
+
+  <ul>
+    <li>
+      <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
+    </li>
+  </ul>
+
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
 
 </section>
