@@ -64,7 +64,14 @@ app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
 
-app.use(cors);
+if (PROD) {
+  const corsOptions = {
+    origin: 'https://samvloeberghs.be',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  };
+  app.use(cors(corsOptions));
+}
+
 app.use(compression({
   filter: (req, res) => {
     let ignore = false;
