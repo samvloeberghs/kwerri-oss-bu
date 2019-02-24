@@ -25,6 +25,7 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
+    console.log(`${this.path}${file}`);
     return this.http
       .get(`${this.path}${file}`)
       .pipe(
@@ -39,8 +40,9 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
+    console.log(`${this.path}${file}`);
     return this.http
-      .get(`${this.path}${file}`, {responseType: 'text'})
+      .get(`${this.path}${file}&callback=JSONP_CALLBACK`, {responseType: 'text'})
       .pipe(
         tap(response => this.transferState.set(key, response)),
       );

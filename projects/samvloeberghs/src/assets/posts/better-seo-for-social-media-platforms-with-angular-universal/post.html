@@ -59,7 +59,7 @@
   <p>
     This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
     specific polyfills. It does not mention any other search engines. The other typical search engines, like
-    Bing, Yahoo, DuckDuckGo, etc have problems parsing JavaScript heavy websites, like SPAs or applications that use
+    Bing, Yahoo, DuckDuckGo, etc all have problems parsing JavaScript heavy websites, like SPAs or applications that use
     frameworks like for example jQuery.
   </p>
 
@@ -130,8 +130,8 @@
     This seems easy, but it's not that easy to get it right. Because <strong>all the different social media platforms
     expect other <code>meta</code> tags</strong> for rendering their previews. They don't even use the same attribute to
     identify the correct <code>meta</code> tags. Some use the <code>name</code> attribute and others use the <code>property</code>
-    attribute. It means you'll have to support around 15 different <code>meta</code> tags to get it right (for Facebook,
-    LinkedIn and Twitter).
+    attribute. It means you'll have to support around 15 different <code>meta</code> tags to get the basics like title,
+    image, description and author right (for Facebook, LinkedIn and Twitter).
   </p>
 
   <p>
@@ -261,23 +261,23 @@
   </p>
 
   <pre><code class="typescript highlighted">RouterModule.forChild([{
-    path: '',
-    component: AboutComponent,
-    data: {
-      seo: {
-        title: `About Sam - ${environment.seo.title}`,
+  path: '',
+  component: AboutComponent,
+  data: {
+    seo: {
+      title: `About Sam - ${environment.seo.title}`,
       description: `I'm a 30 year old software engineer living in Belgium.`,
       shareImg: '/assets/share/about.png',
-          }
-      }
-    }])</code></pre>
+    }
+  }
+}])</code></pre>
 
   <p>
     Using a service we can subscribe to route changes to extract this data and update our title and meta tags.
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class Routehelper {
 
@@ -294,7 +294,7 @@ export class Routehelper {
       filter(event => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
       map(route => {
-    while (route.firstChild) {
+        while (route.firstChild) {
           route = route.firstChild;
         }
         return route;
@@ -342,11 +342,11 @@ export class SeoService {
       this.metaService.updateTag({property: 'og:title', content: title});
       this.metaService.updateTag({name: 'title', content: title});
     } else {
-    this.metaService.removeTag(`name='twitter:title'`);
-    this.metaService.removeTag(`name='twitter:image:alt'`);
-    this.metaService.removeTag(`property='og:image:alt'`);
-    this.metaService.removeTag(`property='og:title'`);
-    this.metaService.removeTag(`name='title'`);
+      this.metaService.removeTag(`name='twitter:title'`);
+      this.metaService.removeTag(`name='twitter:image:alt'`);
+      this.metaService.removeTag(`property='og:image:alt'`);
+      this.metaService.removeTag(`property='og:title'`);
+      this.metaService.removeTag(`name='title'`);
     }
   }
 
@@ -355,7 +355,7 @@ export class SeoService {
 
   <h2>
     <span>
-    Watch out for over optimization
+    Watch out for over-optimization
     </span>
   </h2>
 
@@ -443,6 +443,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     Conclusion
     </span>
   </h2>
+
   <p>
     Not all search engines behave the same way. <em>Not only Google, Bing etc. can be categorized as search
     engines</em> but we have to think about Social platforms like Facebook, Twitter and LinkedIn, that also crawl
@@ -458,12 +459,14 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
 
   <h2>Special thanks to</h2>
 
-  <ul>
-    <li>
-      <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
-    </li>
-  </ul>
+  <div class="special-thanks">
+    <ul>
+      <li>
+        <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
+      </li>
+    </ul>
 
-  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+    <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+  </div>
 
 </section>

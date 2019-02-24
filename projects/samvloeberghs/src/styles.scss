@@ -246,8 +246,16 @@ a:focus {
 
     .copy {
       font-style: italic;
+
       small {
         font-size: 0.8em;
+      }
+    }
+
+    .special-thanks {
+      & > p,
+      & > ul li {
+        font-size: 1.4em;
       }
     }
 

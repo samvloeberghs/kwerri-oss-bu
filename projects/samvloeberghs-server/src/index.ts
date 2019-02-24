@@ -72,7 +72,6 @@ if (PROD) {
   app.use(cors(corsOptions));
 }
 
-/*
 app.use(compression({
   filter: (req, res) => {
     let ignore = false;
@@ -85,7 +84,6 @@ app.use(compression({
     return ignore ? false : compression.filter(req, res);
   },
 }));
-*/
 
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
