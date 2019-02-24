@@ -21,9 +21,6 @@ import { allowedPaths, type } from './cache.config';
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
 
-(global as any).WebSocket = require('ws');
-(global as any).XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-
 // TODO: do this with proper DI
 (global as any).hljs = {
   configure: () => {
