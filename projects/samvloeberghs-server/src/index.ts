@@ -87,6 +87,12 @@ app.use(compression({
   },
 }));
 
+// TEMP API
+// hardcoded because changing soon to a nest api
+app.get('/data/posts', (req, res) => {
+  res.json(require('../../../dist/samvloeberghs/browser/assets/posts/data.json'));
+});
+
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 

@@ -21,7 +21,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     this.dataService
-      .getData('/assets/posts/data.json')
+      .getData('/data/posts')
       .pipe(
         map(response => response as Post[]),
       )
