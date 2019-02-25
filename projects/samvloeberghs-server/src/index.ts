@@ -66,13 +66,22 @@ app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
 
+/*
 const corsOptions = {
   origin: 'https://samvloeberghs.be',
   preflightContinue: true,
   optionsSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions));
+*/
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, HEAD, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  next();
+});
+
 app.use(compression({
   filter: (req, res) => {
     let ignore = false;
