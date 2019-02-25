@@ -86,7 +86,7 @@ app.get('/data/posts', (req, res) => {
 });
 
 // Server static files from /browser
-// app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
+app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
 let myCache;
 switch (type) {
