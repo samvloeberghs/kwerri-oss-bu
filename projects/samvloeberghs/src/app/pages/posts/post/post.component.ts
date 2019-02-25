@@ -33,7 +33,7 @@ export class PostComponent implements OnInit {
   ngOnInit() {
     const slug = this.route.snapshot.params['slug'];
     this.dataService
-      .getData('/assets/posts/data.json')
+      .getData('/posts/data.json')
       .pipe(
         map((posts: Post[]): Post => {
           return posts.find((post: Post) => {
@@ -71,7 +71,7 @@ export class PostComponent implements OnInit {
               modified: post.updateDatetime,
             };
             this.seoService.setData(seoData);
-            return this.dataService.getDataText(`/assets/posts/${slug}/post.html`);
+            return this.dataService.getDataText(`/posts/${slug}/post.html`);
           },
         ),
       )

@@ -25,7 +25,8 @@
             "assets": [
               "projects/samvloeberghs/src/favicon.ico",
               "projects/samvloeberghs/src/assets",
-              "projects/samvloeberghs/src/manifest.json"
+              "projects/samvloeberghs/src/manifest.json",
+              "projects/samvloeberghs/src/posts"
             ],
             "styles": [
               "projects/samvloeberghs/src/styles.scss"
