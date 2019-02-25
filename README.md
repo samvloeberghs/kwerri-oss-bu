@@ -33,7 +33,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ```
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 20080
+sudo iptables -t nat -I OUTPUT -p tcp -o -lo --dport 80 -j REDIRECT --to-port 20080
 sudo iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 20443
+sudo iptables -t nat -I OUTPUT -p tcp -o -lo --dport 443 -j REDIRECT --to-port 20433
 sudo apt-get install iptables-persistent
 iptables-save > /etc/iptables/rules.v4
+iptables -t nat -F
 ```
