@@ -65,18 +65,7 @@ app.engine('html', (_, options, callback) => {
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
-
-if (PROD) {
-  /*
-  const corsOptions = {
-    origin: 'https://samvloeberghs.be',
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  };
-  app.use(cors(corsOptions));
-  */
-  app.use(cors());
-}
-
+app.use(cors());
 app.use(compression({
   filter: (req, res) => {
     let ignore = false;
@@ -97,7 +86,7 @@ app.get('/data/posts', (req, res) => {
 });
 
 // Server static files from /browser
-app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
+// app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
 let myCache;
 switch (type) {
