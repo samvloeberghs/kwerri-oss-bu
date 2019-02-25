@@ -80,7 +80,8 @@ app.use((req, res, next) => {
     'https://samvloeberghs.be',
     `https://samvloeberghs.be:${PORT}`,
   ];
-  if (corsWhitelist.indexOf(req.headers.origin.toString()) !== -1) {
+  console.log('req.get(origin)', req.get('origin'));
+  if (corsWhitelist.indexOf(req.get('origin')) !== -1) {
     console.log('setting cors headers for ', req.headers.origin.toString());
     res.header('Access-Control-Allow-Origin', req.headers.origin.toString());
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
