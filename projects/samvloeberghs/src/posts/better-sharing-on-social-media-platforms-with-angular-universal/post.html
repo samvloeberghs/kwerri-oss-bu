@@ -278,16 +278,16 @@
   </p>
 
   <pre><code class="typescript highlighted">RouterModule.forChild([{
-    path: '',
-    component: AboutComponent,
-    data: {
-      seo: {
-        title: `About Sam - ${environment.seo.title}`,
+  path: '',
+  component: AboutComponent,
+  data: {
+    seo: {
+      title: `About Sam - ${environment.seo.title}`,
       description: `I'm a 30 year old software engineer living in Belgium.`,
       shareImg: '/assets/share/about.png',
-          }
-      }
-    }])</code></pre>
+    }
+  }
+}])</code></pre>
 
   <p>
     Using a service we can subscribe to route changes to extract this data and update our title and meta tags.
@@ -298,11 +298,11 @@
 })
 export class Routehelper {
 
-    constructor(
-      private readonly router: Router,
-      private readonly activatedRoute: ActivatedRoute,
-      private readonly seoService: SeoService
-    ) {
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly seoService: SeoService
+  ) {
     this.setupRouting();
   }
 
@@ -311,16 +311,16 @@ export class Routehelper {
       filter(event => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
       map(route => {
-    while (route.firstChild) {
+        while (route.firstChild) {
           route = route.firstChild;
         }
         return route;
       }),
       filter(route => route.outlet === 'primary'),
     ).subscribe((route: ActivatedRoute) => {
-    const seo = route.snapshot.data['seo'];
-    // set your meta tags & title here
-    this.seoService.setData(seo);
+      const seo = route.snapshot.data['seo'];
+      // set your meta tags & title here
+      this.seoService.setData(seo);
     });
   }
 
@@ -339,10 +339,10 @@ export class Routehelper {
 })
 export class SeoService {
 
-    constructor(
-      private readonly metaService: Meta,
-      private readonly titleService: Title
-    ) {
+  constructor(
+    private readonly metaService: Meta,
+    private readonly titleService: Title
+  ) {
   }
 
   setData(data: SeoData) {
@@ -353,17 +353,17 @@ export class SeoService {
   private setTitle(title: string = '') {
     this.titleService.setTitle(title);
     if (title && title.length) {
-    this.metaService.updateTag({name: 'twitter:title', content: title});
+      this.metaService.updateTag({name: 'twitter:title', content: title});
       this.metaService.updateTag({name: 'twitter:image:alt', content: title});
       this.metaService.updateTag({property: 'og:image:alt', content: title});
       this.metaService.updateTag({property: 'og:title', content: title});
       this.metaService.updateTag({name: 'title', content: title});
     } else {
-    this.metaService.removeTag(`name='twitter:title'`);
-    this.metaService.removeTag(`name='twitter:image:alt'`);
-    this.metaService.removeTag(`property='og:image:alt'`);
-    this.metaService.removeTag(`property='og:title'`);
-    this.metaService.removeTag(`name='title'`);
+      this.metaService.removeTag(`name='twitter:title'`);
+      this.metaService.removeTag(`name='twitter:image:alt'`);
+      this.metaService.removeTag(`property='og:image:alt'`);
+      this.metaService.removeTag(`property='og:title'`);
+      this.metaService.removeTag(`name='title'`);
     }
   }
 
