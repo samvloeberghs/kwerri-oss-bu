@@ -10,7 +10,8 @@
           "/index.html",
           "/*.css",
           "/*.js",
-          "/assets/**"
+          "/assets/**",
+          "/posts/**"
         ]
       }
     }
