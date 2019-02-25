@@ -76,9 +76,16 @@ app.use(cors(corsOptions));
 */
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, HEAD, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  const corsWhitelist = [
+    'https://samvloeberghs.be',
+    `https://samvloeberghs.be:${PORT}`,
+  ];
+  if (corsWhitelist.indexOf(req.headers.origin.toString()) !== -1) {
+    console.log('setting cors headers for ', req.headers.origin.toString());
+    res.header('Access-Control-Allow-Origin', req.headers.origin.toString());
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  }
   next();
 });
 
