@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 
@@ -37,6 +37,7 @@ export class DataService {
     if (this.transferState.hasKey(key)) {
       return of(this.transferState.get(key, null));
     }
+
     return this.http
       .get(`${environment.url}${file}`, {responseType: 'text'})
       .pipe(
