@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Post } from './post/post.model';
 import { DataService } from '../../shared/data.service';
 import { map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'sv-posts',
@@ -27,8 +28,9 @@ export class PostsComponent implements OnInit {
       )
       .subscribe(
         posts => this.posts = posts,
-        error => {
+        (error: HttpErrorResponse) => {
           console.log(error);
+          console.log(error.headers);
           this.error = error;
         },
       );
