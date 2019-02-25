@@ -67,11 +67,14 @@ app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
 
 if (PROD) {
+  /*
   const corsOptions = {
     origin: 'https://samvloeberghs.be',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   };
   app.use(cors(corsOptions));
+  */
+  app.use(cors());
 }
 
 app.use(compression({
@@ -123,7 +126,7 @@ function ngApp(req, res) {
   const config = {
     req,
     res,
-    preboot: false,
+    preboot: true,
     baseUrl: '/',
     requestUrl: req.originalUrl,
     originUrl: PROD ? 'https://samvloeberghs.be' : HTTPS ? `https://localhost:${PORT}` : `http://localhost:${PORT}`,
