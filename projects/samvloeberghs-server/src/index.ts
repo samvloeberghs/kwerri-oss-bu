@@ -82,8 +82,7 @@ app.use((req, res, next) => {
   ];
   console.log('req.get(origin)', req.get('origin'));
   if (corsWhitelist.indexOf(req.get('origin')) !== -1) {
-    console.log('setting cors headers for ', req.headers.origin.toString());
-    res.header('Access-Control-Allow-Origin', req.headers.origin.toString());
+    res.header('Access-Control-Allow-Origin', req.get('origin'));
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   }
