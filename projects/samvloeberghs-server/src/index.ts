@@ -81,10 +81,9 @@ app.use((req, res, next) => {
     `https://samvloeberghs.be:${PORT}`,
   ];
   console.log('req.get(origin)', req.get('origin'));
-  if (true || corsWhitelist.indexOf(req.get('origin')) !== -1) {
-    // res.header('Access-Control-Allow-Origin', req.get('origin'));
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  if (corsWhitelist.indexOf(req.get('origin')) !== -1) {
+    res.header('Access-Control-Allow-Origin', req.get('origin'));
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, HEAD, PATCH, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   }
   next();
