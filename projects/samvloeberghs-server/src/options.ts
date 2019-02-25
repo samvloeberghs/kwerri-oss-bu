@@ -17,4 +17,4 @@ const goodHtmlMinifyOptions = Object.assign({}, tooMuchHtmlMinifyOptions, {
 });
 
 export const htmlMinifyOptions = goodHtmlMinifyOptions;
-//export const htmlMinifyOptions = tooMuchHtmlMinifyOptions;
+// export const htmlMinifyOptions = tooMuchHtmlMinifyOptions;
