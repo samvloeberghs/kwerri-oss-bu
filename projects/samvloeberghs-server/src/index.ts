@@ -77,6 +77,8 @@ app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
   const corsWhitelist = [
+    'https://www.samvloeberghs.be',
+    `https://www.samvloeberghs.be:${PORT}`,
     'https://samvloeberghs.be',
     `https://samvloeberghs.be:${PORT}`,
   ];
