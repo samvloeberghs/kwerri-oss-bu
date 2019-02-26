@@ -29,7 +29,7 @@
     href="https://angular.io/guide/universal" rel="noopener" target="_blank">completely documented</a> and there are a
     lot of <a href="https://github.com/angular/universal" rel="noopener" target="_blank">example projects</a>
     available. Angular CLI also gives us the tools to add this functionality automatically by using <a
-    href="https://github.com/angular/universal" rel="noopener" target="_blank">simple commands</a>.
+    href="https://angular.io/cli/generate#universal-command" rel="noopener" target="_blank">simple commands</a>.
   </p>
   <p>
     But the fact that <em>SPAs in general have big problems with indexing and social sharing</em> has been a topic for
@@ -220,7 +220,7 @@
 
   <p class="alert alert-info">
     <i class="fa fa-info"></i>
-    Update: I did some trial-and-error testing and it seems that the meta tag <code>&#x3C;meta name=&#x22;published_date&#x22;
+    Update: I did some trial-and-error testing and it seems that the <code>meta</code> tag <code>&#x3C;meta name=&#x22;published_date&#x22;
     content=&#x22;2019-02-24T11:00:00.000Z&#x22;&#x3E;</code> does the trick.
   </p>
 
@@ -273,7 +273,7 @@
   <p>
     Using the router we can attach metadata that needs to be coupled to our routes. If we want to set the title for a
     dynamic page, like for example a blogpost, we need to get the data first and then call the same services to update
-    the meta tags and title. As you can see in the example below, for the about page, we've configured these values and
+    the <code>meta</code> and <code>title</code> <code>meta</code>. As you can see in the example below, for the about page, we've configured these values and
     attached them to the route.
   </p>
 
@@ -290,7 +290,7 @@
 }])</code></pre>
 
   <p>
-    Using a service we can subscribe to route changes to extract this data and update our title and meta tags.
+    Using a service we can subscribe to route changes to extract this data and update our <code>title</code> and <code>meta</code> tags.
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
@@ -327,7 +327,7 @@ export class Routehelper {
 }</code></pre>
 
   <p>
-    As explained above, all our social platforms expect other meta tags. Therefor it's best to create a SEO wrapper
+    As explained above, all our social platforms expect other <code>meta</code> tags. Therefor it's best to create a SEO wrapper
     service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
     method to update the title value on our pages. If you want to see the full example, have a look at the <a
     href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
@@ -479,6 +479,9 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
   <ul>
     <li>
       <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
+    </li>
+    <li>
+      <a href="https://twitter.com/mohamedzamakhan" rel="noopener" target="_blank">Zama Khan Mohammed</a>
     </li>
   </ul>
 
