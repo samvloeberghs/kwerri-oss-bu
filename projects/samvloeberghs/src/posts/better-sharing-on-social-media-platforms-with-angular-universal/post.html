@@ -20,11 +20,12 @@
   </h2>
 
   <p>
-    It’s not a new concept, running Angular on the server with Universal. The first version of this website was build
+    It’s not a new concept, running Angular on the server with Universal. The first version of this website was built
     with Angular v2 and Universal concepts back in November 2016. The tooling around it has grown a lot since then and
     my website evolved together with those tooling updates.
   </p>
-  <p>
+  <p class="alert alert-warning">
+    <i class="fa fa-warning"></i>
     It’s much easier to build an Angular universal website or app today because it’s <a
     href="https://angular.io/guide/universal" rel="noopener" target="_blank">completely documented</a> and there are a
     lot of <a href="https://github.com/angular/universal" rel="noopener" target="_blank">example projects</a>
@@ -32,7 +33,7 @@
     href="https://angular.io/cli/generate#universal-command" rel="noopener" target="_blank">simple commands</a>.
   </p>
   <p>
-    But the fact that <em>SPAs in general have big problems with indexing and social sharing</em> has been a topic for
+    The fact that <em>SPAs in general have big problems with indexing and social sharing</em> has been a topic for
     many discussions, and for many years, ever-since the first JS applications were build. Different approaches have
     been considered and one of them, like prerendering the application with a headless browser like PhantomJS or
     Puppeteer and serving different content for different consumers, bots vs real visitors, can be categorized as <a
@@ -81,8 +82,8 @@
     If you want to read more about this topic, I suggest reading
     <a href="https://moz.com/blog/search-engines-ready-for-javascript-crawling" rel="noopener" target="_blank">https://moz.com/blog/search-engines-ready-for-javascript-crawling</a>.
     The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, like for
-    example the ability to parse Angular v2+ applications. The general problem remains: <strong>Search engines are, in
-    general, not very capable of rendering JavaScript while indexing</strong>.
+    example the ability of the Googlebot to parse Angular v2+ applications. The general problem remains: <strong>Search
+    engines are, in general, not very capable of rendering JavaScript while indexing</strong>.
   </p>
 
   <h2>
@@ -273,7 +274,8 @@
   <p>
     Using the router we can attach metadata that needs to be coupled to our routes. If we want to set the title for a
     dynamic page, like for example a blogpost, we need to get the data first and then call the same services to update
-    the <code>meta</code> and <code>title</code> <code>meta</code>. As you can see in the example below, for the about page, we've configured these values and
+    the <code>meta</code> and <code>title</code> <code>meta</code>. As you can see in the example below, for the about
+    page, we've configured these values and
     attached them to the route.
   </p>
 
@@ -290,7 +292,8 @@
 }])</code></pre>
 
   <p>
-    Using a service we can subscribe to route changes to extract this data and update our <code>title</code> and <code>meta</code> tags.
+    Using a service we can subscribe to route changes to extract this data and update our <code>title</code> and <code>meta</code>
+    tags.
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
@@ -327,8 +330,8 @@ export class Routehelper {
 }</code></pre>
 
   <p>
-    As explained above, all our social platforms expect other <code>meta</code> tags. Therefor it's best to create a SEO wrapper
-    service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
+    As explained above, all our social platforms expect other <code>meta</code> tags. Therefore it's best to create a SEO
+    wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
     method to update the title value on our pages. If you want to see the full example, have a look at the <a
     href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
     target="_blank">full implementation of my SeoService</a>.
@@ -469,7 +472,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
   </p>
   <p>
     This means we have to <em>adjust and configure our applications very specifically for the different
-    crawlers</em> of the social platforms we want to support. By using Angular Universal, we are sable to generate a
+    crawlers</em> of the social platforms we want to support. By using Angular Universal, we are able to generate a
     static version of your application on the server and output static HTML. When minifying this static HTML we need to
     be careful and <em>keep our HTML as strict and structured as possible</em>.
   </p>
@@ -482,6 +485,9 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     </li>
     <li>
       <a href="https://twitter.com/mohamedzamakhan" rel="noopener" target="_blank">Zama Khan Mohammed</a>
+    </li>
+    <li>
+      <a href="https://twitter.com/manekinekko" rel="noopener" target="_blank">Wassim Chegham</a>
     </li>
   </ul>
 
