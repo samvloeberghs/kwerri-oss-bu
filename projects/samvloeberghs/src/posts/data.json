@@ -1,5 +1,15 @@
 [
   {
+    "title": "Outputting JSON-LD with Angular Universal",
+    "slug": "outputting-json-ld-with-angular-universal",
+    "publishDatetime": "2019-03-24T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/posts/outputting-json-ld-with-angular-universal/img.jpg",
+    "imgFull": "/posts/outputting-json-ld-with-angular-universal/img_full.jpg",
+    "imgShare": "/posts/outputting-json-ld-with-angular-universal/img_share.jpg",
+    "short": "JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write. In this new Angular Universal article we learn how to output JSON-LD. We will re-use and explain some techniques that the TransferState key-value store uses to transfer server state to the application on the client side.</span>"
+  },
+  {
     "title": "Better sharing on social media platforms with Angular Universal",
     "slug": "better-sharing-on-social-media-platforms-with-angular-universal",
     "publishDatetime": "2019-02-24T12:00:00+01:00",
