@@ -297,7 +297,7 @@
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class Routehelper {
 
@@ -319,7 +319,7 @@ export class Routehelper {
         }
         return route;
       }),
-      filter(route => route.outlet === 'primary'),
+      filter(route => route.outlet === 'primary')
     ).subscribe((route: ActivatedRoute) => {
       const seo = route.snapshot.data['seo'];
       // set your meta tags & title here
@@ -330,8 +330,10 @@ export class Routehelper {
 }</code></pre>
 
   <p>
-    As explained above, all our social platforms expect other <code>meta</code> tags. Therefore it's best to create a SEO
-    wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
+    As explained above, all our social platforms expect other <code>meta</code> tags. Therefore it's best to create a
+    SEO
+    wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement
+    the
     method to update the title value on our pages. If you want to see the full example, have a look at the <a
     href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
     target="_blank">full implementation of my SeoService</a>.
@@ -342,10 +344,10 @@ export class Routehelper {
 })
 export class SeoService {
 
-  constructor(
-    private readonly metaService: Meta,
-    private readonly titleService: Title
-  ) {
+    constructor(
+      private readonly metaService: Meta,
+      private readonly titleService: Title
+    ) {
   }
 
   setData(data: SeoData) {
@@ -356,17 +358,17 @@ export class SeoService {
   private setTitle(title: string = '') {
     this.titleService.setTitle(title);
     if (title && title.length) {
-      this.metaService.updateTag({name: 'twitter:title', content: title});
+    this.metaService.updateTag({name: 'twitter:title', content: title});
       this.metaService.updateTag({name: 'twitter:image:alt', content: title});
       this.metaService.updateTag({property: 'og:image:alt', content: title});
       this.metaService.updateTag({property: 'og:title', content: title});
       this.metaService.updateTag({name: 'title', content: title});
     } else {
-      this.metaService.removeTag(`name='twitter:title'`);
-      this.metaService.removeTag(`name='twitter:image:alt'`);
-      this.metaService.removeTag(`property='og:image:alt'`);
-      this.metaService.removeTag(`property='og:title'`);
-      this.metaService.removeTag(`name='title'`);
+    this.metaService.removeTag(`name='twitter:title'`);
+    this.metaService.removeTag(`name='twitter:image:alt'`);
+    this.metaService.removeTag(`property='og:image:alt'`);
+    this.metaService.removeTag(`property='og:title'`);
+    this.metaService.removeTag(`name='title'`);
     }
   }
 
@@ -477,7 +479,11 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     be careful and <em>keep our HTML as strict and structured as possible</em>.
   </p>
 
-  <h2>Special thanks to</h2>
+  <h2>
+    <span>
+      Special thanks to
+    </span>
+  </h2>
 
   <ul>
     <li>

@@ -7,293 +7,95 @@
   </h2>
 
   <p>
-    This article and guide on better sharing on social media platforms with Angular Universal is targeted to developers
-    that have at least a basic understanding of Angular and might already have an Angular Universal implementation
-    up and running. We are going to describe some high-level ideas and concepts, different tools and Angular services
-    that will enable better social sharing for platforms like Facebook, Twitter and LinkedIn.
+    This article and guide on generating JSON-LD with Angular Universal is targeted to developers that want to generate
+    the JSON that represents the Linked Data object and inject it correctly in the HTML that gets generated on the
+    server.
   </p>
 
   <h2>
     <span>
-    Angular Universal and SEO problems with SPAs
+    First of all; What is JSON-LD?
     </span>
   </h2>
 
   <p>
-    It’s not a new concept, running Angular on the server with Universal. The first version of this website was built
-    with Angular v2 and Universal concepts back in November 2016. The tooling around it has grown a lot since then and
-    my website evolved together with those tooling updates.
-  </p>
-  <p class="alert alert-warning">
-    <i class="fa fa-warning"></i>
-    It’s much easier to build an Angular universal website or app today because it’s <a
-    href="https://angular.io/guide/universal" rel="noopener" target="_blank">completely documented</a> and there are a
-    lot of <a href="https://github.com/angular/universal" rel="noopener" target="_blank">example projects</a>
-    available. Angular CLI also gives us the tools to add this functionality automatically by using <a
-    href="https://angular.io/cli/generate#universal-command" rel="noopener" target="_blank">simple commands</a>.
-  </p>
-  <p>
-    The fact that <em>SPAs in general have big problems with indexing and social sharing</em> has been a topic for
-    many discussions, and for many years, ever-since the first JS applications were build. Different approaches have
-    been considered and one of them, like prerendering the application with a headless browser like PhantomJS or
-    Puppeteer and serving different content for different consumers, bots vs real visitors, can be categorized as <a
-    href="https://www.webopedia.com/TERM/B/Black_Hat_SEO.html" rel="noopener"
-    target="_blank">black hat SEO</a>.
-  </p>
-
-  <h2>
-    <span>
-    Indexing capabilities of SPAs by search engines
-    </span>
-  </h2>
-  <p>
-    When you generate an Angular application via the angular-cli a <code>polyfills.ts</code> file gets generated. It
-    includes the following content:
-  </p>
-
-  <pre><code class="typescript highlighted">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
-* This also includes Android Emulators with older versions of Chrome
-* and Google Search/Googlebot
-*/
-</code></pre>
-
-  <p>
-    This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
-    specific polyfills. It does not mention any other search engines. The other typical search engines, like
-    Bing, Yahoo, DuckDuckGo, etc all have problems parsing JavaScript heavy websites, like SPAs or applications that use
-    frameworks like for example jQuery.
+    JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write. It is based on the already
+    successful JSON format and provides a way to help JSON data interoperate at Web-scale.
   </p>
 
   <p>
-    The overview below gives us a good idea which search engines are capable of indexing JavaScript heavy
-    applications, build with different frameworks and libraries.
-  </p>
-
-  <img src="/posts/better-sharing-on-social-media-platforms-with-angular-universal/se_overview.png"
-       alt="Going Beyond Google: Are Search Engines Ready for JavaScript Crawling & Indexing?"/>
-
-  <p class="copy">
-    <small>
-      All credits for this overview go to <a href="https://twitter.com/bart_goralewicz" rel="noopener" target="_blank">
-      Bartosz Góralewiczm</a>, see also blogpost linked below
-    </small>
-  </p>
-  <p>
-    If you want to read more about this topic, I suggest reading
-    <a href="https://moz.com/blog/search-engines-ready-for-javascript-crawling" rel="noopener" target="_blank">https://moz.com/blog/search-engines-ready-for-javascript-crawling</a>.
-    The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, like for
-    example the ability of the Googlebot to parse Angular v2+ applications. The general problem remains: <strong>Search
-    engines are, in general, not very capable of rendering JavaScript while indexing</strong>.
-  </p>
-
-  <h2>
-    <span>
-    Google, Bing and others are not the only search engines
-    </span>
-  </h2>
-
-  <p>
-    Everything that is described above is also true for other crawlers, like those of Facebook, Twitter and LinkedIn,
-    just to name a few of the social media platforms I consider to be important for my cases. These can also be
-    considered search engines, because they parse and cache the content of your website or application when their users
-    share your content.
-  </p>
-
-  <p>
-    And just like the other typical search engines, most of them, if not all, are not capable of parsing JavaScript and
-    only rely on the statically generated HTML.
-  </p>
-
-  <h2>
-    <span>
-    How do social media platforms crawl your page?
-    </span>
-  </h2>
-
-  <p>
-    Social media platforms use your statically generated HTML to show a preview when sharing one of your pages on their
-    feed. Therefor they parse the <code>title</code> and <code>meta</code> tags that can be found in the <code>&#x3C;head&#x3E;</code>
-    tag.
-  </p>
-
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
-&#x3C;html lang=&#x22;en&#x22;&#x3E;
-   &#x3C;head&#x3E;
-      &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
-      &#x3C;title&#x3E;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x3C;/title&#x3E;
-      &#x3C;meta name=&#x22;description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-      &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
-   &#x3C;/head&#x3E;
-   ...</code></pre>
-
-  <p class="alert alert-warning">
-    <i class="fa fa-warning"></i>
-    This seems easy, but it's not that easy to get it right. Because <strong>all the different social media platforms
-    expect other <code>meta</code> tags</strong> for rendering their previews. They don't even use the same attribute to
-    identify the correct <code>meta</code> tags. Some use the <code>name</code> attribute and others use the <code>property</code>
-    attribute. It means you'll have to support around 15 different <code>meta</code> tags to get the basics like title,
-    image, description and author right (for Facebook, LinkedIn and Twitter).
-  </p>
-
-  <p>
-    All of the discussed social media platforms provide us with tools to <strong>validate our pages or posts before
-    sharing them</strong>. Some platforms, like Facebook and LinkedIn cache all the shared content, so these tools also
-    allow us to <em>invalidate cached content</em>. Super handy if you have already shared your page before, or if you
-    want to invalidate the cache of a set of pages in one go.
-  </p>
-
-  <h3>
-    <span>
-    Facebook
-    </span>
-  </h3>
-
-  <p>
-    To get Facebook to show your content correctly you need to implement the following basic <code>meta</code> tags.
-    Please note that Facebook uses the <code>property</code> attribute to define the type of <code>meta</code> value and
-    that those types are always prefixed with <code>og:</code>, which is the prefix for the open-graph protocol.
-  </p>
-
-  <pre><code class="html highlighted">&#x3C;head&#x3E;
-  &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:url&#x22; content=&#x22;https://samvloeberghs.be/&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share_img.png&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image:height&#x22; content=&#x22;xxx&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image:width&#x22; content=&#x22;xxx&#x22;&#x3E;
-&#x3C;/head&#x3E;</code></pre>
-
-  <p>
-    The open-graph protocol allows for a lot more <code>meta</code> tags to be defined. Especially Facebook supports a
-    lot more, like video. Check the <a href="https://developers.facebook.com/docs/sharing/webmasters" rel="noopener"
-                                       target="_blank">documentation for Facebook sharing</a> to learn more.
-  </p>
-
-  <h4>
-    <span>
-    Facebook Sharing Debugger
-    </span>
-  </h4>
-
-  <p>
-    Validating a preview of your post on Facebook can be done via <a
-    href="https://developers.facebook.com/tools/debug/sharing" target="_blank" rel="noopener">https://developers.facebook.com/tools/debug/sharing</a>.
-    Facebook also provides a way to invalidate a batch of pages, which can also be done programmaticaly via their API.
-  </p>
-
-  <h3>
-    <span>
-    LinkedIn
-    </span>
-  </h3>
-
-  <p>
-    To get your post to show correctly on LinkedIn you need to implement the following basic <code>meta</code> tags.
-    Please note that LinkedIn also uses the <code>og:</code> prefixes, but not for all values, like the author <code>meta</code>
-    tag.
-  </p>
-
-  <pre><code class="html highlighted">&#x3C;head&#x3E;
-  &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:type&#x22; content=&#x22;website&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
-&#x3C;/head&#x3E;</code></pre>
-
-  <h4>
-    <span>
-    LinkedIn Post Inspector
-    </span>
-  </h4>
-
-  <p>
-    Validating a preview of your post or website and refreshing the cache on LinkedIn can be done via <a
-    href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener">https://www.linkedin.com/post-inspector/</a>.
-  </p>
-
-  <p>
-    The only thing I'm still not sure about is which <code>meta</code> <code>property</code> or <code>name</code> they
-    use to correctly read out the "Publish date". I have asked the question to their support and I'm still waiting for
-    an answer. And sadly there is little to no documentation to be found on this subject.
+    <a href="https://en.wikipedia.org/wiki/Linked_data" target="_blank" rel="noopener">Linked Data</a> empowers people
+    that publish and use information on the Web. It is a way to create a network of standards-based, machine-readable
+    data across Web sites. It allows an application to start at one piece of Linked Data, and follow embedded links to
+    other pieces of Linked Data that are hosted on different sites across the Web.
   </p>
 
   <p class="alert alert-info">
     <i class="fa fa-info"></i>
-    Update: I did some trial-and-error testing and it seems that the <code>meta</code> tag <code>&#x3C;meta name=&#x22;published_date&#x22;
-    content=&#x22;2019-02-24T11:00:00.000Z&#x22;&#x3E;</code> does the trick.
+    These 2 definitions of JSON-LD and Linked Data were simply taken from the website of JSON-LD. This article does not
+    go deep into the full specification of JSON-LD and it does not teach you how to properly
+    generate your Linked Data structures. The tools of the <a href="https://json-ld.org" target="_blank" rel="noopener">JSON-ld
+    website</a>, like for example the <a href="https://json-ld.org/playground/" target="_blank" rel="noopener">playground</a>,
+    give you all you need to validate your Linked Data structures.
   </p>
 
   <h3>
-    <span>
-    Twitter
-    </span>
+    Why should I care about JSON-LD?
   </h3>
 
   <p>
-    To get your post to show correctly on Twitter as a card you need to implement the following <code>meta</code> tags.
-    Please note that, <em>compared to Facebook and LinkedIn,</em> Twitter uses the <code>name</code> attribute to define
-    the type of <code>meta</code> value and that those types are always prefixed with <code>twitter:</code>.
+    You should care about JSON-LD for several reasons:
   </p>
-
-  <pre><code class="html highlighted">&#x3C;head&#x3E;
-  &#x3C;meta name=&#x22;twitter:card&#x22; content=&#x22;summary_large_image&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:site&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:creator&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
-&#x3C;/head&#x3E;</code></pre>
-
-  <h4>
-    <span>
-    Twitter Card Validator
-    </span>
-  </h4>
+  <ul>
+    <li>
+      It's simpler to generate, more structured and easier to read than <a href="https://schema.org/docs/gs.html"
+                                                                           target="_blank" rel="noopener">Microdata</a>
+    </li>
+    <li>
+      It links or allows your data to be linked with other entities / data subjects on the world-wide web
+    </li>
+  </ul>
 
   <p>
-    Validating the preview of your post on Twitter can be done via <a
-    href="https://cards-dev.twitter.com/validator" target="_blank" rel="noopener">https://cards-dev.twitter.com/validator</a>.
+    In general; it ads a lot <em>more semantic value to your HTML markup</em> by providing context to what you show on
+    the page and makes this context machine-readable, allowing it to be <em>parsed more easily by search engines and
+    other crawlers</em> on the web.
   </p>
 
   <h2>
     <span>
-    Using the Meta and Title services in Angular
+    Generating your JSON Linked Data structure
     </span>
   </h2>
 
   <p>
-    To achieve all this, the only 2 services we need to use are the <a
-    href="https://angular.io/api/platform-browser/Title" rel="noopener" target="_blank">Title</a> and <a
-    href="https://angular.io/api/platform-browser/Meta" rel="noopener" target="_blank">Meta</a> service. We use them to
-    dynamically update the title of a webpage and for setting the required meta tags described before.
+    Generating your JSON Linked Data can be done using the same base data you use to set your meta tags for social
+    sharing and SEO, in the simple case of a blog or not too complex website. Your most important concern is building
+    the correct structure. How your structure looks is completely dependent on your usecase. As a basic example we will use
+    this website, and more specifically the <a href="https://samvloeberghs.be/about">about page</a>.
   </p>
 
   <p>
-    Using the router we can attach metadata that needs to be coupled to our routes. If we want to set the title for a
-    dynamic page, like for example a blogpost, we need to get the data first and then call the same services to update
-    the <code>meta</code> and <code>title</code> <code>meta</code>. As you can see in the example below, for the about
-    page, we've configured these values and
-    attached them to the route.
+    Using the router we first define the correct SEO data associated with our route. Just like we did before, <a
+    href="https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal">setting the
+    correct social share meta tags</a>.
   </p>
 
   <pre><code class="typescript highlighted">RouterModule.forChild([{
-  path: '',
-  component: AboutComponent,
-  data: {
-    seo: {
-      title: `About Sam - ${environment.seo.title}`,
-      description: `I'm a 30 year old software engineer living in Belgium.`,
-      shareImg: '/assets/share/about.png',
+    path: '',
+    component: AboutComponent,
+    data: {
+      seo: {
+        title: `About Sam - ${environment.seo.title}`,
+        description: `I'm a 30 year old software engineer living in Belgium.`,
+        shareImg: '/assets/share/about.png',
+      }
     }
-  }
 }])</code></pre>
 
   <p>
-    Using a service we can subscribe to route changes to extract this data and update our <code>title</code> and <code>meta</code>
-    tags.
+    Using a service we can subscribe to route changes to extract this data and pass the data to a service to parse the
+    JSON-LD object.
   </p>
 
   <pre><code class="typescript highlighted">@Injectable({
@@ -304,7 +106,7 @@ export class Routehelper {
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly seoService: SeoService
+    private readonly jsonLdService: JsonLdService
   ) {
     this.setupRouting();
   }
@@ -319,176 +121,114 @@ export class Routehelper {
         }
         return route;
       }),
-      filter(route => route.outlet === 'primary'),
+      filter(route => route.outlet === 'primary')
     ).subscribe((route: ActivatedRoute) => {
       const seo = route.snapshot.data['seo'];
-      // set your meta tags & title here
-      this.seoService.setData(seo);
+      // generate your JSON-LD object here
+      this.jsonLdService.setData(seo);
     });
   }
 
 }</code></pre>
 
   <p>
-    As explained above, all our social platforms expect other <code>meta</code> tags. Therefore it's best to create a SEO
-    wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement the
-    method to update the title value on our pages. If you want to see the full example, have a look at the <a
-    href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
-    target="_blank">full implementation of my SeoService</a>.
+    The <code>JsonLdService</code> injected above is a simple service that caches and updates the data structure we need to output. A
+    basic implementation of this service can be as follows, where you as a developer are in charge of correctly
+    structuring your object.
   </p>
+
 
   <pre><code class="typescript highlighted">@Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
-export class SeoService {
+export class JsonLdService {
 
-  constructor(
-    private readonly metaService: Meta,
-    private readonly titleService: Title
-  ) {
+  private jsonLd: any = {};
+
+  setData(type: string, rawData: any) {
+    this.jsonLd = this.getObject(type, rawData);
   }
 
-  setData(data: SeoData) {
-    this.setTitle(data.title);
-    ... // set all other meta tags
-  }
-
-  private setTitle(title: string = '') {
-    this.titleService.setTitle(title);
-    if (title && title.length) {
-      this.metaService.updateTag({name: 'twitter:title', content: title});
-      this.metaService.updateTag({name: 'twitter:image:alt', content: title});
-      this.metaService.updateTag({property: 'og:image:alt', content: title});
-      this.metaService.updateTag({property: 'og:title', content: title});
-      this.metaService.updateTag({name: 'title', content: title});
-    } else {
-      this.metaService.removeTag(`name='twitter:title'`);
-      this.metaService.removeTag(`name='twitter:image:alt'`);
-      this.metaService.removeTag(`property='og:image:alt'`);
-      this.metaService.removeTag(`property='og:title'`);
-      this.metaService.removeTag(`name='title'`);
+  getObject(type: string, rawData?: any) {
+    let object = {
+      '@context': 'http://schema.org',
+      '@type': type,
+    };
+    if (rawData) {
+      object = Object.assign({}, object, rawData);
     }
+    return object;
   }
 
+  toJson() {
+    return JSON.stringify(this.jsonLd);
+  }
 }</code></pre>
 
+  <p>
+    Using the approach explained above our current JSON-LD data-object looks like this:
+  </p>
+
+  <pre><code class="json highlighted">{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "name": "About Sam - Sam Vloeberghs - Freelance Webdeveloper & Software Engineer",
+    "url": "https://samvloeberghs.be/about"
+}</code></pre>
+
+  <p>The next step is getting this object outputted in our static HTML.</p>
 
   <h2>
     <span>
-    Watch out for over-optimization
+    Injecting the JSON in the static HTML
     </span>
   </h2>
-
-  <p>
-    When generating static pages server side you might consider optimizing the rendered HTML as well. Tools like
-    <a href="https://github.com/kangax/html-minifier" rel="noopener" target="_blank">HTMLMinifier</a> take out all the
-    bloat from your HTML, to keep the bare minimum that the browser needs to be capable of rendering it.
-  </p>
-  <p>
-    But be careful. Browsers like Chrome, Firefox and others are able to parse your minified HTML, as they are
-    very forgiving and fix errors for us. But parsers that rely heavily on structured HTML, like the ones the social
-    platforms use, might not be able to parse it correctly and get out the information they need.
-  </p>
 
   <h3>
-    <span>
-    A simple example
-    </span>
+    Getting inspiration in the Angular source code
   </h3>
-  <p>
-    The following HTMLminifier options remove all the stuff the browser does not need to correctly show your page:
-  </p>
 
-  <pre><code class="javascript highlighted">const tooMuchHtmlMinifyOptions = {
-    removeComments: true,
-    removeCommentsFromCDATA: true,
-    collapseWhitespace: true,
-    collapseBooleanAttributes: true,
-    removeRedundantAttributes: true,
-    useShortDoctype: true,
-    removeEmptyAttributes: true,
-    minifyCSS: true,
-    removeAttributeQuotes: true,
-    removeOptionalTags: true
-};
+  <h3>
+    Using Depedency Injection to differentiate the server
+  </h3>
 
-const minify = require('html-minifier').minify;
-const minifiedHtml = minify(html, minifyOptions);</code></pre>
-
-  <p>
-    Let's process the following HTML:
-  </p>
-
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
-&#x3C;html lang=&#x22;en&#x22;&#x3E;
-   &#x3C;head&#x3E;
-      &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
-      &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-      ...</code></pre>
-  <p>
-    results in
-  </p>
-
-  <pre><code
-    class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
-
-  <p>
-    This is too much optimization for the LinkedIn Post Inspector. If you look closely, you'll notice
-    that the optional <code>&#x3C;head&#x3E;</code> tag was removed and that the quotes around simple attribute values,
-    with a
-    single non-spaced value, were removed as well. To be able to minify the HTML and keep the LinkedIn Post Inspector
-    happy we
-    need to change our configuration a little bit. We want to keep the attribute quotes and optional tags:
-  </p>
-
-  <pre><code class="javascript highlighted">const goodHtmlMinifyOptions = {
-    …
-    removeAttributeQuotes: false,
-    removeOptionalTags: false
-};</code></pre>
-
-  <p>
-    Now let's rerun the minifier again with the same HTML as mentioned above and see what the final result looks like:
-  </p>
-
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
-
-  <p>
-    We are keeping the <code>&#x3C;head&#x3E;</code> tag and the attribute quotes. And now the LinkedIn Post Inspector
-    is happy 😃.
-  </p>
-
-  <h2>
-    <span>
-    Conclusion
-    </span>
-  </h2>
-
-  <p>
-    Not all search engines behave the same way. <em>Not only Google, Bing etc. can be categorized as search
-    engines</em> but we have to think about Social platforms like Facebook, Twitter and LinkedIn, that also crawl
-    and cache external content. <em>Each crawler behaves in a different way</em> and most of them are not capable of
-    parsing JavaScript heavy applications.
-  </p>
-  <p>
-    This means we have to <em>adjust and configure our applications very specifically for the different
-    crawlers</em> of the social platforms we want to support. By using Angular Universal, we are able to generate a
-    static version of your application on the server and output static HTML. When minifying this static HTML we need to
-    be careful and <em>keep our HTML as strict and structured as possible</em>.
-  </p>
-
-  <h2>Special thanks to</h2>
+  <h2><span>Further reading</span></h2>
 
   <ul>
     <li>
-      <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
+      <a href="https://moz.com/blog/json-ld-for-beginners" target="_blank" rel="noopener">
+        A Guide to JSON-LD for Beginners
+      </a>
     </li>
     <li>
-      <a href="https://twitter.com/mohamedzamakhan" rel="noopener" target="_blank">Zama Khan Mohammed</a>
+      <a href="https://www.forbes.com/sites/forbestechcouncil/2019/02/25/why-is-json-ld-important-to-businesses/amp/"
+         target="_blank" rel="noopener">
+        Why Is JSON-LD Important To Businesses?
+      </a>
     </li>
     <li>
-      <a href="https://twitter.com/manekinekko" rel="noopener" target="_blank">Wassim Chegham</a>
+      <a href="https://json-ld.org/" target="_blank" rel="noopener">
+        JSON for Linking Data - Official website
+      </a>
     </li>
+    <li>
+      <a href="https://schema.org/docs/gs.html" target="_blank" rel="noopener">
+        Getting started with schema.org using Microdata
+      </a>
+    </li>
+  </ul>
+
+  <h2>
+    <span>
+      Special thanks to
+    </span>
+  </h2>
+
+  <ul>
+    <li>
+      <a href="https://twitter.com/" rel="noopener" target="_blank"></a>
+    </li>
+
   </ul>
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>

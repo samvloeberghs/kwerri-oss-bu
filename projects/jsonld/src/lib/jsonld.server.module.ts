@@ -8,7 +8,7 @@ export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdServi
     const script = doc.createElement('script');
     script.setAttribute('type', 'application/ld+json');
     script.textContent = jsonLdService.toJson();
-    doc.body.appendChild(script);
+    doc.head.appendChild(script);
   };
   return x;
 }
