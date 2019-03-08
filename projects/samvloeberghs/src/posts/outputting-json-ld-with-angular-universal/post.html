@@ -125,7 +125,11 @@ export class Routehelper {
     ).subscribe((route: ActivatedRoute) => {
       const seo = route.snapshot.data['seo'];
       // generate your JSON-LD object here
-      this.jsonLdService.setData(seo);
+      const jsonLd = {
+        name: seo.title,
+        url: environment.url + this.router.routerState.snapshot.url,
+      };
+      this.jsonLdService.setData('Website', jsonLd);
     });
   }
 
@@ -133,10 +137,9 @@ export class Routehelper {
 
   <p>
     The <code>JsonLdService</code> injected above is a simple service that caches and updates the data structure we need
-    to output. A basic implementation of this service can be as follows, where you as a developer are in charge of
+    to output. A basic implementation of this service can be as follows, where you as a developer are still in charge of
     correctly structuring your object.
   </p>
-
 
   <pre><code class="typescript highlighted">@Injectable({
   providedIn: 'root',
@@ -166,7 +169,7 @@ export class JsonLdService {
 }</code></pre>
 
   <p>
-    Using the approach explained above our current JSON-LD data-object in memory looks like this:
+    Using the approach explained above our current JSON-LD data-object in memory will look like this:
   </p>
 
   <pre><code class="json highlighted">{
@@ -176,7 +179,7 @@ export class JsonLdService {
     "url": "https://samvloeberghs.be/about"
 }</code></pre>
 
-  <p>The next step is getting this object outputted in our static HTML.</p>
+  <p>This basic example is what we wanted to achieve. The next step is getting this object outputted in our static HTML.</p>
 
   <h2>
     <span>
@@ -189,16 +192,14 @@ export class JsonLdService {
   </h3>
 
   <p>
-    Injecting this JSON-LD data object in the DOM is only really required when we generate the HTML on the server. To
+    Injecting the JSON-LD data object in the DOM is only really required when we generate the HTML on the server. To
     get to this result I looked into the <a
     href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts"
-    rel="noopener"
-    target="_blank"><code>BrowserTransferStateModule</code></a> exposed via the <code>@angular/platform-browser</code>
+    rel="noopener" target="_blank"><code>BrowserTransferStateModule</code></a> exposed via the <code>@angular/platform-browser</code>
     module.
-
   </p>
   <p>
-    Essentialy this module, and more particullary, the <code>TransferState</code> service it provides, does the same
+    Essentialy this module, and more particullary, the <a href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts" target="_blank" rel="noopener"><code>TransferState</code></a> service it provides, does the same
     thing we want to achieve. It caches data, the result from for example HTTP calls, in an object and holds
     it in memory during the application lifecycle. Apart from the HTTP calls, that's exactly what our JsonLdService
     does.
@@ -208,14 +209,17 @@ export class JsonLdService {
     The server counter part, <a
     href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts"><code>ServerTransferStateModule</code></a>
     exposed via the <code>@angular/platform-server</code>, serializes the data and injects it in the DOM before
-    generating the HTML on the server and sending it back over the wire to the browser.
+    generating the HTML on the server and sending it back over the wire to the browser. Again, that is exactly what we
+    want to achieve. This is achieved by providing an extra factory to the <code>BEFORE_APP_SERIALIZED</code> token.
+    Right after the application becomes stable all factories attached to the <code>BEFORE_APP_SERIALIZED</code> are
+    executed.
   </p>
 
   <p>
     When the Angular application bootstraps in the browser, the <code>TransferState</code> service picks up the
     serialized state in the static HTML and unserializes it, making it available as a direct cache. This way we avoid
     that the application makes a similar request for the same data to the server, for which the server-side-rendered
-    version already did the call.
+    version already did the call. We don't need this part, but it's good to know. Check the <a href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts#L140-L153" target="_blank" rel="noopener">source code</a> to see how it works :).
   </p>
 
   <h3>
@@ -224,16 +228,18 @@ export class JsonLdService {
 
   <p>
     The follow the idea of the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
-    we create our own <code>ServerJsonLdModule</code> and <code>BrowserJsonLdModule</code>:
+    we create our own <code>ServerJsonLdModule</code> and <code>BrowserJsonLdModule</code>. The only small differences
+    are limited to changing the type of the <code>&#x3C;script&#x3E;</code> element and injecting it in the <code>&#x3C;head&#x3E;</code> instead
+    of right before the <code>&#x3C;/body&#x3E;</code> tag.
   </p>
 
   <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
-    import {JsonLdService} from './jsonld.service';
+import { JsonLdService } from './jsonld.service';
 
-    @NgModule({
-    providers: [
+@NgModule({
+  providers: [
     JsonLdService,
-    ]
+  ]
 })
 export class BrowserJsonLdModule {
 }</code></pre>
@@ -264,7 +270,7 @@ export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdServi
   ],
 })
 export class ServerJsonLdModule {
-    }</code></pre>
+}</code></pre>
 
   <h2>
     <span>
