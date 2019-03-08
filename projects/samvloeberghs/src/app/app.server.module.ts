@@ -5,7 +5,6 @@ import { ServerJsonLdModule } from 'jsonld';
 
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [

@@ -31,9 +31,9 @@
   </p>
 
   <p class="alert alert-info">
-    <i class="fa fa-info"></i>
-    These 2 <em>definitions of JSON-LD and Linked Data</em> were simply taken from the website of JSON-LD. This article does not
-    go deep into the full specification of JSON-LD and it does not teach you how to properly
+    <i class="fa fa-info-circle"></i>
+    These 2 <em>definitions of JSON-LD and Linked Data</em> were simply taken from the website of JSON-LD. This article
+    does not go deep into the full specification of JSON-LD and it does not teach you how to properly
     generate your Linked Data structures. The tools of the <a href="https://json-ld.org" target="_blank" rel="noopener">JSON-ld
     website</a>, like for example the <a href="https://json-ld.org/playground/" target="_blank" rel="noopener">playground</a>,
     give you all you need to validate your Linked Data structures.
@@ -70,9 +70,9 @@
 
   <p>
     Generating your JSON Linked Data can be done using the same base data you use to set your meta tags for social
-    sharing and SEO, in the simple case of a blog or not too complex website. <em>Your most important concern is building
-    the correct structure</em>. How your structure looks is completely dependent on your usecase. As a basic example we will use
-    this website, and more specifically the <a href="https://samvloeberghs.be/about">about page</a>.
+    sharing and SEO, in the simple case of a blog or not too complex website. <em>Your most important concern is
+    building the correct structure</em>. How your structure looks is completely dependent on your usecase. As a basic
+    example we will use this website, and more specifically the <a href="https://samvloeberghs.be/about">about page</a>.
   </p>
 
   <p>
@@ -132,9 +132,9 @@ export class Routehelper {
 }</code></pre>
 
   <p>
-    The <code>JsonLdService</code> injected above is a simple service that caches and updates the data structure we need to output. A
-    basic implementation of this service can be as follows, where you as a developer are in charge of correctly
-    structuring your object.
+    The <code>JsonLdService</code> injected above is a simple service that caches and updates the data structure we need
+    to output. A basic implementation of this service can be as follows, where you as a developer are in charge of
+    correctly structuring your object.
   </p>
 
 
@@ -188,9 +188,95 @@ export class JsonLdService {
     Getting inspiration in the Angular source code
   </h3>
 
+  <p>
+    Injecting this JSON-LD data object in the DOM is only really required when we generate the HTML on the server. To
+    get to this result I looked into the <a
+    href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts"
+    rel="noopener"
+    target="_blank"><code>BrowserTransferStateModule</code></a> exposed via the <code>@angular/platform-browser</code>
+    module.
+
+  </p>
+  <p>
+    Essentialy this module, and more particullary, the <code>TransferState</code> service it provides, does the same
+    thing we want to achieve. It caches data, the result from for example HTTP calls, in an object and holds
+    it in memory during the application lifecycle. Apart from the HTTP calls, that's exactly what our JsonLdService
+    does.
+  </p>
+
+  <p>
+    The server counter part, <a
+    href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts"><code>ServerTransferStateModule</code></a>
+    exposed via the <code>@angular/platform-server</code>, serializes the data and injects it in the DOM before
+    generating the HTML on the server and sending it back over the wire to the browser.
+  </p>
+
+  <p>
+    When the Angular application bootstraps in the browser, the <code>TransferState</code> service picks up the
+    serialized state in the static HTML and unserializes it, making it available as a direct cache. This way we avoid
+    that the application makes a similar request for the same data to the server, for which the server-side-rendered
+    version already did the call.
+  </p>
+
   <h3>
-    Using Depedency Injection to differentiate the server
+    Our simple BrowserJsonLdModule and ServerJsonLdModule
   </h3>
+
+  <p>
+    The follow the idea of the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
+    we create our own <code>ServerJsonLdModule</code> and <code>BrowserJsonLdModule</code>:
+  </p>
+
+  <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
+    import {JsonLdService} from './jsonld.service';
+
+    @NgModule({
+    providers: [
+    JsonLdService,
+    ]
+})
+export class BrowserJsonLdModule {
+}</code></pre>
+
+  <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
+import { JsonLdService } from './jsonld.service';
+
+export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdService) {
+  const x = function () {
+    const script = doc.createElement('script');
+    script.setAttribute('type', 'application/ld+json');
+    script.textContent = jsonLdService.toJson();
+    doc.head.appendChild(script);
+  };
+  return x;
+}
+
+@NgModule({
+  providers: [
+    JsonLdService, {
+    provide: BEFORE_APP_SERIALIZED,
+      useFactory: serializeJsonLdFactory,
+      deps: [DOCUMENT, JsonLdService],
+      multi: true,
+    },
+  ],
+})
+export class ServerJsonLdModule {
+    }</code></pre>
+
+  <h2>
+    <span>
+    Conclusion
+    </span>
+  </h2>
+
+  <p>
+    Generating JSON-LD using Angular Universal is pretty straight-forward. By borrowing concepts from the Angular source
+    code we can create our own JsonLdModules and services that enable us to output JSON-LD in the static generated HTML
+    on the server.
+  </p>
 
   <h2><span>Further reading</span></h2>
 
@@ -216,6 +302,13 @@ export class JsonLdService {
         Getting started with schema.org using Microdata
       </a>
     </li>
+
+    <li>
+      <a href="https://search.google.com/structured-data/testing-tool/u/0/" target="_blank" rel="noopener">
+        Google’s Structured Data Testing Tool
+      </a>
+    </li>
+
   </ul>
 
   <h2>
