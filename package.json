@@ -9,7 +9,7 @@
     "test": "npx ng test",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
-    "serve:samvloeberghs:ssr": "node dist/samvloeberghs-server/index.js",
+    "serve:samvloeberghs:ssr:local": "node dist/samvloeberghs-server/index.js",
     "serve:samvloeberghs:ssr:prod": "bnr serve:samvloeberghs:ssr:prod",
     "build:samvloeberghs:ssr:local": "npx ng build jsonld && npx ng build seo && npm run build:samvloeberghs:bundles:local && npm run build:samvloeberghs:server",
     "build:samvloeberghs:ssr:prod": "npx ng build jsonld && npx ng build seo && npm run build:samvloeberghs:bundles:prod && npm run build:samvloeberghs:server",

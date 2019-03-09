@@ -18,7 +18,10 @@ export class JsonLdService {
       '@type': type,
     };
     if (rawData) {
-      object = Object.assign({}, object, rawData);
+      object = {
+        ...object,
+        ...rawData
+      };
     }
     return object;
   }

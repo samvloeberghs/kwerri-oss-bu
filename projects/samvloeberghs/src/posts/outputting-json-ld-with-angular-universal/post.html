@@ -69,10 +69,10 @@
   </h2>
 
   <p>
-    Generating your JSON Linked Data can be done using the same base data you use to set your meta tags for social
-    sharing and SEO, in the simple case of a blog or not too complex website. <em>Your most important concern is
-    building the correct structure</em>. How your structure looks is completely dependent on your usecase. As a basic
-    example we will use this website, and more specifically the <a href="https://samvloeberghs.be/about">about page</a>.
+    In the simple case of a blog or not too complex website, generating your JSON Linked Data can be done using the same
+    base data you use to set your meta tags for social sharing and SEO. <em>Your most important concern is building the
+    correct structure</em>. How your structure looks is completely dependent on your usecase. As a basic example we will
+    use this website, and more specifically the <a href="https://samvloeberghs.be/about">about page</a>.
   </p>
 
   <p>
@@ -179,7 +179,8 @@ export class JsonLdService {
     "url": "https://samvloeberghs.be/about"
 }</code></pre>
 
-  <p>This basic example is what we wanted to achieve. The next step is getting this object outputted in our static HTML.</p>
+  <p>This basic example is what we wanted to achieve. The next step is getting this object outputted in our static
+    HTML.</p>
 
   <h2>
     <span>
@@ -199,9 +200,11 @@ export class JsonLdService {
     module.
   </p>
   <p>
-    Essentialy this module, and more particullary, the <a href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts" target="_blank" rel="noopener"><code>TransferState</code></a> service it provides, does the same
+    Essentialy this module, and more particullary, the <a
+    href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts"
+    target="_blank" rel="noopener"><code>TransferState</code></a> service it provides, does the same
     thing we want to achieve. It caches data, the result from for example HTTP calls, in an object and holds
-    it in memory during the application lifecycle. Apart from the HTTP calls, that's exactly what our JsonLdService
+    it in memory during the application lifecycle. Apart from the HTTP calls, that's exactly what our <code>JsonLdService</code>
     does.
   </p>
 
@@ -210,16 +213,18 @@ export class JsonLdService {
     href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts"><code>ServerTransferStateModule</code></a>
     exposed via the <code>@angular/platform-server</code>, serializes the data and injects it in the DOM before
     generating the HTML on the server and sending it back over the wire to the browser. Again, that is exactly what we
-    want to achieve. This is achieved by providing an extra factory to the <code>BEFORE_APP_SERIALIZED</code> token.
-    Right after the application becomes stable all factories attached to the <code>BEFORE_APP_SERIALIZED</code> are
-    executed.
+    want to achieve. This is achieved by providing an extra factory function to the <code>BEFORE_APP_SERIALIZED</code>
+    token. Right after the application becomes stable all factories attached to the <code>BEFORE_APP_SERIALIZED</code>
+    are executed.
   </p>
 
   <p>
     When the Angular application bootstraps in the browser, the <code>TransferState</code> service picks up the
     serialized state in the static HTML and unserializes it, making it available as a direct cache. This way we avoid
     that the application makes a similar request for the same data to the server, for which the server-side-rendered
-    version already did the call. We don't need this part, but it's good to know. Check the <a href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts#L140-L153" target="_blank" rel="noopener">source code</a> to see how it works :).
+    version already did the call. We don't need this part, but it's good to know. Check the <a
+    href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts#L140-L153"
+    target="_blank" rel="noopener">source code</a> to see how it works :).
   </p>
 
   <h3>
@@ -227,9 +232,10 @@ export class JsonLdService {
   </h3>
 
   <p>
-    The follow the idea of the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
+    Following the concepts and ideas we learned from the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
     we create our own <code>ServerJsonLdModule</code> and <code>BrowserJsonLdModule</code>. The only small differences
-    are limited to changing the type of the <code>&#x3C;script&#x3E;</code> element and injecting it in the <code>&#x3C;head&#x3E;</code> instead
+    are limited to changing the type of the <code>&#x3C;script&#x3E;</code> element and injecting it in the <code>&#x3C;head&#x3E;</code>
+    instead
     of right before the <code>&#x3C;/body&#x3E;</code> tag.
   </p>
 
@@ -250,7 +256,7 @@ import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { JsonLdService } from './jsonld.service';
 
 export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdService) {
-  const x = function () {
+  const serializeAndInject = function () {
     const script = doc.createElement('script');
     script.setAttribute('type', 'application/ld+json');
     script.textContent = jsonLdService.toJson();
@@ -272,6 +278,25 @@ export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdServi
 export class ServerJsonLdModule {
 }</code></pre>
 
+
+  <h2>
+    <span>
+      Differentiate execution on the server
+    </span>
+  </h2>
+
+  <p>
+    To differentiatie the execution of our application on the server versus on the browser, we create a new server
+    module <code>app.server.module.ts</code> next to <code>app.module.ts</code> that will directly import the <code>AppModule</code>
+    exported by <code>app.module.ts</code>.
+  </p>
+  <p>
+    If we go back to the example of the <code>TransferState</code> service, we see that the
+    <code>app.server.module.ts</code> is importing the <code>ServerTransferStateModule</code>.
+    This will overwrite the provider of the <code>ServerTransferStateModule</code> imported in the app.module.ts and
+    provide the serialize functionality.
+  </p>
+
   <h2>
     <span>
     Conclusion
@@ -281,7 +306,9 @@ export class ServerJsonLdModule {
   <p>
     Generating JSON-LD using Angular Universal is pretty straight-forward. By borrowing concepts from the Angular source
     code we can create our own JsonLdModules and services that enable us to output JSON-LD in the static generated HTML
-    on the server.
+    on the server. The result of this code can be found live on this website, just look at the source and do a hard
+    refresh. Why a hard refresh you might ask? Because of the service worker caching the default index.html as the app
+    shell.
   </p>
 
   <h2><span>Further reading</span></h2>
