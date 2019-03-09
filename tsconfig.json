@@ -19,17 +19,17 @@
       "dom"
     ],
     "paths": {
-      "jsonld": [
-        "dist/jsonld"
+      "json-ld": [
+        "dist/json-ld"
       ],
-      "jsonld/*": [
-        "dist/jsonld/*"
+      "json-ld/*": [
+        "dist/json-ld/*"
       ],
-      "seo": [
-        "dist/seo"
+      "seo-social-share": [
+        "dist/seo-social-share"
       ],
-      "seo/*": [
-        "dist/seo/*"
+      "seo-social-share/*": [
+        "dist/seo-social-share/*"
       ]
     }
   }

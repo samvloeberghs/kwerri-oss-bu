@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { JsonLdService } from './jsonld.service';
+import { JsonLdService } from './json-ld.service';
 
 @NgModule({
   providers: [

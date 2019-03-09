@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
-import { JsonLdService } from 'jsonld';
-import { SeoData, SeoService } from 'seo';
+import { JsonLdService } from 'json-ld';
+import { SeoSocialShareData, SeoSocialShareService } from 'seo-social-share';
 
 import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
@@ -23,7 +23,7 @@ export class PostComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly dataService: DataService,
-    private readonly seoService: SeoService,
+    private readonly seoSocialShareService: SeoSocialShareService,
     private readonly sanitizer: DomSanitizer,
     private readonly jsonLdService: JsonLdService,
   ) {
@@ -60,7 +60,7 @@ export class PostComponent implements OnInit {
               dateModified: post.updateDatetime,
             };
             this.jsonLdService.setData('BlogPosting', jsonLd);
-            const seoData: SeoData = {
+            const seoData: SeoSocialShareData = {
               title: `${post.title} - Posts - ${environment.seo.title}`,
               description: post.short,
               image: `${environment.url}${post.imgShare}`,
@@ -70,7 +70,7 @@ export class PostComponent implements OnInit {
               published: post.publishDatetime,
               modified: post.updateDatetime,
             };
-            this.seoService.setData(seoData);
+            this.seoSocialShareService.setData(seoData);
             return this.dataService.getDataText(`/posts/${slug}/post.html`);
           },
         ),

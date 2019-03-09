@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { SeoService } from 'seo';
+import { SeoSocialShareService } from 'seo-social-share';
 
 import { Routehelper } from './shared/routehelper.service';
 import { environment } from '../environments/environment';
@@ -15,11 +15,11 @@ export class AppComponent {
 
   constructor(
     private readonly routehelper: Routehelper,
-    private readonly seoService: SeoService,
+    private readonly seoSocialShareService: SeoSocialShareService,
   ) {
-    this.seoService.setFbAppId(environment.facebookAppId);
-    this.seoService.setTwitterSiteCreator(environment.twitterSiteCreator);
-    this.seoService.setTwitterCard('summary_large_image');
+    this.seoSocialShareService.setFbAppId(environment.facebookAppId);
+    this.seoSocialShareService.setTwitterSiteCreator(environment.twitterSiteCreator);
+    this.seoSocialShareService.setTwitterCard('summary_large_image');
   }
 
   toggleMobileNav(event?: any, block = false) {

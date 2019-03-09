@@ -40,7 +40,9 @@
   </p>
 
   <h3>
+    <span>
     Why should I care about JSON-LD?
+    </span>
   </h3>
 
   <p>
@@ -81,6 +83,7 @@
     correct social share meta tags</a>.
   </p>
 
+  <h4 class="codetitle">about-routing.module.ts</h4>
   <pre><code class="typescript highlighted">RouterModule.forChild([{
     path: '',
     component: AboutComponent,
@@ -98,6 +101,7 @@
     JSON-LD object.
   </p>
 
+  <h4 class="codetitle">routehelper.service.ts</h4>
   <pre><code class="typescript highlighted">@Injectable({
     providedIn: 'root',
 })
@@ -141,6 +145,7 @@ export class Routehelper {
     correctly structuring your object.
   </p>
 
+<h4 class="codetitle">json-ld.service.ts</h4>
   <pre><code class="typescript highlighted">@Injectable({
   providedIn: 'root',
 })
@@ -172,6 +177,7 @@ export class JsonLdService {
     Using the approach explained above our current JSON-LD data-object in memory will look like this:
   </p>
 
+  <h4 class="codetitle">json output</h4>
   <pre><code class="json highlighted">{
     "@context": "http://schema.org",
     "@type": "Website",
@@ -184,12 +190,14 @@ export class JsonLdService {
 
   <h2>
     <span>
-    Injecting the JSON in the static HTML
+      Injecting the JSON in the static HTML
     </span>
   </h2>
 
   <h3>
-    Getting inspiration in the Angular source code
+    <span>
+      Getting inspiration in the Angular source code
+    </span>
   </h3>
 
   <p>
@@ -228,7 +236,9 @@ export class JsonLdService {
   </p>
 
   <h3>
-    Our simple BrowserJsonLdModule and ServerJsonLdModule
+    <span>
+      Our simple BrowserJsonLdModule and ServerJsonLdModule
+    </span>
   </h3>
 
   <p>
@@ -239,8 +249,9 @@ export class JsonLdService {
     of right before the <code>&#x3C;/body&#x3E;</code> tag.
   </p>
 
+  <h4 class="codetitle">json-ld.module.ts</h4>
   <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
-import { JsonLdService } from './jsonld.service';
+import { JsonLdService } from './json-ld.service';
 
 @NgModule({
   providers: [
@@ -250,10 +261,11 @@ import { JsonLdService } from './jsonld.service';
 export class BrowserJsonLdModule {
 }</code></pre>
 
+  <h4 class="codetitle">json-ld.server.module.ts</h4>
   <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
-import { JsonLdService } from './jsonld.service';
+import { JsonLdService } from './json-ld.service';
 
 export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdService) {
   const serializeAndInject = function () {
@@ -288,14 +300,54 @@ export class ServerJsonLdModule {
   <p>
     To differentiatie the execution of our application on the server versus on the browser, we create a new server
     module <code>app.server.module.ts</code> next to <code>app.module.ts</code> that will directly import the <code>AppModule</code>
-    exported by <code>app.module.ts</code>.
+    exported by <code>app.module.ts</code>. This version of the application is used in the HTML renderer configured at
+    the server side, in most cases as an <a href="https://expressjs.com/en/guide/using-template-engines.html" rel="noopener" target="_blank">rendering engine</a>.
   </p>
   <p>
     If we go back to the example of the <code>TransferState</code> service, we see that the
     <code>app.server.module.ts</code> is importing the <code>ServerTransferStateModule</code>.
     This will overwrite the provider of the <code>ServerTransferStateModule</code> imported in the app.module.ts and
-    provide the serialize functionality.
+    provide the extra serialize functionality, next to also providing the <code>TransferState</code> service.
   </p>
+
+  <p>
+    We do the same thing with our <code>BrowserJsonLdModule</code> and <code>ServerJsonLdModule</code>. The browser
+    module has to be imported in <code>app.module.ts</code> while the server module has to be imported in <code>app.server.module.ts</code>
+  </p>
+
+  <h4 class="codetitle">app.module.ts</h4>
+  <pre><code class="typescript highlighted">@NgModule({
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    BrowserModule.withServerTransition({appId: 'samvloeberghs'}),
+    BrowserTransferStateModule,
+    BrowserJsonLdModule,
+    CommonModule,
+    AppRoutingModule
+  ],
+  exports: [
+    AppComponent,
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule {
+}</code></pre>
+
+  <h4 class="codetitle">app.server.module.ts</h4>
+  <pre><code class="typescript highlighted">@NgModule({
+  imports: [
+    AppModule,
+    ServerModule,
+    ModuleMapLoaderModule,
+    ServerTransferStateModule,
+    ServerJsonLdModule,
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppServerModule {
+}</code></pre>
 
   <h2>
     <span>

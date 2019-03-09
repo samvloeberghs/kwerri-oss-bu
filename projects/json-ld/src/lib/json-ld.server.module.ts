@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
-import { JsonLdService } from './jsonld.service';
+import { JsonLdService } from './json-ld.service';
 
 export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdService) {
   const serializeAndInject = function () {

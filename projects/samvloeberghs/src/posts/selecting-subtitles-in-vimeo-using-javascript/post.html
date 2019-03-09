@@ -47,18 +47,17 @@
     Using it in Angular is fairly easy.. We need to install the @vimeo/player package using yarn or npm:
   </p>
   <pre><code class="bash highlighted">npm i -s @vimeo/player</code></pre>
-  <p>
-    Next we can import the Player directly using:
-  </p>
-  <pre><code class="typescript highlighted">import Player from '@vimeo/player';</code></pre>
 
   <p>
-    Using the <code>enableTextTrack</code> function we can easily set the language. As developers / implementors I
+    Next we can import the Player directly and by using the <code>enableTextTrack</code> function we can easily set the
+    language. As developers / implementors I
     believe we should be responsible in some way for knowing which languages are available to use. Meaning: which
     subtitles / texttracks are implemented on the embedded video.
   </p>
 
-  <pre><code class="typescript highlighted">const player = new Player(document.getElementById('intro_explanimation'));
+  <h4 class="codetitle">enable-text-track.ts</h4>
+  <pre><code class="typescript highlighted">import Player from '@vimeo/player';
+const player = new Player(document.getElementById('intro_explanimation'));
 
 player.enableTextTrack(this.language, 'subtitles').then(function (track) {
     // track contains language, kind and label
@@ -77,7 +76,7 @@ player.enableTextTrack(this.language, 'subtitles').then(function (track) {
     frameborder='0'
     webkitAllowFullScreen
     mozallowfullscreen allowFullScreen
-    style="width:100%; height: 500px;">
+    style="width:100%; height: 500px;margin-bottom: 15px;">
   </iframe>
 
   <h2><span>Further reading</span></h2>

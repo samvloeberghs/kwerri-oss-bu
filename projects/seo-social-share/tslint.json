@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "sv-jsonld",
+      "sv-seo-social-share",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "sv-jsonld",
+      "sv-seo-social-share",
       "kebab-case"
     ]
   }

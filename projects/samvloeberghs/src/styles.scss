@@ -228,6 +228,18 @@ a:focus {
 
     }
 
+    h4 {
+      &.codetitle {
+        margin: 0;
+        font-size: 1.1em;
+        text-transform: lowercase;
+        background: #e6e6e6;
+        padding: 5px 10px;
+        border-bottom: 1px solid #ddd;
+        letter-spacing: 2px;
+      }
+    }
+
     pre {
       margin-bottom: 15px;
     }
@@ -304,7 +316,8 @@ a:focus {
   margin-bottom: 15px;
   background: #f6f6f6;
   border-radius: 5px;
-  box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
+  border-top-left-radius: 0;
+  // box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
 
   @media (max-width: 768px) {
     font-size: 1.2em;

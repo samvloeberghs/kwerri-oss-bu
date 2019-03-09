@@ -51,6 +51,7 @@
     includes the following content:
   </p>
 
+  <h4 class="codetitle">polyfills.ts</h4>
   <pre><code class="typescript highlighted">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
 * This also includes Android Emulators with older versions of Chrome
 * and Google Search/Googlebot
@@ -116,6 +117,7 @@
     tag.
   </p>
 
+  <h4 class="codetitle">static-generated.html</h4>
   <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
 &#x3C;html lang=&#x22;en&#x22;&#x3E;
    &#x3C;head&#x3E;
@@ -154,6 +156,7 @@
     that those types are always prefixed with <code>og:</code>, which is the prefix for the open-graph protocol.
   </p>
 
+  <h4 class="codetitle">static-generated-facebook.html</h4>
   <pre><code class="html highlighted">&#x3C;head&#x3E;
   &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
@@ -194,6 +197,7 @@
     tag.
   </p>
 
+  <h4 class="codetitle">static-generated-linkedin.html</h4>
   <pre><code class="html highlighted">&#x3C;head&#x3E;
   &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta property=&#x22;og:type&#x22; content=&#x22;website&#x22;&#x3E;
@@ -237,6 +241,7 @@
     the type of <code>meta</code> value and that those types are always prefixed with <code>twitter:</code>.
   </p>
 
+  <h4 class="codetitle">static-generated-twitter.html</h4>
   <pre><code class="html highlighted">&#x3C;head&#x3E;
   &#x3C;meta name=&#x22;twitter:card&#x22; content=&#x22;summary_large_image&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
@@ -279,6 +284,7 @@
     attached them to the route.
   </p>
 
+  <h4 class="codetitle">about-routing.module.ts</h4>
   <pre><code class="typescript highlighted">RouterModule.forChild([{
   path: '',
   component: AboutComponent,
@@ -296,6 +302,7 @@
     tags.
   </p>
 
+  <h4 class="codetitle">routehelper.service.ts</h4>
   <pre><code class="typescript highlighted">@Injectable({
   providedIn: 'root',
 })
@@ -304,7 +311,7 @@ export class Routehelper {
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly seoService: SeoService
+    private readonly seoSocialShareService: SeoSocialShareService
   ) {
     this.setupRouting();
   }
@@ -323,7 +330,7 @@ export class Routehelper {
     ).subscribe((route: ActivatedRoute) => {
       const seo = route.snapshot.data['seo'];
       // set your meta tags & title here
-      this.seoService.setData(seo);
+      this.seoSocialShareService.setData(seo);
     });
   }
 
@@ -339,10 +346,11 @@ export class Routehelper {
     target="_blank">full implementation of my SeoService</a>.
   </p>
 
+  <h4 class="codetitle">seo-social-share.service.ts</h4>
   <pre><code class="typescript highlighted">@Injectable({
     providedIn: 'root',
 })
-export class SeoService {
+export class SeoSocialShareService {
 
     constructor(
       private readonly metaService: Meta,
@@ -350,7 +358,7 @@ export class SeoService {
     ) {
   }
 
-  setData(data: SeoData) {
+  setData(data: SeoSocialShareData) {
     this.setTitle(data.title);
     ... // set all other meta tags
   }
@@ -373,7 +381,6 @@ export class SeoService {
   }
 
 }</code></pre>
-
 
   <h2>
     <span>
@@ -401,6 +408,7 @@ export class SeoService {
     The following HTMLminifier options remove all the stuff the browser does not need to correctly show your page:
   </p>
 
+  <h4 class="codetitle">too-much-minify-options.ts</h4>
   <pre><code class="javascript highlighted">const tooMuchHtmlMinifyOptions = {
     removeComments: true,
     removeCommentsFromCDATA: true,
@@ -421,6 +429,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     Let's process the following HTML:
   </p>
 
+  <h4 class="codetitle">too-much-minify-options-output.html</h4>
   <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
 &#x3C;html lang=&#x22;en&#x22;&#x3E;
    &#x3C;head&#x3E;
@@ -443,6 +452,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     need to change our configuration a little bit. We want to keep the attribute quotes and optional tags:
   </p>
 
+  <h4 class="codetitle">good-minify-options.ts</h4>
   <pre><code class="javascript highlighted">const goodHtmlMinifyOptions = {
     …
     removeAttributeQuotes: false,
@@ -453,6 +463,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     Now let's rerun the minifier again with the same HTML as mentioned above and see what the final result looks like:
   </p>
 
+  <h4 class="codetitle">good-minify-options-output.html</h4>
   <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
 
   <p>

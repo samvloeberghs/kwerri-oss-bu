@@ -30,6 +30,7 @@
     <code>$routeChangeSuccess</code> or <code>$stateChangeSuccess</code>. So combining these 2 <esx></esx>sentials gives us:
   </p>
 
+  <h4 class="codetitle">angular-js-route-state-change.ts</h4>
   <pre><code class="typescript highlighted">// ngRoute:
 $rootScope.$on('$routeChangeSuccess', () => {
     $window.scroll(0,0);
@@ -62,6 +63,7 @@ $rootScope.$on('$stateChangeSuccess', () => {
     something like this:
   </p>
 
+  <h4 class="codetitle">app.component.ts</h4>
   <pre><code class="typescript highlighted">import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ViewportScroller } from '@angular/common';

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { JsonLdService } from './jsonld.service';
+import { JsonLdService } from './json-ld.service';
 
-describe('JsonldService', () => {
+describe('JsonLdService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

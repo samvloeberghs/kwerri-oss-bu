@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "lib",
+      "sv-json-ld",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "lib",
+      "sv-json-ld",
       "kebab-case"
     ]
   }

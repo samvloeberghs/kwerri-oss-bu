@@ -48,12 +48,10 @@ if (!PROD) {
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
-app.engine('html', (_, options, callback) => {
+  app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
-    // Our index.html
     document: template,
     url: options.req.url,
-    // DI so that we can get lazy-loading to work differently (since we need it to just instantly render it)
     extraProviders: [
       provideModuleMap(LAZY_MODULE_MAP),
     ],

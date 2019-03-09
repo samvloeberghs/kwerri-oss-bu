@@ -143,25 +143,25 @@
         }
       }
     },
-    "jsonld": {
-      "root": "projects/jsonld",
-      "sourceRoot": "projects/jsonld/src",
+    "json-ld": {
+      "root": "projects/json-ld",
+      "sourceRoot": "projects/json-ld/src",
       "projectType": "library",
-      "prefix": "sv-jsonld",
+      "prefix": "sv-json-ld",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/jsonld/tsconfig.lib.json",
-            "project": "projects/jsonld/ng-package.json"
+            "tsConfig": "projects/json-ld/tsconfig.lib.json",
+            "project": "projects/json-ld/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/jsonld/tsconfig.lib.json",
-              "projects/jsonld/tsconfig.spec.json"
+              "projects/json-ld/tsconfig.lib.json",
+              "projects/json-ld/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -170,25 +170,25 @@
         }
       }
     },
-    "seo": {
-      "root": "projects/seo",
-      "sourceRoot": "projects/seo/src",
+    "seo-social-share": {
+      "root": "projects/seo-social-share",
+      "sourceRoot": "projects/seo-social-share/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "sv-seo-social-share",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/seo/tsconfig.lib.json",
-            "project": "projects/seo/ng-package.json"
+            "tsConfig": "projects/seo-social-share/tsconfig.lib.json",
+            "project": "projects/seo-social-share/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/seo/tsconfig.lib.json",
-              "projects/seo/tsconfig.spec.json"
+              "projects/seo-social-share/tsconfig.lib.json",
+              "projects/seo-social-share/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

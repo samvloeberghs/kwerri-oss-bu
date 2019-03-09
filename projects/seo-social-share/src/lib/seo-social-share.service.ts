@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
-export interface SeoData {
+export interface SeoSocialShareData {
   title?: string;
   description?: string;
   image?: string;
@@ -16,7 +16,7 @@ export interface SeoData {
 @Injectable({
   providedIn: 'root',
 })
-export class SeoService {
+export class SeoSocialShareService {
 
   constructor(
     private readonly metaService: Meta,
@@ -24,7 +24,7 @@ export class SeoService {
   ) {
   }
 
-  setData(data: SeoData) {
+  setData(data: SeoSocialShareData) {
     this.setTitle(data.title);
     this.setMetaDescription(data.description);
     this.setUrl(data.url);
