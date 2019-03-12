@@ -325,13 +325,14 @@ a:focus {
 }
 
 .alert {
-  padding: 15px 15px 15px 65px;
+  padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
 
   @media (min-width: 420px) {
     position:relative;
+    padding: 15px 15px 15px 65px;
 
     & > i {
       position: absolute;
