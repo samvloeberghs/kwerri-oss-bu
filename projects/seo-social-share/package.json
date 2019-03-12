@@ -1,9 +1,8 @@
 {
-  "name": "seo-social-share",
+  "name": "ngx-sv-sss",
   "version": "1.0.0",
   "peerDependencies": {
-    "@angular/common": "^7.1.0",
-    "@angular/core": "^7.1.0",
-    "@angular/platform-browser": "^7.1.0"
+    "@angular/core": "^7.2.6",
+    "@angular/platform-browser": "^7.2.6"
   }
 }
