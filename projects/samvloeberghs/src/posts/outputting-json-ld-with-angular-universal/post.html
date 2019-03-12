@@ -370,7 +370,7 @@ export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdServi
     script.textContent = jsonLdService.toJson();
     doc.head.appendChild(script);
   };
-  return serializeAndInject ;
+  return serializeAndInject;
 }
 
 @NgModule({
