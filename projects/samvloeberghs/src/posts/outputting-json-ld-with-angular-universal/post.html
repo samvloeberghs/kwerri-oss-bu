@@ -9,7 +9,7 @@
   <p>
     This article and guide on generating JSON-LD with Angular Universal is targeted to developers that want to generate
     the JSON that represents the Linked Data object and inject it correctly in the HTML that gets generated on the
-    server. We will re-use and explain some techniques that the TransferState key-value cache service uses to transfer
+    server. We will re-use and explain some techniques that the <code>TransferState</code> key-value cache service uses to transfer
     server-state to the application on the client side.
   </p>
 
@@ -19,8 +19,15 @@
     </span>
   </h2>
 
+  <!--
+  <p class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    You can skip right down if you already know JSON-LD or just want to get coding :))
+  </p>
+  -->
+
   <p>
-    JSON-LD is a lightweight Linked Data format. It is easy for humans AN machines to read and write. It is based on the
+    JSON-LD is a lightweight Linked Data format. It is easy for humans and machines to read and write. It is based on the
     already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
   </p>
 
@@ -42,12 +49,52 @@
 
   <h3>
     <span>
-    Why should I care about JSON-LD?
+    A basic example
     </span>
   </h3>
 
   <p>
-    You should care about JSON-LD for several reasons:
+    What you can see below is a typical example of a JSON-LD data object, injected into the HTML. It describes a <code>LocalBusiness</code>
+    by <a href="https://schema.org/LocalBusiness" target="_blank" rel="noopener">following its definition</a> and
+    providing the properties that identifiy the entity. For example, the address, it's geolocation, opening hours etc
+    are given. As you can see the address has it's own type <code>PostalAddress</code>. Most of the types can specificy
+    an external link and this is how data gets interweaved on the same website or resource and even on other websites.
+  </p>
+  <h4 class="codetitle">json-ld-example.html (<a href="https://jsonld.com/local-business/" target="_blank" rel="noopener">source</a>)</h4>
+  <pre><code class="html highlighted">&#x3C;script type="application/ld+json"&#x3E;
+{
+  "@context": "http://schema.org",
+  "@type": "LocalBusiness",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Manhattan",
+    "addressRegion": "NY",
+    "postalCode":"10036",
+    "streetAddress": "400 Broadway"
+  },
+  "description": "This is your business description.",
+  "name": "Craig's Car Repair",
+  "telephone": "555-111-2345",
+  "openingHours": "Mo,Tu,We,Th,Fr 09:00-17:00",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "20.75",
+    "longitude": "13.98"
+  },
+  "sameAs" : [ "http://www.facebook.com/example",
+    "http://www.twitter.com/example",
+    "http://plus.google.com/example"]
+}
+&#x3C;/script&#x3E;</code></pre>
+
+  <h3>
+    <span>
+    Why should you care about JSON-LD?
+    </span>
+  </h3>
+
+  <p>
+    You should definitely care about JSON-LD for several reasons:
   </p>
   <ul>
     <li>
@@ -65,7 +112,7 @@
     other crawlers</em> on the web.
   </p>
 
-  <h2>
+  <h2 id="generating-your-json-linked-data-structure">
     <span>
     Generating your JSON Linked Data structure
     </span>
@@ -227,14 +274,63 @@ export class JsonLdService {
     are executed.
   </p>
 
+  <h4 class="codetitle">server: transfer_state.ts (<a href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts" target="_blank" rel="noopener">full source code here</a>)</h4>
+  <pre><code class="typescript highlighted">export function serializeTransferStateFactory(
+  doc: Document, appId: string, transferStore: TransferState
+) {
+  return () => {
+    const script = doc.createElement('script');
+    script.id = appId + '-state';
+    script.setAttribute('type', 'application/json');
+    script.textContent = escapeHtml(transferStore.toJson());
+    doc.body.appendChild(script);
+  };
+}
+@NgModule({
+  providers: [
+    TransferState,
+    {
+      provide: BEFORE_APP_SERIALIZED,
+      useFactory: serializeTransferStateFactory,
+      deps: [DOCUMENT, APP_ID, TransferState],
+      multi: true,
+    }
+  ]
+})
+export class ServerTransferStateModule {
+}</code></pre>
+
   <p>
     When the Angular application bootstraps in the browser, the <code>TransferState</code> service picks up the
     serialized state in the static HTML and unserializes it, making it available as a direct cache. This way we avoid
     that the application makes a similar request for the same data to the server, for which the server-side-rendered
-    version already did the call. We don't need this part, but it's good to know. Check the <a
-    href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts#L140-L153"
-    target="_blank" rel="noopener">source code</a> to see how it works :).
+    version already did the call. We don't need this part, but it's good to know.
   </p>
+
+    <h4 class="codetitle">browser: transfer_state.ts (<a href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts" target="_blank" rel="noopener">full source code here</a>)</h4>
+  <pre><code class="typescript highlighted">export function initTransferState(
+  doc: Document, appId: string
+) {
+  const script = doc.getElementById(appId + '-state');
+  let initialState = {};
+  if (script && script.textContent) {
+    try {
+      initialState = JSON.parse(unescapeHtml(script.textContent));
+    } catch (e) {
+      console.warn('Exception while restoring TransferState for app ' + appId, e);
+    }
+  }
+  return TransferState.init(initialState);
+}
+@NgModule({
+  providers: [{
+    provide: TransferState,
+    useFactory: initTransferState,
+    deps: [DOCUMENT, APP_ID]
+  }s],
+})
+export class BrowserTransferStateModule {
+}</code></pre>
 
   <h3>
     <span>
@@ -246,8 +342,7 @@ export class JsonLdService {
     Following the concepts and ideas we learned from the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
     we create our own <code>ServerJsonLdModule</code> and <code>BrowserJsonLdModule</code>. The only small differences
     are limited to changing the type of the <code>&#x3C;script&#x3E;</code> element and injecting it in the <code>&#x3C;head&#x3E;</code>
-    instead
-    of right before the <code>&#x3C;/body&#x3E;</code> tag.
+    instead of right before the <code>&#x3C;/body&#x3E;</code> tag.
   </p>
 
   <h4 class="codetitle">json-ld.module.ts</h4>
@@ -299,7 +394,7 @@ export class ServerJsonLdModule {
   </h2>
 
   <p>
-    To differentiatie the execution of our application on the server versus on the browser, we create a new server
+    To differentiate the execution of our application on the server versus on the browser, in Angular Universal we typically create a new server
     module <code>app.server.module.ts</code> next to <code>app.module.ts</code> that will directly import the <code>AppModule</code>
     exported by <code>app.module.ts</code>. This version of the application is used in the HTML renderer configured at
     the server side, in most cases as an <a href="https://expressjs.com/en/guide/using-template-engines.html"
@@ -308,13 +403,8 @@ export class ServerJsonLdModule {
   <p>
     If we go back to the example of the <code>TransferState</code> service, we see that the
     <code>app.server.module.ts</code> is importing the <code>ServerTransferStateModule</code>.
-    This will overwrite the provider of the <code>ServerTransferStateModule</code> imported in the app.module.ts and
+    This will overwrite the provider of the <code>JsonLdService</code> imported in the <code>app.module.ts</code> and
     provide the extra serialize functionality, next to also providing the <code>TransferState</code> service.
-  </p>
-
-  <p>
-    We do the same thing with our <code>BrowserJsonLdModule</code> and <code>ServerJsonLdModule</code>. The browser
-    module has to be imported in <code>app.module.ts</code> while the server module has to be imported in <code>app.server.module.ts</code>
   </p>
 
   <h4 class="codetitle">app.module.ts</h4>
@@ -350,6 +440,11 @@ export class AppModule {
 })
 export class AppServerModule {
 }</code></pre>
+
+  <p>
+    We do the same thing with our <code>BrowserJsonLdModule</code> and <code>ServerJsonLdModule</code>. The browser
+    module has to be imported in <code>app.module.ts</code> while the server module has to be imported in <code>app.server.module.ts</code>.
+  </p>
 
   <h2>
     <span>
@@ -395,8 +490,13 @@ export class AppServerModule {
       </a>
     </li>
     <li>
+      <a href="https://jsonld.com/" target="_blank" rel="noopener">
+        Steal Our JSON-LD - Structured Data. Made Simple.
+      </a>
+    </li>
+    <li>
       <a href="https://coryrylan.com/blog/angular-seo-with-schema-and-json-ld" target="_blank" rel="noopener">
-        Angular SEO with schema and JSON-LD - a different approach, with the same result
+        Angular SEO with schema and JSON-LD - a different approach
       </a>
     </li>
 

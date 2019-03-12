@@ -325,7 +325,7 @@ a:focus {
 }
 
 .alert {
-  padding: 15px 15px 15px 75px;
+  padding: 15px 15px 15px 65px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -333,9 +333,9 @@ a:focus {
 
   & > i {
     position: absolute;
-    top: 20px;
+    top: 17px;
     left: 25px;
-    font-size: 30px;
+    font-size: 25px;
   }
   
   & > p,
