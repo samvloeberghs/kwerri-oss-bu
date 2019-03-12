@@ -12,7 +12,7 @@
     "serve:samvloeberghs:ssr:local": "node dist/samvloeberghs-server/index.js",
     "serve:samvloeberghs:ssr:prod": "bnr serve:samvloeberghs:ssr:prod",
     "build:samvloeberghs:ssr:local": "npm run build:ngx-sv-json-ld && npm run build:ngx-sv-sss && npm run build:samvloeberghs:bundles:local && npm run build:samvloeberghs:server",
-    "postbuild::samvloeberghs:ssr:local": "npm run workbox:injectmanifest:samvloeberghs",
+    "postbuild:samvloeberghs:ssr:local": "npm run workbox:injectmanifest:samvloeberghs",
     "build:samvloeberghs:ssr:prod": "npm run build:ngx-sv-json-ld && npm run build:ngx-sv-sss && npm run build:samvloeberghs:bundles:prod && npm run build:samvloeberghs:server",
     "postbuild:samvloeberghs:ssr:prod": "npm run workbox:injectmanifest:samvloeberghs",
     "build:samvloeberghs:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
@@ -30,7 +30,7 @@
   },
   "betterScripts": {
     "serve:samvloeberghs:ssr:prod": {
-      "command": "node dist/samvloeberghs-serverssss/index.js",
+      "command": "node dist/samvloeberghs-server/index.js",
       "env": {
         "HTTPS": "1",
         "PORT": "443",
