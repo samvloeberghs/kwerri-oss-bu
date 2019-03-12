@@ -325,11 +325,19 @@ a:focus {
 }
 
 .alert {
-  padding: 15px;
+  padding: 15px 15px 15px 75px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
+  position:relative;
 
+  & > i {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    font-size: 30px;
+  }
+  
   & > p,
   & > ul {
     margin-bottom: 0;

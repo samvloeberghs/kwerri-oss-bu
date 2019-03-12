@@ -9,7 +9,8 @@
   <p>
     This article and guide on generating JSON-LD with Angular Universal is targeted to developers that want to generate
     the JSON that represents the Linked Data object and inject it correctly in the HTML that gets generated on the
-    server.
+    server. We will re-use and explain some techniques that the TransferState key-value cache service uses to transfer
+    server-state to the application on the client side.
   </p>
 
   <h2>
@@ -19,8 +20,8 @@
   </h2>
 
   <p>
-    JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write. It is based on the already
-    successful JSON format and provides a way to help JSON data interoperate at Web-scale.
+    JSON-LD is a lightweight Linked Data format. It is easy for humans AN machines to read and write. It is based on the
+    already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
   </p>
 
   <p>
@@ -301,7 +302,8 @@ export class ServerJsonLdModule {
     To differentiatie the execution of our application on the server versus on the browser, we create a new server
     module <code>app.server.module.ts</code> next to <code>app.module.ts</code> that will directly import the <code>AppModule</code>
     exported by <code>app.module.ts</code>. This version of the application is used in the HTML renderer configured at
-    the server side, in most cases as an <a href="https://expressjs.com/en/guide/using-template-engines.html" rel="noopener" target="_blank">rendering engine</a>.
+    the server side, in most cases as an <a href="https://expressjs.com/en/guide/using-template-engines.html"
+                                            rel="noopener" target="_blank">rendering engine</a>.
   </p>
   <p>
     If we go back to the example of the <code>TransferState</code> service, we see that the
@@ -357,10 +359,10 @@ export class AppServerModule {
 
   <p>
     Generating JSON-LD using Angular Universal is pretty straight-forward. By borrowing concepts from the Angular source
-    code we can create our own JsonLdModules and services that enable us to output JSON-LD in the static generated HTML
-    on the server. The result of this code can be found live on this website, just look at the source and do a hard
-    refresh. Why a hard refresh you might ask? Because of the service worker caching the default index.html as the app
-    shell.
+    code we can create our own JsonLd modules and services that enable us to output JSON-LD in the statically generated
+    HTML on the server. The result of this code can be found live on this website, just look at the source and do a hard
+    refresh. Why a hard refresh you might ask? Because of the service worker caching the default <code>index.html</code>
+    as the app shell.
   </p>
 
   <h2><span>Further reading</span></h2>
@@ -387,10 +389,14 @@ export class AppServerModule {
         Getting started with schema.org using Microdata
       </a>
     </li>
-
     <li>
       <a href="https://search.google.com/structured-data/testing-tool/u/0/" target="_blank" rel="noopener">
         Google’s Structured Data Testing Tool
+      </a>
+    </li>
+    <li>
+      <a href="https://coryrylan.com/blog/angular-seo-with-schema-and-json-ld" target="_blank" rel="noopener">
+        Angular SEO with schema and JSON-LD - a different approach, with the same result
       </a>
     </li>
 

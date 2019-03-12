@@ -10,7 +10,9 @@ img {
 ol {
   list-style: none;
   counter-reset: my-awesome-counter 1;
-  margin-bottom: 0;
+  margin-bottom: 20px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #f6f6f6;
 
   @media (min-width: 1300px) {
     display: flex;
