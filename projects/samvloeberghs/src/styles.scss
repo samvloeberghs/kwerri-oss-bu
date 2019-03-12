@@ -329,13 +329,17 @@ a:focus {
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
-  position:relative;
 
-  & > i {
-    position: absolute;
-    top: 17px;
-    left: 25px;
-    font-size: 25px;
+  @media (min-width: 420px) {
+    position:relative;
+
+    & > i {
+      position: absolute;
+      top: 17px;
+      left: 25px;
+      font-size: 25px;
+    }
+
   }
   
   & > p,

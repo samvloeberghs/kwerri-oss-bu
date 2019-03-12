@@ -256,7 +256,7 @@ export class JsonLdService {
     module.
   </p>
   <p>
-    Essentialy this module, and more particullary, the <a
+    Essentialy this module, and more specifically, the <a
     href="https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/transfer_state.ts"
     target="_blank" rel="noopener"><code>TransferState</code></a> service it provides, does the same
     thing we want to achieve. It caches data, the result from for example HTTP calls, in an object and holds
@@ -342,7 +342,7 @@ export class BrowserTransferStateModule {
     Following the concepts and ideas we learned from the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
     we create our own <code>ServerJsonLdModule</code> and <code>BrowserJsonLdModule</code>. The only small differences
     are limited to changing the type of the <code>&#x3C;script&#x3E;</code> element and injecting it in the <code>&#x3C;head&#x3E;</code>
-    instead of right before the <code>&#x3C;/body&#x3E;</code> tag.
+    instead of right before the <code>&#x3C;/body&#x3E;</code> tag. We also don't need to pickup any state from the static HTML, as is done in the <code>BrowserTransferStateModule</code>.
   </p>
 
   <h4 class="codetitle">json-ld.module.ts</h4>
@@ -370,7 +370,7 @@ export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdServi
     script.textContent = jsonLdService.toJson();
     doc.head.appendChild(script);
   };
-  return x;
+  return serializeAndInject ;
 }
 
 @NgModule({
@@ -454,7 +454,7 @@ export class AppServerModule {
 
   <p>
     Generating JSON-LD using Angular Universal is pretty straight-forward. By borrowing concepts from the Angular source
-    code we can create our own JsonLd modules and services that enable us to output JSON-LD in the statically generated
+    code we can create our own <code>JsonLd</code> modules and services that enable us to output JSON-LD in the statically generated
     HTML on the server. The result of this code can be found live on this website, just look at the source and do a hard
     refresh. Why a hard refresh you might ask? Because of the service worker caching the default <code>index.html</code>
     as the app shell.
@@ -515,8 +515,8 @@ export class AppServerModule {
     </li>
 
   </ul>
-  -->
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+  -->
 
 </section>
