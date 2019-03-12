@@ -1,5 +1,5 @@
 /*
- * Public API Surface of json-ld
+ * Public API Surface of ngx-sv-json-ld
  */
 
 export * from './lib/json-ld.service';

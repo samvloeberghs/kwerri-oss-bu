@@ -3,8 +3,8 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ViewportScroller } from '@angular/common';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { JsonLdService } from 'json-ld';
-import { SeoSocialShareData, SeoSocialShareService } from 'seo-social-share';
+import { JsonLdService } from 'ngx-sv-json-ld';
+import { SeoSocialShareData, SeoSocialShareService } from 'ngx-sv-sss';
 
 import { environment } from '../../environments/environment';
 
@@ -49,7 +49,7 @@ export class Routehelper {
       }),
       filter(route => route.outlet === 'primary'),
     ).subscribe((route: ActivatedRoute) => {
-      const seo: any = route.snapshot.data['seo-social-share'];
+      const seo: any = route.snapshot.data['seo'];
       if (seo) {
         // TODO: set type
         const jsonLd = {

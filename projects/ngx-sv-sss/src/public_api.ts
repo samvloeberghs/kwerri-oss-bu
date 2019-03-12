@@ -1,5 +1,5 @@
 /*
- * Public API Surface of seo-social-share
+ * Public API Surface of ngx-sv-sss
  */
 
 export * from './lib/seo-social-share.service';

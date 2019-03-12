@@ -11,19 +11,22 @@
     "e2e": "npx ng e2e",
     "serve:samvloeberghs:ssr:local": "node dist/samvloeberghs-server/index.js",
     "serve:samvloeberghs:ssr:prod": "bnr serve:samvloeberghs:ssr:prod",
-    "build:samvloeberghs:ssr:local": "npm run build:json-ld && npm run build:sss && npm run build:samvloeberghs:bundles:local && npm run build:samvloeberghs:server",
-    "build:samvloeberghs:ssr:prod": "npm run build:json-ld && npm run build:sss && npm run build:samvloeberghs:bundles:prod && npm run build:samvloeberghs:server",
+    "build:samvloeberghs:ssr:local": "npm run build:ngx-sv-json-ld && npm run build:ngx-sv-sss && npm run build:samvloeberghs:bundles:local && npm run build:samvloeberghs:server",
+    "postbuild::samvloeberghs:ssr:local": "npm run workbox:injectmanifest:samvloeberghs",
+    "build:samvloeberghs:ssr:prod": "npm run build:ngx-sv-json-ld && npm run build:ngx-sv-sss && npm run build:samvloeberghs:bundles:prod && npm run build:samvloeberghs:server",
+    "postbuild:samvloeberghs:ssr:prod": "npm run workbox:injectmanifest:samvloeberghs",
     "build:samvloeberghs:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
     "build:samvloeberghs:bundles:prod": "npx ng build samvloeberghs --prod && npx ng run samvloeberghs:server --configuration=production",
     "build:samvloeberghs:server": "npx webpack --config projects/samvloeberghs-server/webpack.server.config.js --progress --colors",
-    "build:json-ld": "npx ng build json-ld && npm run copy-license-readme:json-ld",
-    "build:sss": "npx ng build seo-social-share && npm run copy-license-readme:sss",
-    "copy-license-readme:json-ld": "npx ncp ./LICENSE ./dist/json-ld/LICENSE && npx ncp ./projects/json-ld/README.md ./dist/json-ld",
-    "copy-license-readme:sss": "npx ncp ./LICENSE ./dist/seo-social-share/LICENSE && npx ncp ./projects/seo-social-share/README.md ./dist/seo-social-share",
-    "npm:pack:sss": "cd dist/seo-social-share && npm pack",
-    "npm:pack:json-ld": "cd dist/json-ld && npm pack",
-    "package:sss": "npm run build:sss && npm run npm:pack:sss",
-    "package:json-ld": "npm run build:json-ld && npm run npm:pack:json-ld"
+    "build:ngx-sv-json-ld": "npx ng build ngx-sv-json-ld && npm run copy-license-readme:ngx-sv-json-ld",
+    "build:ngx-sv-sss": "npx ng build ngx-sv-sss && npm run copy-license-readme:ngx-sv-sss",
+    "copy-license-readme:ngx-sv-json-ld": "npx ncp ./LICENSE ./dist/ngx-sv-json-ld/LICENSE && npx ncp ./projects/ngx-sv-json-ld/README.md ./dist/ngx-sv-json-ld",
+    "copy-license-readme:ngx-sv-sss": "npx ncp ./LICENSE ./dist/ngx-sv-sss/LICENSE && npx ncp ./projects/ngx-sv-sss/README.md ./dist/ngx-sv-sss",
+    "npm:pack:ngx-sv-sss": "cd dist/ngx-sv-sss && npm pack",
+    "npm:pack:ngx-sv-json-ld": "cd dist/ngx-sv-json-ld && npm pack",
+    "package:ngx-sv-sss": "npm run build:ngx-sv-sss && npm run npm:pack:ngx-sv-sss",
+    "package:ngx-sv-json-ld": "npm run build:ngx-sv-json-ld && npm run npm:pack:ngx-sv-json-ld",
+    "workbox:injectmanifest:samvloeberghs": "npx workbox injectManifest ./projects/samvloeberghs/workbox-config.js"
   },
   "betterScripts": {
     "serve:samvloeberghs:ssr:prod": {
@@ -47,9 +50,7 @@
     "@angular/platform-browser": "~7.1.4",
     "@angular/platform-browser-dynamic": "~7.2.6",
     "@angular/platform-server": "^7.2.6",
-    "@angular/pwa": "^0.13.3",
     "@angular/router": "~7.2.6",
-    "@angular/service-worker": "~7.2.6",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
     "@types/express": "^4.16.1",
     "angular2-highlight-js": "^6.0.1-alpha",
@@ -93,6 +94,7 @@
     "tslint": "~5.12.1",
     "typescript": "~3.2.4",
     "webpack-cli": "^3.2.2",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "workbox-cli": "^4.1.0"
   }
 }

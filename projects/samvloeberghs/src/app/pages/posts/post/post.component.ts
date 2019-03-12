@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
-import { JsonLdService } from 'json-ld';
-import { SeoSocialShareData, SeoSocialShareService } from 'seo-social-share';
+import { JsonLdService } from 'ngx-sv-json-ld';
+import { SeoSocialShareData, SeoSocialShareService } from 'ngx-sv-sss';
 
 import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';

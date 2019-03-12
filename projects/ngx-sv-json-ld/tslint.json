@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "sv-seo-social-share",
+      "ngx-sv-json-ld",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "sv-seo-social-share",
+      "ngx-sv-json-ld",
       "kebab-case"
     ]
   }

@@ -1,7 +1,7 @@
 # ngx-sv-sss
 
 A library to help inject proper meta tags that support better social sharing.
-"sss" stands for Seo-Social-Share.
+"sss" stands for ngx-sv-sss.
 
 ## Installation
 

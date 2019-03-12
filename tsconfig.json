@@ -19,17 +19,17 @@
       "dom"
     ],
     "paths": {
-      "json-ld": [
-        "dist/json-ld"
+      "ngx-sv-json-ld": [
+        "dist/ngx-sv-json-ld"
       ],
-      "json-ld/*": [
-        "dist/json-ld/*"
+      "ngx-sv-json-ld/*": [
+        "dist/ngx-sv-json-ld/*"
       ],
-      "seo-social-share": [
-        "dist/seo-social-share"
+      "ngx-sv-sss": [
+        "dist/ngx-sv-sss"
       ],
-      "seo-social-share/*": [
-        "dist/seo-social-share/*"
+      "ngx-sv-sss/*": [
+        "dist/ngx-sv-sss/*"
       ]
     }
   }

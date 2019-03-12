@@ -1,7 +1,7 @@
 import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
 import { NgModule } from '@angular/core';
 import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
-import { ServerJsonLdModule } from 'json-ld';
+import { ServerJsonLdModule } from 'ngx-sv-json-ld';
 
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';

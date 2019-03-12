@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "sv-json-ld",
+      "sv-ngx-sv-sss",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "sv-json-ld",
+      "sv-ngx-sv-sss",
       "kebab-case"
     ]
   }

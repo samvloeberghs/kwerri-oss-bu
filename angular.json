@@ -56,8 +56,7 @@
                   "maximumWarning": "1mb",
                   "maximumError": "2mb"
                 }
-              ],
-              "serviceWorker": true
+              ]
             },
             "local": {
               "fileReplacements": [
@@ -81,8 +80,7 @@
                   "maximumWarning": "1mb",
                   "maximumError": "2mb"
                 }
-              ],
-              "serviceWorker": true
+              ]
             }
           }
         },
@@ -143,25 +141,25 @@
         }
       }
     },
-    "json-ld": {
-      "root": "projects/json-ld",
-      "sourceRoot": "projects/json-ld/src",
+    "ngx-sv-json-ld": {
+      "root": "projects/ngx-sv-json-ld",
+      "sourceRoot": "projects/ngx-sv-json-ld/src",
       "projectType": "library",
-      "prefix": "sv-json-ld",
+      "prefix": "ngx-sv-json-ld",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/json-ld/tsconfig.lib.json",
-            "project": "projects/json-ld/ng-package.json"
+            "tsConfig": "projects/ngx-sv-json-ld/tsconfig.lib.json",
+            "project": "projects/ngx-sv-json-ld/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/json-ld/tsconfig.lib.json",
-              "projects/json-ld/tsconfig.spec.json"
+              "projects/ngx-sv-json-ld/tsconfig.lib.json",
+              "projects/ngx-sv-json-ld/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -170,25 +168,25 @@
         }
       }
     },
-    "seo-social-share": {
-      "root": "projects/seo-social-share",
-      "sourceRoot": "projects/seo-social-share/src",
+    "ngx-sv-sss": {
+      "root": "projects/ngx-sv-sss",
+      "sourceRoot": "projects/ngx-sv-sss/src",
       "projectType": "library",
-      "prefix": "sv-seo-social-share",
+      "prefix": "ngx-sv-sss",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/seo-social-share/tsconfig.lib.json",
-            "project": "projects/seo-social-share/ng-package.json"
+            "tsConfig": "projects/ngx-sv-sss/tsconfig.lib.json",
+            "project": "projects/ngx-sv-sss/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/seo-social-share/tsconfig.lib.json",
-              "projects/seo-social-share/tsconfig.spec.json"
+              "projects/ngx-sv-sss/tsconfig.lib.json",
+              "projects/ngx-sv-sss/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
