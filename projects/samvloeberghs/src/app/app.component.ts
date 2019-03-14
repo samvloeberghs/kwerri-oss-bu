@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { SeoSocialShareService } from 'ngx-sv-sss';
 
-import { Routehelper } from './shared/routehelper.service';
+import { RouteHelper } from './shared/route-helper.service';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -14,7 +14,7 @@ export class AppComponent {
   mobileNavToggled = false;
 
   constructor(
-    private readonly routehelper: Routehelper,
+    private readonly routehelper: RouteHelper,
     private readonly seoSocialShareService: SeoSocialShareService,
   ) {
     this.seoSocialShareService.setFbAppId(environment.facebookAppId);

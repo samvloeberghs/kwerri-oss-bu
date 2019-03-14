@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class Routehelper {
+export class RouteHelper {
 
   private routes = [, '/', '/', '/tips-and-tricks', '/about'];
 
