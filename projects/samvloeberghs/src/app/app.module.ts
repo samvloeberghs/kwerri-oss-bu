@@ -1,7 +1,7 @@
 import { Angulartics2Module } from 'angulartics2';
 import { CommonModule } from '@angular/common';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
-import { BrowserJsonLdModule } from 'ngx-sv-json-ld';
+import { BrowserJsonLdModule } from 'ngx-seo';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';

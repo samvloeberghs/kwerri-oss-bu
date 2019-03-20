@@ -4,7 +4,7 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const { googleAnalytics, routing, strategies, expiration } = workbox;
+  const {googleAnalytics, routing, strategies, expiration} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -26,6 +26,34 @@ if (workbox) {
       cacheName: 'google-fonts-stylesheets'
     })
   );
+
+  /*
+  routing.registerRoute(
+    ({url, request, event}) => {
+      const allowedCachePages = [];
+      console.log(url);
+      return false;
+    },
+    new strategies.StaleWhileRevalidate({
+      cacheName: 'pages'
+    })
+  );
+  */
+
+  self.addEventListener('fetch', event => {
+    if (event.request.method !== 'GET') {
+      return;
+    }
+    
+    if (event.request.mode === 'navigate') {
+      event.respondWith(
+        fetch(event.request).catch(function() {
+          return caches.match('/index.html');
+        })
+      );
+    }
+    return;
+  });
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

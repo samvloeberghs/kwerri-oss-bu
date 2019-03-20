@@ -3,8 +3,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ViewportScroller } from '@angular/common';
 import { filter, map, tap } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { JsonLdService } from 'ngx-sv-json-ld';
-import { SeoSocialShareData, SeoSocialShareService } from 'ngx-sv-sss';
+import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-seo';
 
 import { environment } from '../../environments/environment';
 

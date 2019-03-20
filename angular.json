@@ -141,52 +141,25 @@
         }
       }
     },
-    "ngx-sv-json-ld": {
-      "root": "projects/ngx-sv-json-ld",
-      "sourceRoot": "projects/ngx-sv-json-ld/src",
+    "ngx-seo": {
+      "root": "projects/ngx-seo",
+      "sourceRoot": "projects/ngx-seo",
       "projectType": "library",
-      "prefix": "ngx-sv-json-ld",
+      "prefix": "ngx-seo",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-sv-json-ld/tsconfig.lib.json",
-            "project": "projects/ngx-sv-json-ld/ng-package.json"
+            "tsConfig": "projects/ngx-seo/tsconfig.lib.json",
+            "project": "projects/ngx-seo/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-sv-json-ld/tsconfig.lib.json",
-              "projects/ngx-sv-json-ld/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "ngx-sv-sss": {
-      "root": "projects/ngx-sv-sss",
-      "sourceRoot": "projects/ngx-sv-sss/src",
-      "projectType": "library",
-      "prefix": "ngx-sv-sss",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/ngx-sv-sss/tsconfig.lib.json",
-            "project": "projects/ngx-sv-sss/ng-package.json"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-sv-sss/tsconfig.lib.json",
-              "projects/ngx-sv-sss/tsconfig.spec.json"
+              "projects/ngx-seo/tsconfig.lib.json",
+              "projects/ngx-seo/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

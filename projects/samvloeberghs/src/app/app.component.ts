@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { SeoSocialShareService } from 'ngx-sv-sss';
+import { SeoSocialShareService } from 'ngx-seo';
 
 import { RouteHelper } from './shared/route-helper.service';
 import { environment } from '../environments/environment';

@@ -19,17 +19,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-sv-json-ld": [
-        "dist/ngx-sv-json-ld"
+      "ngx-seo": [
+        "dist/ngx-seo"
       ],
-      "ngx-sv-json-ld/*": [
-        "dist/ngx-sv-json-ld/*"
-      ],
-      "ngx-sv-sss": [
-        "dist/ngx-sv-sss"
-      ],
-      "ngx-sv-sss/*": [
-        "dist/ngx-sv-sss/*"
+      "ngx-seo/*": [
+        "dist/ngx-seo/*"
       ]
     }
   }

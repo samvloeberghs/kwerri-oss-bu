@@ -193,7 +193,7 @@ export class RouteHelper {
     correctly structuring your object.
   </p>
 
-<h4 class="codetitle">json-ld.service.ts</h4>
+<h4 class="codetitle">ngx-seo/json-ld.service.ts</h4>
   <pre><code class="typescript highlighted">@Injectable({
   providedIn: 'root',
 })
@@ -345,9 +345,9 @@ export class BrowserTransferStateModule {
     instead of right before the <code>&#x3C;/body&#x3E;</code> tag. We also don't need to pickup any state from the static HTML, as is done in the <code>BrowserTransferStateModule</code>.
   </p>
 
-  <h4 class="codetitle">json-ld.module.ts</h4>
+  <h4 class="codetitle">ngx-seo/json-ld.module.ts</h4>
   <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
-import { JsonLdService } from './json-ld.service';
+import { JsonLdService } from 'ngx-seo/json-ld.service';
 
 @NgModule({
   providers: [
@@ -357,11 +357,11 @@ import { JsonLdService } from './json-ld.service';
 export class BrowserJsonLdModule {
 }</code></pre>
 
-  <h4 class="codetitle">json-ld.server.module.ts</h4>
+  <h4 class="codetitle">ngx-seo/json-ld.server.module.ts</h4>
   <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
-import { JsonLdService } from './json-ld.service';
+import { JsonLdService } from 'ngx-seo/json-ld.service';
 
 export function serializeJsonLdFactory(doc: Document, jsonLdService: JsonLdService) {
   const serializeAndInject = function () {

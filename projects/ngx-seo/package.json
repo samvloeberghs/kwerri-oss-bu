@@ -1,5 +1,5 @@
 {
-  "name": "ngx-sv-json-ld",
+  "name": "ngx-seo",
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^7.2.6",
