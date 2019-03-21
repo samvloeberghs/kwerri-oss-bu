@@ -1,10 +1,23 @@
 {
   "name": "ngx-seo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "peerDependencies": {
     "@angular/common": "^7.2.6",
     "@angular/core": "^7.2.6",
     "@angular/platform-browser": "^7.2.6",
     "@angular/platform-server": "^7.2.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samvloeberghs/kwerri-oss/tree/master/projects/ngx-seo"
+  },
+  "keywords": [
+    "angular",
+    "universal",
+    "ssr",
+    "seo",
+    "json-ld"
+  ],
+  "author": "Sam Vloeberghs",
+  "license": "MIT"
 }

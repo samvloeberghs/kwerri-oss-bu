@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
-export interface SeoSocialShareData {
-  title?: string;
-  description?: string;
-  image?: string;
-  url?: string;
-  type?: string;
-  author?: string;
-  section?: string;
-  published?: string;
-  modified?: string;
-}
+import { SeoSocialShareData } from './interfaces/seo-social-share-data';
 
 @Injectable({
   providedIn: 'root',
