@@ -2,5 +2,5 @@
  * Public API Surface of ngx-seo
  */
 
-export * from './lib/json-ld';
-export * from './lib/seo-social-share';
+export {JsonLdService, ServerJsonLdModule, BrowserJsonLdModule} from './lib/json-ld/index';
+export {SeoSocialShareData, SeoSocialShareService} from './lib/seo-social-share/index';
