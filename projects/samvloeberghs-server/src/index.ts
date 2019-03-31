@@ -13,8 +13,6 @@ const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvl
 const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
 const spdy = require('spdy');
 const compression = require('compression');
-const cors = require('cors');
-
 import { MemoryCacheStore, getCachePath, isCacheAllowed, FileCacheStore } from './cache';
 import { allowedPaths, type } from './cache.config';
 

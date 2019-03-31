@@ -81,16 +81,26 @@
   https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
   A <link> element can occur either in the <head> or <body> element, depending on whether it has a link type that is body-ok. For example, the stylesheet link type is body-ok, and therefore <link rel="stylesheet"> is permitted in the body. However, this isn't a good practice to follow; it makes more sense to separate your <link> elements from your body content, putting them in the <head>.
   -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway|Montserrat"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway|Montserrat" crossorigin="anonymous"/>
   <style type="text/css">
     @media (max-width: 768px) {
       aside {
         position: relative !important;
       }
-      #mobilenavcontainer{
+
+      aside h1 {
+        margin-right: 20px;
+      }
+s
+      #mobilemenu {
+        display: none !important;
+      }
+
+      #mobilenavcontainer {
         display: block !important;
       }
-      .content{
+
+      .content {
         margin-top: 25px !important;
         padding-top: 0 !important;
       }
@@ -99,3 +109,5 @@
 </noscript>
 </body>
 </html>
+
+

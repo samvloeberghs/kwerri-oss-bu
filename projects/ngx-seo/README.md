@@ -4,7 +4,10 @@
 
 **Important:**
 In general you should only use these services when you are using Angular Universal. 
-Generating meta tags and JSON-LD on the frontend is basically useless as crawlers are not able to generate and render JS heavy applications.  For more info about this topic, please see below.
+Generating meta tags and JSON-LD on the frontend is basically useless as crawlers are not able to generate and render JS heavy applications.
+The only exception is the 2 round indexing mechanism that Google Search / Index leverages.  
+
+For more info about this topic, please see the 2 blogposts mentioned below.
 
 ## Installation
 

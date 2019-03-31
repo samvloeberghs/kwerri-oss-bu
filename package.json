@@ -55,7 +55,6 @@
     "classlist.js": "^1.1.20150312",
     "compression": "^1.7.3",
     "core-js": "^2.6.5",
-    "cors": "^2.8.5",
     "enhanced-resolve": "^4.1.0",
     "express": "^4.16.4",
     "html-minifier": "^3.5.21",
