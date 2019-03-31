@@ -116,6 +116,8 @@ constructor(
 }
 ```
 
+### Multiple JSON-LD objects
+
 It is possible to provide one or more JSON-LD objects. Just create multiple objects and pass them as an array to the service:
 
 ```angular2
@@ -123,6 +125,8 @@ const jsonLdObjectOne = this.jsonLdService.getObject('Website', { .. });
 const jsonLdObjectTwo = this.jsonLdService.getObject('Person', { .. });
 this.jsonLdService.setData([jsonLdObjectOne, jsonLdObjectTwo]);
 ```
+
+Background info: https://stackoverflow.com/a/32954313/288606
 
 ## More information
 
