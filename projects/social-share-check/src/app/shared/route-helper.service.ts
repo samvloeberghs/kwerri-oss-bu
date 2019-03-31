@@ -50,12 +50,11 @@ export class RouteHelper {
     ).subscribe((route: ActivatedRoute) => {
       const seo: any = route.snapshot.data['seo'];
       if (seo) {
-        // TODO: set type
-        const jsonLd = {
+        const jsonLd = this.jsonLdService.getObject('Website', {
           name: seo.title,
           url: environment.url + this.router.routerState.snapshot.url,
-        };
-        this.jsonLdService.setData('Website', jsonLd);
+        });
+        this.jsonLdService.setData(jsonLd);
         const seoSocialShareData: SeoSocialShareData = {
           title: seo.title,
           description: seo.description,
@@ -66,12 +65,11 @@ export class RouteHelper {
         };
         this.seoSocialShareService.setData(seoSocialShareData);
       } else {
-        // TODO: set type
-        const jsonLd = {
+        const jsonLd = this.jsonLdService.getObject('Website', {
           name: environment.seo.title,
-          url: environment.url,
-        };
-        this.jsonLdService.setData('Website', jsonLd);
+          url: environment.url
+        });
+        this.jsonLdService.setData(jsonLd);
         const seoSocialShareData: SeoSocialShareData = {
           title: environment.seo.title,
           description: environment.seo.description,
