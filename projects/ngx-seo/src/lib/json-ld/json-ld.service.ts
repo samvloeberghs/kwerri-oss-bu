@@ -2,10 +2,14 @@ import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 
+export interface JsonLd {
+  [param: string]: string | Object;
+}
+
 @Injectable()
 export class JsonLdService {
 
-  private jsonLd: any = {};
+  private jsonLd: JsonLd | JsonLd[];
 
   constructor(
     @Optional() @Inject(PLATFORM_ID) private readonly platformId: Object,
@@ -13,16 +17,21 @@ export class JsonLdService {
   ) {
   }
 
-  setData(type, rawData: any) {
-    this.jsonLd = this.getObject(type, rawData);
+  setData(data: JsonLd | JsonLd[]) {
+    this.jsonLd = data;
     this.injectBrowser();
   }
 
-  getObject(type, rawData?: any) {
-    let object = {
-      '@context': 'http://schema.org',
+  getObject(type: string, rawData?: JsonLd, context = 'http://schema.org'): JsonLd {
+    let object: JsonLd = {
       '@type': type,
     };
+    if (context) {
+      object = {
+        '@context': context,
+        ...object,
+      };
+    }
     if (rawData) {
       object = {
         ...object,

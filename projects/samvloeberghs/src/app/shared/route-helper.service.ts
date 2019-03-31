@@ -51,12 +51,11 @@ export class RouteHelper {
       this.viewportScroller.scrollToPosition([0, 0]);
       const seo: any = route.snapshot.data['seo'];
       if (seo) {
-        // TODO: set type
-        const jsonLd = {
+        const jsonLd = this.jsonLdService.getObject('Website', {
           name: seo.title,
           url: environment.url + this.router.routerState.snapshot.url,
-        };
-        this.jsonLdService.setData('Website', jsonLd);
+        });
+        this.jsonLdService.setData(jsonLd);
         const seoData: SeoSocialShareData = {
           title: seo.title,
           description: seo.description,
@@ -67,12 +66,11 @@ export class RouteHelper {
         };
         this.seoSocialShareService.setData(seoData);
       } else {
-        // TODO: set type
-        const jsonLd = {
+        const jsonLd = this.jsonLdService.getObject('Website', {
           name: environment.seo.title,
           url: environment.url,
-        };
-        this.jsonLdService.setData('Website', jsonLd);
+        });
+        this.jsonLdService.setData(jsonLd);
         const seoData: SeoSocialShareData = {
           title: environment.seo.title,
           description: environment.seo.description,

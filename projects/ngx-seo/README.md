@@ -108,12 +108,20 @@ Now, just as the `SeoSocialShareService`, you can inject the `JsonLdService`, to
 constructor(
     private readonly jsonLdService: JsonLdService,
 ) {
-  const jsonLd = {
+  const jsonLdObject = this.jsonLdService.getObject('Website', {
     name: '',
     url: '',
   };
-  this.jsonLdService.setData('Website', jsonLd);
+  this.jsonLdService.setData(jsonLdObject);
 }
+```
+
+It is possible to provide one or more JSON-LD objects. Just create multiple objects and pass them as an array to the service:
+
+```angular2
+const jsonLdObjectOne = this.jsonLdService.getObject('Website', { .. });
+const jsonLdObjectTwo = this.jsonLdService.getObject('Person', { .. });
+this.jsonLdService.setData([jsonLdObjectOne, jsonLdObjectTwo]);
 ```
 
 ## More information
@@ -124,3 +132,6 @@ Please see the blogposts for more detailed explanations:
 - https://samvloeberghs.be/posts/outputting-json-ld-with-angular-universal
 - https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal
 
+### Thanks to
+
+[Zama Khan Mohammed](https://medium.com/@zamamohammed) for giving feedback and thinking about improvements.

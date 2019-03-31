@@ -1,12 +1,15 @@
 {
   "name": "ngx-seo",
-  "version": "1.3.2",
+  "version": "2.0.0",
   "peerDependencies": {
     "@angular/common": "^7.2.6",
     "@angular/core": "^7.2.6",
     "@angular/platform-browser": "^7.2.6",
     "@angular/platform-server": "^7.2.6"
   },
+  "maintainers": [
+    "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/samvloeberghs/kwerri-oss/tree/master/projects/ngx-seo"
@@ -18,6 +21,10 @@
     "ssr",
     "seo",
     "json-ld"
+  ],
+  "contributors": [
+    "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)",
+    "Zama Khan Mohammed <mohammedzamakhan@gmail.com> (https://medium.com/@zamamohammed)"
   ],
   "author": "Sam Vloeberghs",
   "license": "MIT"

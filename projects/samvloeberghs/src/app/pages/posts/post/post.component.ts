@@ -41,24 +41,23 @@ export class PostComponent implements OnInit {
         }),
         switchMap((post: Post) => {
             this.post = post;
-
-            const jsonLd = {
+            const jsonLd = this.jsonLdService.getObject('BlogPosting', {
               name: `${post.title} - Posts - ${environment.seo.title}`,
               url: environment.url + this.router.routerState.snapshot.url,
               author: this.jsonLdService.getObject('Person', {
                 name: 'Sam Vloeberghs',
-              }),
+              }, undefined),
               publisher: this.jsonLdService.getObject('Person', {
                 name: 'Sam Vloeberghs',
-              }),
+              }, undefined),
               headline: post.title,
               description: post.short,
               image: `${environment.url}/${post.imgShare}`,
               dateCreated: post.publishDatetime,
               datePublished: post.publishDatetime,
               dateModified: post.updateDatetime,
-            };
-            this.jsonLdService.setData('BlogPosting', jsonLd);
+            });
+            this.jsonLdService.setData(jsonLd);
             const seoData: SeoSocialShareData = {
               title: `${post.title} - Posts - ${environment.seo.title}`,
               description: post.short,
