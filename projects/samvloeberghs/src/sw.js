@@ -10,7 +10,7 @@ if (workbox) {
 
   // Precache & Route setup
   // Keep it here or it will not get picked up
-  // see workbox-config.js
+  // see workbox-config.jss
   // This array gets injected automagically by the workbox cli
   workbox.precaching.precacheAndRoute([]);
 
@@ -30,7 +30,7 @@ if (workbox) {
   // Cache the underlying font files with a cache-first strategy for 1 year.
   routing.registerRoute(
     /^https:\/\/fonts\.gstatic\.com/,
-    new workbox.strategies.CacheFirst({
+    new strategies.CacheFirst({
       cacheName: 'google-fonts-webfonts',
       plugins: [
         new cacheableResponse.Plugin({
@@ -39,6 +39,20 @@ if (workbox) {
         new expiration.Plugin({
           maxAgeSeconds: 60 * 60 * 24 * 365,
           maxEntries: 30,
+          purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
+        })
+      ]
+    })
+  );
+
+  // Cache the underlying font files with a cache-first strategy for 1 year.
+  routing.registerRoute(
+    /assets\/fontawesome\/fonts/,
+    new strategies.CacheFirst({
+      cacheName: 'fontawesome-fonts',
+      plugins: [
+        new expiration.Plugin({
+          maxAgeSeconds: 60 * 60 * 24 * 365,
           purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
         })
       ]
@@ -70,3 +84,9 @@ if (workbox) {
   console.log(`Boo! Workbox didn't load 😬`);
 }
 
+self.addEventListener('activate', event => {
+  event.waitUntil(clients.claim());
+});
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
