@@ -11,5 +11,5 @@ export function getCachePath(originalUrl: string): string {
 }
 
 export function isCacheAllowed(cachePath: string): boolean {
-  return allowedPaths.indexOf(cachePath) > -1;
+  return allowedPaths.indexOf(cachePath.substring(1)) > -1;
 }
