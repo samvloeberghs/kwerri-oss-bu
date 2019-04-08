@@ -4,14 +4,14 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const {googleAnalytics, routing, strategies, expiration, precaching} = workbox;
+  const {googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
   // Precache & Route setup
-  // This array gets injected automagically by the workbox cli
   // Keep it here or it will not get picked up
   // see workbox-config.js
+  // This array gets injected automagically by the workbox cli
   workbox.precaching.precacheAndRoute([]);
 
   // Google Analytics cache setup
@@ -49,6 +49,7 @@ if (workbox) {
   // it's a SPA, so each path that is ann allowed path/page should default to index.html
   routing.registerRoute(
     ({ url }) => {
+      // This array gets injected automagically by a script
       const allowedPaths = [];
       return !!url.pathname && allowedPaths.includes(url.pathname.substring(1)); // remove first slash
     },
