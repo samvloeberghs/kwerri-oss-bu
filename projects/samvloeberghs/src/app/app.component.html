@@ -1,151 +1,147 @@
-<div id="wrapper">
+<aside [class.open]="mobileNavToggled">
 
-  <aside [class.open]="mobileNavToggled">
+  <a routerLink="/" id="picture" title="Back to homepage">
+    <img src="assets/images/sam.jpg" alt="Sam Vloeberghs"/>
+  </a>
 
-    <a routerLink="/" id="picture" title="Back to homepage">
-      <img src="assets/images/sam.jpg" alt="Sam Vloeberghs"/>
-    </a>
+  <h1>
+    <a routerLink="/">Sam Vloeberghs</a>
+  </h1>
 
-    <h1>
-      <a routerLink="/">Sam Vloeberghs</a>
-    </h1>
+  <a routerLink="/" id="mobilemenu" target="navigation" title="Open mobile navigation"
+     [class.open]="mobileNavToggled"
+     (click)="toggleMobileNav($event, true)">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+    <i class="fa fa-times" aria-hidden="true"></i>
+  </a>
 
-    <a routerLink="/" id="mobilemenu" target="navigation" title="Open mobile navigation"
-       [class.open]="mobileNavToggled"
-       (click)="toggleMobileNav($event, true)">
-      <i class="fa fa-bars" aria-hidden="true"></i>
-      <i class="fa fa-times" aria-hidden="true"></i>
-    </a>
+  <div id="mobilenavcontainer">
+    <p>
+      I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on
+      frontend technologies.
+    </p>
 
-    <div id="mobilenavcontainer">
-      <p>
-        I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on
-        frontend technologies.
-      </p>
+    <ul class="social">
+      <li>
+        <a href="https://www.facebook.com/sam.vloeberghs"
+           class="facebook ignoreexternal"
+           title="Sam on Facebook"
+           target="_blank"
+           rel="noopener"
+           aria-label="Sam on Facebook">
+          <i class="fa fa-facebook" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://twitter.com/samvloeberghs"
+           class="twitter ignoreexternal"
+           title="Sam on Twitter"
+           target="_blank"
+           rel="noopener"
+           aria-label="Sam on Twitter">
+          <i class="fa fa-twitter" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/samvloeberghs"
+           class="github ignoreexternal"
+           title="Sam on Github"
+           target="_blank"
+           rel="noopener"
+           aria-label="Sam on Github">
+          <i class="fa fa-github" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="skype:sam.vloeberghs"
+           class="skype ignoreexternal"
+           title="Sam on Skype"
+           target="_blank"
+           rel="noopener"
+           aria-label="Sam on Skype">
+          <i class="fa fa-skype" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://be.linkedin.com/in/samvloeberghs"
+           class="linkedin ignoreexternal"
+           title="Sam on LinkedIn"
+           target="_blank"
+           rel="noopener"
+           aria-label="Sam on LinkedIn">
+          <i class="fa fa-linkedin" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="http://stackoverflow.com/users/288606/sam-vloeberghs"
+           class="stack-overflow ignoreexternal"
+           title="Sam on Stack Overflow"
+           target="_blank"
+           rel="noopener"
+           aria-label="Sam on Stack Overflow">
+          <i class="fa fa-stack-overflow" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
 
-      <ul class="social">
+    <h2>Navigation</h2>
+
+    <nav>
+      <ol id="navigation">
         <li>
-          <a href="https://www.facebook.com/sam.vloeberghs"
-             class="facebook ignoreexternal"
-             title="Sam on Facebook"
-             target="_blank"
-             rel="noopener"
-             aria-label="Sam on Facebook">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
+          <a routerLink="/" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}"
+             (click)="navigateMobile()">
+            Home
           </a>
         </li>
         <li>
-          <a href="https://twitter.com/samvloeberghs"
-             class="twitter ignoreexternal"
-             title="Sam on Twitter"
-             target="_blank"
-             rel="noopener"
-             aria-label="Sam on Twitter">
-            <i class="fa fa-twitter" aria-hidden="true"></i>
+          <a routerLink="/posts" routerLinkActive="active"
+             (click)="navigateMobile()">
+            Posts
           </a>
         </li>
         <li>
-          <a href="https://github.com/samvloeberghs"
-             class="github ignoreexternal"
-             title="Sam on Github"
-             target="_blank"
-             rel="noopener"
-             aria-label="Sam on Github">
-            <i class="fa fa-github" aria-hidden="true"></i>
+          <a routerLink="/talks-workshops" routerLinkActive="active"
+             (click)="navigateMobile()">
+            Talks &amp; workshops
           </a>
         </li>
         <li>
-          <a href="skype:sam.vloeberghs"
-             class="skype ignoreexternal"
-             title="Sam on Skype"
-             target="_blank"
-             rel="noopener"
-             aria-label="Sam on Skype">
-            <i class="fa fa-skype" aria-hidden="true"></i>
+          <a routerLink="/projects" routerLinkActive="active"
+             (click)="navigateMobile()">
+            Projects
           </a>
         </li>
         <li>
-          <a href="https://be.linkedin.com/in/samvloeberghs"
-             class="linkedin ignoreexternal"
-             title="Sam on LinkedIn"
-             target="_blank"
-             rel="noopener"
-             aria-label="Sam on LinkedIn">
-            <i class="fa fa-linkedin" aria-hidden="true"></i>
+          <a routerLink="/about" routerLinkActive="active"
+             (click)="navigateMobile()">
+            About me
           </a>
         </li>
         <li>
-          <a href="http://stackoverflow.com/users/288606/sam-vloeberghs"
-             class="stack-overflow ignoreexternal"
-             title="Sam on Stack Overflow"
-             target="_blank"
-             rel="noopener"
-             aria-label="Sam on Stack Overflow">
-            <i class="fa fa-stack-overflow" aria-hidden="true"></i>
+          <a routerLink="/kwerri" routerLinkActive="active"
+             (click)="navigateMobile()">
+            Kwerri
           </a>
         </li>
-      </ul>
+      </ol>
+    </nav>
+  </div>
 
-      <h2>Navigation</h2>
+</aside>
 
-      <nav>
-        <ol id="navigation">
-          <li>
-            <a routerLink="/" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact: true}"
-               (click)="navigateMobile()">
-              Home
-            </a>
-          </li>
-          <li>
-            <a routerLink="/posts" routerLinkActive="active"
-               (click)="navigateMobile()">
-              Posts
-            </a>
-          </li>
-          <li>
-            <a routerLink="/talks-workshops" routerLinkActive="active"
-               (click)="navigateMobile()">
-              Talks &amp; workshops
-            </a>
-          </li>
-          <li>
-            <a routerLink="/projects" routerLinkActive="active"
-               (click)="navigateMobile()">
-              Projects
-            </a>
-          </li>
-          <li>
-            <a routerLink="/about" routerLinkActive="active"
-               (click)="navigateMobile()">
-              About me
-            </a>
-          </li>
-          <li>
-            <a routerLink="/kwerri" routerLinkActive="active"
-               (click)="navigateMobile()">
-              Kwerri
-            </a>
-          </li>
-        </ol>
-      </nav>
-    </div>
+<section class="content">
 
-  </aside>
+  <router-outlet></router-outlet>
+  <footer>
+    <p>
+      &copy; 1988 - 2019 &mdash; Sam Vloeberghs &mdash; This website, how it's coded and the software it uses is all
+      open-source. So <a href="https://github.com/samvloeberghs/kwerri-oss" target="_blank" rel="noopener">feel
+      free to be inspired and copy the architecture</a>. The design & the content however, like for
+      example the written articles, are my own thoughts and inspiration. Please reference the relevant page if you use
+      (parts of) it.
+    </p>
+  </footer>
 
-  <section class="content">
-
-    <router-outlet></router-outlet>
-    <footer>
-      <p>
-        &copy; 1988 - 2019 &mdash; Sam Vloeberghs &mdash; This website, how it's coded and the software it uses is all
-        open-source. So <a href="https://github.com/samvloeberghs/kwerri-oss" target="_blank" rel="noopener">feel
-        free to be inspired and copy the architecture</a>. The design & the content however, like for
-        example the written articles, are my own thoughts and inspiration. Please reference the relevant page if you use
-        (parts of) it.
-      </p>
-    </footer>
-
-  </section>
-
-</div>
+</section>

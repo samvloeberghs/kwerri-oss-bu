@@ -1,11 +1,33 @@
 :host {
   display: block;
+
+  @media (min-width: 769px) {
+    margin-top: 9px;
+  }
+
+  max-width: 1280px;
+  margin: {
+    right: auto;
+    left: auto;
+  }
+
 }
 
 aside {
 
   display: block;
   z-index: 1;
+  padding: {
+    right: 50px;
+  }
+  @media (min-width: 769px) {
+    border-right: 1px solid;
+    border-image: linear-gradient(
+        to bottom,
+        #eee,
+        rgba(0, 0, 0, 0)
+    ) 1 100%;
+  }
 
   #picture {
     display: block;
@@ -234,7 +256,7 @@ aside {
     #mobilemenu {
       position: absolute;
       display: block;
-      right: 20px;
+      right: 70px;
       top: 20px;
       font-size: 2.5em;
       color: #666;

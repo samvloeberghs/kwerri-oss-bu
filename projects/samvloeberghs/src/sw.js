@@ -4,7 +4,7 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const {googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
+  const {core, googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -12,7 +12,7 @@ if (workbox) {
   // Keep it here or it will not get picked up
   // see workbox-config.jss
   // This array gets injected automagically by the workbox cli
-  workbox.precaching.precacheAndRoute([]);
+  precaching.precacheAndRoute([]);
 
   // Google Analytics cache setup
   // see https://developers.google.com/web/tools/workbox/modules/workbox-google-analytics
@@ -80,13 +80,9 @@ if (workbox) {
     }
   );
 
+  core.skipWaiting();
+  core.clientsClaim();
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
-
-self.addEventListener('activate', event => {
-  event.waitUntil(clients.claim());
-});
-self.addEventListener('install', () => {
-  self.skipWaiting();
-});

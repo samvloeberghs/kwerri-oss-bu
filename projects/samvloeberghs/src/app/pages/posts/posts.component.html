@@ -6,11 +6,11 @@
 
 <article *ngFor="let post of posts; let i = index">
 
-  <a [routerLink]="['/posts', post.slug]" class="img">
+  <a [routerLink]="['/posts', post.slug]" class="img" [attr.title]="post.title">
     <img [src]="post.img" [alt]="post.title"/>
   </a>
 
-  <a [routerLink]="['/posts', post.slug]" class="excerpt">
+  <a [routerLink]="['/posts', post.slug]" class="excerpt" [attr.title]="post.title">
 
     <h2>{{post.title}}</h2>
 

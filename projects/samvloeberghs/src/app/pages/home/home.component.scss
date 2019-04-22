@@ -14,13 +14,6 @@ ol {
   padding-bottom: 40px;
   border-bottom: 1px solid #f6f6f6;
 
-  @media (min-width: 1300px) {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
   li {
     counter-increment: my-awesome-counter;
     box-sizing: border-box;
@@ -31,12 +24,6 @@ ol {
       margin: {
         bottom: 0;
       }
-    }
-
-    @media (min-width: 1300px) {
-      width: calc(1 / 5 * 100% - (1 - 1 / 5) * 25px);
-      display: flex;
-      margin-bottom: 0;
     }
 
     &::before {
