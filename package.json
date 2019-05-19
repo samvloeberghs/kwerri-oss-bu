@@ -68,7 +68,20 @@
     "ts-loader": "^5.3.3",
     "ws": "^6.1.4",
     "xmlhttprequest": "^1.8.0",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "@progress/kendo-angular-buttons": "^4.0.0",
+    "@progress/kendo-angular-dateinputs": "2 - 3",
+    "@progress/kendo-angular-dialog": "^3.11.0",
+    "@progress/kendo-angular-dropdowns": "2 - 3",
+    "@progress/kendo-angular-excel-export": "1 - 2",
+    "@progress/kendo-angular-grid": "^3.14.0",
+    "@progress/kendo-angular-inputs": "2 - 4",
+    "@progress/kendo-angular-intl": "^1.0.0",
+    "@progress/kendo-angular-l10n": "^1.1.0",
+    "@progress/kendo-angular-popup": "^2.0.0",
+    "@progress/kendo-data-query": "^1.0.0",
+    "@progress/kendo-drawing": "^1.0.0",
+    "@progress/kendo-theme-default": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.3",
