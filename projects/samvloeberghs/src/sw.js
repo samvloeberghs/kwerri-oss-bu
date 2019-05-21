@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.2.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
 if (workbox) {
 
@@ -60,13 +60,9 @@ if (workbox) {
   );
 
   // default page handler for offline usage, where the browser does not how to handle deep links
-  // it's a SPA, so each path that is ann allowed path/page should default to index.html
+  // it's a SPA, so each path that is a navigation should default to index.html
   routing.registerRoute(
-    ({ url }) => {
-      // This array gets injected automagically by a script
-      const allowedPaths = [];
-      return !!url.pathname && allowedPaths.includes(url.pathname.substring(1)); // remove first slash
-    },
+    ({ event }) => event.request.mode === 'navigate',
     async () => {
       const defaultBase = '/index.html';
       return caches
