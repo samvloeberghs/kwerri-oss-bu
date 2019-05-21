@@ -1,0 +1,132 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2>
+    <span>
+    Target audience
+    </span>
+  </h2>
+
+  <p>
+    This short post is targeted to webdevelopers that are creating offline-capable applications. And more specifically
+    applications that can be identified as SPAs or Single Page applications. I will share some of my learnings, not just
+    to share them, but also to get feedback from interested readers that might have found other ways or used other
+    methods to
+    solve the problems described.
+  </p>
+
+  <h2>
+    <span>
+    Serve the index.html for all deeplinks while offline
+    </span>
+  </h2>
+
+  <p>
+
+  </p>
+
+  <h2>
+    <span>
+      Don't just blindly use <code>skipWaiting</code> or <code>clients.claim()</code>
+    </span>
+  </h2>
+
+  <p>
+    Using <code>skipWaiting</code> or <code>clients.claim()</code> should not be done blindly and without thought.
+    Unfortunetaly there are many articles on the internet and even boilerplate of frameworks that do this be default.
+    The fact that you have to be careful about this is also clearly mentioned in "<a
+    href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
+    target="_blank" rel="noopener">Service Worker Lifecycle</a>", an article by Jake Archibald.
+
+  </p>
+
+  <p class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    "<em>Note:</em> I see a lot of people including clients.claim() as boilerplate, but I rarely do so myself. It only
+    really matters on the very first load, and due to progressive enhancement the page is usually working happily
+    without service worker anyway."
+  </p>
+
+  <p>
+    This could be a problem if you want your service worker to be active from the very first time you load your
+    application. Let's take a basic example to explain this situation:
+  </p>
+
+  <ol>
+    <li>
+      Your application imports a 3rd party library that sends requests to a server.
+      The URLS these requests have to be send to are configurable, but the headers used aren't.
+      You may want to add an <code>Authorization</code> header to each of these calls made.
+    </li>
+    <li>
+      One of the possible strategies to use could be to setup a service worker that acts as a proxy and adds this header
+      to relevant requests.
+    </li>
+    <li>
+      This functionality has to work from the very first time, but that is not possible without
+      <code>skipWaiting</code> and/or <code>clients.claim()</code>, at first sight.
+    </li>
+  </ol>
+
+  <h2>
+    <span>
+    Be careful with what you cache in the browser
+    </span>
+  </h2>
+
+  <p>
+    Space is limited.
+    Depending on the browser.
+    Depending on the machine used.
+    Depending on available space.
+  </p>
+  <h2>
+    <span>
+    Conclusion
+    </span>
+  </h2>
+
+  <p>
+    - fundamental differences between request types
+    - understand what you are implementing
+    - don't overcache and have a cleanup strategy
+  </p>
+
+  <h2><span>Further reading</span></h2>
+
+  <ul>
+    <li>
+      <a href="https://medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c"
+         target="_blank" rel="noopener">
+        Service Worker Caching Strategies Based on Request Types
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/tools/workbox/"
+         target="_blank" rel="noopener">
+        Workbox documentation
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
+         target="_blank" rel="noopener">
+        The Service Worker Lifecycle
+      </a>
+    </li>
+  </ul>
+
+  <h2>
+    <span>
+      Special thanks to
+    </span>
+  </h2>
+
+  <ul>
+    <li>
+      <a href="" rel="noopener" target="_blank"></a>
+    </li>
+
+  </ul>
+
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+
+</section>

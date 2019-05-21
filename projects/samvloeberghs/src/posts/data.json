@@ -1,5 +1,15 @@
 [
   {
+    "title": "Learnings on offline capabilities with service workers using workbox",
+    "slug": "learnings-on-offline-capabilities-with-service-workers-using-workbox",
+    "publishDatetime": "2019-05-31T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/posts/learnings-on-offline-capabilities-with-service-workers-using-workbox/img.jpg",
+    "imgFull": "/posts/learnings-on-offline-capabilities-with-service-workers-using-workbox/img_full.jpg",
+    "imgShare": "/posts/learnings-on-offline-capabilities-with-service-workers-using-workbox/img_share.jpg",
+    "short": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat dapibus eros aliquam condimentum. Pellentesque nisl lorem, consectetur nec orci ut, porta facilisis leo. Donec eget bibendum nunc. Nulla neque tortor, porta posuere ultricies sit amet, tempor id purus."
+  },
+  {
     "title": "Outputting JSON-LD with Angular Universal",
     "slug": "outputting-json-ld-with-angular-universal",
     "publishDatetime": "2019-03-12T12:00:00+01:00",
@@ -7,7 +17,7 @@
     "img": "/posts/outputting-json-ld-with-angular-universal/img.jpg",
     "imgFull": "/posts/outputting-json-ld-with-angular-universal/img_full.jpg",
     "imgShare": "/posts/outputting-json-ld-with-angular-universal/img_share.jpg",
-    "short": "JSON-LD is a lightweight Linked Data format. It is easy for humans AND machines to read and write. In this new Angular Universal article we learn how to output JSON-LD. We will re-use and explain some techniques that the TransferState key-value cache service uses to transfer server-state to the application on the client side.</span>"
+    "short": "JSON-LD is a lightweight Linked Data format. It is easy for humans AND machines to read and write. In this new Angular Universal article we learn how to output JSON-LD. We will re-use and explain some techniques that the TransferState key-value cache service uses to transfer server-state to the application on the client side."
   },
   {
     "title": "Better sharing on social media platforms with Angular Universal",
@@ -17,7 +27,7 @@
     "img": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/img.jpg",
     "imgFull": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/img_full.jpg",
     "imgShare": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/img_share.jpg",
-    "short": "This article and guide on better sharing on social media platforms with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running.  We are going to describe some high-level ideas and concepts, different tools and Angular services that will enable better social sharing on for example Facebook, Twitter and LinkedIn.</span>"
+    "short": "This article and guide on better sharing on social media platforms with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running.  We are going to describe some high-level ideas and concepts, different tools and Angular services that will enable better social sharing on for example Facebook, Twitter and LinkedIn."
   },
   {
     "title": "Selecting subtitles in Vimeo using JavaScript",

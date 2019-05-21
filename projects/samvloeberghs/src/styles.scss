@@ -40,7 +40,8 @@ strong {
 }
 
 p a,
-ul li a {
+ul li a,
+ol li a {
   color: #20527f;
   border-bottom: 1px dotted #20527f;
   text-decoration: none;
@@ -135,7 +136,7 @@ a:focus {
     border-bottom: 1px solid #f6f6f6;
   }
 
-  ul {
+  ul, ol {
     font-size: 1.5em;
     line-height: 1.4em;
     margin-left: 30px;
@@ -341,7 +342,7 @@ a:focus {
       line-height: 1.5em;
     }
 
-    p, ul {
+    p, ul, ol {
       font-size: 1.5em;
       line-height: 1.4em;
     }
@@ -393,7 +394,8 @@ a:focus {
   }
 
   & > p,
-  & > ul {
+  & > ul
+  & > ol{
     margin-bottom: 0;
   }
 
