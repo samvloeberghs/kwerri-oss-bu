@@ -31,7 +31,7 @@
     different callback functions for <code>next</code>, <code>error</code> and <code>complete</code>:
   </p>
   <h4 class="codetitle">subject.ts</h4>
-  <pre><code class="typescript highlighted">import { Subject } from 'rxjs/Subject';
+  <pre><code class="language-ts">import { Subject } from 'rxjs/Subject';
 let subject = new Subject&lt;number&gt;();
 
 subject.subscribe(
@@ -73,7 +73,7 @@ subject.next(22);
     that subscribes to the subject gets immediately notified of the initial value. The same is true
     for the next <code>Observer</code>.</p>
   <h4 class="codetitle">behavior-subject.ts</h4>
-  <pre><code class="typescript highlighted">import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+  <pre><code class="language-ts">import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 let behaviorSubject = new BehaviorSubject&lt;number&gt;(11);
 
 behaviorSubject.subscribe(
@@ -90,7 +90,7 @@ behaviorSubject.subscribe({
     <code>Subject</code>. But if we subscribe a new <code>Observer</code> to the <code>BehaviorSubject</code>
     it will immediately receive the last emitted value!</p>
   <h4 class="codetitle">behavior-subject-last-value.ts</h4>
-  <pre><code class="typescript highlighted">behaviorSubject.next(22);
+  <pre><code class="language-ts">behaviorSubject.next(22);
 // log: observer I: 22
 // log: observer II: 22
 
@@ -135,7 +135,7 @@ behaviorSubject.subscribe({
     2000ms. The first batch after 1000ms and the second batch after 2000ms in the complete
     timeframe.</p>
   <h4 class="codetitle">replay-subject.ts</h4>
-  <pre><code class="typescript highlighted">import { ReplaySubject } from 'rxjs/ReplaySubject';
+  <pre><code class="language-ts">import { ReplaySubject } from 'rxjs/ReplaySubject';
 let replaySubject = new ReplaySubject&lt;number&gt;(25, 1000);
 
 setTimeout(() =&gt; {
@@ -193,7 +193,7 @@ setTimeout(() =&gt; {
   <p>In the following example the only emitted value to the next function of the observer will be 3,
     as we complete the subject after the last call to next.</p>
   <h4 class="codetitle">async-subject.ts</h4>
-  <pre><code class="typescript highlighted">import { AsyncSubject } from 'rxjs/Subject';
+  <pre><code class="language-ts">import { AsyncSubject } from 'rxjs/Subject';
 let asyncSubject = new AsyncSubject&lt;number&gt;();
 
 asyncSubject.subscribe(

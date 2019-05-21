@@ -2,7 +2,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
 
 const MODULES = [
   CommonModule,
@@ -19,7 +18,7 @@ const COMPONENTS = [
 ];
 
 const PROVIDERS = [
-  HighlightJsService,
+  // put shared services here
 ];
 
 @NgModule({

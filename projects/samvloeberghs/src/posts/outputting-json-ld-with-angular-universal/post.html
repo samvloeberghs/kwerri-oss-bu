@@ -61,7 +61,7 @@
     an external link and this is how data gets interweaved on the same website or resource and even on other websites.
   </p>
   <h4 class="codetitle">json-ld-example.html (<a href="https://jsonld.com/local-business/" target="_blank" rel="noopener">source</a>)</h4>
-  <pre><code class="html highlighted">&#x3C;script type="application/ld+json"&#x3E;
+  <pre><code class="language-html">&#x3C;script type="application/ld+json"&#x3E;
 {
   "@context": "http://schema.org",
   "@type": "LocalBusiness",
@@ -132,7 +132,7 @@
   </p>
 
   <h4 class="codetitle">about-routing.module.ts</h4>
-  <pre><code class="typescript highlighted">RouterModule.forChild([{
+  <pre><code class="language-ts">RouterModule.forChild([{
     path: '',
     component: AboutComponent,
     data: {
@@ -150,7 +150,7 @@
   </p>
 
   <h4 class="codetitle">route-helper.service.ts</h4>
-  <pre><code class="typescript highlighted">@Injectable({
+  <pre><code class="language-ts">@Injectable({
     providedIn: 'root',
 })
 export class RouteHelper {
@@ -194,7 +194,7 @@ export class RouteHelper {
   </p>
 
 <h4 class="codetitle">ngx-seo/json-ld.service.ts</h4>
-  <pre><code class="typescript highlighted">@Injectable({
+  <pre><code class="language-ts">@Injectable({
   providedIn: 'root',
 })
 export class JsonLdService {
@@ -226,7 +226,7 @@ export class JsonLdService {
   </p>
 
   <h4 class="codetitle">json output</h4>
-  <pre><code class="json highlighted">{
+  <pre><code class="language-json">{
     "@context": "http://schema.org",
     "@type": "Website",
     "name": "About Sam - Sam Vloeberghs - Freelance Webdeveloper & Software Engineer",
@@ -275,7 +275,7 @@ export class JsonLdService {
   </p>
 
   <h4 class="codetitle">server: transfer_state.ts (<a href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts" target="_blank" rel="noopener">full source code here</a>)</h4>
-  <pre><code class="typescript highlighted">export function serializeTransferStateFactory(
+  <pre><code class="language-ts">export function serializeTransferStateFactory(
   doc: Document, appId: string, transferStore: TransferState
 ) {
   return () => {
@@ -308,7 +308,7 @@ export class ServerTransferStateModule {
   </p>
 
     <h4 class="codetitle">browser: transfer_state.ts (<a href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts" target="_blank" rel="noopener">full source code here</a>)</h4>
-  <pre><code class="typescript highlighted">export function initTransferState(
+  <pre><code class="language-ts">export function initTransferState(
   doc: Document, appId: string
 ) {
   const script = doc.getElementById(appId + '-state');
@@ -346,7 +346,7 @@ export class BrowserTransferStateModule {
   </p>
 
   <h4 class="codetitle">ngx-seo/json-ld.module.ts</h4>
-  <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
+  <pre><code class="language-ts">import { NgModule } from '@angular/core';
 import { JsonLdService } from 'ngx-seo/json-ld.service';
 
 @NgModule({
@@ -358,7 +358,7 @@ export class BrowserJsonLdModule {
 }</code></pre>
 
   <h4 class="codetitle">ngx-seo/json-ld.server.module.ts</h4>
-  <pre><code class="typescript highlighted">import { NgModule } from '@angular/core';
+  <pre><code class="language-ts">import { NgModule } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { JsonLdService } from 'ngx-seo/json-ld.service';
@@ -408,7 +408,7 @@ export class ServerJsonLdModule {
   </p>
 
   <h4 class="codetitle">app.module.ts</h4>
-  <pre><code class="typescript highlighted">@NgModule({
+  <pre><code class="language-ts">@NgModule({
   declarations: [
     AppComponent,
   ],
@@ -428,7 +428,7 @@ export class AppModule {
 }</code></pre>
 
   <h4 class="codetitle">app.server.module.ts</h4>
-  <pre><code class="typescript highlighted">@NgModule({
+  <pre><code class="language-ts">@NgModule({
   imports: [
     AppModule,
     ServerModule,

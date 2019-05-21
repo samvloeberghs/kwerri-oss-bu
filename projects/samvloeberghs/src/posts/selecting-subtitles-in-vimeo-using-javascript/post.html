@@ -46,7 +46,7 @@
   <p>
     Using it in Angular is fairly easy.. We need to install the @vimeo/player package using yarn or npm:
   </p>
-  <pre><code class="bash highlighted">npm i -s @vimeo/player</code></pre>
+  <pre><code class="language-sh">npm i -s @vimeo/player</code></pre>
 
   <p>
     Next we can import the Player directly and by using the <code>enableTextTrack</code> function we can easily set the
@@ -56,7 +56,7 @@
   </p>
 
   <h4 class="codetitle">enable-text-track.ts</h4>
-  <pre><code class="typescript highlighted">import Player from '@vimeo/player';
+  <pre><code class="language-ts">import Player from '@vimeo/player';
 const player = new Player(document.getElementById('intro_explanimation'));
 
 player.enableTextTrack(this.language, 'subtitles').then(function (track) {

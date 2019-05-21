@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
@@ -7,16 +7,18 @@ import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-se
 import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
+import { HighlightService } from '../../../shared/highlight.service';
 
 @Component({
   selector: 'sv-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit, AfterViewChecked {
 
   post: Post;
   error: any;
+  highlighted = false;
 
   constructor(
     private readonly router: Router,
@@ -25,6 +27,7 @@ export class PostComponent implements OnInit {
     private readonly seoSocialShareService: SeoSocialShareService,
     private readonly sanitizer: DomSanitizer,
     private readonly jsonLdService: JsonLdService,
+    private readonly highlightService: HighlightService
   ) {
 
   }
@@ -81,6 +84,13 @@ export class PostComponent implements OnInit {
           this.error = error;
         },
       );
+  }
+
+  ngAfterViewChecked() {
+    if (this.post && this.post.content && !this.highlighted) {
+      this.highlightService.highlightAll();
+      this.highlighted = true;
+    }
   }
 
 }

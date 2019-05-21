@@ -52,7 +52,7 @@
   </p>
 
   <h4 class="codetitle">polyfills.ts</h4>
-  <pre><code class="typescript highlighted">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
+  <pre><code class="language-ts">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
 * This also includes Android Emulators with older versions of Chrome
 * and Google Search/Googlebot
 */
@@ -118,7 +118,7 @@
   </p>
 
   <h4 class="codetitle">static-generated.html</h4>
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
+  <pre><code class="language-html">&#x3C;!doctype html&#x3E;
 &#x3C;html lang=&#x22;en&#x22;&#x3E;
    &#x3C;head&#x3E;
       &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
@@ -157,7 +157,7 @@
   </p>
 
   <h4 class="codetitle">static-generated-facebook.html</h4>
-  <pre><code class="html highlighted">&#x3C;head&#x3E;
+  <pre><code class="language-html">&#x3C;head&#x3E;
   &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
   &#x3C;meta property=&#x22;og:url&#x22; content=&#x22;https://samvloeberghs.be/&#x22;&#x3E;
@@ -198,7 +198,7 @@
   </p>
 
   <h4 class="codetitle">static-generated-linkedin.html</h4>
-  <pre><code class="html highlighted">&#x3C;head&#x3E;
+  <pre><code class="language-html">&#x3C;head&#x3E;
   &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta property=&#x22;og:type&#x22; content=&#x22;website&#x22;&#x3E;
   &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
@@ -242,7 +242,7 @@
   </p>
 
   <h4 class="codetitle">static-generated-twitter.html</h4>
-  <pre><code class="html highlighted">&#x3C;head&#x3E;
+  <pre><code class="language-html">&#x3C;head&#x3E;
   &#x3C;meta name=&#x22;twitter:card&#x22; content=&#x22;summary_large_image&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
@@ -285,7 +285,7 @@
   </p>
 
   <h4 class="codetitle">about-routing.module.ts</h4>
-  <pre><code class="typescript highlighted">RouterModule.forChild([{
+  <pre><code class="language-ts">RouterModule.forChild([{
   path: '',
   component: AboutComponent,
   data: {
@@ -303,7 +303,7 @@
   </p>
 
   <h4 class="codetitle">route-helper.service.ts</h4>
-  <pre><code class="typescript highlighted">@Injectable({
+  <pre><code class="language-ts">@Injectable({
   providedIn: 'root',
 })
 export class RouteHelper {
@@ -347,7 +347,7 @@ export class RouteHelper {
   </p>
 
   <h4 class="codetitle">ngx-seo/seo-social-share.service.ts</h4>
-  <pre><code class="typescript highlighted">@Injectable({
+  <pre><code class="language-ts">@Injectable({
     providedIn: 'root',
 })
 export class SeoSocialShareService {
@@ -430,7 +430,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
   </p>
 
   <h4 class="codetitle">too-much-minify-options-output.html</h4>
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;
+  <pre><code class="language-html">&#x3C;!doctype html&#x3E;
 &#x3C;html lang=&#x22;en&#x22;&#x3E;
    &#x3C;head&#x3E;
       &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
@@ -441,7 +441,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
   </p>
 
   <pre><code
-    class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
+    class="language-html">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
 
   <p>
     This is too much optimization for the LinkedIn Post Inspector. If you look closely, you'll notice
@@ -464,7 +464,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
   </p>
 
   <h4 class="codetitle">good-minify-options-output.html</h4>
-  <pre><code class="html highlighted">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
+  <pre><code class="language-html">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
 
   <p>
     We are keeping the <code>&#x3C;head&#x3E;</code> tag and the attribute quotes. And now the LinkedIn Post Inspector
