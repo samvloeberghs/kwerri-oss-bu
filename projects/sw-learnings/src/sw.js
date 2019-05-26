@@ -4,7 +4,7 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const {core, googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
+  const {googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -13,10 +13,6 @@ if (workbox) {
   // see workbox-config.jss
   // This array gets injected automagically by the workbox cli
   precaching.precacheAndRoute([]);
-
-  // Google Analytics cache setup
-  // see https://developers.google.com/web/tools/workbox/modules/workbox-google-analytics
-  googleAnalytics.initialize();
 
   // Google Fonts cache setup
   // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
@@ -45,20 +41,6 @@ if (workbox) {
     })
   );
 
-  // Cache the underlying font files with a cache-first strategy for 1 year.
-  routing.registerRoute(
-    /assets\/fontawesome\/fonts/,
-    new strategies.CacheFirst({
-      cacheName: 'fontawesome-fonts',
-      plugins: [
-        new expiration.Plugin({
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-          purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
-        })
-      ]
-    })
-  );
-
   // default page handler for offline usage, where the browser does not how to handle deep links
   // it's a SPA, so each path that is a navigation should default to index.html
   routing.registerRoute(
@@ -75,7 +57,6 @@ if (workbox) {
         });
     }
   );
-
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

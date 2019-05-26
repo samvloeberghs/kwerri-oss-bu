@@ -7,10 +7,10 @@
   </h2>
 
   <p>
-    This short post is targeted to webdevelopers that are creating offline-capable applications and more specifically
-    offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my learnings, not
-    just to share them, but also to maybe get some feedback from interested readers that might have found other ways or
-    used other methods to solve the problems described.
+    This post is targeted to webdevelopers that are creating offline-capable applications and more specifically
+    offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my
+    learnings, not just to share them, but also to maybe get some feedback from interested readers that might have found
+    other ways or used other methods to solve the problems described.
   </p>
 
   <h2>
@@ -24,12 +24,18 @@
     <li>Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></li>
     <li>Be careful with what you cache in the browser</li>
     <li>Avoid using global state in the service worker</li>
-    <li>Communicate using Broadcast Channel</li>
+    <li>Communicate using the <code>BroadcastChannel</code> API</li>
   </ol>
+
+  <p>
+    All the example code used in this post, just as this complete website, is
+    <a href="https://github.com/samvloeberghs/kwerri-oss" target="_blank" rel="noopener">available on Github here</a> as
+    an example project for you to test and try-out.
+  </p>
 
   <h2>
     <span>
-    Serve the index.html for all deeplinks (while offline)
+      Serve the <code>index.html</code> for all deeplinks (while offline)
     </span>
   </h2>
 
@@ -64,7 +70,7 @@
     with workbox as a static asset so we request it from the <code>precache</code>.
   </p>
 
-  <pre><code class="language-js"> // default page handler for offline usage,
+  <pre><code class="language-js">// default page handler for offline usage,
 // where the browser does not how to handle deep links
 // it's a SPA, so each path that is a navigation should default to index.html
 workbox.routing.registerRoute(
@@ -84,8 +90,14 @@ workbox.routing.registerRoute(
 
   <p>
     Please keep in mind that this gives you quicker offline <em>and online usages</em>, because even when your user is
-    online the service worker will use the cached index.html, when for example opening a new tab with a different page
+    online the service worker will use the cached <code>index.html</code>, when for example opening a new tab with a
+    different page
     of your application.
+  </p>
+  <p>
+    Also note that this kind of how the server should behave in case of a SPA setup. For all requests not matching a
+    static or a
+    dynamic resource like an API, the server should return the <code>index.html</code> file!
   </p>
 
   <h2>
@@ -105,13 +117,50 @@ workbox.routing.registerRoute(
 
   <p class="alert alert-quote">
     <i class="fa fa-quote-left"></i>
-    <em>Note:</em> I see a lot of people including clients.claim() as boilerplate, but I rarely do so myself. It only
+    <em>Note:</em> I see a lot of people including <code>clients.claim()</code> as boilerplate, but I rarely do so
+    myself. It only
     really matters on the very first load, and due to progressive enhancement the page is usually working happily
     without service worker anyway.
   </p>
 
+  <h3>
+    <span>Why to be careful?</span>
+  </h3>
+
   <p>
-    This could be problematic for your usecase, especially if you want your service worker to be active from the very
+    There are several scenarios where just calling <code>skipWaiting</code> or <code>clients.claim()</code> blindly in
+    your service
+    worker could be the cause of unexpected and harm-ful side-effects.
+  </p>
+
+  <p>
+    One possible scenario is that the code functionality in your application could potentially not match anymore with
+    the logic in your
+    service worker. So it might impose a breaking change. A short step-by-step example:
+  </p>
+
+  <ol>
+    <li>The browser has your application code, including the code that registers your service worker and the service
+      worker,
+      cached
+    </li>
+    <li>When loading the application, this cached content is served and loads your new service worker with updated
+      functionality, updates the precached content and finally skips the waiting process and claims the clients
+      available
+    </li>
+    <li>
+      Your user now has the old application loaded in his browser, but using the new service worker functionality,
+      which is potentially problematic!
+    </li>
+  </ol>
+
+  <h3>
+    <span>Service worker active during first-time usage of your application</span>
+  </h3>
+
+  <p>
+    Not calling <code>skipWaiting</code> or <code>clients.claim()</code> could be problematic for your usecase,
+    especially if you want your service worker to be active from the very
     first time you load your application. Let's take a basic example to explain this situation:
   </p>
 
@@ -133,7 +182,10 @@ workbox.routing.registerRoute(
 
   <p>
     The only way I found so far is by checking if your page already has an service worker control, and if not, refresh
-    the page. Please let me know if you have other suggestions! I'm curious for other methods because of the refresh I'm not very happy about..
+    the page. The drawback is that the first time-use might show a flicker. This side-effect can be minimized by
+    delaying the bootstrapping of your application until you know that a service worker is active and show a loading /
+    splash screen
+    instead. This is anyway already a requirement, as explained before.
   </p>
 
   <pre><code class="language-ts">// Check that service workers are available
@@ -145,7 +197,9 @@ if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/sw.js')
         .then(registration => {
-          if (!navigator.serviceWorker.controller) {
+    if (!navigator.serviceWorker.controller) {
+            window.dispatchEvent(new CustomEvent('service-worker-ready'));
+          } else {
             // this is required, because it's bad practice to use clients.claim()
             // and skipWaiting to get the latest version of the sw worker running.
             // It has side effects
@@ -153,13 +207,18 @@ if ('serviceWorker' in navigator) {
           }
         })
         .catch(err => {
-          console.log('service worker could not be registered', err);
+    console.log('service worker could not be registered', err);
         });
 
     });
 
 }
 </code></pre>
+
+  <p>
+    Please let me know if you have other suggestions! I'm curious for other methods because of the refresh I'm not very
+    happy about..
+  </p>
 
   <h2>
     <span>
@@ -168,11 +227,99 @@ if ('serviceWorker' in navigator) {
   </h2>
 
   <p>
-    Space is limited.
-    Depending on the browser.
-    Depending on the machine used.
-    Depending on available space.
+    When building your application and thinking about its offline strategies you should definitely consider what you are
+    gonna cache offline. Why? Because not all browser and devices have the seem capabilities in terms of storage.
+    The following table shows what the available quota is per browser and per origin.
   </p>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Browser</th>
+      <th>Limit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Chrome</td>
+      <td>&lt;6% of free space</td>
+    </tr>
+    <tr>
+      <td>Firefox</td>
+      <td>&lt;10% of free space</td>
+    </tr>
+    <tr>
+      <td>Safari</td>
+      <td>&lt;50MB</td>
+    </tr>
+    <tr>
+      <td>IE10</td>
+      <td>&lt;250MB</td>
+    </tr>
+    <tr>
+      <td>Edge</td>
+      <td>
+        <a
+          href="https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/dev-guide/storage/IndexedDB/">
+          Dependent on volume size
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p class="copy">
+    <small>
+      All credits for this overview go to the authors of the article <a
+      href="https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/offline-for-pwa"
+      rel="noopener" target="_blank">
+      BOffline Storage for Progressive Web Apps</a>
+    </small>
+  </p>
+
+  <p>
+    This will most probably always be enough space for applications running in a browser on a desktop or laptop. But if
+    you're building a content-heavy application on a tablet or phone with limited storage, this might quickly become a
+    problem..
+  </p>
+  <p>
+    Imagine a tablet with 32GB of space, while there is only 3GB left as available space, because of for example
+    pictures, music and captured videos.
+    This means that for your application, on this tablet there is only 6% available of 3GB, which is ~184 MB.
+  </p>
+  <p>
+    While 184 MB might still seem like a great enough amount of space, you have to consider the possibility it might not be enough,
+    especially if you are caching large files or assets from other domains (CORS) or opaque responses. Dealing with opaque requests can be tricky as highlighted in the article <a
+    href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/"
+    target="_blank" rel="noopener">
+    When 7 KB Equals 7 MB
+  </a> by <a href="https://twitter.com/_gerardo" target="_blank" rel="noopener">Gerardo Rodriguez</a>
+  </p>
+
+  <p>
+    In general, we want to avoid hitting a <code>DOMException: Quota exceeded</code> as this might potentially break our
+    complete service-worker functionality or offline capabilities. Workbox allows us to cleanup our caches automatically
+    using various methods. We can invalidate caches for a specific route handler after a configured amount of time and
+    we can gracefully purge our cache on quota errors.
+  </p>
+
+  <pre><code class="language-js">// Cache the underlying font files with a cache-first strategy for 1 year.
+routing.registerRoute(
+  /^https:\/\/fonts\.gstatic\.com/,
+  new strategies.CacheFirst({
+  cacheName: 'google-fonts-webfonts',
+  plugins: [
+    new cacheableResponse.Plugin({
+        statuses: [0, 200]
+      }),
+      new expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 30,
+        purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
+      })
+    ]
+  })
+);</code></pre>
 
   <h2>
     <span>
@@ -182,7 +329,7 @@ if ('serviceWorker' in navigator) {
 
   <h2>
     <span>
-    Communicate using Broadcast Channel
+    Communicate using the <code>BroadcastChannel</code> API
     </span>
   </h2>
 
@@ -229,6 +376,13 @@ if ('serviceWorker' in navigator) {
       <a href="https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/offline-for-pwa"
          target="_blank" rel="noopener">
         Offline storage for Progressive Web Apps
+      </a>
+    </li>
+
+    <li>
+      <a href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/"
+         target="_blank" rel="noopener">
+        When 7 KB Equals 7 MB
       </a>
     </li>
 

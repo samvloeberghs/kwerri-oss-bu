@@ -49,6 +49,7 @@ strong {
   font-style: italic;
 }
 
+table a,
 p a,
 ul li a,
 ol li a {
@@ -94,7 +95,7 @@ ol, ul, p {
     font-weight: normal;
     font-size: 2.5em;
     margin-bottom: 50px;
-    line-height: 225%;
+    line-height: 1.9em;
     color: #777;
 
     span {
@@ -117,7 +118,7 @@ ol, ul, p {
     font-size: 2em;
     margin-bottom: 20px;
     color: #333;
-    line-height: 1.6em;
+    line-height: 1.75em;
   }
 
   h3 {
@@ -330,6 +331,34 @@ ol, ul, p {
 
       small {
         font-size: 0.8em;
+      }
+    }
+
+    table {
+      font-size: 1.5em;
+      width: 100%;
+      border: 0;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin: {
+        bottom: 15px;
+      }
+
+      thead {
+        background: #eee;
+      }
+
+      tr {
+        border-bottom: 1px solid #eee;
+
+        &:nth-child(even) {
+          background: #f6f6f6;
+        }
+      }
+
+      th, td {
+        text-align: left;
+        padding: 5px 10px;
       }
     }
 

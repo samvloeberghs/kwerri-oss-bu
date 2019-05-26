@@ -11,7 +11,9 @@ if ('serviceWorker' in navigator && environment.production) {
       .then(swReg => {
         console.log('service worker registered', swReg);
 
-        if (!navigator.serviceWorker.controller) {
+        if (navigator.serviceWorker.controller) {
+          window.dispatchEvent(new CustomEvent('service-worker-ready'));
+        } else {
           // this is required, because it's bad practice to use clients.claim()
           // and skipWaiting to get the latest version of the sw worker running.
           // It has side effects
@@ -23,4 +25,6 @@ if ('serviceWorker' in navigator && environment.production) {
         console.log('service worker could not be registered', err);
       });
   });
+} else {
+  window['serviceWorkerReady'] = true;
 }
