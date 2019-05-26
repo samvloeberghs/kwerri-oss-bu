@@ -1,0 +1,252 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2>
+    <span>
+    Target audience
+    </span>
+  </h2>
+
+  <p>
+    This short post is targeted to webdevelopers that are creating offline-capable applications and more specifically
+    offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my learnings, not
+    just to share them, but also to maybe get some feedback from interested readers that might have found other ways or
+    used other methods to solve the problems described.
+  </p>
+
+  <h2>
+    <span>
+    What will we discuss in this post?
+    </span>
+  </h2>
+
+  <ol>
+    <li>Serve the <code>index.html</code> for all deeplinks (while offline)</li>
+    <li>Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></li>
+    <li>Be careful with what you cache in the browser</li>
+    <li>Avoid using global state in the service worker</li>
+    <li>Communicate using Broadcast Channel</li>
+  </ol>
+
+  <h2>
+    <span>
+    Serve the index.html for all deeplinks (while offline)
+    </span>
+  </h2>
+
+  <p>
+    While developing SPA applications we often, if not always, leverage the power of routing. When we go offline we need
+    to make sure that all routes keep working. An example:
+  </p>
+
+  <ol>
+    <li>
+      The entry point of a visitor of your application was the <code>/about</code> page.
+    </li>
+    <li>
+      The server knows that for every hit on your website, it has to return the <code>index.html</code> file.
+    </li>
+    <li>
+      This user returns a week later, to your website, but he enters via the <code>/contact</code> page with a refresh.
+    </li>
+    <li>
+      For some reason your website is offline, or the user has lost connectivity during this navigation.
+      Your service worker kicks in, tries to lookup the <code>/about</code> page in the cache, but has no hit, because
+      the only static file cached is the <code>index.html</code> file..
+    </li>
+    <li>
+      So your service worker needs to know which file to service for these type of requests
+    </li>
+  </ol>
+
+  <p>
+    Using Workbox this can easily be done by checking if the request was of <code>mode</code>
+    "navigate" and if so, serve the single <code>index.html</code> file. This index.html file should already be cached
+    with workbox as a static asset so we request it from the <code>precache</code>.
+  </p>
+
+  <pre><code class="language-js"> // default page handler for offline usage,
+// where the browser does not how to handle deep links
+// it's a SPA, so each path that is a navigation should default to index.html
+workbox.routing.registerRoute(
+  ({ event }) => event.request.mode === 'navigate',
+  async () => {
+    const defaultBase = '/index.html';
+    return caches
+      .match(workbox.precaching.getCacheKeyForURL(defaultBase))
+      .then(response => {
+          return response || fetch(defaultBase);
+      })
+      .catch(err => {
+        return fetch(defaultBase);
+      });
+  }
+);</code></pre>
+
+  <p>
+    Please keep in mind that this gives you quicker offline <em>and online usages</em>, because even when your user is
+    online the service worker will use the cached index.html, when for example opening a new tab with a different page
+    of your application.
+  </p>
+
+  <h2>
+    <span>
+      Don't just blindly use <code>skipWaiting</code> or <code>clients.claim()</code>
+    </span>
+  </h2>
+
+  <p>
+    Using <code>skipWaiting</code> or <code>clients.claim()</code> should not be done blindly and without thought.
+    Unfortunetaly there are many articles on the internet that just instruct you to do it without much more information.
+    The fact that you have to be careful about this is also clearly mentioned in "<a
+    href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
+    target="_blank" rel="noopener">Service Worker Lifecycle</a>", an article by Jake Archibald.
+
+  </p>
+
+  <p class="alert alert-quote">
+    <i class="fa fa-quote-left"></i>
+    <em>Note:</em> I see a lot of people including clients.claim() as boilerplate, but I rarely do so myself. It only
+    really matters on the very first load, and due to progressive enhancement the page is usually working happily
+    without service worker anyway.
+  </p>
+
+  <p>
+    This could be problematic for your usecase, especially if you want your service worker to be active from the very
+    first time you load your application. Let's take a basic example to explain this situation:
+  </p>
+
+  <ol>
+    <li>
+      Your application imports a 3rd party library that sends requests to a server.
+      The URLs these requests have to be send to are configurable, but the headers used for these requests aren't.
+      You may want to add an <code>Authorization</code> header to each of these requests made.
+    </li>
+    <li>
+      One of the possible strategies to use could be to setup a service worker that acts as a proxy and adds this header
+      to all relevant requests.
+    </li>
+    <li>
+      This functionality has to work from the very first time, but you might think this is not possible without
+      <code>skipWaiting()</code> and/or <code>clients.claim()</code>.
+    </li>
+  </ol>
+
+  <p>
+    The only way I found so far is by checking if your page already has an service worker control, and if not, refresh
+    the page. Please let me know if you have other suggestions! I'm curious for other methods because of the refresh I'm not very happy about..
+  </p>
+
+  <pre><code class="language-ts">// Check that service workers are available
+if ('serviceWorker' in navigator) {
+
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(registration => {
+          if (!navigator.serviceWorker.controller) {
+            // this is required, because it's bad practice to use clients.claim()
+            // and skipWaiting to get the latest version of the sw worker running.
+            // It has side effects
+            window.location.reload();
+          }
+        })
+        .catch(err => {
+          console.log('service worker could not be registered', err);
+        });
+
+    });
+
+}
+</code></pre>
+
+  <h2>
+    <span>
+    Be careful with what you cache in the browser
+    </span>
+  </h2>
+
+  <p>
+    Space is limited.
+    Depending on the browser.
+    Depending on the machine used.
+    Depending on available space.
+  </p>
+
+  <h2>
+    <span>
+    Avoid using global state in the service worker
+    </span>
+  </h2>
+
+  <h2>
+    <span>
+    Communicate using Broadcast Channel
+    </span>
+  </h2>
+
+  <h2>
+    <span>
+    Conclusion
+    </span>
+  </h2>
+
+  <p>
+    - fundamental differences between request types
+    - understand what you are implementing
+    - don't overcache and have a cleanup strategy
+  </p>
+
+  <h2><span>Further reading</span></h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="https://medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c"
+         target="_blank" rel="noopener">
+        Service Worker Caching Strategies Based on Request Types
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/tools/workbox/"
+         target="_blank" rel="noopener">
+        Workbox documentation
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
+         target="_blank" rel="noopener">
+        The Service Worker Lifecycle
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/popeindustries/sw-tips"
+         target="_blank" rel="noopener">
+        Service workers tips
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/offline-for-pwa"
+         target="_blank" rel="noopener">
+        Offline storage for Progressive Web Apps
+      </a>
+    </li>
+
+  </ol>
+
+  <h2>
+    <span>
+      Special thanks to
+    </span>
+  </h2>
+
+  <ul>
+    <li>
+      <a href="" rel="noopener" target="_blank"></a>
+    </li>
+
+  </ul>
+
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+
+</section>

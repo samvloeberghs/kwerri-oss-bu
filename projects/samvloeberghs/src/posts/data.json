@@ -1,12 +1,11 @@
 [
   {
-    "title": "Learnings on offline capabilities with service workers using workbox",
-    "slug": "learnings-on-offline-capabilities-with-service-workers-using-workbox",
+    "title": "Some learnings on offline capabilities with service workers using Workbox",
+    "slug": "some-learnings-on-offline-capabilities-with-service-workers-using-workbox",
     "publishDatetime": "2019-05-31T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/learnings-on-offline-capabilities-with-service-workers-using-workbox/img.jpg",
-    "imgFull": "/posts/learnings-on-offline-capabilities-with-service-workers-using-workbox/img_full.jpg",
-    "imgShare": "/posts/learnings-on-offline-capabilities-with-service-workers-using-workbox/img_share.jpg",
+    "img": "/posts/some-learnings-on-offline-capabilities-with-service-workers-using-workbox/workbox.png",
+    "imgShare": "/posts/some-learnings-on-offline-capabilities-with-service-workers-using-workbox/workbox_share.jpg",
     "short": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat dapibus eros aliquam condimentum. Pellentesque nisl lorem, consectetur nec orci ut, porta facilisis leo. Donec eget bibendum nunc. Nulla neque tortor, porta posuere ultricies sit amet, tempor id purus."
   },
   {
@@ -14,9 +13,8 @@
     "slug": "outputting-json-ld-with-angular-universal",
     "publishDatetime": "2019-03-12T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/outputting-json-ld-with-angular-universal/img.jpg",
-    "imgFull": "/posts/outputting-json-ld-with-angular-universal/img_full.jpg",
-    "imgShare": "/posts/outputting-json-ld-with-angular-universal/img_share.jpg",
+    "img": "/posts/outputting-json-ld-with-angular-universal/angular.png",
+    "imgShare": "/posts/outputting-json-ld-with-angular-universal/angular_share.jpg",
     "short": "JSON-LD is a lightweight Linked Data format. It is easy for humans AND machines to read and write. In this new Angular Universal article we learn how to output JSON-LD. We will re-use and explain some techniques that the TransferState key-value cache service uses to transfer server-state to the application on the client side."
   },
   {
@@ -24,9 +22,8 @@
     "slug": "better-sharing-on-social-media-platforms-with-angular-universal",
     "publishDatetime": "2019-02-24T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/img.jpg",
-    "imgFull": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/img_full.jpg",
-    "imgShare": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/img_share.jpg",
+    "img": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/angular.png",
+    "imgShare": "/posts/better-sharing-on-social-media-platforms-with-angular-universal/angular_share.jpg",
     "short": "This article and guide on better sharing on social media platforms with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running.  We are going to describe some high-level ideas and concepts, different tools and Angular services that will enable better social sharing on for example Facebook, Twitter and LinkedIn."
   },
   {
@@ -34,9 +31,8 @@
     "slug": "selecting-subtitles-in-vimeo-using-javascript",
     "publishDatetime": "2018-03-01T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/selecting-subtitles-in-vimeo-using-javascript/img.jpg",
-    "imgFull": "/posts/selecting-subtitles-in-vimeo-using-javascript/img_full.jpg",
-    "imgShare": "/posts/selecting-subtitles-in-vimeo-using-javascript/img_share.jpg",
+    "img": "/posts/selecting-subtitles-in-vimeo-using-javascript/vimeo.png",
+    "imgShare": "/posts/selecting-subtitles-in-vimeo-using-javascript/vimeo_share.jpg",
     "short": "Implementing 3th party functionality it not always clear. In the case of Vimeo, the iframe embed does not provide as many options and is not as extended as the JavaScript Player API. <span>Keep reading to find out how you can easily set Vimeo subtitles on runtime.</span>"
   },
   {
@@ -45,9 +41,8 @@
     "publishDatetime": "2016-11-19T12:00:00+01:00",
     "updateDatetime": "2018-12-28T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/scroll-to-top-on-angular-router-navigation/img.jpg",
-    "imgFull": "/posts/scroll-to-top-on-angular-router-navigation/img_full.jpg",
-    "imgShare": "/posts/scroll-to-top-on-angular-router-navigation/img_share.jpg",
+    "img": "/posts/scroll-to-top-on-angular-router-navigation/angular.png",
+    "imgShare": "/posts/scroll-to-top-on-angular-router-navigation/angular_share.jpg",
     "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular v2+. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
   },
   {
@@ -55,8 +50,7 @@
     "slug": "whats-with-the-subjects-in-rxjs5",
     "publishDatetime": "2016-07-14T09:08:25+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/whats-with-the-subjects-in-rxjs5/img.png",
-    "imgFull": "/posts/whats-with-the-subjects-in-rxjs5/img_full.png",
+    "img": "/posts/whats-with-the-subjects-in-rxjs5/rxjs.png",
     "imgShare": "/posts/whats-with-the-subjects-in-rxjs5/img_share.jpg",
     "short": "RxJS is a great library, it is used more and more in different places & frameworks across the web. Soon it will dominate the asynchronous part of web apps, so that’s why it’s important to know how subjects work. <span>Keep reading to find out how we can leverage Subjects in modern web applications!</span>"
   }

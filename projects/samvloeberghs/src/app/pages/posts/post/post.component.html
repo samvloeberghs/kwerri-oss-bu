@@ -1,16 +1,17 @@
 <div *ngIf="post" class="post">
 
+  <img [src]="post.img" [alt]="post.title" class="introimage"/>
+
   <h1>
         <span [innerHtml]="post.title">
         </span>
   </h1>
 
+
   <p class="posted">
     Posted on
     <time [attr.datetime]="post.publishDatetime">{{ post.publishDatetime | date:'fullDate'}}</time>
   </p>
-
-  <img [src]="post.imgFull" [alt]="post.title" class="introimage"/>
 
   <div [innerHtml]="post.content" highlight-js-content=".highlighted"></div>
 

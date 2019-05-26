@@ -5,7 +5,6 @@ export interface Post {
   publishDatetime: string;
   updateDatetime: string;
   img?: string;
-  imgFull?: string;
   imgShare?: string;
   slug?: string;
   short?: string;

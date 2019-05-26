@@ -7,6 +7,11 @@
   padding: 0;
 }
 
+::selection {
+  background: black;
+  color: white;
+}
+
 #topborder {
   border-top: 9px solid #555;
   position: fixed;
@@ -29,6 +34,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
 }
 
+h4 {
+  margin-top: 0;
+  color: inherit;
+}
+
 em {
   font-weight: bold;
   font-style: normal;
@@ -45,7 +55,6 @@ ol li a {
   color: #20527f;
   border-bottom: 1px dotted #20527f;
   text-decoration: none;
-  font-weight: bold;
 }
 
 p a:hover {
@@ -63,6 +72,14 @@ a:focus {
   outline-color: #77a5cf;
 }
 
+ol, ul, p {
+  code {
+    background: #f6f6f6;
+    padding: 2px 3px;
+    line-height: 110%;
+  }
+}
+
 .content {
 
   @media (min-width: 769px) {
@@ -77,6 +94,7 @@ a:focus {
     font-weight: normal;
     font-size: 2.5em;
     margin-bottom: 50px;
+    line-height: 225%;
     color: #777;
 
     span {
@@ -395,7 +413,7 @@ a:focus {
 
   & > p,
   & > ul
-  & > ol{
+  & > ol {
     margin-bottom: 0;
   }
 
@@ -490,11 +508,26 @@ a:focus {
     }
   }
 
-}
+  &-quote {
+    color: #444;
+    background-color: #eee;
+    border-color: #ddd;
+    font-style: italic;
 
-h4 {
-  margin-top: 0;
-  color: inherit;
+    hr {
+      border-top-color: #e4b9c0;
+    }
+
+    em {
+      color: #333;
+      font-style: italic;
+    }
+
+    .alert-link {
+      color: #843534;
+    }
+  }
+
 }
 
 @keyframes shake {
