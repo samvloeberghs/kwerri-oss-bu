@@ -7,7 +7,7 @@
   </h2>
 
   <p>
-    This post is targeted to webdevelopers that are creating offline-capable applications and more specifically
+    This post is targeted to webdevelopers that are creating <em>offline-capable applications</em> and more specifically
     offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my
     learnings, not just to share them, but also to maybe get some feedback from interested readers that might have found
     other ways or used other methods to solve the problems described.
@@ -24,7 +24,6 @@
     <li>Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></li>
     <li>Be careful with what you cache in the browser</li>
     <li>Avoid using global state in the service worker</li>
-    <li>Communicate using the <code>BroadcastChannel</code> API</li>
   </ol>
 
   <p>
@@ -40,36 +39,36 @@
   </h2>
 
   <p>
-    While developing SPA applications we often, if not always, leverage the power of routing. When we go offline we need
-    to make sure that all routes keep working. An example:
+    While developing SPA applications we often, if not always, leverage the power of routing. <strong>When we go offline
+    we need to make sure that all routes keep working</strong>. An example:
   </p>
 
   <ol>
     <li>
-      The entry point of a visitor of your application was the <code>/about</code> page.
+      The entry point of a visitor of your application was the <code>/about</code> page. The server knows that for every
+      hit on your website, it has to return the <code>index.html</code> file.
     </li>
     <li>
-      The server knows that for every hit on your website, it has to return the <code>index.html</code> file.
+      After a while, this user returns to your website, but he enters directly via the <code>/contact</code> page with a
+      refresh or via some link on any other website.
     </li>
     <li>
-      This user returns a week later, to your website, but he enters via the <code>/contact</code> page with a refresh.
-    </li>
-    <li>
-      For some reason your website is offline, or the user has lost connectivity during this navigation.
+      For some reason your application is now offline, or the user has lost connectivity during this navigation.
       Your service worker kicks in, tries to lookup the <code>/about</code> page in the cache, but has no hit, because
-      the only static file cached is the <code>index.html</code> file..
+      the only static file cached is the <code>index.html</code> file.
     </li>
     <li>
-      So your service worker needs to know which file to service for these type of requests
+      Your service worker somehow needs to know which file to service for these type of requests
     </li>
   </ol>
 
   <p>
     Using Workbox this can easily be done by checking if the request was of <code>mode</code>
-    "navigate" and if so, serve the single <code>index.html</code> file. This index.html file should already be cached
-    with workbox as a static asset so we request it from the <code>precache</code>.
+    "navigate" and if so, serve the single <code>index.html</code> file. This <code>index.html</code> file should
+    already be cached with workbox as a static asset so we request it from the <code>precache</code>.
   </p>
 
+  <h4 class="codetitle">sw.js</h4>
   <pre><code class="language-js">// default page handler for offline usage,
 // where the browser does not how to handle deep links
 // it's a SPA, so each path that is a navigation should default to index.html
@@ -89,25 +88,24 @@ workbox.routing.registerRoute(
 );</code></pre>
 
   <p>
-    Please keep in mind that this gives you quicker offline <em>and online usages</em>, because even when your user is
+    This logic gives you <em>quicker offline and online usages</em>, because even when your user is
     online the service worker will use the cached <code>index.html</code>, when for example opening a new tab with a
-    different page
-    of your application.
+    different page of your application.
   </p>
   <p>
-    Also note that this kind of how the server should behave in case of a SPA setup. For all requests not matching a
-    static or a
-    dynamic resource like an API, the server should return the <code>index.html</code> file!
+    Please also keep in mind that this is kind of how the server should behave in case of a SPA setup. For all requests
+    not
+    matching a static or a dynamic resource like an API, the server should return the <code>index.html</code> file!
   </p>
 
   <h2>
     <span>
-      Don't just blindly use <code>skipWaiting</code> or <code>clients.claim()</code>
+      Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code>
     </span>
   </h2>
 
   <p>
-    Using <code>skipWaiting</code> or <code>clients.claim()</code> should not be done blindly and without thought.
+    Using <code>skipWaiting()</code> or <code>clients.claim()</code> should not be done blindly and without thought.
     Unfortunetaly there are many articles on the internet that just instruct you to do it without much more information.
     The fact that you have to be careful about this is also clearly mentioned in "<a
     href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
@@ -124,19 +122,17 @@ workbox.routing.registerRoute(
   </p>
 
   <h3>
-    <span>Why to be careful?</span>
+    <span>What could possibly go wrong?</span>
   </h3>
 
   <p>
-    There are several scenarios where just calling <code>skipWaiting</code> or <code>clients.claim()</code> blindly in
-    your service
-    worker could be the cause of unexpected and harm-ful side-effects.
+    There are several scenarios where just calling <code>skipWaiting()</code> or <code>clients.claim()</code> blindly in
+    your service worker <em>could be the cause of unexpected and harmful side effects</em>.
   </p>
 
   <p>
     One possible scenario is that the code functionality in your application could potentially not match anymore with
-    the logic in your
-    service worker. So it might impose a breaking change. A short step-by-step example:
+    the logic in your service worker. So it might impose a breaking change. A short step-by-step example:
   </p>
 
   <ol>
@@ -154,12 +150,17 @@ workbox.routing.registerRoute(
     </li>
   </ol>
 
+  <p>
+    So it's important to always <em>make sure that the loaded version of the logic of your application is working nicely
+    together with the loaded version of the logic of your service worker</em>.
+  </p>
+
   <h3>
     <span>Service worker active during first-time usage of your application</span>
   </h3>
 
   <p>
-    Not calling <code>skipWaiting</code> or <code>clients.claim()</code> could be problematic for your usecase,
+    Not calling <code>skipWaiting()</code> or <code>clients.claim()</code> could be problematic for your usecase,
     especially if you want your service worker to be active from the very
     first time you load your application. Let's take a basic example to explain this situation:
   </p>
@@ -188,6 +189,7 @@ workbox.routing.registerRoute(
     instead. This is anyway already a requirement, as explained before.
   </p>
 
+  <h4 class="codetitle">service-worker-registration.ts</h4>
   <pre><code class="language-ts">// Check that service workers are available
 if ('serviceWorker' in navigator) {
 
@@ -201,7 +203,7 @@ if ('serviceWorker' in navigator) {
             window.dispatchEvent(new CustomEvent('service-worker-ready'));
           } else {
             // this is required, because it's bad practice to use clients.claim()
-            // and skipWaiting to get the latest version of the sw worker running.
+            // and skipWaiting() to get the latest version of the sw worker running.
             // It has side effects
             window.location.reload();
           }
@@ -215,8 +217,10 @@ if ('serviceWorker' in navigator) {
 }
 </code></pre>
 
-  <p>
-    Please let me know if you have other suggestions! I'm curious for other methods because of the refresh I'm not very
+  <p class="alert alert-warning">
+    <i class="fa fa-warning"></i>
+    <strong>Please let me know if you have other suggestions!</strong> I'm curious for other methods because of the
+    refresh I'm not very
     happy about..
   </p>
 
@@ -228,7 +232,8 @@ if ('serviceWorker' in navigator) {
 
   <p>
     When building your application and thinking about its offline strategies you should definitely consider what you are
-    gonna cache offline. Why? Because not all browser and devices have the seem capabilities in terms of storage.
+    gonna cache offline. Why? <strong>Because not all browser and devices have the seem capabilities in terms of
+    storage</strong>.
     The following table shows what the available quota is per browser and per origin.
   </p>
 
@@ -288,8 +293,10 @@ if ('serviceWorker' in navigator) {
     This means that for your application, on this tablet there is only 6% available of 3GB, which is ~184 MB.
   </p>
   <p>
-    While 184 MB might still seem like a great enough amount of space, you have to consider the possibility it might not be enough,
-    especially if you are caching large files or assets from other domains (CORS) or opaque responses. Dealing with opaque requests can be tricky as highlighted in the article <a
+    While 184 MB might still seem like a great enough amount of space, you have to consider the possibility it might not
+    be enough,
+    especially if you are caching large files or assets from other domains (CORS) or opaque responses. Dealing with
+    opaque requests can be tricky as highlighted in the article <a
     href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/"
     target="_blank" rel="noopener">
     When 7 KB Equals 7 MB
@@ -298,18 +305,20 @@ if ('serviceWorker' in navigator) {
 
   <p>
     In general, we want to avoid hitting a <code>DOMException: Quota exceeded</code> as this might potentially break our
-    complete service-worker functionality or offline capabilities. Workbox allows us to cleanup our caches automatically
-    using various methods. We can invalidate caches for a specific route handler after a configured amount of time and
-    we can gracefully purge our cache on quota errors.
+    complete service-worker functionality or offline capabilities.
+  </p>
+  <p>
+    Workbox allows us to cleanup our caches automatically using various methods. We can <em>invalidate caches for a
+    specific route handler after an amount of time</em> and we can <em>gracefully purge our cache on quota errors</em>.
   </p>
 
   <pre><code class="language-js">// Cache the underlying font files with a cache-first strategy for 1 year.
 routing.registerRoute(
   /^https:\/\/fonts\.gstatic\.com/,
   new strategies.CacheFirst({
-  cacheName: 'google-fonts-webfonts',
-  plugins: [
-    new cacheableResponse.Plugin({
+    cacheName: 'google-fonts-webfonts',
+    plugins: [
+      new cacheableResponse.Plugin({
         statuses: [0, 200]
       }),
       new expiration.Plugin({
@@ -327,11 +336,55 @@ routing.registerRoute(
     </span>
   </h2>
 
-  <h2>
-    <span>
-    Communicate using the <code>BroadcastChannel</code> API
-    </span>
-  </h2>
+  <p>
+    I've learned this one the hard way, by debugging and debugging and debugging till I got crazy and started searching
+    the internet. Let me first explain my usecase, which is in fact the origin of the <code>Authorization</code> header
+    example above.
+  </p>
+
+  <ol>
+    <li>The application that we are developing includes 3rd party libraries like <code><a href="https://openlayers.org/"
+                                                                                          target="_blank"
+                                                                                          rel="noopener">openlayers</a></code>
+      to give us very nice dynamic map functionalities.
+    </li>
+    <li>
+      The URLs this library uses to load the map-tiles is configurable, but the headers aren't. We needed to be able to
+      add an <code>Authorization</code> header on the requests made to these URLs and using a service-worker for this
+      seemed reasonable.
+    </li>
+    <li>
+      As soon as we log in, we pass the token to the service worker, using the <code>BroadcastChannel</code> API and
+      we store it in a global variable <code>let oAuthToken</code>.
+    </li>
+    <li>
+      Every time our service worker sees a request for the map-tiles, we proxy the requests and add the token as a
+      header to the request so our server/backend can successfully authorize the request.
+    </li>
+  </ol>
+
+  <h3>
+    <span>Now what was going wrong?</span>
+  </h3>
+
+  <p>
+    It seems that service workers are potentially stopped and restarted multiple times in their lifetime because of
+    <a
+      href="https://stackoverflow.com/questions/38835273/when-does-code-in-a-service-worker-outside-of-an-event-handler-run/38835274#38835274"
+      target="_blank" rel="noopener">several optimizations like battery saving algorithms</a>. <strong>Stopping and
+    restarting destroys and
+    reinitializes the global scope of our service worker</strong>! So our global variable holding the token was gone,
+    resulting in requests that did
+    not authorize properly.
+  </p>
+
+  <h3>
+    <span>So how to correctly share the <code>OAuthToken</code> with the service worker?</span>
+  </h3>
+
+  <p>
+    The only way to share the <code>OAuthToken</code> from our application logic successfully with our service worker logic   is by using the <code>IndexedDB</code> API.
+  </p>
 
   <h2>
     <span>
@@ -383,6 +436,14 @@ routing.registerRoute(
       <a href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/"
          target="_blank" rel="noopener">
         When 7 KB Equals 7 MB
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="https://stackoverflow.com/questions/38835273/when-does-code-in-a-service-worker-outside-of-an-event-handler-run/38835274#38835274"
+        target="_blank" rel="noopener">
+        When does code in a service worker outside of an event handler run?
       </a>
     </li>
 

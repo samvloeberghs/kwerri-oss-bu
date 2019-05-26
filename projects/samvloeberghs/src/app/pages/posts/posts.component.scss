@@ -54,6 +54,7 @@ article {
     color: #000;
     margin-top: 20px;
     text-align: justify;
+    border: none;
 
     @media (min-width: 769px) {
       margin-left: 150px;
@@ -69,16 +70,15 @@ article {
     h2 {
       margin-bottom: 5px;
       font-size: 22px;
-      border-bottom: 1px dotted #000;
       padding-bottom: 2px;
       display: inline-block;
     }
 
     span {
-      color: #77a5cf;
-      border-bottom: 1px dotted #77a5cf;
+      color: #000;
+      border-bottom: 1px dotted #000;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
     }
 
     .posted {
@@ -88,12 +88,9 @@ article {
     }
 
     &:hover {
-      h2 {
-        border-bottom: 1px solid #000;
-      }
 
       span {
-        border-bottom: 1px solid #77a5cf;
+        border-bottom: 1px solid #000;
       }
     }
 

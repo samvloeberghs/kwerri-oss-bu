@@ -4,6 +4,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { EnvironmentService } from './environment.service';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export function initApp(environmentService: EnvironmentService) {
   return () => environmentService.isEnvironmentReady().catch(e => console.log('Could not initialize application', e));
@@ -11,7 +12,8 @@ export function initApp(environmentService: EnvironmentService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

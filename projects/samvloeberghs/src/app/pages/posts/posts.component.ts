@@ -4,6 +4,7 @@ import { Post } from './post/post.model';
 import { DataService } from '../../shared/data.service';
 import { map } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sv-posts',
@@ -17,6 +18,7 @@ export class PostsComponent implements OnInit {
 
   constructor(
     private readonly dataService: DataService,
+    private readonly router: Router
   ) {
   }
 
@@ -30,8 +32,7 @@ export class PostsComponent implements OnInit {
         posts => this.posts = posts,
         (error: HttpErrorResponse) => {
           console.log(error);
-          console.log(error.headers);
-          this.error = error;
+          this.router.navigateByUrl('/not-found');
         },
       );
   }
