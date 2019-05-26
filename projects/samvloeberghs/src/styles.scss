@@ -530,6 +530,10 @@ ol, ul, p {
 
 }
 
+.further-reading {
+  list-style: lower-roman;
+}
+
 @keyframes shake {
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
