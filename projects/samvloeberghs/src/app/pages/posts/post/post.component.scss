@@ -9,7 +9,10 @@ h1 {
 }
 
 .posted {
-  font-size: 14px !important;
+  font: {
+    size: 14px !important;
+    style: italic;
+  }
   line-height: 16px !important;
   margin-bottom: 25px !important;
 }
