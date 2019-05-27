@@ -9,7 +9,8 @@
   <p>
     This post is targeted to webdevelopers that are creating <em>offline-capable applications</em> and more specifically
     offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my
-    learnings, not just to share them, but also to maybe <em>get feedback from interested readers</em> that might have found
+    learnings, not just to share them, but also to maybe <em>get feedback from interested readers</em> that might have
+    found
     other ways or used other methods to solve the problems described.
   </p>
 
@@ -383,7 +384,8 @@ routing.registerRoute(
   </h3>
 
   <p>
-    The only way to successfully share the <code>OAuthToken</code> from our application logic with our service worker logic is by using the <code>IndexedDB</code> API.
+    The only way to successfully share the <code>OAuthToken</code> from our application logic with our service worker
+    logic is by using the <code>IndexedDB</code> API.
   </p>
 
   <h2>
@@ -393,9 +395,24 @@ routing.registerRoute(
   </h2>
 
   <p>
-    - fundamental differences between request types
-    - understand what you are implementing
-    - don't overcache and have a cleanup strategy
+    When developing SPAs with offline capabilities, we need to make sure that our service worker is acting the same way
+    as our server. <strong>For route requests or navigations, the service worker should always return the <code>index.html</code>
+    to keep deeplinking working when offline</strong>.
+  </p>
+  <p>
+    Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code>, but think about the possible side
+    effects it could introduce. Instead, <strong>let the user decide when to upgrade the functionality</strong> or let a
+    new version be
+    applied automatically on a sub-sequent load of your application.
+  </p>
+  <p>
+    Be careful with what you cache offline and which devices your application will be used upon. <strong>The available space for
+    your application depends on the free space of the device and the browser where the application is loaded.</strong>
+  </p>
+  <p>
+    Don't depend on global variables or state in your service worker as <strong>service workers are potentially
+    destroyed and bootstrapped several times during their lifetime</strong>.
+    Use IndexedDB to share state from your application with your service worker.
   </p>
 
   <h2><span>Further reading</span></h2>
@@ -462,6 +479,6 @@ routing.registerRoute(
 
   </ul>
 
-  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+  <p>for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so please let me know!</p>
 
 </section>

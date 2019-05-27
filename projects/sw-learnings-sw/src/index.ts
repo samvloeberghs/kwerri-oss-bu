@@ -18,6 +18,13 @@ if (workbox) {
   // This array gets injected automagically by the workbox cli
   workbox.precaching.precacheAndRoute([]);
 
+  // This will update the app with an event of updated precache files
+  workbox.precaching.addPlugins([
+    new workbox.broadcastUpdate.Plugin({
+      channelName: 'precache-updates'
+    })
+  ]);
+
   // Google Fonts cache setup
   // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
   workbox.routing.registerRoute(

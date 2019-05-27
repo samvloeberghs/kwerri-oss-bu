@@ -7,7 +7,7 @@ import { environment } from './environments/environment';
 if ('serviceWorker' in navigator && environment.production) {
   // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', {scope: '/'})
+    navigator.serviceWorker.register('/sw.js')
       .then(swReg => {
         console.log('service worker registered', swReg);
 
