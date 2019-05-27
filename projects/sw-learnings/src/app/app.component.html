@@ -11,5 +11,14 @@
   </li>
 </ul>
 <hr />
+
+<button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
+<button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
+Token: {{currentOAuthToken}}
+<button (click)="loadMapTile()">Load Map Tile</button>
+<button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
+<img [src]="mapTile" *ngIf="mapTile"/>
+
+<hr />
 <router-outlet></router-outlet>
 

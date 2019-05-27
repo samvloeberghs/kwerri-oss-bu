@@ -1,7 +1,4 @@
-import { Store, set } from 'idb-keyval';
-
-const customStore = new Store('custom-db-name', 'custom-store-name');
-set('foo', 'bar', customStore);
+import { Store, get } from 'idb-keyval';
 
 declare const importScripts: Function;
 declare const workbox;
@@ -62,6 +59,41 @@ if (workbox) {
         .catch(err => {
           return fetch(defaultBase);
         });
+    }
+  );
+
+  // OAuth header interceptor
+  workbox.routing.registerRoute(
+    ({ url }) => {
+      return /map\.png/.test(url);
+    },
+    async ({ event, url }) => {
+
+      // get the eventual token
+      const customStore = new Store('swl-db', 'swl-db-store');
+      const oAuthToken = await get<string>('token', customStore);
+
+      // if token available, set it as the Authorization header
+      if (!!oAuthToken) {
+        const modifiedHeaders = new Headers(event.request.headers);
+        modifiedHeaders.set('Authorization', oAuthToken);
+        const overwrite = {
+          headers: modifiedHeaders
+        };
+        const modifiedRequest = new Request(url.toString(), overwrite);
+        return fetch(modifiedRequest);
+      }
+
+      const defaultNotAuthedBase = '/assets/not_authorized.png';
+      return caches
+        .match(workbox.precaching.getCacheKeyForURL(defaultNotAuthedBase))
+        .then(response => {
+          return response || fetch(defaultNotAuthedBase);
+        })
+        .catch(err => {
+          return fetch(defaultNotAuthedBase);
+        });
+
     }
   );
 

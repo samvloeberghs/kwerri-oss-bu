@@ -95,8 +95,6 @@ __webpack_require__.r(__webpack_exports__);
 var _this = undefined;
 
 
-var customStore = new idb_keyval__WEBPACK_IMPORTED_MODULE_1__["Store"]('custom-db-name', 'custom-store-name');
-Object(idb_keyval__WEBPACK_IMPORTED_MODULE_1__["set"])('foo', 'bar', customStore);
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 if (workbox) {
     // Avoid async imports
@@ -145,6 +143,44 @@ if (workbox) {
                 })];
         });
     }); });
+    // OAuth header interceptor
+    workbox.routing.registerRoute(function (_a) {
+        var url = _a.url;
+        return /map\.png/.test(url);
+    }, function (_a) {
+        var event = _a.event, url = _a.url;
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
+            var customStore, oAuthToken, modifiedHeaders, overwrite, modifiedRequest, defaultNotAuthedBase;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        customStore = new idb_keyval__WEBPACK_IMPORTED_MODULE_1__["Store"]('swl-db', 'swl-db-store');
+                        return [4 /*yield*/, Object(idb_keyval__WEBPACK_IMPORTED_MODULE_1__["get"])('token', customStore)];
+                    case 1:
+                        oAuthToken = _b.sent();
+                        // if token available, set it as the Authorization header
+                        if (!!oAuthToken) {
+                            modifiedHeaders = new Headers(event.request.headers);
+                            modifiedHeaders.set('Authorization', oAuthToken);
+                            overwrite = {
+                                headers: modifiedHeaders
+                            };
+                            modifiedRequest = new Request(url.toString(), overwrite);
+                            return [2 /*return*/, fetch(modifiedRequest)];
+                        }
+                        defaultNotAuthedBase = '/assets/not_authorized.png';
+                        return [2 /*return*/, caches
+                                .match(workbox.precaching.getCacheKeyForURL(defaultNotAuthedBase))
+                                .then(function (response) {
+                                return response || fetch(defaultNotAuthedBase);
+                            })
+                                .catch(function (err) {
+                                return fetch(defaultNotAuthedBase);
+                            })];
+                }
+            });
+        });
+    });
 }
 else {
     console.log("Boo! Workbox didn't load \uD83D\uDE2C");
