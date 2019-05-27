@@ -2,6 +2,6 @@
 
 const webpackDev = require('./webpack.dev.config');
 
-module.exports = Object.assing({}, webpackDev, {
+module.exports = Object.assign({}, webpackDev, {
     mode: 'production',
 });
