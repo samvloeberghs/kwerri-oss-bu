@@ -1,9 +1,11 @@
+/** @format */
+
 const path = require('path');
 
 module.exports = {
   mode: 'none',
   entry: {
-    index: path.join(__dirname, 'src', 'index.ts'),
+    index: path.join(__dirname, 'src', 'index.ts')
   },
   resolve: {extensions: ['.js', '.ts']},
   target: 'node',
@@ -12,8 +14,6 @@ module.exports = {
     filename: 'sw.js'
   },
   module: {
-    rules: [
-      {test: /\.ts$/, loader: 'ts-loader'}
-    ]
+    rules: [{test: /\.ts$/, loader: 'ts-loader'}]
   }
 };
