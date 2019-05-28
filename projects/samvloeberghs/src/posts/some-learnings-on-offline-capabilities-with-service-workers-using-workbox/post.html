@@ -132,8 +132,8 @@ workbox.routing.registerRoute(
   </p>
 
   <p>
-    One possible scenario is that the code functionality in your application could potentially not match anymore with
-    the logic in your service worker. So it might impose a breaking change. A short step-by-step example:
+    One possible scenario is that the code functionality in your application could not match anymore with
+    the logic in your service worker. So it might impose a breaking change. <strong>Let's consider a short step-by-step example</strong>:
   </p>
 
   <ol>
@@ -279,7 +279,7 @@ if ('serviceWorker' in navigator) {
       All credits for this overview go to the authors of the article <a
       href="https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/offline-for-pwa"
       rel="noopener" target="_blank">
-      BOffline Storage for Progressive Web Apps</a>
+      Offline Storage for Progressive Web Apps</a>
     </small>
   </p>
 
@@ -313,6 +313,7 @@ if ('serviceWorker' in navigator) {
     specific route handler after an amount of time</em> and we can <em>gracefully purge our cache on quota errors</em>.
   </p>
 
+  <h4 class="codetitle">sw.js</h4>
   <pre><code class="language-js">// Cache the underlying font files with a cache-first strategy for 1 year.
 routing.registerRoute(
   /^https:\/\/fonts\.gstatic\.com/,

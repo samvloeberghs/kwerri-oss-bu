@@ -83,7 +83,7 @@ ol, ul, p {
 
 .content {
 
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
     display: block;
     padding-top: 50px;
     padding-bottom: 50px;
@@ -188,7 +188,7 @@ ol, ul, p {
     img {
       display: block;
       width: 100%;
-      @media (min-width: 768px) {
+      @media (min-width: 920px) {
         box-shadow: 10px 10px 5px #ddd;
         border: 1px solid #fff;
       }
@@ -197,7 +197,7 @@ ol, ul, p {
     p {
       margin-top: 10px;
       font-size: 1em;
-      @media (min-width: 768px) {
+      @media (min-width: 920px) {
         margin-top: 20px;
       }
 
@@ -328,6 +328,7 @@ ol, ul, p {
 
     .copy {
       font-style: italic;
+      line-height:1.3;
 
       small {
         font-size: 0.8em;
@@ -364,7 +365,7 @@ ol, ul, p {
 
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
 
     padding: 104px 0 20px 0;
     margin: 0 20px;
@@ -387,7 +388,7 @@ ol, ul, p {
 
     h3 {
       font-size: 1.3em;
-      line-height: 2em; 
+      line-height: 2em;
     }
 
     p, ul, ol {
@@ -417,7 +418,7 @@ ol, ul, p {
   background: #f6f6f6;
   // box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     font-size: 1.2em;
   }
 }

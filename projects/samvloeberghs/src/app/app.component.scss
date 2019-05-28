@@ -1,7 +1,7 @@
 :host {
   display: block;
 
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
     margin-top: 9px;
   }
 
@@ -22,7 +22,7 @@ aside {
   padding: {
     right: 50px;
   }
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
     border-right: 1px solid;
     border-image: linear-gradient(
         to bottom,
@@ -98,7 +98,7 @@ aside {
           font-weight: bold;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 920px) {
           padding: 10px 0px;
           font-size: 1.2em;
           letter-spacing: 2px;
@@ -158,7 +158,7 @@ aside {
           color: #f48024;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 920px) {
           &.facebook {
             color: #3b5998;
           }
@@ -209,7 +209,7 @@ aside {
     display: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
 
     display: block;
     margin-top: 9px;
@@ -319,7 +319,7 @@ aside {
 
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
 
     position: fixed;
     width: 280px;
