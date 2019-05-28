@@ -58,11 +58,18 @@
 */
 </code></pre>
 
+
   <p>
     This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
     specific polyfills. It does not mention any other search engines. The other typical search engines, like
     Bing, Yahoo, DuckDuckGo, etc all have problems parsing JavaScript heavy websites, like SPAs or applications that use
     frameworks like for example jQuery.
+  </p>
+
+  <p class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    <strong>Update (May 2019):</strong> The Google bot / crawler is now up-to-date with the latest Chromium and will update regularly.
+    You can <a href="https://webmasters.googleblog.com/2019/05/the-new-evergreen-googlebot.html" target="_blank" rel="noopener">read more about this update on the Google Webmasters Blog</a>.
   </p>
 
   <p>
@@ -85,6 +92,15 @@
     The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, like for
     example the ability of the Googlebot to parse Angular v2+ applications. The general problem remains: <strong>Search
     engines are, in general, not very capable of rendering JavaScript while indexing</strong>.
+  </p>
+
+  <h3>
+    <span>The 2nd wave of indexing</span>
+  </h3>
+
+  <p>
+    It would be wrong stating that SPAs are not being indexed. Google does an extra effort in the 2nd wave of indexing,
+    where parsing of JS-heavy applications is done better. <a href="http://www.thesempost.com/google-indexes-ranks-javascript-pages-two-waves-days-apart/" target="_blank" rel="noopener">More information about this specific topic can be found here</a>.
   </p>
 
   <h2>
@@ -489,6 +505,21 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     static version of your application on the server and output static HTML. When minifying this static HTML we need to
     be careful and <em>keep our HTML as strict and structured as possible</em>.
   </p>
+
+  <h2><span>Further reading</span></h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="http://www.thesempost.com/google-indexes-ranks-javascript-pages-two-waves-days-apart/" target="_blank" rel="noopener">
+        Google Indexes and Ranks JavaScript Pages in Two Waves Days Apart
+      </a>
+    </li>
+    <li>
+      <a href="https://webmasters.googleblog.com/2019/05/the-new-evergreen-googlebot.html" target="_blank" rel="noopener">
+        The new evergreen Googlebot
+      </a>
+    </li>
+  </ol>
 
   <h2>
     <span>
