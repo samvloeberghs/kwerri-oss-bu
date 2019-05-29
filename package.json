@@ -15,7 +15,7 @@
     "build:samvloeberghs:ssr:local": "npm run build:ngx-seo && npm run build:samvloeberghs:bundles:local && npm run build:samvloeberghs:server",
     "postbuild:samvloeberghs:ssr:local": "npm run workbox:injectmanifest:samvloeberghs && npx ncp dist server",
     "build:samvloeberghs:ssr:prod": "npm run build:ngx-seo && npm run build:samvloeberghs:bundles:prod && npm run build:samvloeberghs:server",
-    "postbuild:samvloeberghs:ssr:prod": "npm run workbox:injectmanifest:samvloeberghs && npx ncp dist servers",
+    "postbuild:samvloeberghs:ssr:prod": "npm run workbox:injectmanifest:samvloeberghs && rm -rf server/samvloeberghs server/samvloeberghs-server && npx ncp dist servers",
     "build:samvloeberghs:bundles:local": "npx ng build samvloeberghs --configuration=local && npx ng run samvloeberghs:server --configuration=local",
     "build:samvloeberghs:bundles:prod": "npx ng build samvloeberghs --prod && npx ng run samvloeberghs:server --configuration=production",
     "build:samvloeberghs:server": "npx webpack --config projects/samvloeberghs-server/webpack.server.config.js --progress --colors",
