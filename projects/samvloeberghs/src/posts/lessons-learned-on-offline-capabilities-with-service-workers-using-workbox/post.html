@@ -188,11 +188,6 @@ workbox.routing.registerRoute(
     The only way I found so far is by checking if your page already has a service worker changes his state to activated,
     but no new version waiting to be activated. In that, aftere the service worker activated, refresh the page.
   </p>
-  <p>
-    The drawback is that the first time-use might show a flicker. This side-effect can be minimized by delaying the
-    bootstrapping of your application until you know that a service worker is active and show a loading / splash screen
-    instead. This is anyway already a requirement, as explained before.
-  </p>
 
   <h4 class="codetitle">service-worker-registration.ts</h4>
   <pre><code class="language-ts">// Check that service workers are available
@@ -235,6 +230,12 @@ if ('serviceWorker' in navigator) {
   });
 
 }</code></pre>
+
+  <p>
+    The drawback is that the first time-use might show a flicker. This side-effect can be minimized by delaying the
+    bootstrapping of your application until you know that a service worker is active and show a loading / splash screen
+    instead. This is anyway already a requirement, as explained before.
+  </p>
 
   <p class="alert alert-warning">
     <i class="fa fa-warning"></i>
