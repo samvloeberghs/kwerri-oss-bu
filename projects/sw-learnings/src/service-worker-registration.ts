@@ -6,18 +6,41 @@ import { environment } from './environments/environment';
 // Only register service worker when in production
 if ('serviceWorker' in navigator && environment.production) {
   // Use the window load event to keep the page load performant
+
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then(swReg => {
         console.log('service worker registered', swReg);
 
+        setInterval(async () => {
+          try {
+            console.log('updating sw');
+            await swReg.update();
+          } catch (err) {
+            console.log('sw.js could not be updated', err);
+          }
+        }, 10000);
+
         if (navigator.serviceWorker.controller) {
           window.dispatchEvent(new CustomEvent('service-worker-ready'));
-        } else {
-          // this is required, because it's bad practice to use clients.claim()
-          // and skipWaiting to get the latest version of the sw worker running.
-          // It has side effects
-          window.location.reload();
+        }
+
+        // A wild service worker has appeared in reg.installing and maybe in waiting!
+        const newWorker = swReg.installing;
+        const waitingWoker = swReg.waiting;
+
+        if (newWorker) {
+          if (newWorker.state === 'activated' && !waitingWoker) {
+            // reload to avoid skipWaiting and clients.claim()
+            window.location.reload();
+          }
+          newWorker.addEventListener('statechange', (e) => {
+            // newWorker.state has changed
+            if (newWorker.state === 'activated' && !waitingWoker) {
+              // reload to avoid skipWaiting and clients.claim()
+              window.location.reload();
+            }
+          });
         }
 
       })
@@ -25,6 +48,7 @@ if ('serviceWorker' in navigator && environment.production) {
         console.log('service worker could not be registered', err);
       });
   });
+
 } else {
   window['serviceWorkerReady'] = true;
 }

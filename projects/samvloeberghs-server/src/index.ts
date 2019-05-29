@@ -36,7 +36,7 @@ const PORT = +process.env.PORT || 8443;
 const HTTP_PORT = +process.env.HTTP_PORT || 8080;
 const PROD = !!process.env.PROD || false;
 const HTTPS = !!process.env.HTTPS || false;
-const DIST_FOLDER = join(process.cwd(), 'dist', 'samvloeberghs');
+const DIST_FOLDER = join(process.cwd(), 'server', 'samvloeberghs');
 
 if (!PROD) {
   (global as any).WebSocket = require('ws');

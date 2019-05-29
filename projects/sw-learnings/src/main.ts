@@ -17,5 +17,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const broadcastChannel = new BroadcastChannel('precache-updates');
 broadcastChannel.addEventListener('message', (msg) => {
-  console.log(msg);
+  window['newVersionAvailable'] = true;
 });
