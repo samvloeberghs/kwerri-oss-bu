@@ -205,7 +205,7 @@ if ('serviceWorker' in navigator) {
       .register('/sw.js')
       .then(registration => {
 
-    if (navigator.serviceWorker.controller) {
+        if (navigator.serviceWorker.controller) {
           window.dispatchEvent(new CustomEvent('service-worker-ready'));
         }
 
@@ -215,12 +215,12 @@ if ('serviceWorker' in navigator) {
 
         if (newWorker) {
           if (newWorker.state === 'activated' && !waitingWoker) {
-    // reload to avoid skipWaiting and clients.claim()
-    window.location.reload();
+            // reload to avoid skipWaiting and clients.claim()
+            window.location.reload();
           }
           newWorker.addEventListener('statechange', (e) => {
-    // newWorker.state has changed
-    if (newWorker.state === 'activated' && !waitingWoker) {
+            // newWorker.state has changed
+            if (newWorker.state === 'activated' && !waitingWoker) {
               // reload to avoid skipWaiting and clients.claim()
               window.location.reload();
             }
@@ -229,7 +229,7 @@ if ('serviceWorker' in navigator) {
 
       })
       .catch(err => {
-    console.log('service worker could not be registered', err);
+        console.log('service worker could not be registered', err);
       });
 
   });
@@ -408,7 +408,7 @@ workbox.routing.registerRoute(
     worker is the <code><a
     href="https://github.com/jakearchibald/idb-keyval" target="_blank" rel="noopener">idb-keyval</a></code>.
     If you need more advanced logic you can checkout <code><a href="https://github.com/jakearchibald/idb"
-                                                              target="_blank" rel="noopener">idb-keyval</a></code>.
+                                                              target="_blank" rel="noopener">idb</a></code>.
   </p>
 
   <p>
@@ -468,9 +468,10 @@ workbox.routing.registerRoute(
 );
 </code></pre>
 
-  <p>
+  <p class="alert alert-quote">
+    <i class="fa fa-quote-left"></i>
     A possible extension on this functionality would be to check the status code from the response coming from the
-    server, to actually check if our given token was valid. If not a valid response codem return the not authorized image.
+    server, to actually check if our given token was valid. If not a valid response code, return the not authorized image.
   </p>
 
   <h2>
