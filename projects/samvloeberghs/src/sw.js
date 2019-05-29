@@ -76,8 +76,6 @@ if (workbox) {
     }
   );
 
-  core.skipWaiting();
-  core.clientsClaim();
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

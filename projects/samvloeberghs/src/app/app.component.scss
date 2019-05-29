@@ -1,7 +1,7 @@
 :host {
   display: block;
 
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
     margin-top: 9px;
   }
 
@@ -15,12 +15,14 @@
 
 aside {
 
+  font-family: 'Montserrat', sans-serif;
+
   display: block;
   z-index: 1;
   padding: {
     right: 50px;
   }
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
     border-right: 1px solid;
     border-image: linear-gradient(
         to bottom,
@@ -41,11 +43,11 @@ aside {
     letter-spacing: 1px;
     padding-top: 10px;
 
-    @media (min-width: 303px) {
+    @media (min-width: 314px) {
       padding-top: 18px;
     }
 
-    @media (min-width: 341px) {
+    @media (min-width: 352px) {
       font-size: 1.5em;
       letter-spacing: 2px;
       padding-top: 17px;
@@ -96,7 +98,7 @@ aside {
           font-weight: bold;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 920px) {
           padding: 10px 0px;
           font-size: 1.2em;
           letter-spacing: 2px;
@@ -156,7 +158,7 @@ aside {
           color: #f48024;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 920px) {
           &.facebook {
             color: #3b5998;
           }
@@ -207,7 +209,7 @@ aside {
     display: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
 
     display: block;
     margin-top: 9px;
@@ -317,7 +319,7 @@ aside {
 
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 921px) {
 
     position: fixed;
     width: 280px;

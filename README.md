@@ -6,6 +6,7 @@
 - https://social-share-check.app
 - json ld library
 - better seo-service
+- sw learnings example application
 
 ## Angular CLI
 

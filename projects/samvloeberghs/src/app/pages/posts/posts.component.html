@@ -12,7 +12,9 @@
 
   <a [routerLink]="['/posts', post.slug]" class="excerpt" [attr.title]="post.title">
 
-    <h2>{{post.title}}</h2>
+    <h2>
+      <span>{{post.title}}</span>
+    </h2>
 
     <p class="posted">
       Posted on

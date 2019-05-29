@@ -10,11 +10,17 @@ if ('serviceWorker' in navigator && environment.production) {
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
       .then(swReg => {
         console.log('service worker registered', swReg);
+
+        if (!navigator.serviceWorker.controller) {
+          // this is required, because it's bad practice to use clients.claim()
+          // and skipWaiting to get the latest version of the sw worker running.
+          // It has side effects
+          window.location.reload();
+        }
+
       })
       .catch(err => {
         console.log('service worker could not be registered', err);
       });
   });
-} else {
-  console.log('1');
 }

@@ -41,3 +41,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# sw-learnings
+projects/sw-learnings/src/sw.js

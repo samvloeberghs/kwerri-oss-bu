@@ -254,6 +254,107 @@
           }
         }
       }
+    },
+    "sw-learnings": {
+      "root": "projects/sw-learnings/",
+      "sourceRoot": "projects/sw-learnings/src",
+      "projectType": "application",
+      "prefix": "swl",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/sw-learnings",
+            "index": "projects/sw-learnings/src/index.html",
+            "main": "projects/sw-learnings/src/main.ts",
+            "polyfills": "projects/sw-learnings/src/polyfills.ts",
+            "tsConfig": "projects/sw-learnings/tsconfig.app.json",
+            "assets": [
+              "projects/sw-learnings/src/favicon.ico",
+              "projects/sw-learnings/src/assets"
+            ],
+            "styles": [
+              "projects/sw-learnings/src/styles.css"
+            ],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/sw-learnings/src/environments/environment.ts",
+                  "with": "projects/sw-learnings/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "sw-learnings:build",
+            "port": 4400
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "sw-learnings:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "sw-learnings:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sw-learnings/src/test.ts",
+            "polyfills": "projects/sw-learnings/src/polyfills.ts",
+            "tsConfig": "projects/sw-learnings/tsconfig.spec.json",
+            "karmaConfig": "projects/sw-learnings/karma.conf.js",
+            "styles": [
+              "projects/sw-learnings/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/sw-learnings/src/favicon.ico",
+              "projects/sw-learnings/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/sw-learnings/tsconfig.app.json",
+              "projects/sw-learnings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "samvloeberghs"
