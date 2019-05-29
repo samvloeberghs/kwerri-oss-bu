@@ -6,7 +6,7 @@
     "author": "Sam Vloeberghs",
     "img": "/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/workbox.png",
     "imgShare": "/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/workbox_share.jpg",
-    "short": "This post is targeted to webdevelopers that are creating offline-capable applications and more specifically offline-capable applications that can be categorized as SPAs or Single Page Applications. We will explore some ideas and common implementations or pitfalls using Workbox."
+    "short": "This post is targeted to webdevelopers that are creating offline-capable applications and more specifically offline-capable applications that can be categorized as SPAs or Single Page Applications. We will explore some ideas, common implementations and pitfalls using Workbox."
   },
   {
     "title": "Outputting JSON-LD with Angular Universal",
