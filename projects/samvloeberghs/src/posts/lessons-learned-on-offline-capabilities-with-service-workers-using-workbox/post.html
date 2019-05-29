@@ -9,7 +9,8 @@
   <p>
     This post is targeted to webdevelopers that are creating <em>offline-capable applications</em> and more specifically
     offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my
-    learnings, not just to share them, but also to maybe <em>get feedback from interested readers</em> that might have
+    lessons learned, not just to share them, but also to maybe <em>get feedback from interested readers</em> that might
+    have
     found
     other ways or used other methods to solve the problems described.
   </p>
@@ -133,7 +134,8 @@ workbox.routing.registerRoute(
 
   <p>
     One possible scenario is that the code functionality in your application could not match anymore with
-    the logic in your service worker. So it might impose a breaking change. <strong>Let's consider a short step-by-step example</strong>:
+    the logic in your service worker. So it might impose a breaking change. <strong>Let's consider a short step-by-step
+    example</strong>:
   </p>
 
   <ol>
@@ -183,10 +185,12 @@ workbox.routing.registerRoute(
   </ol>
 
   <p>
-    The only way I found so far is by checking if your page already has an service worker control, and if not, refresh
-    the page. The drawback is that the first time-use might show a flicker. This side-effect can be minimized by
-    delaying the bootstrapping of your application until you know that a service worker is active and show a loading /
-    splash screen
+    The only way I found so far is by checking if your page already has a service worker changes his state to activated,
+    but no new version waiting to be activated. In that, aftere the service worker activated, refresh the page.
+  </p>
+  <p>
+    The drawback is that the first time-use might show a flicker. This side-effect can be minimized by delaying the
+    bootstrapping of your application until you know that a service worker is active and show a loading / splash screen
     instead. This is anyway already a requirement, as explained before.
   </p>
 
@@ -197,26 +201,40 @@ if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
     window.addEventListener('load', () => {
 
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(registration => {
-    if (!navigator.serviceWorker.controller) {
-            window.dispatchEvent(new CustomEvent('service-worker-ready'));
-          } else {
-            // this is required, because it's bad practice to use clients.claim()
-            // and skipWaiting() to get the latest version of the sw worker running.
-            // It has side effects
-            window.location.reload();
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(registration => {
+
+    if (navigator.serviceWorker.controller) {
+          window.dispatchEvent(new CustomEvent('service-worker-ready'));
+        }
+
+        // A wild service worker has appeared in reg.installing and maybe in waiting!
+        const newWorker = registration.installing;
+        const waitingWoker = registration.waiting;
+
+        if (newWorker) {
+          if (newWorker.state === 'activated' && !waitingWoker) {
+    // reload to avoid skipWaiting and clients.claim()
+    window.location.reload();
           }
-        })
-        .catch(err => {
+          newWorker.addEventListener('statechange', (e) => {
+    // newWorker.state has changed
+    if (newWorker.state === 'activated' && !waitingWoker) {
+              // reload to avoid skipWaiting and clients.claim()
+              window.location.reload();
+            }
+          });
+        }
+
+      })
+      .catch(err => {
     console.log('service worker could not be registered', err);
-        });
+      });
 
-    });
+  });
 
-}
-</code></pre>
+}</code></pre>
 
   <p class="alert alert-warning">
     <i class="fa fa-warning"></i>
@@ -315,15 +333,15 @@ if ('serviceWorker' in navigator) {
 
   <h4 class="codetitle">sw.js</h4>
   <pre><code class="language-js">// Cache the underlying font files with a cache-first strategy for 1 year.
-routing.registerRoute(
+workbox.routing.registerRoute(
   /^https:\/\/fonts\.gstatic\.com/,
   new strategies.CacheFirst({
     cacheName: 'google-fonts-webfonts',
     plugins: [
-      new cacheableResponse.Plugin({
+      new workbox.cacheableResponse.Plugin({
         statuses: [0, 200]
       }),
-      new expiration.Plugin({
+      new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 365,
         maxEntries: 30,
         purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
@@ -386,7 +404,73 @@ routing.registerRoute(
 
   <p>
     The only way to successfully share the <code>OAuthToken</code> from our application logic with our service worker
-    logic is by using the <code>IndexedDB</code> API.
+    logic is by using the <code>IndexedDB</code> API. The library I use to simplify IndexedDB access in my service
+    worker is the <code><a
+    href="https://github.com/jakearchibald/idb-keyval" target="_blank" rel="noopener">idb-keyval</a></code>.
+    If you need more advanced logic you can checkout <code><a href="https://github.com/jakearchibald/idb"
+                                                              target="_blank" rel="noopener">idb-keyval</a></code>.
+  </p>
+
+  <p>
+    In our example below, we assume that somehow our application has saved a token in a database and store in the IndexedDB.
+    Using workbox we register a <code>RegExp</code> for any route we want to authenticate using our token. Let's go trough the example, step by step:
+  </p>
+
+  <ol>
+    <li>
+      We register a route, in this case to trap all the requests going to <code>map.png</code>
+    </li>
+    <li>
+      In the event handler, a check is done to see if we have a token available in the IndexedDB.
+    </li>
+    <li>
+      If a token is available, we modify the request and add the token as an <code>Authorization</code> header.
+    </li>
+    <li>
+      If no token is avilable, we return a replacement resource, the <code>not_authorized.png</code> image, which has
+      been cached already in our precaching setup.
+    </li>
+  </ol>
+
+  <pre><code class="language-js">// OAuth header interceptor
+workbox.routing.registerRoute(
+  ({ url }) => {
+    return /map\.png/.test(url);
+  },
+  async ({ event, url }) => {
+
+    // get the eventual token
+    const customStore = new Store('swl-db', 'swl-db-store');
+    const oAuthToken = await get<string>('token', customStore);
+
+    // if token available, set it as the Authorization header
+    if (!!oAuthToken) {
+      const modifiedHeaders = new Headers(event.request.headers);
+      modifiedHeaders.set('Authorization', oAuthToken);
+      const overwrite = {
+        headers: modifiedHeaders
+      };
+      const modifiedRequest = new Request(url.toString(), overwrite);
+      return fetch(modifiedRequest);
+    }
+
+    const defaultNotAuthedBase = '/assets/not_authorized.png';
+    return caches
+      .match(workbox.precaching.getCacheKeyForURL(defaultNotAuthedBase))
+      .then(response => {
+        return response || fetch(defaultNotAuthedBase);
+      })
+      .catch(err => {
+        return fetch(defaultNotAuthedBase);
+      });
+
+  }
+);
+</code></pre>
+
+  <p>
+    A possible extension on this functionality would be to check the status code from the response coming from the
+    server, to actually check if our given token was valid. If not a valid response codem return the not authorized image.
   </p>
 
   <h2>
@@ -407,7 +491,8 @@ routing.registerRoute(
     applied automatically on a sub-sequent load of your application.
   </p>
   <p>
-    Be careful with what you cache offline and which devices your application will be used upon. <strong>The available space for
+    Be careful with what you cache offline and which devices your application will be used upon. <strong>The available
+    space for
     your application depends on the free space of the device and the browser where the application is loaded.</strong>
   </p>
   <p>
@@ -462,6 +547,13 @@ routing.registerRoute(
         When does code in a service worker outside of an event handler run?
       </a>
     </li>
+    <li>
+      <a
+        href="https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading"
+        target="_blank" rel="noopener">
+        High-performance service worker loading
+      </a>
+    </li>
 
   </ol>
 
@@ -478,6 +570,7 @@ routing.registerRoute(
 
   </ul>
 
-  <p>for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so please let me know!</p>
+  <p>for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so
+    please let me know!</p>
 
 </section>

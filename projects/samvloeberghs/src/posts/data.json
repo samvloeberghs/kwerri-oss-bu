@@ -1,11 +1,11 @@
 [
   {
-    "title": "Some learnings on offline capabilities with service workers using Workbox",
-    "slug": "some-learnings-on-offline-capabilities-with-service-workers-using-workbox",
+    "title": "Lessons learned on offline capabilities with service workers using Workbox",
+    "slug": "lessons-learned-on-offline-capabilities-with-service-workers-using-workbox",
     "publishDatetime": "2019-05-31T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/posts/some-learnings-on-offline-capabilities-with-service-workers-using-workbox/workbox.png",
-    "imgShare": "/posts/some-learnings-on-offline-capabilities-with-service-workers-using-workbox/workbox_share.jpg",
+    "img": "/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/workbox.png",
+    "imgShare": "/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/workbox_share.jpg",
     "short": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat dapibus eros aliquam condimentum. Pellentesque nisl lorem, consectetur nec orci ut, porta facilisis leo. Donec eget bibendum nunc. Nulla neque tortor, porta posuere ultricies sit amet, tempor id purus."
   },
   {

@@ -1,5 +1,6 @@
 import { Store, get } from 'idb-keyval';
 
+declare const __BUILDTIMESTAMP__: string;
 declare const importScripts: Function;
 declare const workbox;
 
@@ -107,3 +108,16 @@ if (workbox) {
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
+
+self.addEventListener('install', (e) => {
+  console.log('sw install event', __BUILDTIMESTAMP__);
+});
+
+self.addEventListener('activate', (e) => {
+  console.log('sw activate event', __BUILDTIMESTAMP__);
+});
+
+self.addEventListener('waiting', (e) => {
+  console.log('sw waiting event', __BUILDTIMESTAMP__);
+});
+
