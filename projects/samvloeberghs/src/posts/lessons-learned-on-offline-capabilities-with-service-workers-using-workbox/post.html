@@ -409,14 +409,14 @@ workbox.routing.registerRoute(
   <p>
     The only way to successfully share the <code>OAuthToken</code> from our application logic with our service worker
     logic is by using the <code>IndexedDB</code> API. The library I use to simplify IndexedDB access in my service
-    worker is the <code><a
+    worker is <code><a
     href="https://github.com/jakearchibald/idb-keyval" target="_blank" rel="noopener">idb-keyval</a></code>.
     If you need more advanced logic you can checkout <code><a href="https://github.com/jakearchibald/idb"
                                                               target="_blank" rel="noopener">idb</a></code>.
   </p>
 
   <p>
-    In our example below, we assume that somehow our application has saved a token in a database and store in the IndexedDB.
+    In our example below, we assume that somehow our application has saved a token in the IndexedDB.
     Using workbox we register a <code>RegExp</code> for any route we want to authenticate using our token. Let's go trough the example, step by step:
   </p>
 
@@ -425,10 +425,10 @@ workbox.routing.registerRoute(
       We register a route, in this case to trap all the requests going to <code>map.png</code>
     </li>
     <li>
-      In the event handler, a check is done to see if we have a token available in the IndexedDB.
+      In the capture function of the route registration, the first parameter, a check is done to see if we have a token available in the IndexedDB.
     </li>
     <li>
-      If a token is available, we modify the request and add the token as an <code>Authorization</code> header.
+      If a token is available, we modify the request in the handler, the second parameter, and add the token as an <code>Authorization</code> header.
     </li>
     <li>
       If no token is avilable, we return a replacement resource, the <code>not_authorized.png</code> image, which has
@@ -474,7 +474,7 @@ workbox.routing.registerRoute(
 
   <p class="alert alert-info">
     <i class="fa fa-info-circle"></i>
-    A possible extension on this functionality would be to check if the status code of the response coming from the
+    A possible extension for this functionality would be to check if the status code of the response coming from the
     server is as expected, for example a <code>200 OK</code>. If not a valid or expected response code, return the cached <code>not_authorized.png</code> image.
   </p>
 
@@ -486,7 +486,7 @@ workbox.routing.registerRoute(
 
   <p>
     When developing SPAs with offline capabilities, we need to make sure that our service worker is acting the same way
-    as our server. <strong>For route requests or navigations, the service worker should always return the <code>index.html</code>
+    as our server. <strong>For routing requests or navigations, the service worker should always return the <code>index.html</code>
     to keep deeplinking working when offline</strong>.
   </p>
   <p>
