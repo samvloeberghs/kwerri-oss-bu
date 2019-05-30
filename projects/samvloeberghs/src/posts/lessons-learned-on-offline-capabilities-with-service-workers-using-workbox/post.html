@@ -94,10 +94,11 @@ workbox.routing.registerRoute(
     online the service worker will use the cached <code>index.html</code>, when for example opening a new tab with a
     different page of your application.
   </p>
-  <p>
-    Please also keep in mind that this is kind of how the server should behave in case of a SPA setup. For all requests
-    not
-    matching a static or a dynamic resource like an API, the server should return the <code>index.html</code> file!
+
+  <p class="alert alert-warning">
+    <i class="fa fa-exclamation-circle"></i>
+    Please also keep in mind that this reflects the behavior of the server in case of a SPA setup. <strong>For all requests
+    not matching a static resource like an image, or a dynamic resource like an API, the server should return the <code>index.html</code> file</strong>!
   </p>
 
   <h2>

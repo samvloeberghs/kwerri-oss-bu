@@ -11,28 +11,16 @@ ul {
   }
 
   li {
-
-    span.date {
-      color: #555;
+    margin: {
+      bottom: 15px;
     }
-
-    a.title {
-
-    }
-
-    a.where,
-    span.where {
-
-      color: #555;
-
-    }
-
-    a.video,
-    span.video {
-
-    }
-
   }
 
+}
+
+table.speaker-info {
+  th {
+    min-width: 225px;
+  }
 }
 
