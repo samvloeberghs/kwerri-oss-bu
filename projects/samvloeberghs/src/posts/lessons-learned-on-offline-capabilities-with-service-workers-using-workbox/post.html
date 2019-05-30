@@ -185,8 +185,9 @@ workbox.routing.registerRoute(
   </ol>
 
   <p>
-    The only way I found so far is by checking if your page already has a service worker changes his state to activated,
-    but no new version waiting to be activated. In that, aftere the service worker activated, refresh the page.
+    The only way I found so far is by checking if your page already has a service worker that is changings his state to
+    activated, but no new version of the service worker is waiting to be activated. In that case, and after the service
+    worker activated, refresh the page.
   </p>
 
   <h4 class="codetitle">service-worker-registration.ts</h4>
@@ -201,6 +202,8 @@ if ('serviceWorker' in navigator) {
       .then(registration => {
 
         if (navigator.serviceWorker.controller) {
+          // let the application now our service worker is ready
+          window['serviceWorkerReady'] = true;
           window.dispatchEvent(new CustomEvent('service-worker-ready'));
         }
 

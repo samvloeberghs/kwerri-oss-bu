@@ -9,6 +9,8 @@ if ('serviceWorker' in navigator) {
       .then(registration => {
 
         if (navigator.serviceWorker.controller) {
+          // let the application now our service worker is ready
+          window['serviceWorkerReady'] = true;
           window.dispatchEvent(new CustomEvent('service-worker-ready'));
         }
 
