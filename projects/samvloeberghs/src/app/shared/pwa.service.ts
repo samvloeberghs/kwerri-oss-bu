@@ -9,7 +9,7 @@ declare const window: any;
 })
 export class PwaService {
 
-  public newVersionAvailable = new BehaviorSubject(false);
+  public newVersionAvailable = new BehaviorSubject(true);
   public newVersionAvailable$ = this.newVersionAvailable.asObservable();
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
