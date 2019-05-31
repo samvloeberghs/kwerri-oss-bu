@@ -19,8 +19,23 @@ ul {
 }
 
 table.speaker-info {
+
+  @media (max-width: 920px) {
+    width:100%;
+  }
   th {
-    min-width: 225px;
+    @media (min-width: 920px) {
+      min-width: 225px;
+    }
+  }
+
+  th, td {
+    display:block;
+    word-break: break-word;
+  }
+
+  td {
+    font-style: italic;
   }
 }
 

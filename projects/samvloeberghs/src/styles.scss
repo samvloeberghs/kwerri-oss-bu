@@ -295,7 +295,7 @@ ol, ul, p {
         border-bottom: 1px solid #ddd;
         letter-spacing: 2px;
 
-        @media (max-width: 767px) {
+        @media (max-width: 920px) {
           margin: 0 -20px;
           padding: 5px 20px;
         }
@@ -329,7 +329,7 @@ ol, ul, p {
       background: #f6f6f6;
       padding: 10px;
       font-size: 1.2em;
-      @media (max-width: 767px) {
+      @media (max-width: 920px) {
         padding: 20px;
         margin: 0 -20px 25px -20px;
         code {
