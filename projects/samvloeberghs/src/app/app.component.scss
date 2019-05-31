@@ -17,6 +17,7 @@ aside {
 
   font-family: 'Montserrat', sans-serif;
 
+  position: relative;
   display: block;
   z-index: 1;
   padding: {
@@ -33,6 +34,49 @@ aside {
 
   #picture {
     display: block;
+
+    img {
+      border: {
+        style: solid;
+        color: #eee;
+        radius: 110px;
+      }
+    }
+
+    &.new-version-available {
+      img {
+        border: {
+          color: #f0433e;
+        }
+      }
+    }
+  }
+
+  .new-version-available-msg {
+    position: absolute;
+    top: 65px;
+    left: 130px;
+    color: #fff;
+    background: #f0433e;
+    padding: 5px 10px;
+    font-size: 1.2em;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -16px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px;
+      border-color: transparent;
+      pointer-events: none;
+      margin-top: -8px;
+      transform: rotateY(0deg);
+      color: #f0433e;
+      border-right-color: #f0433e;
+    }
   }
 
   h1 {
@@ -250,8 +294,9 @@ aside {
 
       img {
         width: 40px;
-        border-radius: 110px;
-        border: 5px solid #eee;
+        border: {
+          width: 5px;
+        }
       }
     }
 
@@ -333,12 +378,17 @@ aside {
       text-align: left;
     }
 
-    #picture img {
-      display: block;
-      width: 100px;
-      border-radius: 100px;
-      margin-bottom: 20px;
-      border: 10px solid #eee;
+    #picture {
+      width: 120px;
+
+      img {
+        display: block;
+        width: 100px;
+        margin-bottom: 20px;
+        border: {
+          width: 10px;
+        }
+      }
     }
 
     nav ul li {

@@ -1,7 +1,13 @@
 <aside [class.open]="mobileNavToggled">
 
-  <a routerLink="/" id="picture" title="Back to homepage">
+  <a routerLink="/" id="picture" title="Back to homepage"
+     [class.new-version-available]="newVersionAvailable$ | async">
     <img src="assets/images/sam.jpg" alt="Sam Vloeberghs"/>
+  </a>
+
+  <a class="new-version-available-msg" href="/" *ngIf="newVersionAvailable$ | async">
+    New version available! <br />
+    Reload or click here :)
   </a>
 
   <h1>

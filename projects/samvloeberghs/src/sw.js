@@ -4,7 +4,7 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const {core, googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
+  const {core, googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse, broadcastUpdate} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -13,6 +13,13 @@ if (workbox) {
   // see workbox-config.jss
   // This array gets injected automagically by the workbox cli
   precaching.precacheAndRoute([]);
+
+  // This will update the app with an event of updated precache files
+  precaching.addPlugins([
+    new broadcastUpdate.Plugin({
+      channelName: 'precache-updates'
+    })
+  ]);
 
   // Google Analytics cache setup
   // see https://developers.google.com/web/tools/workbox/modules/workbox-google-analytics

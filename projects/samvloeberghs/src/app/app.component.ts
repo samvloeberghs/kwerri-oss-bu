@@ -3,6 +3,7 @@ import { SeoSocialShareService } from 'ngx-seo';
 
 import { RouteHelper } from './shared/route-helper.service';
 import { environment } from '../environments/environment';
+import { PwaService } from './shared/pwa.service';
 
 @Component({
   selector: 'sv-app',
@@ -11,30 +12,32 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
 
-  mobileNavToggled = false;
+  public mobileNavToggled = false;
+  public newVersionAvailable$ = this.pwaService.newVersionAvailable$;s
 
   constructor(
     private readonly routehelper: RouteHelper,
     private readonly seoSocialShareService: SeoSocialShareService,
+    private readonly pwaService: PwaService
   ) {
     this.seoSocialShareService.setFbAppId(environment.facebookAppId);
     this.seoSocialShareService.setTwitterSiteCreator(environment.twitterSiteCreator);
     this.seoSocialShareService.setTwitterCard('summary_large_image');
   }
 
-  toggleMobileNav(event?: any, block = false) {
+  public toggleMobileNav(event?: any, block = false) {
     this.mobileNavToggled = !this.mobileNavToggled;
     if (block) {
       event.preventDefault();
     }
   }
 
-  navigateMobile() {
+  public navigateMobile() {
     this.toggleMobileNav();
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
+  private onKeydownHandler(event: KeyboardEvent) {
     this.routehelper.keyboardNavigate(event.key);
   }
 
