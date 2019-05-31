@@ -13,13 +13,17 @@ export class PwaService {
   public newVersionAvailable$ = this.newVersionAvailable.asObservable();
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
-    if (isPlatformBrowser(platformId) && window['newVersionAvailable']) {
-      this.newVersionAvailable.next(true);
+
+    if (isPlatformBrowser(platformId)) {
+      if (window['newVersionAvailable']) {
+        this.newVersionAvailable.next(true);
+      }
+      const updatesChannel = new BroadcastChannel('precache-updates');
+      fromEvent(updatesChannel, 'message').subscribe(() => {
+        this.newVersionAvailable.next(true);
+      });
     }
-    const updatesChannel = new BroadcastChannel('precache-updates');
-    fromEvent(updatesChannel, 'message').subscribe(() => {
-      this.newVersionAvailable.next(true);
-    });
+
   }
 
 }
