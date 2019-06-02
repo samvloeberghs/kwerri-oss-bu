@@ -32,6 +32,9 @@ table.speaker-info {
   th, td {
     display:block;
     word-break: break-word;
+    padding:{
+      left: 0;
+    }
   }
 
   td {
