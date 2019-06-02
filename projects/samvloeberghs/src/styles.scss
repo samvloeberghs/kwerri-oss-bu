@@ -181,7 +181,6 @@ ol, ul, p {
 
   table {
     font-size: 1.5em;
-    width: 100%;
     border: 0;
     border-collapse: collapse;
     border-spacing: 0;
@@ -196,7 +195,7 @@ ol, ul, p {
     th, td {
       text-align: left;
       vertical-align: top;
-      padding: 5px 10px 5px 0;
+      padding: 5px 15px 5px 10px;
       line-height: 1.5;
     }
     
@@ -451,7 +450,7 @@ ol, ul, p {
   }
 
   & > p,
-  & > ul
+  & > ul,
   & > ol {
     margin-bottom: 0;
   }

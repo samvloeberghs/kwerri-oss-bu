@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HighlightService } from './highlight.service';
+import { HireMeComponent } from './hire-me/hire-me.component';
 
 const MODULES = [
   CommonModule,
@@ -29,11 +30,14 @@ const PROVIDERS = [
   declarations: [
     ...PIPES,
     ...COMPONENTS,
+    HireMeComponent,
   ],
   providers: [
     ...PROVIDERS,
   ],
-  exports: [],
+  exports: [
+    HireMeComponent,
+  ],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

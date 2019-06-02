@@ -1,0 +1,55 @@
+:host{
+  display: block;
+
+  padding: 15px;
+  margin-bottom: 20px;
+  border: {
+    width: 1px;
+    style: solid;
+    color: transparent;
+    radius: 4px;
+  }
+
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+
+  hr {
+    border-top-color: #a6e1ec;
+  }
+
+  em {
+    color: #31708f;
+  }
+
+  & > p,
+  & > ul,
+  & > ol {
+    margin-bottom: 0;
+  }
+
+  & > p + p {
+    margin-top: 5px;
+  }
+
+  .alert-link {
+    color: #245269;
+  }
+
+  @media (min-width: 420px) {
+    position: relative;
+    padding: 15px 15px 15px 85px;
+
+    & > i {
+      position: absolute;
+      top: 17px;
+      left: 25px;
+      font:{
+        size: 25px;
+        weight: bold;
+      }
+    }
+
+  }
+
+}
