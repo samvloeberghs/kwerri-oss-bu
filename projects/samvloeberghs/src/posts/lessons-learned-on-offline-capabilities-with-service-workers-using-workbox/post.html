@@ -95,6 +95,30 @@ workbox.routing.registerRoute(
     different page of your application.
   </p>
 
+  <h3>
+    <span>Shortcut available</span>
+  </h3>
+
+  <p>
+    Workbox gives you a shortcut and extra options for this behaviour, like whitelisting and blacklisting by exposing
+    the <code>registerNavigationRoute</code> handler on the <code>routing</code> module.
+  </p>
+
+  <h4 class="codetitle">sw.js</h4>
+  <pre><code class="language-js">workbox.routing.registerNavigationRoute(
+  // Assuming '/single-page-app.html' has been precached,
+  // look up its corresponding cache key.
+  workbox.precaching.getCacheKeyForURL('/single-page-app.html'), {
+    whitelist: [
+      new RegExp('/blog/')
+    ],
+    blacklist: [
+      new RegExp('/blog/restricted/'),
+    ]
+  }
+);
+</code></pre>
+
   <p class="alert alert-warning">
     <i class="fa fa-exclamation-circle"></i>
     Please also keep in mind that this reflects the behavior of the server in case of a SPA setup. <strong>For all requests
@@ -109,7 +133,7 @@ workbox.routing.registerRoute(
 
   <p>
     Using <code>skipWaiting()</code> or <code>clients.claim()</code> should not be done blindly and without thought.
-    Unfortunetaly there are many articles on the internet that just instruct you to do it without much more information.
+    Unfortunately there are many articles on the internet that just instruct you to do it without much more information.
     The fact that you have to be careful about this is also clearly mentioned in "<a
     href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
     target="_blank" rel="noopener">Service Worker Lifecycle</a>", an article by Jake Archibald.
@@ -172,7 +196,7 @@ workbox.routing.registerRoute(
   <ol>
     <li>
       Your application imports a 3rd party library that sends requests to a server.
-      The URLs these requests have to be send to are configurable, but the headers used for these requests aren't.
+      The URLs these requests have to be sent to are configurable, but the headers used for these requests aren't.
       You may want to add an <code>Authorization</code> header to each of these requests made.
     </li>
     <li>
@@ -204,7 +228,7 @@ if ('serviceWorker' in navigator) {
       .then(registration => {
 
         if (navigator.serviceWorker.controller) {
-          // let the application now our service worker is ready
+          // let the application know our service worker is ready
           window['serviceWorkerReady'] = true;
           window.dispatchEvent(new CustomEvent('service-worker-ready'));
         }
@@ -257,9 +281,8 @@ if ('serviceWorker' in navigator) {
 
   <p>
     When building your application and thinking about its offline strategies you should definitely consider what you are
-    gonna cache offline. Why? <strong>Because not all browser and devices have the seem capabilities in terms of
-    storage</strong>.
-    The following table shows what the available quota is per browser and per origin.
+    gonna cache offline. Why? <strong>Because not all browser and devices have the same capabilities in terms of
+    storage</strong>. The following table shows what the available quota is per browser and per origin.
   </p>
 
   <table>
@@ -564,7 +587,6 @@ workbox.routing.registerRoute(
 
   </ol>
 
-  <!--
   <h2>
     <span>
       Special thanks to
@@ -573,15 +595,15 @@ workbox.routing.registerRoute(
 
   <ul>
     <li>
-      <a href="" rel="noopener" target="_blank"></a>
+      <a href="https://twitter.com/jvandemo" rel="noopener" target="_blank">
+        Jurgen Van De Moere
+      </a>
     </li>
-
   </ul>
 
   <p>
-  for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so
+    for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so
     please let me know!
-    </p>
-    -->
+  </p>
 
 </section>

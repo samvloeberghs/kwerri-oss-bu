@@ -46,7 +46,7 @@ if (!PROD) {
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
-  app.engine('html', (_, options, callback) => {
+app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     url: options.req.url,
@@ -112,17 +112,7 @@ switch (type) {
     break;
 }
 
-allowedPaths.forEach((aPath) => {
-  aPath = '/' + aPath;
-  app.get(aPath, ngApp);
-});
-
-app.get('*', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  const pojo = {status: 404, message: 'No Content'};
-  const json = JSON.stringify(pojo, null, 2);
-  res.status(404).send(json);
-});
+app.get('*', ngApp);
 
 function ngApp(req, res) {
 
@@ -145,7 +135,7 @@ function ngApp(req, res) {
     myCache.get(cachePath, (entry) => {
 
       if (entry) {
-        res.status(200).send(entry);
+        res.status(304).send(entry);
       } else {
 
         res.render('index', config, (err, html) => {
@@ -175,7 +165,12 @@ function ngApp(req, res) {
         console.log(err);
       }
 
-      res.status(200).send(minify(html, minifyOptions));
+      let status = 200;
+      if (!isCacheAllowed(req.originalUrl)) {
+        status = 404;
+      }
+
+      res.status(status).send(minify(html, minifyOptions));
 
     });
   }
