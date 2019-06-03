@@ -135,7 +135,7 @@ function ngApp(req, res) {
     myCache.get(cachePath, (entry) => {
 
       if (entry) {
-        res.status(304).send(entry);
+        res.status(200).send(entry);
       } else {
 
         res.render('index', config, (err, html) => {
