@@ -8,7 +8,7 @@ if ('serviceWorker' in navigator && environment.production) {
   // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
-      .then(registration => {
+      .then(async registration => {
         console.log('service worker registered', registration);
 
         // check every 4h if a new version is available
@@ -21,6 +21,9 @@ if ('serviceWorker' in navigator && environment.production) {
             console.log('sw.js could not be updated', err);
           }
         }, interval);
+
+        const postsCache = await caches.open('posts');
+        postsCache.add('posts/data.json');
 
       })
       .catch(err => {

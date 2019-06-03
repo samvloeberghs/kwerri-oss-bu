@@ -66,6 +66,15 @@ if (workbox) {
     })
   );
 
+  // Google Fonts cache setup
+  // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
+  routing.registerRoute(
+    /posts\/data\.json/,
+    new strategies.StaleWhileRevalidate({
+      cacheName: 'posts'
+    })
+  );
+
   // default page handler for offline usage, where the browser does not how to handle deep links
   // it's a SPA, so each path that is a navigation should default to index.html
   routing.registerRoute(
