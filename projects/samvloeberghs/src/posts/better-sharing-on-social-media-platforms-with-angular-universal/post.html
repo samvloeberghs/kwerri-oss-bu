@@ -262,7 +262,7 @@
   &#x3C;meta name=&#x22;twitter:card&#x22; content=&#x22;summary_large_image&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
+  &#x3C;meta name=&#x22;twitter:image&#x22; content=&#x22;https:///samvloeberghs.be/assets/share/home.png&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:site&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
   &#x3C;meta name=&#x22;twitter:creator&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
@@ -277,6 +277,11 @@
   <p>
     Validating the preview of your post on Twitter can be done via <a
     href="https://cards-dev.twitter.com/validator" target="_blank" rel="noopener">https://cards-dev.twitter.com/validator</a>.
+  </p>
+
+  <p class="alert alert-warning">
+    <i class="fa fa-warning"></i>
+    <em>Important</em>: The value of <code>twitter:image</code> must be a fully-qualified complete and absolute URL, not a partial/relative one, or the Twitter crawler will be unable to find and display the image.
   </p>
 
   <h2>
@@ -445,7 +450,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     Let's process the following HTML:
   </p>
 
-  <h4 class="codetitle">too-much-minify-options-output.html</h4>
+  <h4 class="codetitle">too-much-minify-options-input.html</h4>
   <pre><code class="language-html">&#x3C;!doctype html&#x3E;
 &#x3C;html lang=&#x22;en&#x22;&#x3E;
    &#x3C;head&#x3E;
@@ -456,6 +461,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     results in
   </p>
 
+  <h4 class="codetitle">too-much-minify-options-output.html</h4>
   <pre><code
     class="language-html">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
 
@@ -469,7 +475,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
   </p>
 
   <h4 class="codetitle">good-minify-options.ts</h4>
-  <pre><code class="javascript highlighted">const goodHtmlMinifyOptions = {
+  <pre><code class="language-ts">const goodHtmlMinifyOptions = {
     …
     removeAttributeQuotes: false,
     removeOptionalTags: false
@@ -536,6 +542,9 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     </li>
     <li>
       <a href="https://twitter.com/manekinekko" rel="noopener" target="_blank">Wassim Chegham</a>
+    </li>
+    <li>
+      <a href="https://twitter.com/andypiper" rel="noopener" target="_blank">Andy Piper/a>
     </li>
   </ul>
 

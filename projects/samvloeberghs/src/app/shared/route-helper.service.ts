@@ -59,7 +59,7 @@ export class RouteHelper {
         const seoData: SeoSocialShareData = {
           title: seo.title,
           description: seo.description,
-          image: seo.shareImg,
+          image: environment.url + seo.shareImg,
           author: environment.seo.author,
           url: environment.url + this.router.routerState.snapshot.url,
           type: 'website',
@@ -74,7 +74,7 @@ export class RouteHelper {
         const seoData: SeoSocialShareData = {
           title: environment.seo.title,
           description: environment.seo.description,
-          image: environment.seo.shareImg,
+          image: environment.url + environment.seo.shareImg,
           author: environment.seo.author,
           url: environment.url,
           type: 'website',

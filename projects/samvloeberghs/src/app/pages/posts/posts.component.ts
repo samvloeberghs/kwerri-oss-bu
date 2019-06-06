@@ -31,7 +31,6 @@ export class PostsComponent implements OnInit {
       .subscribe(
         posts => this.posts = posts,
         (error: HttpErrorResponse) => {
-          console.log(error);
           this.router.navigateByUrl('/not-found');
         },
       );
