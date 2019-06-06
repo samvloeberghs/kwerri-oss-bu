@@ -1,12 +1,12 @@
 <section class="entry-content post-body " itemprop="articleBody"><p>RxJS is a great library, it is used
   more and more in different places &amp; frameworks across the web. Soon it will dominate the
   asynchronous part of web apps, so that’s why it’s important to know how subjects
-  work.<code>Subjects</code> combine the best of both an <code>Observable</code> and
+  work. <code>Subjects</code> combine the best of both an <code>Observable</code> and
   <code>Observer</code>. So you can think of a <code>Subject</code>&nbsp;being an
   <code>Observable</code> and <code>Observer</code> at the same time.</p>
   <p><strong>A <code>Subject</code> is an <code>Observable</code></strong>, but an
     <code>Observable</code> is&nbsp;unicast. <code>Subjects</code> on the other hand are multicast,
-    which means that&nbsp;&nbsp;they act like EventEmitters that can handle a set of multiple
+    which means that&nbsp;&nbsp;they act like <code>EventEmitters</code> that can handle a set of multiple
     listeners or subscribers. To facilitate this behaviour, new observers are registered in a list
     of <code>Observers</code> that all get notified.&nbsp;The subscribers are agnostic about&nbsp;what
     is sending the updates, as it can be a plain <code>Observable</code> or a <code>Subject</code>
@@ -53,7 +53,7 @@ subject.next(22);
 // log: observer I: 22
 // log: observer II: 22
 </code></pre>
-  <p>We are using TypeScript in this example so we can provide a type to the Subject. This way we get
+  <p>We are using TypeScript in this example so we can provide a type to the <code>Subject</code>. This way we get
     type-checking on compile-time if we want to send a next value that does not comply with the
     type!</p>
   <p>See this example in action here: <a href="https://plnkr.co/edit/nrXf41PNgUdJTMCjR9gG?p=preview"
@@ -186,7 +186,7 @@ setTimeout(() =&gt; {
     the last value is sent to its observers, and only when the execution completes. This last value
     is cached forever and every new <code>Observer</code> subscribing to the
     <code>AsyncSubject</code> will immediately receive the cached value.</p>
-  <p><code>AsyncSubjects</code> can be used a <em>replacement</em> for <code>Promises</code>. The only
+  <p><code>AsyncSubjects</code> can be used as a <em>replacement</em> for <code>Promises</code>. The only
     difference is that a Promise handles a single value, and <code>AsyncSubjects</code> handle
     multiple values, only caching and emitting the last value. Remember to complete the <code>AsyncSubject</code>,
     as this is the <em>caching-enabler</em>!</p>
