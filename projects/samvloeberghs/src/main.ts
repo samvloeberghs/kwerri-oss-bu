@@ -11,10 +11,12 @@ if (environment.production) {
   enableProdMode();
 }
 
-const updatesChannel = new BroadcastChannel('precache-updates');
-fromEvent(updatesChannel, 'message').subscribe(() => {
-  window['newVersionAvailable'] = true;
-});
+if (BroadcastChannel) {
+  const updatesChannel = new BroadcastChannel('precache-updates');
+  fromEvent(updatesChannel, 'message').subscribe(() => {
+    window['newVersionAvailable'] = true;
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   platformBrowserDynamic().bootstrapModule(AppModule)

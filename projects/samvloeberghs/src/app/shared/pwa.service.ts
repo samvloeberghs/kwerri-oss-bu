@@ -18,10 +18,12 @@ export class PwaService {
       if (window['newVersionAvailable']) {
         this.newVersionAvailable.next(true);
       }
-      const updatesChannel = new BroadcastChannel('precache-updates');
-      fromEvent(updatesChannel, 'message').subscribe(() => {
-        this.newVersionAvailable.next(true);
-      });
+      if (BroadcastChannel) {
+        const updatesChannel = new BroadcastChannel('precache-updates');
+        fromEvent(updatesChannel, 'message').subscribe(() => {
+          this.newVersionAvailable.next(true);
+        });
+      }
     }
 
   }
