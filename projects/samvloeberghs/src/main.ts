@@ -11,7 +11,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-if (BroadcastChannel) {
+if (typeof BroadcastChannel !== 'undefined') {
   const updatesChannel = new BroadcastChannel('precache-updates');
   fromEvent(updatesChannel, 'message').subscribe(() => {
     window['newVersionAvailable'] = true;

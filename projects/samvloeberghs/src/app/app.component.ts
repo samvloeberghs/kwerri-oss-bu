@@ -13,7 +13,7 @@ import { PwaService } from './shared/pwa.service';
 export class AppComponent {
 
   public mobileNavToggled = false;
-  public newVersionAvailable$ = this.pwaService.newVersionAvailable$;s
+  public newVersionAvailable$ = this.pwaService.newVersionAvailable$;
 
   constructor(
     private readonly routehelper: RouteHelper,
