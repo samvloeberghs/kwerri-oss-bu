@@ -6,19 +6,25 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 import './service-worker-registration';
+import { first } from 'rxjs/operators';
 
 if (environment.production) {
   enableProdMode();
 }
 
-if (typeof BroadcastChannel !== 'undefined') {
+// Add message listeners.
+if ('BroadcastChannel' in self) {
   const updatesChannel = new BroadcastChannel('precache-updates');
-  fromEvent(updatesChannel, 'message').subscribe(() => {
+  fromEvent(updatesChannel, 'message').subscribe((evt) => {
+    window['newVersionAvailable'] = true;
+  });
+} else {
+  fromEvent(navigator.serviceWorker, 'message').subscribe((evt) => {
     window['newVersionAvailable'] = true;
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+fromEvent(document, 'DOMContentLoaded').pipe(first()).subscribe(() => {
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
 });

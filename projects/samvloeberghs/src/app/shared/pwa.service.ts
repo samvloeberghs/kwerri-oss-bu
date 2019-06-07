@@ -18,9 +18,13 @@ export class PwaService {
       if (window['newVersionAvailable']) {
         this.newVersionAvailable.next(true);
       }
-      if (typeof BroadcastChannel !== 'undefined') {
+      if ('BroadcastChannel' in self) {
         const updatesChannel = new BroadcastChannel('precache-updates');
-        fromEvent(updatesChannel, 'message').subscribe(() => {
+        fromEvent(updatesChannel, 'message').subscribe((evt) => {
+          this.newVersionAvailable.next(true);
+        });
+      } else {
+        fromEvent(navigator.serviceWorker, 'message').subscribe((evt) => {
           this.newVersionAvailable.next(true);
         });
       }
