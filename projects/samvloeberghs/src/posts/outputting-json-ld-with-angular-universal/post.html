@@ -266,7 +266,7 @@ export class JsonLdService {
 
   <p>
     The server counter part, <a
-    href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts"><code>ServerTransferStateModule</code></a>
+    href="https://github.com/angular/angular/blob/master/packages/platform-server/src/transfer_state.ts" target="_blank" rel="noopener"><code>ServerTransferStateModule</code></a>
     exposed via the <code>@angular/platform-server</code>, serializes the data and injects it in the DOM before
     generating the HTML on the server and sending it back over the wire to the browser. Again, that is exactly what we
     want to achieve. This is achieved by providing an extra factory function to the <code>BEFORE_APP_SERIALIZED</code>
@@ -397,7 +397,7 @@ export class ServerJsonLdModule {
     To differentiate the execution of our application on the server versus on the browser, in Angular Universal we typically create a new server
     module <code>app.server.module.ts</code> next to <code>app.module.ts</code> that will directly import the <code>AppModule</code>
     exported by <code>app.module.ts</code>. This version of the application is used in the HTML renderer configured at
-    the server side, in most cases as an <a href="https://expressjs.com/en/guide/using-template-engines.html"
+    the server side, in most cases as a <a href="https://expressjs.com/en/guide/using-template-engines.html"
                                             rel="noopener" target="_blank">rendering engine</a>.
   </p>
   <p>
