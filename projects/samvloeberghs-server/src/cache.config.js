@@ -4,7 +4,8 @@ const allowedBlogPaths = [
   'posts/outputting-json-ld-with-angular-universal',
   'posts/scroll-to-top-on-angular-router-navigation',
   'posts/selecting-subtitles-in-vimeo-using-javascript',
-  'posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox'
+  'posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox',
+  'creating-a-simple-memory_cache-for-your-angular-universal-website-or-application'
 ];
 
 module.exports = {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { PrebootModule } from 'preboot';
 import { Angulartics2Module } from 'angulartics2';
 import { BrowserJsonLdModule } from 'ngx-seo';
 
@@ -16,6 +17,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'samvloeberghs'}),
+    PrebootModule.withConfig({ appRoot: 'sv-app' }),
     BrowserTransferStateModule,
     BrowserJsonLdModule,
     CommonModule,

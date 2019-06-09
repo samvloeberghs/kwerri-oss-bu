@@ -93,6 +93,12 @@ if (workbox) {
   );
 
 
+  self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(windows => {
+    for (const win of windows) {
+      win.postMessage({data: 'test test test yolo'});
+    }
+  });
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }

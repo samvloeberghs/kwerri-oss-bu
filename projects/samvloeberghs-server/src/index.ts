@@ -13,8 +13,8 @@ const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvl
 const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
 const spdy = require('spdy');
 const compression = require('compression');
-import { MemoryCacheStore, getCachePath, isCacheAllowed, FileCacheStore } from './cache';
-import { allowedPaths, type } from './cache.config';
+import { MemoryCacheStore, getCachePath, isValidPage, FileCacheStore } from './cache';
+import { type } from './cache.config';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
@@ -102,6 +102,7 @@ app.use(compression({
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
+// Decide the caching strategy
 let myCache;
 switch (type) {
   case 'memory':
@@ -112,9 +113,7 @@ switch (type) {
     break;
 }
 
-app.get('*', ngApp);
-
-function ngApp(req, res) {
+const ngApp = (req, res) => {
 
   const config = {
     req,
@@ -125,7 +124,7 @@ function ngApp(req, res) {
     originUrl: PROD ? 'https://samvloeberghs.be' : HTTPS ? `https://localhost:${PORT}` : `http://localhost:${PORT}`,
   };
 
-  if (isCacheAllowed(req.originalUrl)) {
+  if (isValidPage(req.originalUrl)) {
 
     // IF CACHE ALLOWED
     // ----------------
@@ -156,7 +155,7 @@ function ngApp(req, res) {
 
   } else {
 
-    // CACHE NOT ALLOWED
+    // NO VALID PAGE
     // -----------------
 
     res.render('index', config, (err, html) => {
@@ -165,17 +164,14 @@ function ngApp(req, res) {
         console.log(err);
       }
 
-      let status = 200;
-      if (!isCacheAllowed(req.originalUrl)) {
-        status = 404;
-      }
-
-      res.status(status).send(minify(html, minifyOptions));
+      res.status(404).send(minify(html, minifyOptions));
 
     });
   }
 
-}
+};
+
+app.get('*', ngApp);
 
 /*
  SERVERS :

@@ -10,6 +10,6 @@ export function getCachePath(originalUrl: string): string {
 
 }
 
-export function isCacheAllowed(cachePath: string): boolean {
-  return allowedPaths.indexOf(cachePath.substring(1)) > -1;
+export function isValidPage(path: string): boolean {
+  return allowedPaths.indexOf(path.substring(1)) > -1;
 }
