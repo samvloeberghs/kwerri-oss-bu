@@ -9,14 +9,15 @@
   <p>
     This article and guide on <em>setting up a simple memory cache for an Angular Universal website or application</em>
     is targeted to developers that are optimizing their server for better performance. The goal is to
-    <em>avoid rerendering the page</em> of the application on the server if we don't have to. Instead we will cache the
-    previously generated content and serve it from the cache on subsequent requests.
+    <em>avoid rerendering the page</em> of the application on the server if there is no need to. Instead we will cache
+    the previously generated content and serve it from the cache on subsequent requests.
   </p>
 
   <p class="alert alert-info">
     <i class="fa fa-info-circle"></i>
-    This concept is of course not limited to Angular applications or any other web-applications for that matter.
-    It is a widely adopted <em>common practice for server optimization</em>, to minimize the load on the processor.
+    This concept is of course not limited to Angular applications or any other web-application framework or technology
+    for that matter. It is a widely adopted <em>common practice for server optimization</em>, to minimize the load on
+    the processor. The concepts explained can easily be adopted to your framework or technology of choice.
   </p>
 
   <h2>
@@ -26,7 +27,7 @@
   </h2>
 
   <p>
-    To explain the basics and prove the concept we have to consider an example application. Just consider my simple
+    To explain the basics and prove the concept we have to consider an example application, like for example my simple
     blog, the website you are currently visiting :) This Angular Universal implementation has some <em>static pages
     containing the content in their components, and dynamic pages, loading blogposts from a JSON datasource</em> into
     their components.
@@ -47,14 +48,16 @@
 
   <img
     src="/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/universal_basic_render.png"
-    alt="Angular Universal : Basic rendering diagram / flow"/>
+    alt="Angular Universal : Basic rendering diagram / flow"
+    class="extraspace"/>
 
   <p>
     The diagram above shows the most basic example of the Angular Universal rendering flow. Let's go trough the steps
     shown:
   </p>
   <ol>
-    <li>The browser requests a specific page from your server, for example the dynamic page
+    <li>
+      The browser requests a specific page from your server, for example the dynamic page
       <code><a href="/posts/scroll-to-top-on-angular-router-navigation" target="_blank">/posts/scroll-to-top-on-angular-router-navigation</a></code>.
     </li>
     <li>
@@ -65,6 +68,32 @@
       The renderer outputs the static HTML and the server returns this in the response to the browser.
     </li>
   </ol>
+
+  <h3>
+    <span>Code for basic rendering</span>
+  </h3>
+
+  <p>
+    The code for this basic rendering case is available trough the Angular CLI. The <a
+    href="https://angular.io/guide/universal" target="_blank" rel="noopener">official documentation on the
+    Angular website will get you going really fast</a>. For the sake of this tutorial, the following code is the
+    most important one for our usecase:
+  </p>
+
+  <h4 class="codetitle">basic-angular-universal-setup.ts</h4>
+  <pre><code class="language-ts">app.engine('html', ngExpressEngine({
+  bootstrap: AppServerModuleNgFactory,
+  providers: [
+    provideModuleMap(LAZY_MODULE_MAP)
+  ]
+}));
+
+// All regular routes use the Universal engine
+app.get('*', (req, res) => {
+  res.render('index', { req });
+});
+</code></pre>
+
   <h2>
     <span>
       Why cache?
@@ -72,503 +101,147 @@
   </h2>
 
   <p>
-    The content of these pages is very unlikely to change often, so there is absolutely no need to render the Angular
-    application each time the page get's requested. We can simply cache the generated HTML on the first time visit,
-    store it in a memory cache and retrieve it when the next visitor comes by.
+    The content of these pages is very unlikely to change often, so there is absolutely <em>no need to render the
+    Angular application each time</em> the page get's requested. We can simply cache the generated HTML on the first
+    time visit,
+    store it in a memory cache and retrieve it when the next visitor hits your website.
   </p>
   <p>
-    If the content changes, we need to clear the cache and let the cache get regenerated.
+    As soon as the content changes, we need to clear the cache and let the cache get regenerated. This will happen the
+    first time your updated page gets a visit.
   </p>
 
   <h2>
     <span>
-    Indexing capabilities of SPAs by search engines
+    A simple memory-cache implementation
     </span>
   </h2>
-  <p>
-    When you generate an Angular application via the angular-cli a <code>polyfills.ts</code> file gets generated. It
-    includes the following content:
-  </p>
 
-  <h4 class="codetitle">polyfills.ts</h4>
-  <pre><code class="language-ts">/** IE9, IE10, IE11, and Chrome <55 requires all of the following polyfills.
-* This also includes Android Emulators with older versions of Chrome
-* and Google Search/Googlebot
-*/
-</code></pre>
-
+  <img
+    src="/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/universal_basic_render_cache_mechanism.png"
+    alt="Angular Universal : Basic rendering diagram / flow extended with caching mechanism"
+  class="extraspace"/>
 
   <p>
-    This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
-    specific polyfills. It does not mention any other search engines. The other typical search engines, like
-    Bing, Yahoo, DuckDuckGo, etc all have problems parsing JavaScript heavy websites, like SPAs or applications that use
-    frameworks like for example jQuery.
+    Let's extend our previous diagram for basic rendering with Universal with a simple cache mechanism.
+    The diagram above shows us visually what we need to do to, but let's go trough it step-by-step:
   </p>
 
-  <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
-    <strong>Update (May 2019):</strong> The Google bot / crawler is now up-to-date with the latest Chromium and will
-    update regularly.
-    You can <a href="https://webmasters.googleblog.com/2019/05/the-new-evergreen-googlebot.html" target="_blank"
-               rel="noopener">read more about this update on the Google Webmasters Blog</a>.
-  </p>
+  <ol>
+    <li>
+      The browser requests a specific page from your server, for example the dynamic page
+      <code><a href="/posts/scroll-to-top-on-angular-router-navigation" target="_blank">/posts/scroll-to-top-on-angular-router-navigation</a></code>.
+    </li>
+    <li>
+      The server checks if there is a cached version of the page available.
+      The first time we visit the page, there is no cached version.
+    </li>
+    <li>
+      The server receives the request and renders the Angular application, by fetching the content from the JSON
+      datasource.
+    </li>
+    <li>
+      The server outputs the static HTML and stores it in the cache.
+    </li>
+    <li>
+      The server returns the same static HTML as the response to the browser.
+    </li>
+    <li>
+      The next visitor visits the exact same page.
+    </li>
+    <li>
+      You could already have seem it coming, the server checks again if there is a cached version available and reads it
+      from the caching registry.
+    </li>
+    <li>
+      The server returns the cached static HTML as the response to the browser.
+    </li>
+  </ol>
 
   <p>
-    The overview below gives us a good idea which search engines are capable of indexing JavaScript heavy
-    applications, build with different frameworks and libraries.
-  </p>
-
-  <img src="/posts/better-sharing-on-social-media-platforms-with-angular-universal/se_overview.png"
-       alt="Going Beyond Google: Are Search Engines Ready for JavaScript Crawling & Indexing?"/>
-
-  <p class="copy">
-    <small>
-      All credits for this overview go to <a href="https://twitter.com/bart_goralewicz" rel="noopener" target="_blank">
-      Bartosz Góralewiczm</a>, see also blogpost linked below
-    </small>
-  </p>
-  <p>
-    If you want to read more about this topic, I suggest reading
-    <a href="https://moz.com/blog/search-engines-ready-for-javascript-crawling" rel="noopener" target="_blank">https://moz.com/blog/search-engines-ready-for-javascript-crawling</a>.
-    The blogpost is a little bit outdated as the crawlers have most likely evolved in their capabilities, like for
-    example the ability of the Googlebot to parse Angular v2+ applications. The general problem remains: <strong>Search
-    engines are, in general, not very capable of rendering JavaScript while indexing</strong>.
+    As you can see, this is no rocket science. It's just a little bit of extra fun work, implementing our simple cache
+    and adapting the basic code for server side rendering.
   </p>
 
   <h3>
-    <span>The 2nd wave of indexing</span>
+    <span>Code for simple caching mechanism</span>
+  </h3>
+
+  <h2><span>Possible extensions and improvements</span></h2>
+
+  <p>
+    The concepts explained above only touch the basics of implementing a caching strategy and infrastructure.
+    There are several improvements possible that I will explain briefly.
+  </p>
+
+  <ol>
+    <li>
+      Generate your static versions at build time
+    </li>
+    <li>
+      Create an interface for your cache
+    </li>
+    <li>
+      Use a seperate caching layer
+    </li>
+  </ol>
+
+  <h3>
+    <span>Generate your static versions at build time</span>
   </h3>
 
   <p>
-    It would be wrong stating that SPAs are not being indexed. Google does an extra effort in the 2nd wave of indexing,
-    where parsing of JS-heavy applications is done better. <a
-    href="http://www.thesempost.com/google-indexes-ranks-javascript-pages-two-waves-days-apart/" target="_blank"
-    rel="noopener">More information about this specific topic can be found here</a>.
+    Instead of letting the first visitor of your website be responsible for generating the first cached version
+    of specific pages, we can <em>generate the static versions of all the pages of our application at build time</em>.
   </p>
-
-  <h2>
-    <span>
-    Google, Bing and others are not the only search engines
-    </span>
-  </h2>
-
   <p>
-    Everything that is described above is also true for other crawlers, like those of Facebook, Twitter and LinkedIn,
-    just to name a few of the social media platforms I consider to be important for my cases. These can also be
-    considered search engines, because they parse and cache the content of your website or application when their users
-    share your content.
-  </p>
-
-  <p>
-    And just like the other typical search engines, most of them, if not all, are not capable of parsing JavaScript and
-    only rely on the statically generated HTML.
-  </p>
-
-  <h2>
-    <span>
-    How do social media platforms crawl your page?
-    </span>
-  </h2>
-
-  <p>
-    Social media platforms use your statically generated HTML to show a preview when sharing one of your pages on their
-    feed. Therefor they parse the <code>title</code> and <code>meta</code> tags that can be found in the <code>&#x3C;head&#x3E;</code>
-    tag.
-  </p>
-
-  <h4 class="codetitle">static-generated.html</h4>
-  <pre><code class="language-html">&#x3C;!doctype html&#x3E;
-&#x3C;html lang=&#x22;en&#x22;&#x3E;
-   &#x3C;head&#x3E;
-      &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
-      &#x3C;title&#x3E;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x3C;/title&#x3E;
-      &#x3C;meta name=&#x22;description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-      &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
-   &#x3C;/head&#x3E;
-   ...</code></pre>
-
-  <p class="alert alert-warning">
-    <i class="fa fa-warning"></i>
-    This seems easy, but it's not that easy to get it right. Because <strong>all the different social media platforms
-    expect other <code>meta</code> tags</strong> for rendering their previews. They don't even use the same attribute to
-    identify the correct <code>meta</code> tags. Some use the <code>name</code> attribute and others use the <code>property</code>
-    attribute. It means you'll have to support around 15 different <code>meta</code> tags to get the basics like title,
-    image, description and author right (for Facebook, LinkedIn and Twitter).
-  </p>
-
-  <p>
-    All of the discussed social media platforms provide us with tools to <strong>validate our pages or posts before
-    sharing them</strong>. Some platforms, like Facebook and LinkedIn cache all the shared content, so these tools also
-    allow us to <em>invalidate cached content</em>. Super handy if you have already shared your page before, or if you
-    want to invalidate the cache of a set of pages in one go.
+    We can do this for example after <a href="https://support.google.com/webmasters/answer/183668?hl=en" target="_blank"
+                                        rel="noopener">generating our sitemap.xml</a>. At that point we know all the
+    available urls and we can generate the static versions of those pages and put them in the cache.
   </p>
 
   <h3>
-    <span>
-    Facebook
-    </span>
+    <span>Create an interface for your cache</span>
   </h3>
 
   <p>
-    To get Facebook to show your content correctly you need to implement the following basic <code>meta</code> tags.
-    Please note that Facebook uses the <code>property</code> attribute to define the type of <code>meta</code> value and
-    that those types are always prefixed with <code>og:</code>, which is the prefix for the open-graph protocol.
+    Maintaining the cache of a small website like this one is easy. Everytime a new version is availables, I clear the
+    cache completely. The first visitor of a specific page is now responsible for creating the cached version.
   </p>
 
-  <h4 class="codetitle">static-generated-facebook.html</h4>
-  <pre><code class="language-html">&#x3C;head&#x3E;
-  &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:url&#x22; content=&#x22;https://samvloeberghs.be/&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share_img.png&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image:height&#x22; content=&#x22;xxx&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image:width&#x22; content=&#x22;xxx&#x22;&#x3E;
-&#x3C;/head&#x3E;</code></pre>
-
   <p>
-    The open-graph protocol allows for a lot more <code>meta</code> tags to be defined. Especially Facebook supports a
-    lot more, like video. Check the <a href="https://developers.facebook.com/docs/sharing/webmasters" rel="noopener"
-                                       target="_blank">documentation for Facebook sharing</a> to learn more.
-  </p>
-
-  <h4>
-    <span>
-    Facebook Sharing Debugger
-    </span>
-  </h4>
-
-  <p>
-    Validating a preview of your post on Facebook can be done via <a
-    href="https://developers.facebook.com/tools/debug/sharing" target="_blank" rel="noopener">https://developers.facebook.com/tools/debug/sharing</a>.
-    Facebook also provides a way to invalidate a batch of pages, which can also be done programmaticaly via their API.
+    In bigger applications <em>an interface to dynamicaly update and clean the cache</em> is required. For example, when
+    using
+    a CMS to add a page or blogpost you can trigger a cache-request right after saving the content. If you delete a
+    page, you can whipe out the cache, to make sure your visitors are not seeing a page that is already deleted.
   </p>
 
   <h3>
-    <span>
-    LinkedIn
-    </span>
+    <span>Use a seperate caching layer</span>
   </h3>
 
   <p>
-    To get your post to show correctly on LinkedIn you need to implement the following basic <code>meta</code> tags.
-    Please note that LinkedIn also uses the <code>og:</code> prefixes, but not for all values, like the author <code>meta</code>
-    tag.
-  </p>
-
-  <h4 class="codetitle">static-generated-linkedin.html</h4>
-  <pre><code class="language-html">&#x3C;head&#x3E;
-  &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:type&#x22; content=&#x22;website&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:image&#x22; content=&#x22;/assets/share/home.png&#x22;&#x3E;
-  &#x3C;meta property=&#x22;og:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
-&#x3C;/head&#x3E;</code></pre>
-
-  <h4>
-    <span>
-    LinkedIn Post Inspector
-    </span>
-  </h4>
-
-  <p>
-    Validating a preview of your post or website and refreshing the cache on LinkedIn can be done via <a
-    href="https://www.linkedin.com/post-inspector/" target="_blank" rel="noopener">https://www.linkedin.com/post-inspector/</a>.
-  </p>
-
-  <p>
-    The only thing I'm still not sure about is which <code>meta</code> <code>property</code> or <code>name</code> they
-    use to correctly read out the "Publish date". I have asked the question to their support and I'm still waiting for
-    an answer. And sadly there is little to no documentation to be found on this subject.
-  </p>
-
-  <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
-    Update: I did some trial-and-error testing and it seems that the <code>meta</code> tag <code>&#x3C;meta name=&#x22;published_date&#x22;
-    content=&#x22;2019-02-24T11:00:00.000Z&#x22;&#x3E;</code> does the trick.
-  </p>
-
-  <h3>
-    <span>
-    Twitter
-    </span>
-  </h3>
-
-  <p>
-    To get your post to show correctly on Twitter as a card you need to implement the following <code>meta</code> tags.
-    Please note that, <em>compared to Facebook and LinkedIn,</em> Twitter uses the <code>name</code> attribute to define
-    the type of <code>meta</code> value and that those types are always prefixed with <code>twitter:</code>.
-  </p>
-
-  <h4 class="codetitle">static-generated-twitter.html</h4>
-  <pre><code class="language-html">&#x3C;head&#x3E;
-  &#x3C;meta name=&#x22;twitter:card&#x22; content=&#x22;summary_large_image&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:description&#x22; content=&#x22;Hi there! &#x1F44B; Thank you for visiting my website!&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:image&#x22; content=&#x22;https:///samvloeberghs.be/assets/share/home.png&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:image:alt&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:site&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
-  &#x3C;meta name=&#x22;twitter:creator&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
-&#x3C;/head&#x3E;</code></pre>
-
-  <h4>
-    <span>
-    Twitter Card Validator
-    </span>
-  </h4>
-
-  <p>
-    Validating the preview of your post on Twitter can be done via <a
-    href="https://cards-dev.twitter.com/validator" target="_blank" rel="noopener">https://cards-dev.twitter.com/validator</a>.
-  </p>
-
-  <p class="alert alert-warning">
-    <i class="fa fa-warning"></i>
-    <em>Important</em>: The value of <code>twitter:image</code> must be a fully-qualified complete and absolute URL, not
-    a partial/relative one, or the Twitter crawler will be unable to find and display the image.
-  </p>
-
-  <h2>
-    <span>
-    Using the Meta and Title services in Angular
-    </span>
-  </h2>
-
-  <p>
-    To achieve all this, the only 2 services we need to use are the <a
-    href="https://angular.io/api/platform-browser/Title" rel="noopener" target="_blank">Title</a> and <a
-    href="https://angular.io/api/platform-browser/Meta" rel="noopener" target="_blank">Meta</a> service. We use them to
-    dynamically update the title of a webpage and for setting the required meta tags described before.
-  </p>
-
-  <p>
-    Using the router we can attach metadata that needs to be coupled to our routes. If we want to set the title for a
-    dynamic page, like for example a blogpost, we need to get the data first and then call the same services to update
-    the <code>meta</code> and <code>title</code> tags. As you can see in the example below, for the about
-    page, we've configured these values and
-    attached them to the route.
-  </p>
-
-  <h4 class="codetitle">about-routing.module.ts</h4>
-  <pre><code class="language-ts">RouterModule.forChild([{
-    path: '',
-    component: AboutComponent,
-    data: {
-      seo: {
-        title: `About Sam - ${environment.seo.title}`,
-      description: `I'm a 30 year old software engineer living in Belgium.`,
-      shareImg: '/assets/share/about.png',
-          }
-      }
-    }])</code></pre>
-
-  <p>
-    Using a service we can subscribe to route changes to extract this data and update our <code>title</code> and <code>meta</code>
-    tags.
-  </p>
-
-  <h4 class="codetitle">route-helper.service.ts</h4>
-  <pre><code class="language-ts">@Injectable({
-    providedIn: 'root',
-})
-export class RouteHelper {
-
-    constructor(
-      private readonly router: Router,
-      private readonly activatedRoute: ActivatedRoute,
-      private readonly seoSocialShareService: SeoSocialShareService
-    ) {
-    this.setupRouting();
-  }
-
-  private setupRouting() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.activatedRoute),
-      map(route => {
-    while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route;
-      }),
-      filter(route => route.outlet === 'primary')
-    ).subscribe((route: ActivatedRoute) => {
-    const seo = route.snapshot.data['seo'];
-    // set your meta tags & title here
-    this.seoSocialShareService.setData(seo);
-    });
-  }
-
-}</code></pre>
-
-  <p>
-    As explained above, all our social platforms expect other <code>meta</code> tags. Therefore it's best to create a
-    SEO
-    wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement
-    the
-    method to update the title value on our pages. If you want to see the full example, have a look at the <a
-    href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
-    target="_blank">full implementation of my SeoService</a>.
-  </p>
-
-  <h4 class="codetitle">ngx-seo/seo-social-share.service.ts</h4>
-  <pre><code class="language-ts">@Injectable({
-    providedIn: 'root',
-})
-export class SeoSocialShareService {
-
-    constructor(
-      private readonly metaService: Meta,
-      private readonly titleService: Title
-    ) {
-  }
-
-  setData(data: SeoSocialShareData) {
-    this.setTitle(data.title);
-    ... // set all other meta tags
-  }
-
-  private setTitle(title: string = '') {
-    this.titleService.setTitle(title);
-    if (title && title.length) {
-    this.metaService.updateTag({name: 'twitter:title', content: title});
-      this.metaService.updateTag({name: 'twitter:image:alt', content: title});
-      this.metaService.updateTag({property: 'og:image:alt', content: title});
-      this.metaService.updateTag({property: 'og:title', content: title});
-      this.metaService.updateTag({name: 'title', content: title});
-    } else {
-    this.metaService.removeTag(`name='twitter:title'`);
-    this.metaService.removeTag(`name='twitter:image:alt'`);
-    this.metaService.removeTag(`property='og:image:alt'`);
-    this.metaService.removeTag(`property='og:title'`);
-    this.metaService.removeTag(`name='title'`);
-    }
-  }
-
-}</code></pre>
-
-  <h2>
-    <span>
-    Watch out for over-optimization
-    </span>
-  </h2>
-
-  <p>
-    When generating static pages server side you might consider optimizing the rendered HTML as well. Tools like
-    <a href="https://github.com/kangax/html-minifier" rel="noopener" target="_blank">HTMLMinifier</a> take out all the
-    bloat from your HTML, to keep the bare minimum that the browser needs to be capable of rendering it.
+    In this example we have implemented <em>caching at the level of the serving application</em>. This couples our
+    server software directly to the caching infrastructure. A more advanced approach would be to install a caching layer
+    right before the application server.
   </p>
   <p>
-    But be careful. Browsers like Chrome, Firefox and others are able to parse your minified HTML, as they are
-    very forgiving and fix errors for us. But parsers that rely heavily on structured HTML, like the ones the social
-    platforms use, might not be able to parse it correctly and get out the information they need.
-  </p>
-
-  <h3>
-    <span>
-    A simple example
-    </span>
-  </h3>
-  <p>
-    The following HTMLminifier options remove all the stuff the browser does not need to correctly show your page:
-  </p>
-
-  <h4 class="codetitle">too-much-minify-options.ts</h4>
-  <pre><code class="language-ts">const tooMuchHtmlMinifyOptions = {
-    removeComments: true,
-    removeCommentsFromCDATA: true,
-    collapseWhitespace: true,
-    collapseBooleanAttributes: true,
-    removeRedundantAttributes: true,
-    useShortDoctype: true,
-    removeEmptyAttributes: true,
-    minifyCSS: true,
-    removeAttributeQuotes: true,
-    removeOptionalTags: true
-};
-
-const minify = require('html-minifier').minify;
-const minifiedHtml = minify(html, minifyOptions);</code></pre>
-
-  <p>
-    Let's process the following HTML:
-  </p>
-
-  <h4 class="codetitle">too-much-minify-options-input.html</h4>
-  <pre><code class="language-html">&#x3C;!doctype html&#x3E;
-&#x3C;html lang=&#x22;en&#x22;&#x3E;
-   &#x3C;head&#x3E;
-      &#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;
-      &#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;
-      ...</code></pre>
-  <p>
-    results in
-  </p>
-
-  <h4 class="codetitle">too-much-minify-options-output.html</h4>
-  <pre><code
-    class="language-html">&#x3C;!doctype html&#x3E;&#x3C;html lang=en&#x3E;&#x3C;meta charset=utf-8&#x3E;&#x3C;meta property=og:title content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
-
-  <p>
-    This is too much optimization for the LinkedIn Post Inspector. If you look closely, you'll notice
-    that the optional <code>&#x3C;head&#x3E;</code> tag was removed and that the quotes around simple attribute values,
-    with a
-    single non-spaced value, were removed as well. To be able to minify the HTML and keep the LinkedIn Post Inspector
-    happy we
-    need to change our configuration a little bit. We want to keep the attribute quotes and optional tags:
-  </p>
-
-  <h4 class="codetitle">good-minify-options.ts</h4>
-  <pre><code class="language-ts">const goodHtmlMinifyOptions = {
-    …
-    removeAttributeQuotes: false,
-    removeOptionalTags: false
-};</code></pre>
-
-  <p>
-    Now let's rerun the minifier again with the same HTML as mentioned above and see what the final result looks like:
-  </p>
-
-  <h4 class="codetitle">good-minify-options-output.html</h4>
-  <pre><code class="language-html">&#x3C;!doctype html&#x3E;&#x3C;html lang=&#x22;en&#x22;&#x3E;&#x3C;head&#x3E;&#x3C;meta charset=&#x22;utf-8&#x22;&#x3E;&#x3C;meta property=&#x22;og:title&#x22; content=&#x22;Sam Vloeberghs - Freelance Webdeveloper &#x26;amp; Software Engineer&#x22;&#x3E;</code></pre>
-
-  <p>
-    We are keeping the <code>&#x3C;head&#x3E;</code> tag and the attribute quotes. And now the LinkedIn Post Inspector
-    is happy 😃.
-  </p>
-
-  <h2>
-    <span>
-    Conclusion
-    </span>
-  </h2>
-
-  <p>
-    Not all search engines behave the same way. <em>Not only Google, Bing etc. can be categorized as search
-    engines</em> but we have to think about Social platforms like Facebook, Twitter and LinkedIn, that also crawl
-    and cache external content. <em>Each crawler behaves in a different way</em> and most of them are not capable of
-    parsing JavaScript heavy applications.
-  </p>
-  <p>
-    This means we have to <em>adjust and configure our applications very specifically for the different
-    crawlers</em> of the social platforms we want to support. By using Angular Universal, we are able to generate a
-    static version of your application on the server and output static HTML. When minifying this static HTML we need to
-    be careful and <em>keep our HTML as strict and structured as possible</em>.
+    This can either be a completely different (virtual) machine, or run as an extra service
+    on the same machine as the one running our Node.js Express server. This way we can <em>decouple our caching
+    infrastructure completely from our serving application</em>.
   </p>
 
   <h2><span>Further reading</span></h2>
 
   <ol class="further-reading">
     <li>
-      <a href="http://www.thesempost.com/google-indexes-ranks-javascript-pages-two-waves-days-apart/" target="_blank"
+      <a href="" target="_blank"
          rel="noopener">
-        Google Indexes and Ranks JavaScript Pages in Two Waves Days Apart
+
       </a>
-    </li>
-    <li>
-      <a href="https://webmasters.googleblog.com/2019/05/the-new-evergreen-googlebot.html" target="_blank"
-         rel="noopener">
-        The new evergreen Googlebot
+      <a href="https://support.google.com/webmasters/answer/183668?hl=en"
+         target="_blank" rel="noopener">
+        Manage your sitemaps - Build and submit a sitemap
       </a>
     </li>
   </ol>
@@ -581,16 +254,9 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
 
   <ul>
     <li>
-      <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
-    </li>
-    <li>
-      <a href="https://twitter.com/mohamedzamakhan" rel="noopener" target="_blank">Zama Khan Mohammed</a>
-    </li>
-    <li>
-      <a href="https://twitter.com/manekinekko" rel="noopener" target="_blank">Wassim Chegham</a>
-    </li>
-    <li>
-      <a href="https://twitter.com/andypiper" rel="noopener" target="_blank">Andy Piper</a>
+      <a href="" rel="noopener" target="_blank">
+
+      </a>
     </li>
   </ul>
 

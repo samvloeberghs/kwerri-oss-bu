@@ -19,14 +19,6 @@ import { type } from './cache.config';
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
 
-// TODO: do this with proper DI
-(global as any).hljs = {
-  configure: () => {
-  },
-  highlightBlock: () => {
-  },
-};
-
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 

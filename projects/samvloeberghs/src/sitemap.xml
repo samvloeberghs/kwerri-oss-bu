@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <url>
+    <loc>https://samvloeberghs.be/</loc>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/talks-workshops</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/projects</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/about</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/kwerri</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/outputting-json-ld-with-angular-universal</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/selecting-subtitles-in-vimeo-using-javascript</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/scroll-to-top-on-angular-router-navigation</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/whats-with-the-subjects-in-rxjs5</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>
+      https://samvloeberghs.be/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application
+    </loc>
+    <priority>0.64</priority>
+  </url>
+
+</urlset>

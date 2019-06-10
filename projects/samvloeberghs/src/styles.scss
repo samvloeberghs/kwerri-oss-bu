@@ -342,6 +342,10 @@ ol, ul, p {
       display: block;
       max-width: 100%;
       margin: 0 auto;
+
+      &.extraspace {
+        margin: 25px auto;
+      }
     }
 
     /*
