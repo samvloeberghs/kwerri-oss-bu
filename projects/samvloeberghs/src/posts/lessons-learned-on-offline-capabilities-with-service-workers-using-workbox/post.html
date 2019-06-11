@@ -71,7 +71,7 @@
   </p>
 
   <h4 class="codetitle">sw.js</h4>
-  <pre><code class="language-js">// default page handler for offline usage,
+  <pre><code class="language-js line-numbers">// default page handler for offline usage,
 // where the browser does not how to handle deep links
 // it's a SPA, so each path that is a navigation should default to index.html
 workbox.routing.registerRoute(
@@ -105,7 +105,7 @@ workbox.routing.registerRoute(
   </p>
 
   <h4 class="codetitle">sw.js</h4>
-  <pre><code class="language-js">workbox.routing.registerNavigationRoute(
+  <pre><code class="language-js line-numbers">workbox.routing.registerNavigationRoute(
   // Assuming '/single-page-app.html' has been precached,
   // look up its corresponding cache key.
   workbox.precaching.getCacheKeyForURL('/single-page-app.html'), {
@@ -217,7 +217,7 @@ workbox.routing.registerRoute(
   </p>
 
   <h4 class="codetitle">service-worker-registration.ts</h4>
-  <pre><code class="language-ts">// Check that service workers are available
+  <pre><code class="language-ts line-numbers">// Check that service workers are available
 if ('serviceWorker' in navigator) {
 
     // Use the window load event to keep the page load performant
@@ -361,7 +361,7 @@ if ('serviceWorker' in navigator) {
   </p>
 
   <h4 class="codetitle">sw.js</h4>
-  <pre><code class="language-js">// Cache the underlying font files with a cache-first strategy for 1 year.
+  <pre><code class="language-js line-numbers">// Cache the underlying font files with a cache-first strategy for 1 year.
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.gstatic\.com/,
   new strategies.CacheFirst({
@@ -461,7 +461,7 @@ workbox.routing.registerRoute(
     </li>
   </ol>
 
-  <pre><code class="language-js">// OAuth header interceptor
+  <pre><code class="language-js line-numbers">// OAuth header interceptor
 workbox.routing.registerRoute(
   ({ url }) => {
     return /map\.png/.test(url);

@@ -6,7 +6,7 @@
     "author": "Sam Vloeberghs",
     "img": "/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/angular.png",
     "imgShare": "/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/angular_share.jpg",
-    "short": ""
+    "short": "Setting up a caching system for your Angular Universal website can give you an extra performance gain. Read more how hook into the Universal rendering process and set up a simple memory cache."
   },
   {
     "title": "Lessons learned on offline capabilities with service workers using Workbox",

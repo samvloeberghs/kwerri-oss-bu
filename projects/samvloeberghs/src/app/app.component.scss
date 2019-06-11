@@ -142,7 +142,7 @@ aside {
 
     li {
       display: inline-block;
-      margin-right: 25px;
+      margin-right: 20px;
 
       a {
         display: block;
@@ -157,6 +157,23 @@ aside {
 
         &:hover {
           border: none;
+        }
+
+        &.dev {
+          img {
+            filter: grayscale(100%);
+            opacity: 0.5;
+            width: 26.67px;
+            height: 26.67px;
+            display: block;
+          }
+
+          &:hover {
+            img {
+              filter: none;
+              opacity: 1;
+            }
+          }
         }
 
         &.facebook:hover {
@@ -289,7 +306,7 @@ aside {
 
     .new-version-available-msg {
 
-      position:absolute;
+      position: absolute;
       top: 26px;
       left: 80px;
       right: 10px;

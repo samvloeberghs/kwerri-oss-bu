@@ -5,7 +5,7 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
   mode: 'production',
   entry: {
-    index: path.join(__dirname, 'src', 'index.ts'),
+    index: path.join(__dirname, 'src', 'index-simple.ts'),
   },
   resolve: {extensions: ['.js', '.ts']},
   target: 'node',
@@ -18,7 +18,13 @@ module.exports = {
   },
   module: {
     rules: [
-      {test: /\.ts$/, loader: 'ts-loader'}
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        options: {
+          onlyCompileBundledFiles: true
+        }
+      }
     ]
   },
   plugins: [

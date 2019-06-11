@@ -61,7 +61,7 @@
       <code><a href="/posts/scroll-to-top-on-angular-router-navigation" target="_blank">/posts/scroll-to-top-on-angular-router-navigation</a></code>.
     </li>
     <li>
-      The server receives the requests and renders the Angular application, by fetching the content from the JSON
+      The server receives the request and renders the Angular application, by fetching the content from the JSON
       datasource.
     </li>
     <li>
@@ -76,23 +76,85 @@
   <p>
     The code for this basic rendering case is available trough the Angular CLI. The <a
     href="https://angular.io/guide/universal" target="_blank" rel="noopener">official documentation on the
-    Angular website will get you going really fast</a>. For the sake of this tutorial, the following code is the
-    most important one for our usecase:
+    Angular website will get you going really fast</a>. For the sake of this tutorial, the following code and especially
+    the highlighted parts are the most important one for our usecase:
   </p>
 
-  <h4 class="codetitle">basic-angular-universal-setup.ts</h4>
-  <pre><code class="language-ts">app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory,
-  providers: [
-    provideModuleMap(LAZY_MODULE_MAP)
-  ]
-}));
+  <h4 class="codetitle">basic-angular-universal-server-setup.ts</h4>
+  <pre data-line="29-57"><code class="language-ts line-numbers">// These are important and needed before anything else
+import 'zone.js/dist/zone-node';
+import 'reflect-metadata';
 
-// All regular routes use the Universal engine
-app.get('*', (req, res) => {
-  res.render('index', { req });
+import { renderModuleFactory } from '@angular/platform-server';
+import {enableProdMode} from '@angular/core';
+import * as express from 'express';
+import {join} from 'path';
+import {readFileSync} from 'fs';
+
+// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvloeberghs/server/main');
+const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
+
+// Faster server renders w/ prod mode
+enableProdMode();
+
+// Express server
+const app = express();
+const PORT = 80;
+const DIST_FOLDER = join(process.cwd(), 'server', 'samvloeberghs');
+
+app.set('view engine', 'html');
+app.set('views', join(DIST_FOLDER, 'browser'));
+
+// serve static files from /browser
+app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
+
+// Our index.html we'll use as our template
+const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
+
+app.engine('html', (_, options, callback) => {
+  renderModuleFactory(AppServerModuleNgFactory, {
+    document: template,
+    url: options.req.url,
+    extraProviders: [
+      provideModuleMap(LAZY_MODULE_MAP),
+    ],
+  }).then(html => {
+    callback(null, html);
+  });
+});
+
+const ngApp = (req, res) => {
+  const config = {
+    req,
+    res,
+    preboot: true,
+    baseUrl: '/',
+    requestUrl: req.originalUrl,
+    originUrl: 'https://samvloeberghs.be',
+  };
+
+  res.render('index', config);
+};
+
+app.get('*', ngApp);
+
+// Start up the Node server
+app.listen(PORT, () => {
+    console.log(`Node server listening on port ${PORT}`);
 });
 </code></pre>
+
+  <p>
+    Line 54 is where the actual rendering magic happens. <code>res.render</code> will return a response automatically,
+    with the static HTML of the server-side rendered page of your Angular application. Later we will learn how we can
+    hook into this.
+  </p>
+  <p>
+    The rest is all Express framework and Universal configuration. If you want to learn more about the code and ]
+    configuration shown above, please follow any tutorial to setup your first Universal application in NodeJS. You can
+    find some links in the "Further reading" section at the end of the blogpost.
+  </p>
 
   <h2>
     <span>
@@ -101,10 +163,9 @@ app.get('*', (req, res) => {
   </h2>
 
   <p>
-    The content of these pages is very unlikely to change often, so there is absolutely <em>no need to render the
-    Angular application each time</em> the page get's requested. We can simply cache the generated HTML on the first
-    time visit,
-    store it in a memory cache and retrieve it when the next visitor hits your website.
+    The content of example routes or pages is very unlikely to change often, so there is absolutely <em>no need to
+    render the Angular application each time</em> the page get's requested. We can simply cache the generated HTML on
+    the first time visit, store it in a memory cache and retrieve it when the next visitor hits your website.
   </p>
   <p>
     As soon as the content changes, we need to clear the cache and let the cache get regenerated. This will happen the
@@ -120,7 +181,7 @@ app.get('*', (req, res) => {
   <img
     src="/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/universal_basic_render_cache_mechanism.png"
     alt="Angular Universal : Basic rendering diagram / flow extended with caching mechanism"
-  class="extraspace"/>
+    class="extraspace"/>
 
   <p>
     Let's extend our previous diagram for basic rendering with Universal with a simple cache mechanism.

@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~prismjs/plugins/toolbar/prism-toolbar.css";
-@import "~prismjs/themes/prism-solarizedlight.css";
+@import "~prismjs/themes/prism.css";
+@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
+@import "~prismjs/plugins/line-highlight/prism-line-highlight.css";
 
 * {
   margin: 0;
@@ -326,10 +328,8 @@ ol, ul, p {
       margin-top: 0;
       margin-bottom: 25px;
       background: #f6f6f6;
-      padding: 10px;
       font-size: 1.2em;
       @media (max-width: 920px) {
-        padding: 20px;
         margin: 0 -20px 25px -20px;
         code {
           overflow: scroll;

@@ -22,7 +22,7 @@
     navigation by using the native <code>window.scroll</code> function:
   </p>
 
-  <pre><code class="language-ts">window.scroll(0,0)</code></pre>
+  <pre><code class="language-ts line-numbers">window.scroll(0,0)</code></pre>
 
   <p>
     A navigation in routing in Angular 1 and ngRoute or even the ui-router can easily be detected by listening to
@@ -31,7 +31,7 @@
   </p>
 
   <h4 class="codetitle">angular-js-route-state-change.ts</h4>
-  <pre><code class="language-ts">// ngRoute:
+  <pre><code class="language-ts line-numbers">// ngRoute:
 $rootScope.$on('$routeChangeSuccess', () => {
     $window.scroll(0,0);
 });
@@ -64,7 +64,7 @@ $rootScope.$on('$stateChangeSuccess', () => {
   </p>
 
   <h4 class="codetitle">app.component.ts</h4>
-  <pre><code class="language-ts">import { Component } from '@angular/core';
+  <pre><code class="language-ts line-numbers">import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 
