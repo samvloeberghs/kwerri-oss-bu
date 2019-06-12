@@ -1,12 +1,12 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { fromEvent } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 import './service-worker-registration';
-import { first } from 'rxjs/operators';
 
 if (environment.production) {
   enableProdMode();

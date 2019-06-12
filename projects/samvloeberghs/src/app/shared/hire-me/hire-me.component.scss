@@ -1,4 +1,4 @@
-:host{
+:host {
   display: block;
 
   padding: 15px;
@@ -26,6 +26,7 @@
   & > ul,
   & > ol {
     margin-bottom: 0;
+    line-height: 1.8em;
   }
 
   & > p + p {
@@ -44,7 +45,7 @@
       position: absolute;
       top: 17px;
       left: 25px;
-      font:{
+      font: {
         size: 25px;
         weight: bold;
       }
@@ -52,4 +53,16 @@
 
   }
 
+  @media (max-width: 419px) {
+    & > i {
+      float: left;
+      font: {
+        size: 30px;
+        weight: bold;
+      }
+      margin: {
+        right: 20px;
+      }
+    }
+  }
 }
