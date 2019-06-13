@@ -126,7 +126,7 @@ const ngApp = (req, res) => {
     myCache.get(cachePath, (entry) => {
 
       if (entry) {
-        res.status(200).send(entry);
+        res.send(entry);
       } else {
 
         res.render('index', config, (err, html) => {
@@ -137,7 +137,7 @@ const ngApp = (req, res) => {
 
           const minifiedHtml = minify(html, minifyOptions);
           myCache.put(cachePath, minifiedHtml);
-          res.status(200).send(minifiedHtml);
+          res.send(minifiedHtml);
 
         });
 

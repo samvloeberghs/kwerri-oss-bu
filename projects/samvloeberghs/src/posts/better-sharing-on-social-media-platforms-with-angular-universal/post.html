@@ -58,7 +58,6 @@
 */
 </code></pre>
 
-
   <p>
     This means that our Angular app has support for the Google Search / Googlebot, even without SSR, if we include those
     specific polyfills. It does not mention any other search engines. The other typical search engines, like
@@ -359,11 +358,9 @@ export class RouteHelper {
 
   <p>
     As explained above, all our social platforms expect other <code>meta</code> tags. Therefore it's best to create a
-    SEO
-    wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement
-    the
-    method to update the title value on our pages. If you want to see the full example, have a look at the <a
-    href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/seo/src/lib/seo.service.ts" rel="noopener"
+    SEO wrapper service, that injects the Meta Service and Title service from Angular. As an example, I will only implement
+    the method to update the title value on our pages. If you want to see the full example, have a look at the <a
+    href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/ngx-seo/src/lib/seo-social-share/seo-social-share.service.ts" rel="noopener"
     target="_blank">full implementation of my SeoService</a>.
   </p>
 

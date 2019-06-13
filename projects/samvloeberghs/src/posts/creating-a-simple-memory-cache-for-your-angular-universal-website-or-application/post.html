@@ -81,7 +81,7 @@
   </p>
 
   <h4 class="codetitle">basic-angular-universal-server-setup.ts</h4>
-  <pre data-line="29-57"><code class="language-ts line-numbers">// These are important and needed before anything else
+  <pre data-line="44-54"><code class="language-ts line-numbers">// These are important and needed before anything else
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
@@ -155,8 +155,7 @@ app.listen(PORT, () => {
     The rest is all Express framework and Universal configuration. If you want to learn more about the code and
     configuration shown above, please <a href="https://www.google.com/search?q=angular+universal" rel="noopener"
                                          target="_blank">follow any tutorial to setup your first Universal application
-    in NodeJS</a>. You can
-    find some links in the "Further reading" section at the end of the blogpost.
+    in NodeJS</a>. You can find some links in the "Further reading" section at the end of the blogpost.
   </p>
 
   <h2>
@@ -258,6 +257,58 @@ cache.clear();
     <span>Code for cached rendering</span>
   </h3>
 
+  <p>
+    As previously mentioned, <code>res.render</code> is where the rendering magic happens. By default
+    <code>res.render('index', config)</code> returns the static HTML on the response. <code>res.render</code> also
+    accepts an optional callback we can implement with our custom behavior. Let's extend the highlighted
+    <code>ngApp</code> function from our basic example without rendering:
+  </p>
+
+  <pre data-line="11-25"><code class="language-ts line-numbers">const ngApp = (req, res) => {
+  const config = {
+    req,
+    res,
+    preboot: true,
+    baseUrl: '/',
+    requestUrl: req.originalUrl,
+    originUrl: 'http://localhost:80',
+  };
+
+  const allowedPages = ['/', '/about', '/contact'];
+
+  if (allowedPages.includes(req.originalUrl)) {
+    const entry = cache.get(req.originalUrl); // check if we have a cache entry
+    if (entry) {
+      res.send(entry);                        // send the cache entry
+    } else {
+      res.render('index', config, (err, html) => {
+        cache.put(req.originalUrl, html);     // save the HTML in the cache
+        res.send(html);
+      });
+    }
+  } else {
+    res.render('index', config);              // just render with no cache
+  }
+};
+</code></pre>
+
+  <p>
+    Let's go trough the code and explain what is going on:
+  </p>
+
+  <ol>
+    <li>Line 13 is a first check to see if we should leverage the cache for this specific request by checking if the
+      requested URL is allowed for caching.
+    </li>
+    <li>
+      Next we check if there is a cache entry for this request. If so we return the cached HTML.
+    </li>
+    <li>
+      If we don't have a cache entry for this request, we continue with normal Universal SSR and we save the result HTML
+      in the cache before we return it as the response.
+    </li>
+  </ol>
+
   <h3>
     <span>Cache only the existing pages</span>
   </h3>
@@ -274,7 +325,7 @@ cache.clear();
     </p>
   <p>
     A simple way to mitigate this risk is by using (a variant of) your <code>sitemap.xml</code> to whitelist
-    the allowed pages. This is implemented on line .. of the code mentioned above.
+    the allowed pages. This is implemented on line 11-13 of the code shown above.
   </p>
 
   <h2><span>Possible extensions and improvements</span></h2>
@@ -327,9 +378,8 @@ cache.clear();
 
   <p>
     In bigger applications <em>an interface to dynamicaly update and clean the cache</em> is required. For example, when
-    using
-    a CMS to add a page or blogpost you can trigger a cache-request right after saving the content. If you delete a
-    page, you can whipe out the cache, to make sure your visitors are not seeing a page that is already deleted.
+    using a CMS to add a page or blogpost you can trigger a cache-request right after saving the content. If you delete
+    a page, you can whipe out the cache, to make sure your visitors are not seeing a page that is already deleted.
   </p>
 
   <h3>
@@ -351,9 +401,58 @@ cache.clear();
     <span>Server-side render only specific pages</span>
   </h3>
 
+  <p>
+    <strong>In some cases it might not be required to SSR and cache all pages of your application</strong>. You might
+    have a public facing part of your application and a private part that requires a login. The content of the private
+    part could be very volatile, so caching is perhaps not the best option there.
+  </p>
+
+  <pre data-line="2, 25"><code class="language-ts line-numbers">// Our index.html we'll use as our template
+const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
+
+app.engine('html', (_, options, callback) => {
+    renderModuleFactory(AppServerModuleNgFactory, {
+    document: template,
+    // ...
+  }).then(html => {
+    callback(null, html);
+  });
+});
+
+const cache = require('memory-cache');
+
+const ngApp = (req, res) => {
+  const config = {
+    // ...
+  };
+
+  const allowedPages = ['/', '/about', '/contact'];
+
+  if (allowedPages.includes(req.originalUrl)) {
+    // ...
+  } else {
+    res.send(template); // just return the templates
+  }
+};
+</code></pre>
+
+  <p>
+    We did not change much compared to the caching example. The only thing we now do is return the original template,
+    imported on line 2, that is used by the rendering engine in case of a request that should not be SSRed and cached.
+    This is your original <code>index.html</code> file, so returning this as the response to the browser will just make
+    the browser bootstrap your Angular application.
+  </p>
+
   <h3>
     <span>Use a file based cache instead of memory cache</span>
   </h3>
+
+  <p>
+    Using a cache that lives in the memory is just one option. If for some reason you don't have much RAM available,
+    but you have plenty of disk space, <strong>you could opt for a cache living on the file system. Entries would than
+    just be like static HTML files saved on the disk</strong>. The only drawback I see is the <em>potential extra I/O
+    overhead</em> reading and writing a file introduces.
+  </p>
 
   <h2><span>Further reading</span></h2>
 
@@ -379,11 +478,13 @@ cache.clear();
     </li>
   </ol>
 
+  <!--
   <h2>
     <span>
       Special thanks to
     </span>
   </h2>
+
 
   <ul>
     <li>
@@ -394,5 +495,7 @@ cache.clear();
   </ul>
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+
+  -->
 
 </section>

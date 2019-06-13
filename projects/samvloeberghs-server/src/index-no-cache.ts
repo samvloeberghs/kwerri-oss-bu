@@ -30,7 +30,6 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
 app.engine('html', (_, options, callback) => {
-  console.log(_, options, callback);
   renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     url: options.req.url,
