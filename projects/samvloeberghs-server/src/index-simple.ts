@@ -9,8 +9,8 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvloeberghs/server/main');
-const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
+const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 
 // Faster server renders w/ prod mode
 enableProdMode();
@@ -30,6 +30,7 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
 app.engine('html', (_, options, callback) => {
+  console.log(_, options, callback);
   renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     url: options.req.url,

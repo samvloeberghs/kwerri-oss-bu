@@ -77,7 +77,7 @@
     The code for this basic rendering case is available trough the Angular CLI. The <a
     href="https://angular.io/guide/universal" target="_blank" rel="noopener">official documentation on the
     Angular website will get you going really fast</a>. For the sake of this tutorial, the following code and especially
-    the highlighted parts are the most important one for our usecase:
+    <em>the highlighted parts</em> are the most important one for our usecase:
   </p>
 
   <h4 class="codetitle">basic-angular-universal-server-setup.ts</h4>
@@ -92,8 +92,8 @@ import {join} from 'path';
 import {readFileSync} from 'fs';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvloeberghs/server/main');
-const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
+const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 
 // Faster server renders w/ prod mode
 enableProdMode();
@@ -146,13 +146,16 @@ app.listen(PORT, () => {
 </code></pre>
 
   <p>
-    Line 54 is where the actual rendering magic happens. <code>res.render</code> will return a response automatically,
+    <strong>Line 54 is where the actual rendering magic happens</strong>. <code>res.render</code> will return a response
+    automatically,
     with the static HTML of the server-side rendered page of your Angular application. Later we will learn how we can
     hook into this.
   </p>
   <p>
-    The rest is all Express framework and Universal configuration. If you want to learn more about the code and ]
-    configuration shown above, please follow any tutorial to setup your first Universal application in NodeJS. You can
+    The rest is all Express framework and Universal configuration. If you want to learn more about the code and
+    configuration shown above, please <a href="https://www.google.com/search?q=angular+universal" rel="noopener"
+                                         target="_blank">follow any tutorial to setup your first Universal application
+    in NodeJS</a>. You can
     find some links in the "Further reading" section at the end of the blogpost.
   </p>
 
@@ -225,8 +228,54 @@ app.listen(PORT, () => {
   </p>
 
   <h3>
-    <span>Code for simple caching mechanism</span>
+    <span>Our simple in-memory caching mechanism</span>
   </h3>
+
+  <p>
+    First of all, let's see how <em>our cache implementation</em> would look like. We need a simple CRUD interface to be
+    able to <em>update, read and delete our cache entries</em>. By using the package
+    <a href="https://www.npmjs.com/package/memory-cache" target="_blank" rel="noopener"><code>memory-cache</code></a>
+    we receive the required functionality out of the box! The API is as clear as it can be:
+  </p>
+
+  <pre><code class="language-ts line-numbers">const cache = require('memory-cache');
+
+// save a value in the cache
+cache.put('foo', 'bar');
+
+// retrieve value from the cache
+const cachedValue = cache.get('foo');
+
+// delete key from cache
+cache.del('foo');
+
+// clear cache completely
+cache.clear();
+</code></pre>
+
+
+  <h3>
+    <span>Code for cached rendering</span>
+  </h3>
+
+  <h3>
+    <span>Cache only the existing pages</span>
+  </h3>
+
+  <p>
+    <strong>Be careful with what you cache!</strong> You should only cache the pages that actually exist on your
+    application or website, or make sense to cache. So <em>avoid the caching of non-existing pages</em>. This could potentially lead to a memory-issue on your server..
+  </p>
+  <p>
+    The only thing a malicious visitor has to do is visit an unlimited amount of unexisting variants
+    (<code>/about1</code>, <code>/about2</code>, ... ) of an existing page (<code>/about</code>) and your (memory) cache
+    will get flooded. Consequently your server will become very slow and might eventually even crash.
+
+    </p>
+  <p>
+    A simple way to mitigate this risk is by using (a variant of) your <code>sitemap.xml</code> to whitelist
+    the allowed pages. This is implemented on line .. of the code mentioned above.
+  </p>
 
   <h2><span>Possible extensions and improvements</span></h2>
 
@@ -244,6 +293,12 @@ app.listen(PORT, () => {
     </li>
     <li>
       Use a seperate caching layer
+    </li>
+    <li>
+      Server-side render only specific pages
+    </li>
+    <li>
+      Use a file based cache instead of memory cache
     </li>
   </ol>
 
@@ -292,14 +347,31 @@ app.listen(PORT, () => {
     infrastructure completely from our serving application</em>.
   </p>
 
+  <h3>
+    <span>Server-side render only specific pages</span>
+  </h3>
+
+  <h3>
+    <span>Use a file based cache instead of memory cache</span>
+  </h3>
+
   <h2><span>Further reading</span></h2>
 
   <ol class="further-reading">
     <li>
-      <a href="" target="_blank"
+      <a href="https://angular.io/guide/universal" target="_blank"
          rel="noopener">
-
+        Server-side Rendering (SSR): An intro to Angular Universal
       </a>
+    </li>
+    <li>
+      <a href="https://medium.com/@MarkPieszak/angular-universal-server-side-rendering-deep-dive-dc442a6be7b7"
+         target="_blank"
+         rel="noopener">
+        Angular Universal & Server-side rendering Deep-Dive
+      </a>
+    </li>
+    <li>
       <a href="https://support.google.com/webmasters/answer/183668?hl=en"
          target="_blank" rel="noopener">
         Manage your sitemaps - Build and submit a sitemap
