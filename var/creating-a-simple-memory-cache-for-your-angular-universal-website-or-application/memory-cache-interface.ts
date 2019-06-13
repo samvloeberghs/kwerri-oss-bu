@@ -1,6 +1,6 @@
 const cache = require('memory-cache');
 
-// save a value in the cache
+// set or overwrite a value in the cache
 cache.put('foo', 'bar');
 
 // retrieve value from the cache

@@ -77,7 +77,7 @@
     The code for this basic rendering case is available trough the Angular CLI. The <a
     href="https://angular.io/guide/universal" target="_blank" rel="noopener">official documentation on the
     Angular website will get you going really fast</a>. For the sake of this tutorial, the following code and especially
-    <em>the highlighted parts</em> are the most important one for our usecase:
+    <em>the highlighted parts starting at line 44</em> are the most important one for our usecase:
   </p>
 
   <h4 class="codetitle">basic-angular-universal-server-setup.ts</h4>
@@ -146,16 +146,15 @@ app.listen(PORT, () => {
 </code></pre>
 
   <p>
-    <strong>Line 54 is where the actual rendering magic happens</strong>. <code>res.render</code> will return a response
-    automatically,
-    with the static HTML of the server-side rendered page of your Angular application. Later we will learn how we can
-    hook into this.
+    <strong>Line 54 is where the actual rendering magic happens</strong>. <code>res.render</code> will return a 200
+    response automatically, with the static HTML of the server-side rendered page of your Angular application. Later we
+    will learn how we can hook into this.
   </p>
   <p>
     The rest is all Express framework and Universal configuration. If you want to learn more about the code and
     configuration shown above, please <a href="https://www.google.com/search?q=angular+universal" rel="noopener"
                                          target="_blank">follow any tutorial to setup your first Universal application
-    in NodeJS</a>. You can find some links in the "Further reading" section at the end of the blogpost.
+    in NodeJS</a>. You can also find some relevant links in the "Further reading" section at the end of the blogpost.
   </p>
 
   <h2>
@@ -165,13 +164,13 @@ app.listen(PORT, () => {
   </h2>
 
   <p>
-    The content of example routes or pages is very unlikely to change often, so there is absolutely <em>no need to
-    render the Angular application each time</em> the page get's requested. We can simply cache the generated HTML on
+    The content of our example routes or pages is very unlikely to change often, so there is absolutely <em>no need to
+    render the Angular application each time</em> the page gets requested. We can simply cache the generated HTML on
     the first time visit, store it in a memory cache and retrieve it when the next visitor hits your website.
   </p>
   <p>
-    As soon as the content changes, we need to clear the cache and let the cache get regenerated. This will happen the
-    first time your updated page gets a visit.
+    As soon as the content changes, we need to clear the cache and let the cache get regenerated. This can happen the
+    first time your updated page gets a visit, but other strategies are possible.
   </p>
 
   <h2>
@@ -187,7 +186,7 @@ app.listen(PORT, () => {
 
   <p>
     Let's extend our previous diagram for basic rendering with Universal with a simple cache mechanism.
-    The diagram above shows us visually what we need to do to, but let's go trough it step-by-step:
+    The diagram above shows us visually what we need to do to, but let's go through it step-by-step:
   </p>
 
   <ol>
@@ -213,7 +212,7 @@ app.listen(PORT, () => {
       The next visitor visits the exact same page.
     </li>
     <li>
-      You could already have seem it coming, the server checks again if there is a cached version available and reads it
+      You could already have seen it coming, the server checks again if there is a cached version available and reads it
       from the caching registry.
     </li>
     <li>
@@ -239,7 +238,7 @@ app.listen(PORT, () => {
 
   <pre><code class="language-ts line-numbers">const cache = require('memory-cache');
 
-// save a value in the cache
+// set or overwrite a value in the cache
 cache.put('foo', 'bar');
 
 // retrieve value from the cache
@@ -260,8 +259,8 @@ cache.clear();
   <p>
     As previously mentioned, <code>res.render</code> is where the rendering magic happens. By default
     <code>res.render('index', config)</code> returns the static HTML on the response. <code>res.render</code> also
-    accepts an optional callback we can implement with our custom behavior. Let's extend the highlighted
-    <code>ngApp</code> function from our basic example without rendering:
+    accepts an optional callback we can implement with our custom behavior. We can extend the highlighted
+    <code>ngApp</code> function from our basic example without caching:
   </p>
 
   <pre data-line="11-25"><code class="language-ts line-numbers">const ngApp = (req, res) => {
@@ -315,14 +314,15 @@ cache.clear();
 
   <p>
     <strong>Be careful with what you cache!</strong> You should only cache the pages that actually exist on your
-    application or website, or make sense to cache. So <em>avoid the caching of non-existing pages</em>. This could potentially lead to a memory-issue on your server..
+    application or website, or make sense to cache. So <em>avoid the caching of non-existing pages</em>. This could
+    potentially lead to a memory-issue on your server..
   </p>
   <p>
     The only thing a malicious visitor has to do is visit an unlimited amount of unexisting variants
     (<code>/about1</code>, <code>/about2</code>, ... ) of an existing page (<code>/about</code>) and your (memory) cache
-    will get flooded. Consequently your server will become very slow and might eventually even crash.
-
-    </p>
+    will get flooded with 404 not found pages. Consequently your server will become very slow and might eventually even
+    crash.
+  </p>
   <p>
     A simple way to mitigate this risk is by using (a variant of) your <code>sitemap.xml</code> to whitelist
     the allowed pages. This is implemented on line 11-13 of the code shown above.
