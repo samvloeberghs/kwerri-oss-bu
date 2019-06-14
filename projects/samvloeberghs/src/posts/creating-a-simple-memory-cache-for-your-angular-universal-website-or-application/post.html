@@ -61,7 +61,7 @@
       <code><a href="/posts/scroll-to-top-on-angular-router-navigation" target="_blank">/posts/scroll-to-top-on-angular-router-navigation</a></code>.
     </li>
     <li>
-      The server receives the request and renders the Angular application, by fetching the content from the JSON
+      The server receives the request and renders the Angular application by fetching the content from the JSON
       datasource.
     </li>
     <li>
@@ -77,7 +77,7 @@
     The code for this basic rendering case is available trough the Angular CLI. The <a
     href="https://angular.io/guide/universal" target="_blank" rel="noopener">official documentation on the
     Angular website will get you going really fast</a>. For the sake of this tutorial, the following code and especially
-    <em>the highlighted parts starting at line 44</em> are the most important one for our usecase:
+    <em>the highlighted parts starting at line 44</em> are the most important ones for our usecase:
   </p>
 
   <h4 class="codetitle">basic-angular-universal-server-setup.ts</h4>
@@ -170,7 +170,7 @@ app.listen(PORT, () => {
   </p>
   <p>
     As soon as the content changes, we need to clear the cache and let the cache get regenerated. This can happen the
-    first time your updated page gets a visit, but other strategies are possible.
+    first time your updated page gets a visit, but other strategies are possible as well.
   </p>
 
   <h2>
@@ -186,7 +186,7 @@ app.listen(PORT, () => {
 
   <p>
     Let's extend our previous diagram for basic rendering with Universal with a simple cache mechanism.
-    The diagram above shows us visually what we need to do to, but let's go through it step-by-step:
+    The diagram above visually shows us what we need to do to, but let's go through it step-by-step:
   </p>
 
   <ol>
@@ -327,7 +327,7 @@ cache.clear();
   <p>
     A simple way to mitigate this risk is by using (a variant of) your <code>sitemap.xml</code> to whitelist
     the allowed pages. This is implemented on line 11-13 of the code shown above. In this case we are only allowing the
-    <code>/home</code>, <code>/about</code> and <code>/contact</code> pages to be cached.
+    <code>/</code>, <code>/about</code> and <code>/contact</code> pages to be cached.
   </p>
 
   <h2><span>Possible extensions and improvements</span></h2>
@@ -345,7 +345,7 @@ cache.clear();
       Create an interface for your cache
     </li>
     <li>
-      Use a seperate caching layer
+      Use a separate caching layer
     </li>
     <li>
       Server-side render only specific pages
@@ -391,7 +391,7 @@ cache.clear();
   </p>
 
   <h3>
-    <span>Use a seperate caching layer</span>
+    <span>Use a separate caching layer</span>
   </h3>
 
   <p>
@@ -503,7 +503,6 @@ const ngApp = (req, res) => {
     use this on bigger applications and projects.
   </p>
 
-  <!--
   <h2>
     <span>
       Special thanks to
@@ -512,14 +511,12 @@ const ngApp = (req, res) => {
 
   <ul>
     <li>
-      <a href="" rel="noopener" target="_blank">
-
+      <a href="https://twitter.com/frederikprijck" rel="noopener" target="_blank">
+        Frederik Prijck
       </a>
     </li>
   </ul>
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
-
-  -->
 
 </section>
