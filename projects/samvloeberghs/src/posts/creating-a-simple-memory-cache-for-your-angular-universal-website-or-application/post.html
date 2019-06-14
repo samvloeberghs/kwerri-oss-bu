@@ -81,7 +81,7 @@
   </p>
 
   <h4 class="codetitle">basic-angular-universal-server-setup.ts</h4>
-  <pre data-line="44-54"><code class="language-ts line-numbers">// These are important and needed before anything else
+  <pre data-line="44-57"><code class="language-ts line-numbers">// These are important and needed before anything else
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
@@ -419,7 +419,7 @@ cache.clear();
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
 app.engine('html', (_, options, callback) => {
-    renderModuleFactory(AppServerModuleNgFactory, {
+  renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     // ...
   }).then(html => {
@@ -509,7 +509,6 @@ const ngApp = (req, res) => {
       Special thanks to
     </span>
   </h2>
-
 
   <ul>
     <li>
