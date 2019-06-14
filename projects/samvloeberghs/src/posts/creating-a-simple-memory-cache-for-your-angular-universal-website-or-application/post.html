@@ -16,7 +16,7 @@
   <p class="alert alert-info">
     <i class="fa fa-info-circle"></i>
     This concept is of course not limited to Angular applications or any other web-application framework or technology
-    for that matter. It is a widely adopted <em>common practice for server optimization</em>, to minimize the load on
+    for that matter. It is a widely adopted <em>common practice for server optimization</em> to minimize the load on
     the processor. The concepts explained can easily be adopted to your framework or technology of choice.
   </p>
 
@@ -29,16 +29,16 @@
   <p>
     To explain the basics and prove the concept we have to consider an example application, like for example my simple
     blog, the website you are currently visiting :) This Angular Universal implementation has some <em>static pages
-    containing the content in their components, and dynamic pages, loading blogposts from a JSON datasource</em> into
-    their components.
+    containing the content in their components</em>, and <em>dynamic pages, loading blogposts from a JSON
+    datasource</em> into their components.
   </p>
 
   <p>
     We have for example the static
     <code><a href="/about" target="_blank">/about</a></code> route and a dynamic blogpost route
-    <code><a href="/posts/scroll-to-top-on-angular-router-navigation" target="_blank">/posts/scroll-to-top-on-angular-router-navigation</a></code>`.
+    <code><a href="/posts/scroll-to-top-on-angular-router-navigation" target="_blank">/posts/scroll-to-top-on-angular-router-navigation</a></code>.
     Angular Universal is capable of knowing when the application and blogpost is completely generated.
-    <em>As soon as the application is stable, the static HTML is retrieved and send back as the result of the
+    <em>As soon as the application is stable, the static HTML is retrieved and send back as the response of the
       request.</em>
   </p>
 
@@ -86,10 +86,10 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
 import { renderModuleFactory } from '@angular/platform-server';
-import {enableProdMode} from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import * as express from 'express';
-import {join} from 'path';
-import {readFileSync} from 'fs';
+import { join } from 'path';
+import { readFileSync } from 'fs';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
@@ -222,7 +222,8 @@ app.listen(PORT, () => {
 
   <p>
     As you can see, this is no rocket science. It's just a little bit of extra fun work, implementing our simple cache
-    and adapting the basic code for server side rendering.
+    and adapting the basic code for server side rendering. In the next sections we will learn that the extra code to
+    reach this goal is minimal and easy to set up.
   </p>
 
   <h3>
@@ -325,7 +326,8 @@ cache.clear();
   </p>
   <p>
     A simple way to mitigate this risk is by using (a variant of) your <code>sitemap.xml</code> to whitelist
-    the allowed pages. This is implemented on line 11-13 of the code shown above.
+    the allowed pages. This is implemented on line 11-13 of the code shown above. In this case we are only allowing the
+    <code>/home</code>, <code>/about</code> and <code>/contact</code> pages to be cached.
   </p>
 
   <h2><span>Possible extensions and improvements</span></h2>
@@ -364,7 +366,8 @@ cache.clear();
   <p>
     We can do this for example after <a href="https://support.google.com/webmasters/answer/183668?hl=en" target="_blank"
                                         rel="noopener">generating our sitemap.xml</a>. At that point we know all the
-    available urls and we can generate the static versions of those pages and put them in the cache.
+    available urls of our application/website and we can generate the static versions of those pages and put them
+    in the cache.
   </p>
 
   <h3>
@@ -380,6 +383,11 @@ cache.clear();
     In bigger applications <em>an interface to dynamicaly update and clean the cache</em> is required. For example, when
     using a CMS to add a page or blogpost you can trigger a cache-request right after saving the content. If you delete
     a page, you can whipe out the cache, to make sure your visitors are not seeing a page that is already deleted.
+  </p>
+
+  <p class="alert alert-warning">
+    <i class="fa fa-warning"></i>
+    Be sure to implement some security on this interface. You don't want somebody malicious messing with your cache.
   </p>
 
   <h3>
@@ -437,9 +445,9 @@ const ngApp = (req, res) => {
 </code></pre>
 
   <p>
-    We did not change much compared to the caching example. The only thing we now do is return the original template,
-    imported on line 2, that is used by the rendering engine in case of a request that should not be SSRed and cached.
-    This is your original <code>index.html</code> file, so returning this as the response to the browser will just make
+    We did not change much compared to the caching example. The only thing we now do is return the original template
+    directly, imported on line 2, in case of a request that should not be SSRed and cached. This is your original
+    <code>index.html</code> file, so returning this as the response to the browser will just make
     the browser bootstrap your Angular application.
   </p>
 
@@ -477,6 +485,23 @@ const ngApp = (req, res) => {
       </a>
     </li>
   </ol>
+
+  <h2>
+    <span>
+      Conclusion
+    </span>
+  </h2>
+
+  <p>
+    Setting up a simple memory cache is no rocket-science and <em>requires minimal changes to our Universal setup</em>.
+    The basic idea of using a memory cache is easily extended to for example a file cache. Adapting it to your needs is
+    easy because we can hook in to the rendering process.
+  </p>
+
+  <p>
+    We have to remember this is <em>a very basic setup that requires extension and improvements</em> if we are going to
+    use this on bigger applications and projects.
+  </p>
 
   <!--
   <h2>
