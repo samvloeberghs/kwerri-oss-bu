@@ -1,6 +1,31 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
   <h2>
+    <span>Angular Universal - Advanced techniques series</span>
+  </h2>
+
+  <p>
+    This article is part of <em>a series around advanced techniques in Angular</em>. If you get excited about this
+    article, be sure to check the others!
+  </p>
+
+  <ol>
+    <li>
+      <a href="posts/better-sharing-on-social-media-platforms-with-angular-universal">
+        Better sharing on social media platforms with Angular Universal
+      </a>
+    </li>
+    <li>
+      <a href="posts/outputting-json-ld-with-angular-universal">
+        Outputting JSON-LD with Angular Universal
+      </a>
+    </li>
+    <li>
+      Creating a simple memory cache for your Angular Universal website or application
+    </li>
+  </ol>
+
+  <h2>
     <span>
     Target audience
     </span>
@@ -86,13 +111,13 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
 import { renderModuleFactory } from '@angular/platform-server';
-import { enableProdMode } from '@angular/core';
-import * as express from 'express';
-import { join } from 'path';
-import { readFileSync } from 'fs';
+      import {enableProdMode} from '@angular/core';
+    import * as express from 'express';
+      import {join} from 'path';
+      import {readFileSync} from 'fs';
 
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
+    // * NOTE :: leave this as require() since this file is built Dynamically from webpack
+    const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
 const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 
 // Faster server renders w/ prod mode
@@ -114,18 +139,18 @@ const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toStri
 
 app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
-    document: template,
-    url: options.req.url,
-    extraProviders: [
-      provideModuleMap(LAZY_MODULE_MAP),
-    ],
-  }).then(html => {
-    callback(null, html);
-  });
-});
+      document: template,
+        url: options.req.url,
+        extraProviders: [
+        provideModuleMap(LAZY_MODULE_MAP),
+        ],
+      }).then(html => {
+      callback(null, html);
+      });
+      });
 
 const ngApp = (req, res) => {
-  const config = {
+    const config = {
     req,
     res,
     preboot: true,
@@ -237,6 +262,7 @@ app.listen(PORT, () => {
     we receive the required functionality out of the box! The API is as clear as it can be:
   </p>
 
+  <h4 class="codetitle">memory-cache-interface.ts</h4>
   <pre><code class="language-ts line-numbers">const cache = require('memory-cache');
 
 // set or overwrite a value in the cache
@@ -264,8 +290,9 @@ cache.clear();
     <code>ngApp</code> function from our basic example without caching:
   </p>
 
+  <h4 class="codetitle">simple-cache-setup.ts</h4>
   <pre data-line="11-25"><code class="language-ts line-numbers">const ngApp = (req, res) => {
-  const config = {
+    const config = {
     req,
     res,
     preboot: true,
@@ -279,9 +306,9 @@ cache.clear();
   if (allowedPages.includes(req.originalUrl)) {
     const entry = cache.get(req.originalUrl); // check if we have a cache entry
     if (entry) {
-      res.send(entry);                        // send the cache entry
+    res.send(entry);                        // send the cache entry
     } else {
-      res.render('index', config, (err, html) => {
+    res.render('index', config, (err, html) => {
         cache.put(req.originalUrl, html);     // save the HTML in the cache
         res.send(html);
       });
@@ -415,11 +442,12 @@ cache.clear();
     part could be very volatile, so caching is perhaps not the best option there.
   </p>
 
+  <h4 class="codetitle">selective-ssr-and-cache.ts</h4>
   <pre data-line="2, 25"><code class="language-ts line-numbers">// Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
 app.engine('html', (_, options, callback) => {
-  renderModuleFactory(AppServerModuleNgFactory, {
+    renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     // ...
   }).then(html => {
@@ -430,7 +458,7 @@ app.engine('html', (_, options, callback) => {
 const cache = require('memory-cache');
 
 const ngApp = (req, res) => {
-  const config = {
+    const config = {
     // ...
   };
 
