@@ -28,16 +28,16 @@ if ('serviceWorker' in navigator && environment.production) {
 
         // A wild service worker has appeared in reg.installing and maybe in waiting!
         const newWorker = registration.installing;
-        const waitingWoker = registration.waiting;
+        const waitingWorker = registration.waiting;
 
         if (newWorker) {
-          if (newWorker.state === 'activated' && !waitingWoker) {
+          if (newWorker.state === 'activated' && !waitingWorker) {
             // reload to avoid skipWaiting and clients.claim()
             window.location.reload();
           }
           newWorker.addEventListener('statechange', (e) => {
             // newWorker.state has changed
-            if (newWorker.state === 'activated' && !waitingWoker) {
+            if (newWorker.state === 'activated' && !waitingWorker) {
               // reload to avoid skipWaiting and clients.claim()
               window.location.reload();
             }
