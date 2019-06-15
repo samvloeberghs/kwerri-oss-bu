@@ -14,8 +14,3 @@ document.addEventListener('DOMContentLoaded', () => {
   platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
 });
-
-const broadcastChannel = new BroadcastChannel('precache-updates');
-broadcastChannel.addEventListener('message', (msg) => {
-  window['newVersionAvailable'] = true;
-});

@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+  target: 'node',
   mode: 'none',
   entry: {
     index: path.join(__dirname, 'src', 'index.ts')
@@ -11,7 +12,7 @@ module.exports = {
   resolve: {extensions: ['.js', '.ts']},
   target: 'node',
   output: {
-    path: path.join(__dirname, '..', '..', 'projects', 'sw-learnings', 'src'),
+    path: path.join(__dirname, '..', '..', 'projects', 'sw-lessons', 'src'),
     filename: 'sw.js'
   },
   module: {

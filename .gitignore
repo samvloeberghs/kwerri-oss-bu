@@ -42,5 +42,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# sw-learnings
-projects/sw-learnings/src/sw.js
+# sw-lessons
+projects/sw-lessons/src/sw.js

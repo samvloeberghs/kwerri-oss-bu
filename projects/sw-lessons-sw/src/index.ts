@@ -3,6 +3,7 @@ import { Store, get } from 'idb-keyval';
 declare const __BUILDTIMESTAMP__: string;
 declare const importScripts: Function;
 declare const workbox;
+declare const self: any;
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
@@ -22,8 +23,8 @@ if (workbox) {
   // This will update the app with an event of updated precache files
   workbox.precaching.addPlugins([
     new workbox.broadcastUpdate.Plugin({
-      channelName: 'precache-updates'
-    })
+      channelName: 'precache-updates',
+    }),
   ]);
 
   // Google Fonts cache setup
@@ -31,8 +32,8 @@ if (workbox) {
   workbox.routing.registerRoute(
     /^https:\/\/fonts\.googleapis\.com/,
     new workbox.strategies.StaleWhileRevalidate({
-      cacheName: 'google-fonts-stylesheets'
-    })
+      cacheName: 'google-fonts-stylesheets',
+    }),
   );
 
   // Cache the underlying font files with a cache-first strategy for 1 year.
@@ -42,15 +43,15 @@ if (workbox) {
       cacheName: 'google-fonts-webfonts',
       plugins: [
         new workbox.cacheableResponse.Plugin({
-          statuses: [0, 200]
+          statuses: [0, 200],
         }),
         new workbox.expiration.Plugin({
           maxAgeSeconds: 60 * 60 * 24 * 365,
           maxEntries: 30,
-          purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
-        })
-      ]
-    })
+          purgeOnQuotaError: true, // Automatically cleanup if quota is exceeded.
+        }),
+      ],
+    }),
   );
 
   // default page handler for offline usage, where the browser does not how to handle deep links
@@ -67,7 +68,7 @@ if (workbox) {
         .catch(err => {
           return fetch(defaultBase);
         });
-    }
+    },
   );
 
   // OAuth header interceptor
@@ -86,7 +87,7 @@ if (workbox) {
         const modifiedHeaders = new Headers(event.request.headers);
         modifiedHeaders.set('Authorization', oAuthToken);
         const overwrite = {
-          headers: modifiedHeaders
+          headers: modifiedHeaders,
         };
         const modifiedRequest = new Request(url.toString(), overwrite);
         return fetch(modifiedRequest);
@@ -102,7 +103,7 @@ if (workbox) {
           return fetch(defaultNotAuthedBase);
         });
 
-    }
+    },
   );
 
 } else {
@@ -119,5 +120,12 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('waiting', (e) => {
   console.log('sw waiting event', __BUILDTIMESTAMP__);
+});
+
+self.addEventListener('message', event => {
+  console.log('sw message event', __BUILDTIMESTAMP__, event);
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 

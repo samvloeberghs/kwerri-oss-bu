@@ -68,7 +68,7 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
@@ -256,9 +256,9 @@
         }
       }
     },
-    "sw-learnings": {
-      "root": "projects/sw-learnings/",
-      "sourceRoot": "projects/sw-learnings/src",
+    "sw-lessons": {
+      "root": "projects/sw-lessons/",
+      "sourceRoot": "projects/sw-lessons/src",
       "projectType": "application",
       "prefix": "swl",
       "schematics": {},
@@ -266,17 +266,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sw-learnings",
-            "index": "projects/sw-learnings/src/index.html",
-            "main": "projects/sw-learnings/src/main.ts",
-            "polyfills": "projects/sw-learnings/src/polyfills.ts",
-            "tsConfig": "projects/sw-learnings/tsconfig.app.json",
+            "outputPath": "dist/sw-lessons",
+            "index": "projects/sw-lessons/src/index.html",
+            "main": "projects/sw-lessons/src/main.ts",
+            "polyfills": "projects/sw-lessons/src/polyfills.ts",
+            "tsConfig": "projects/sw-lessons/tsconfig.app.json",
             "assets": [
-              "projects/sw-learnings/src/favicon.ico",
-              "projects/sw-learnings/src/assets"
+              "projects/sw-lessons/src/favicon.ico",
+              "projects/sw-lessons/src/assets"
             ],
             "styles": [
-              "projects/sw-learnings/src/styles.css"
+              "projects/sw-lessons/src/styles.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -285,13 +285,13 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/sw-learnings/src/environments/environment.ts",
-                  "with": "projects/sw-learnings/src/environments/environment.prod.ts"
+                  "replace": "projects/sw-lessons/src/environments/environment.ts",
+                  "with": "projects/sw-lessons/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
@@ -311,35 +311,35 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sw-learnings:build",
+            "browserTarget": "sw-lessons:build",
             "port": 4400
           },
           "configurations": {
             "production": {
-              "browserTarget": "sw-learnings:build:production"
+              "browserTarget": "sw-lessons:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sw-learnings:build"
+            "browserTarget": "sw-lessons:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/sw-learnings/src/test.ts",
-            "polyfills": "projects/sw-learnings/src/polyfills.ts",
-            "tsConfig": "projects/sw-learnings/tsconfig.spec.json",
-            "karmaConfig": "projects/sw-learnings/karma.conf.js",
+            "main": "projects/sw-lessons/src/test.ts",
+            "polyfills": "projects/sw-lessons/src/polyfills.ts",
+            "tsConfig": "projects/sw-lessons/tsconfig.spec.json",
+            "karmaConfig": "projects/sw-lessons/karma.conf.js",
             "styles": [
-              "projects/sw-learnings/src/styles.css"
+              "projects/sw-lessons/src/styles.css"
             ],
             "scripts": [],
             "assets": [
-              "projects/sw-learnings/src/favicon.ico",
-              "projects/sw-learnings/src/assets"
+              "projects/sw-lessons/src/favicon.ico",
+              "projects/sw-lessons/src/assets"
             ]
           }
         },
@@ -347,8 +347,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/sw-learnings/tsconfig.app.json",
-              "projects/sw-learnings/tsconfig.spec.json"
+              "projects/sw-lessons/tsconfig.app.json",
+              "projects/sw-lessons/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

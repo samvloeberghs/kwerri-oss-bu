@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store, set, del } from 'idb-keyval';
+import { fromEvent } from 'rxjs';
 
 declare const window: any;
 
@@ -15,11 +16,11 @@ export class AppComponent {
   public newVersionAvailable = false;
 
   constructor() {
+
     if (window['newVersionAvailable']) {
       this.newVersionAvailable = true;
     }
-    const broadcastChannel = new BroadcastChannel('precache-updates');
-    broadcastChannel.addEventListener('message', (msg) => {
+    fromEvent(window, 'new-version-available').subscribe(() => {
       this.newVersionAvailable = true;
     });
   }
@@ -45,7 +46,7 @@ export class AppComponent {
   }
 
   public loadNewVersion() {
-    window.location.reload();
+    window.dispatchEvent(new CustomEvent('application-update-requested'));
   }
 
 }
