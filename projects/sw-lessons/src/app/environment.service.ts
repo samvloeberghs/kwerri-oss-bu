@@ -22,6 +22,9 @@ export class EnvironmentService {
 
   private swFile = '/sw.js';
   private swRegisterOptions = {};
+  // check every 4h if a new version is available
+  // const interval = 4 * 60 * 60 * 1000;
+  private swUpdateInterval = 1 * 60 * 1000; // 1m for testing
 
   constructor() {
     // Check that service workers are available
@@ -71,7 +74,6 @@ export class EnvironmentService {
     // when the user refreshes the page and a new service worker is going to waiting
     // this is specificaly only valid when refreshed!
     wb.addEventListener('waiting', async () => {
-
       // inform any functionality that is interested in this update
       this.newVersionAvailable.next(true);
 
@@ -91,8 +93,36 @@ export class EnvironmentService {
       });
     });
 
+    // we use this waiting listener to handle the update we do
+    // based on an interval, in this case another service worker became waiting
+    wb.addEventListener('externalwaiting', event => {
+      // inform any functionality that is interested in this update
+      this.applicationUpdateRequested.pipe(
+        filter((applicationUpdateRequested) => applicationUpdateRequested),
+        first(),
+      ).subscribe(_ => {
+        // Send a message telling the service worker to skip waiting.
+        event.sw.postMessage({ type: 'SKIP_WAITING' });
+      });
+    });
+
+    // the other service worker became actived!
+    wb.addEventListener('externalactivated', () => {
+      // this was on request of the user, so let's finally relaod the page
+      window.location.reload();
+    });
+
     try {
-      await wb.register();
+      const registration = await wb.register();
+
+      setInterval(async () => {
+        try {
+          console.log('updating sw');
+          await registration.update();
+        } catch (err) {
+          console.log('sw.js could not be updated', err);
+        }
+      }, this.swUpdateInterval);
 
       if (navigator.serviceWorker.controller) {
         this.serviceWorkerReady.next(true);
@@ -100,6 +130,5 @@ export class EnvironmentService {
     } catch (e) {
       console.log('error registering service worker', e);
     }
-
   }
 }
