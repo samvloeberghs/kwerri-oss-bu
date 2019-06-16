@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Store, set, del } from 'idb-keyval';
-import { fromEvent } from 'rxjs';
-import { EnvironmentService } from './environment.service';
 
-declare const window: any;
+import { EnvironmentService } from './environment.service';
 
 @Component({
   selector: 'swl-root',
@@ -14,7 +12,8 @@ export class AppComponent {
 
   public currentOAuthToken;
   public mapTile: string;
-  public newVersionAvailable$ = this.environmentService.newVersionAvailable.asObservable();
+  public newVersionAvailable$ = this.environmentService.newVersionAvailable$;
+  public applicationUpdateOngoing$ = this.environmentService.applicationUpdateOngoing$;
 
   constructor(private readonly environmentService: EnvironmentService) {
 

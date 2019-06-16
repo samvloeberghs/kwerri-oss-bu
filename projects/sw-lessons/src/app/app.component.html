@@ -1,6 +1,12 @@
-<button *ngIf="newVersionAvailable$ | async" (click)="loadNewVersion()">
-  New version available, reload?
-</button>
+<div *ngIf="newVersionAvailable$ | async">
+  <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
+          (click)="loadNewVersion()">
+    New version available, reload?
+  </button>
+  <ng-template #updateOngoing>
+    Update ongoing!
+  </ng-template>
+</div>
 
 <h1>Service worker lessons</h1>
 <ul>
@@ -14,7 +20,7 @@
     <a routerLink="/contact">Contact</a>
   </li>
 </ul>
-<hr />
+<hr/>
 
 <button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
 <button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
@@ -23,6 +29,6 @@ Token: {{currentOAuthToken}}
 <button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
 <img [src]="mapTile" *ngIf="mapTile"/>
 
-<hr />
+<hr/>
 <router-outlet></router-outlet>
 

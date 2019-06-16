@@ -15,8 +15,11 @@ declare const navigator: any;
 })
 export class EnvironmentService {
 
-  public newVersionAvailable = new BehaviorSubject(false);
+  public newVersionAvailable$: Observable<boolean>;
+  public applicationUpdateOngoing$: Observable<boolean>;
 
+  private newVersionAvailable = new BehaviorSubject(false);
+  private applicationUpdateOngoing = new BehaviorSubject(false);
   private applicationUpdateRequested = new BehaviorSubject(false);
   private serviceWorkerReady = new BehaviorSubject(false);
 
@@ -27,6 +30,9 @@ export class EnvironmentService {
   private swUpdateInterval = 1 * 60 * 1000; // 1m for testing
 
   constructor() {
+    this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
+    this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
+
     // Check that service workers are available
     // Only register service worker when in production
     if ('serviceWorker' in navigator && environment.production) {
@@ -81,7 +87,9 @@ export class EnvironmentService {
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
+
         wb.addEventListener('controlling', () => {
+          // new service worker became active, lets reload!
           window.location.reload();
         });
 
@@ -90,6 +98,9 @@ export class EnvironmentService {
         // Note: for this to work, you have to add a message
         // listener in your service worker. See below.
         wb.messageSW({ type: 'SKIP_WAITING' });
+
+        // let anybody interested know we are updating the application
+        this.applicationUpdateOngoing.next(true);
       });
     });
 
@@ -97,18 +108,26 @@ export class EnvironmentService {
     // based on an interval, in this case another service worker became waiting
     wb.addEventListener('externalwaiting', event => {
       // inform any functionality that is interested in this update
+      this.newVersionAvailable.next(true);
+
+      // inform any functionality that is interested in this update
       this.applicationUpdateRequested.pipe(
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
         // Send a message telling the service worker to skip waiting.
         event.sw.postMessage({ type: 'SKIP_WAITING' });
+
+        // let anybody interested know we are updating the application
+        this.applicationUpdateOngoing.next(true);
       });
     });
 
     // the other service worker became actived!
     wb.addEventListener('externalactivated', () => {
-      // this was on request of the user, so let's finally relaod the page
+      // If your service worker is configured to precache assets, those
+      // assets should all be available now.
+      // This activation was on request of the user, so let's finally reload the page
       window.location.reload();
     });
 
