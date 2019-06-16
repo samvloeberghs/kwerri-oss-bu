@@ -1,5 +1,14 @@
 [
   {
+    "title": "Lessons learned on offline capabilities with service workers using Workbox - The sequel",
+    "slug": "lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel",
+    "publishDatetime": "2019-06-28T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox.png",
+    "imgShare": "/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_share.jpg",
+    "short": "This is a follow-up on my previous article about lessons learned on offline capabilities using Workbox. This article highlights some more findings and explores better/other solutions for the problems described earlier."
+  },
+  {
     "title": "Creating a simple memory cache for your Angular Universal website or application",
     "slug": "creating-a-simple-memory-cache-for-your-angular-universal-website-or-application",
     "publishDatetime": "2019-06-14T12:00:00+01:00",
