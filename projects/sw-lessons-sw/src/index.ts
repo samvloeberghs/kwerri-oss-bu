@@ -1,6 +1,5 @@
 import { Store, get } from 'idb-keyval';
 
-declare const __BUILDTIMESTAMP__: string;
 declare const importScripts: Function;
 declare const workbox;
 declare const self: any;
@@ -25,7 +24,7 @@ if (workbox) {
   workbox.routing.registerNavigationRoute(
     // Assuming '/index.html' has been precached,
     // look up its corresponding cache key.
-    workbox.precaching.getCacheKeyForURL('/index.html')
+    workbox.precaching.getCacheKeyForURL('/index.html'),
   );
 
   // Google Fonts cache setup
@@ -95,9 +94,11 @@ if (workbox) {
 }
 
 self.addEventListener('message', event => {
-  console.log('sw message event', __BUILDTIMESTAMP__, event);
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+  if (event.data && event.data.type === 'CLIENTS_CLAIM') {
+    self.clients.claim();
   }
 });
 

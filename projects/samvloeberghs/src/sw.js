@@ -4,7 +4,7 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const {core, googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse, broadcastUpdate} = workbox;
+  const {googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
@@ -67,11 +67,9 @@ if (workbox) {
     })
   );
 
-  // Google Fonts cache setup
-  // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
   routing.registerRoute(
     /posts\/data\.json/,
-    new strategies.StaleWhileRevalidate({
+    new strategies.NetworkFirst({
       cacheName: 'posts'
     })
   );
@@ -81,8 +79,10 @@ if (workbox) {
 }
 
 self.addEventListener('message', event => {
-  console.log('sw message event', event);
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+  if (event.data && event.data.type === 'CLIENTS_CLAIM') {
+    self.clients.claim();
   }
 });

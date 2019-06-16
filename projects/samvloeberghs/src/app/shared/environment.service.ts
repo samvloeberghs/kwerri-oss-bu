@@ -64,6 +64,22 @@ export class EnvironmentService {
   private async registerServiceWorker(): Promise<any> {
     const wb = new Workbox(this.swFile, this.swRegisterOptions);
 
+    wb.addEventListener('activated', async event => {
+      if (!event.isUpdate) {
+        // If your service worker is configured to precache assets, those
+        // assets should all be available now.
+        // window.location.reload();
+
+        // Send a message telling the service worker to claim the clients
+        // This is the first install, so the functionality of the app
+        // should meet the functionality of the service worker!
+        wb.messageSW({ type: 'CLIENTS_CLAIM' });
+
+        // The service worker is ready, so we can bootstrap the app
+        this.serviceWorkerReady.next(true);
+      }
+    });
+
     // we use this waiting listener to show updates
     // when the user refreshes the page and a new service worker is going to waiting
     // this is specificaly only valid when refreshed!
@@ -75,7 +91,6 @@ export class EnvironmentService {
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
-
         wb.addEventListener('controlling', () => {
           // new service worker became active, lets reload!
           window.location.reload();
