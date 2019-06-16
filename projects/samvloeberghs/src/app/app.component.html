@@ -5,7 +5,8 @@
     <img src="assets/images/sam.jpg" alt="Sam Vloeberghs"/>
   </a>
 
-  <a class="new-version-available-msg" href="/" *ngIf="newVersionAvailable$ | async">
+  <a class="new-version-available-msg" routerLink="/"
+     (click)="update($event)" *ngIf="newVersionAvailable$ | async">
     <span>New version available!</span>
     <span>Reload or click here</span>
   </a>

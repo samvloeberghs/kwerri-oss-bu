@@ -20,12 +20,13 @@ if (workbox) {
   // This array gets injected automagically by the workbox cli
   workbox.precaching.precacheAndRoute([]);
 
-  // This will update the app with an event of updated precache files
-  workbox.precaching.addPlugins([
-    new workbox.broadcastUpdate.Plugin({
-      channelName: 'precache-updates',
-    }),
-  ]);
+  // default page handler for offline usage, where the browser does not how to handle deep links
+  // it's a SPA, so each path that is a navigation should default to index.html
+  workbox.routing.registerNavigationRoute(
+    // Assuming '/index.html' has been precached,
+    // look up its corresponding cache key.
+    workbox.precaching.getCacheKeyForURL('/index.html')
+  );
 
   // Google Fonts cache setup
   // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
@@ -52,23 +53,6 @@ if (workbox) {
         }),
       ],
     }),
-  );
-
-  // default page handler for offline usage, where the browser does not how to handle deep links
-  // it's a SPA, so each path that is a navigation should default to index.html
-  workbox.routing.registerRoute(
-    ({ event }) => event.request.mode === 'navigate',
-    async () => {
-      const defaultBase = '/index.html';
-      return caches
-        .match(workbox.precaching.getCacheKeyForURL(defaultBase))
-        .then(response => {
-          return response || fetch(defaultBase);
-        })
-        .catch(err => {
-          return fetch(defaultBase);
-        });
-    },
   );
 
   // OAuth header interceptor
@@ -109,18 +93,6 @@ if (workbox) {
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
-
-self.addEventListener('install', (e) => {
-  console.log('sw install event', __BUILDTIMESTAMP__);
-});
-
-self.addEventListener('activate', (e) => {
-  console.log('sw activate event', __BUILDTIMESTAMP__);
-});
-
-self.addEventListener('waiting', (e) => {
-  console.log('sw waiting event', __BUILDTIMESTAMP__);
-});
 
 self.addEventListener('message', event => {
   console.log('sw message event', __BUILDTIMESTAMP__, event);

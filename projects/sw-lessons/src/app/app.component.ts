@@ -10,10 +10,10 @@ import { EnvironmentService } from './environment.service';
 })
 export class AppComponent {
 
+  public readonly applicationUpdateOngoing$ = this.environmentService.applicationUpdateOngoing$;
+  public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$;
   public currentOAuthToken;
   public mapTile: string;
-  public newVersionAvailable$ = this.environmentService.newVersionAvailable$;
-  public applicationUpdateOngoing$ = this.environmentService.applicationUpdateOngoing$;
 
   constructor(private readonly environmentService: EnvironmentService) {
 
