@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store, set, del } from 'idb-keyval';
 import { fromEvent } from 'rxjs';
+import { EnvironmentService } from './environment.service';
 
 declare const window: any;
 
@@ -13,16 +14,10 @@ export class AppComponent {
 
   public currentOAuthToken;
   public mapTile: string;
-  public newVersionAvailable = false;
+  public newVersionAvailable$ = this.environmentService.newVersionAvailable.asObservable();
 
-  constructor() {
+  constructor(private readonly environmentService: EnvironmentService) {
 
-    if (window['newVersionAvailable']) {
-      this.newVersionAvailable = true;
-    }
-    fromEvent(window, 'new-version-available').subscribe(() => {
-      this.newVersionAvailable = true;
-    });
   }
 
   public async setOAuthToken() {
@@ -46,7 +41,7 @@ export class AppComponent {
   }
 
   public loadNewVersion() {
-    window.dispatchEvent(new CustomEvent('application-update-requested'));
+    this.environmentService.update();
   }
 
 }

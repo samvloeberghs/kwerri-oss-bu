@@ -1,4 +1,4 @@
-<button *ngIf="newVersionAvailable" (click)="loadNewVersion()">
+<button *ngIf="newVersionAvailable$ | async" (click)="loadNewVersion()">
   New version available, reload?
 </button>
 
