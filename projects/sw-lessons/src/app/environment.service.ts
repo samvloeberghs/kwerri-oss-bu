@@ -2,10 +2,10 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
 import { Workbox } from 'workbox-window';
 
 import { environment } from '../environments/environment';
-import { filter, first } from 'rxjs/operators';
 
 declare const window: any;
 declare const navigator: any;
@@ -18,16 +18,16 @@ export class EnvironmentService {
   public newVersionAvailable$: Observable<boolean>;
   public applicationUpdateOngoing$: Observable<boolean>;
 
-  private newVersionAvailable = new BehaviorSubject(false);
-  private applicationUpdateOngoing = new BehaviorSubject(false);
-  private applicationUpdateRequested = new BehaviorSubject(false);
-  private serviceWorkerReady = new BehaviorSubject(false);
+  private readonly newVersionAvailable = new BehaviorSubject(false);
+  private readonly applicationUpdateOngoing = new BehaviorSubject(false);
+  private readonly applicationUpdateRequested = new BehaviorSubject(false);
+  private readonly serviceWorkerReady = new BehaviorSubject(false);
 
-  private swFile = '/sw.js';
-  private swRegisterOptions = {};
+  private readonly swFile = '/sw.js';
+  private readonly swRegisterOptions = {};
   // check every 4h if a new version is available
   // const interval = 4 * 60 * 60 * 1000;
-  private swUpdateInterval = 1 * 60 * 1000; // 1m for testing
+  private readonly swUpdateInterval = 1 * 60 * 1000; // 1m for testing
 
   constructor() {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
@@ -67,8 +67,14 @@ export class EnvironmentService {
       if (!event.isUpdate) {
         // If your service worker is configured to precache assets, those
         // assets should all be available now.
-        window.location.reload();
-        return;
+
+        // Send a message telling the service worker to claim the clients
+        // This is the first install, so the functionality of the app
+        // should meet the functionality of the service worker!
+        wb.messageSW({ type: 'CLIENTS_CLAIM' });
+
+        // The service worker is ready, so we can bootstrap the app
+        this.serviceWorkerReady.next(true);
       }
     });
 
@@ -87,7 +93,6 @@ export class EnvironmentService {
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
-
         wb.addEventListener('controlling', () => {
           // new service worker became active, lets reload!
           window.location.reload();
