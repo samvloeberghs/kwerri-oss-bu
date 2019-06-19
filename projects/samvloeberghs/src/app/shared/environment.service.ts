@@ -19,16 +19,13 @@ export class EnvironmentService {
   public newVersionAvailable$: Observable<boolean>;
   public applicationUpdateOngoing$: Observable<boolean>;
 
-  private newVersionAvailable = new BehaviorSubject(false);
-  private applicationUpdateOngoing = new BehaviorSubject(false);
-  private applicationUpdateRequested = new BehaviorSubject(false);
-  private serviceWorkerReady = new BehaviorSubject(false);
+  private readonly newVersionAvailable = new BehaviorSubject(false);
+  private readonly applicationUpdateOngoing = new BehaviorSubject(false);
+  private readonly applicationUpdateRequested = new BehaviorSubject(false);
+  private readonly serviceWorkerReady = new BehaviorSubject(false);
 
-  private swFile = '/sw.js';
-  private swRegisterOptions = {};
-  // check every 4h if a new version is available
-  // const interval = 4 * 60 * 60 * 1000;
-  private swUpdateInterval = 1 * 60 * 1000; // 1m for testing
+  private readonly swFile = '/sw.js';
+  private readonly swRegisterOptions = {};
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
