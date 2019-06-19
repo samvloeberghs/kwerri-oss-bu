@@ -39,7 +39,8 @@
   <p>
     In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous post
     about service workers and Workbox</a> I used a somewhat shady technique with a refresh to activate the service
-    worker functionality on the first load of the application. <strong>This is actually completely unnecessary.</strong>
+    worker functionality on the first load of the application. <em>This is completely unnecessary</em>
+    and the outcome can be achieved using other techniques.
   </p>
 
   <p>
@@ -85,7 +86,7 @@ if ('serviceWorker' in navigator) {
 
   <p>
     For this to work we need to make our service worker react to messages and claim the clients for this installation
-    of the service worker. We do this by registering an event listener:
+    of the service worker. We do this by registering an event listener on the <code>message</code> event:
   </p>
 
   <h4 class="codetitle">service-worker.js</h4>
@@ -97,6 +98,11 @@ self.addEventListener('message', event => {
   }
 });
 </code></pre>
+
+  <p>
+    If a service worker is installed, but not controlling the page yet, an event that matches the type
+    <code>CLIENTS_CLAIM</code> will claim the clients and activate the service worker for those clients.
+  </p>
 
   <h3>
     <span>Using Workbox Window to solve the same problem</span>
@@ -132,7 +138,9 @@ wb.register();
 
   <p>
     Similar to our previous example, without Workbox Window, our service worker needs to be listening to messages and
-    act accordingly on the message of type <code>CLIENTS_CLAIM</code>.
+    act accordingly on the message of type <code>CLIENTS_CLAIM</code>. <code>wb.messageSW</code> is a wrapper function
+    that provides a message and reply mechanism using a <code>MessageChannel</code> but also just send a message to the
+    service worker using <code>postMessage</code>.
   </p>
 
   <h2>
@@ -140,6 +148,10 @@ wb.register();
      Using an interval update can be tricky
     </span>
   </h2>
+
+  <p>
+
+  </p>
 
   <h2>
     <span>
