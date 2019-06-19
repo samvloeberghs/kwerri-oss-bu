@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
         data: {
           seo: {
             title: environment.seo.title,
-            description: `Hi there! 👋 Thank you for visiting my website! I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focussing on frontend technologies.`,
+            description: `Hi there! 👋 Thank you for visiting my website! I'm a Belgium 🇧🇪 based freelance software architect and Internet entrepreneur, currently focusing on frontend technologies.`,
             shareImg: '/assets/share/home.png',
           },
         },
