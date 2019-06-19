@@ -36,6 +36,105 @@
     </span>
   </h2>
 
+  <p>
+    In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous post
+    about service workers and Workbox</a> I used a somewhat shady technique with a refresh to activate the service
+    worker functionality on the first load of the application. <strong>This is actually completely unnecessary.</strong>
+  </p>
+
+  <p>
+    If we consider the code to register the service worker from the previous post, the only thing we have to change is
+    send an event to the service worker, to claim the clients instead of reloading the page. This is demonstrated on
+    line 18 and 23 in the following code. The logic to detect a first service worker remained unchanged.
+  </p>
+
+  <h4 class="codetitle">service-worker-registration.ts</h4>
+  <pre data-line="18,23"><code class="language-ts line-numbers">// Check that service workers are available
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+      if (navigator.serviceWorker.controller) {
+        // let the application know our service worker is ready
+        window['serviceWorkerReady'] = true;
+        window.dispatchEvent(new CustomEvent('service-worker-ready'));
+      }
+
+      // A wild service worker has appeared in reg.installing and maybe in waiting!
+      const newWorker = registration.installing;
+      const waitingWoker = registration.waiting;
+
+      if (newWorker) {
+        if (newWorker.state === 'activated' && !waitingWoker) {
+          newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
+        }
+        newWorker.addEventListener('statechange', () => {
+          // newWorker.state has changed
+          if (newWorker.state === 'activated' && !waitingWoker) {
+            newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
+          }
+        });
+      }
+    })
+    .catch(err => {
+      console.log('service worker could not be registered', err);
+    });
+  });
+}
+</code></pre>
+
+  <p>
+    For this to work we need to make our service worker react to messages and claim the clients for this installation
+    of the service worker. We do this by registering an event listener:
+  </p>
+
+  <h4 class="codetitle">service-worker.js</h4>
+  <pre data-line="5,15"><code class="language-js line-numbers">// ... sw functionality
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'CLIENTS_CLAIM') {
+    self.clients.claim();
+  }
+});
+</code></pre>
+
+  <h3>
+    <span>Using Workbox Window to solve the same problem</span>
+  </h3>
+
+  <p>
+    With Workbox Window we can listen for the <code>activated</code> event on the service worker registration.
+    This events holds a property <code>isUpdate</code> that indicates if a previous version was controlling the page.
+    If not, we can assume this is a first time install.
+  </p>
+
+  <h4 class="codetitle">service-worker-registration-workbox-window.ts</h4>
+  <pre data-line="8,15"><code class="language-ts line-numbers">import { Workbox } from 'workbox-window';
+
+const wb = new Workbox('/service-worker.js', {});
+
+wb.addEventListener('activated', async event => {
+  // `event.isUpdate` will be true if another version of the service
+  // worker was controlling the page when this version was registered.
+  if (!event.isUpdate) {
+    // If your service worker is configured to precache assets, those
+    // assets should all be available now.
+
+    // Send a message telling the service worker to claim the clients
+    // This is the first install, so the functionality of the app
+    // should meet the functionality of the service worker!
+    wb.messageSW({ type: 'CLIENTS_CLAIM' });
+  }
+});
+
+wb.register();
+</code></pre>
+
+  <p>
+    Similar to our previous example, without Workbox Window, our service worker needs to be listening to messages and
+    act accordingly on the message of type <code>CLIENTS_CLAIM</code>.
+  </p>
+
   <h2>
     <span>
      Using an interval update can be tricky
@@ -48,19 +147,13 @@
     </span>
   </h2>
 
-
   <h2><span>Further reading</span></h2>
 
   <ol class="further-reading">
     <li>
-      <a href="" target="_blank" rel="noopener">
-
-      </a>
-    </li>
-    <li>
-      <a href="https://developers.google.com/web/tools/workbox/"
+      <a href="https://developers.google.com/web/tools/workbox/modules/workbox-window"
          target="_blank" rel="noopener">
-        Workbox documentation
+        Workbox Window documentation
       </a>
     </li>
     <li>
