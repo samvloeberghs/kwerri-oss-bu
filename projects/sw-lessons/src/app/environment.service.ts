@@ -1,7 +1,7 @@
 /** @format */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
 import { Workbox } from 'workbox-window';
 
@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 
 declare const window: any;
 declare const navigator: any;
+declare const document: any;
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,12 @@ export class EnvironmentService {
   private readonly swFile = '/sw.js';
   private readonly swRegisterOptions = {};
   // check every 4h if a new version is available
-  // const interval = 4 * 60 * 60 * 1000;
-  private readonly swUpdateInterval = 1 * 60 * 1000; // 1m for testing
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
+  // private readonly swUpdateInterval = 1 * 60 * 1000; // 1m for testing
+  private swRegistration: ServiceWorkerRegistration;
+
+  private runningStandAlone = false;
+  private visible = true;
 
   constructor() {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
@@ -40,6 +45,9 @@ export class EnvironmentService {
     } else {
       this.serviceWorkerReady.next(true);
     }
+
+    this.checkRunningStandAlone();
+    this.registerVisibileChangeListener();
   }
 
   public isEnvironmentReady(): Promise<any> {
@@ -137,14 +145,14 @@ export class EnvironmentService {
     });
 
     try {
-      const registration = await wb.register();
+      this.swRegistration = await wb.register();
 
       setInterval(async () => {
         try {
-          console.log('updating sw');
-          await registration.update();
+          console.log('updating sw by interval');
+          await this.swRegistration.update();
         } catch (err) {
-          console.log('sw.js could not be updated', err);
+          console.log('sw.js could not be updated by interval', err);
         }
       }, this.swUpdateInterval);
 
@@ -155,4 +163,27 @@ export class EnvironmentService {
       console.log('error registering service worker', e);
     }
   }
+
+  private checkRunningStandAlone() {
+    if (window && 'matchMedia' in window) {
+      this.runningStandAlone = window.matchMedia('(display-mode: standalone)').matches;
+    }
+  }
+
+  private registerVisibileChangeListener() {
+    if (document) {
+      fromEvent(document, 'visibilitychange').pipe().subscribe(async () => {
+        this.visible = document.visibilityState === 'visible';
+        if ('serviceWorker' in navigator && environment.production) {
+          try {
+            console.log('updating sw by visibility change');
+            await this.swRegistration.update();
+          } catch (err) {
+            console.log('sw.js could not be updated by visibility change', err);
+          }
+        }
+      });
+    }
+  }
+
 }

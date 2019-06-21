@@ -52,10 +52,10 @@
   <h4 class="codetitle">service-worker-registration.ts</h4>
   <pre data-line="18,23"><code class="language-ts line-numbers">// Check that service workers are available
 if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js').then(registration => {
-      if (navigator.serviceWorker.controller) {
+    if (navigator.serviceWorker.controller) {
         // let the application know our service worker is ready
         window['serviceWorkerReady'] = true;
         window.dispatchEvent(new CustomEvent('service-worker-ready'));
@@ -67,18 +67,18 @@ if ('serviceWorker' in navigator) {
 
       if (newWorker) {
         if (newWorker.state === 'activated' && !waitingWoker) {
-          newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
+    newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
         }
         newWorker.addEventListener('statechange', () => {
-          // newWorker.state has changed
-          if (newWorker.state === 'activated' && !waitingWoker) {
+    // newWorker.state has changed
+    if (newWorker.state === 'activated' && !waitingWoker) {
             newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
           }
         });
       }
     })
     .catch(err => {
-      console.log('service worker could not be registered', err);
+    console.log('service worker could not be registered', err);
     });
   });
 }
@@ -90,10 +90,10 @@ if ('serviceWorker' in navigator) {
   </p>
 
   <h4 class="codetitle">service-worker.js</h4>
-  <pre data-line="5,15"><code class="language-js line-numbers">// ... sw functionality
+  <pre><code class="language-js line-numbers">// ... other sw functionality
 
 self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'CLIENTS_CLAIM') {
+    if (event.data && event.data.type === 'CLIENTS_CLAIM') {
     self.clients.claim();
   }
 });
@@ -120,9 +120,9 @@ self.addEventListener('message', event => {
 const wb = new Workbox('/service-worker.js', {});
 
 wb.addEventListener('activated', async event => {
-  // `event.isUpdate` will be true if another version of the service
-  // worker was controlling the page when this version was registered.
-  if (!event.isUpdate) {
+    // `event.isUpdate` will be true if another version of the service
+    // worker was controlling the page when this version was registered.
+    if (!event.isUpdate) {
     // If your service worker is configured to precache assets, those
     // assets should all be available now.
 
@@ -150,6 +150,20 @@ wb.register();
   </h2>
 
   <p>
+    With PWA's installed on the homescreeen and opened as a native-like application it is possible that those
+    application are opened for a long time. Updating a new version of the application and installing a new service
+    worker could potentially by extended for a long time. Until the user closes and reopens the application, or
+    refreshes. It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
+                            target="_blank">possible to disable the refresh by pulling down the application
+    completely</a>.
+  </p>
+  <p>
+    In those cases the only way of updating seems to be closing and reopening the application. <strong>Fortunately it's
+    not</strong>. There are several ways of doing an update in-application, by means of user-intent, or by
+    setting up an interval.
+  </p>
+
+  <p>
 
   </p>
 
@@ -173,6 +187,12 @@ wb.register();
         href="https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading"
         target="_blank" rel="noopener">
         High-performance service worker loading
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior"
+         target="_blank" rel="noopener">
+        Take control of your scroll: customizing pull-to-refresh and overflow effects
       </a>
     </li>
   </ol>
