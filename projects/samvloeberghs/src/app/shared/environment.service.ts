@@ -84,6 +84,7 @@ export class EnvironmentService {
       // inform any functionality that is interested in this update
       this.newVersionAvailable.next(true);
 
+      // listen to application update requests
       this.applicationUpdateRequested.pipe(
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),

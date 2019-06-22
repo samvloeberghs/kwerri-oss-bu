@@ -30,6 +30,7 @@ export class EnvironmentService {
   private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
   // private readonly swUpdateInterval = 1 * 60 * 1000; // 1m for testing
   private swRegistration: ServiceWorkerRegistration;
+  // Service only available in production ( bundled assets )
   private serviceWorkerAvailable = ('serviceWorker' in navigator && environment.production);
 
   private runningStandAlone = false;
@@ -111,6 +112,7 @@ export class EnvironmentService {
       // inform any functionality that is interested in this update
       this.newVersionAvailable.next(true);
 
+      // listen to application update requests
       this.applicationUpdateRequested.pipe(
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
@@ -132,17 +134,18 @@ export class EnvironmentService {
     });
 
     // we use this waiting listener to handle the update we do
-    // based on an interval, in this case another service worker became waiting
+    // based on an interval, user intent or visibility change
+    // in this case another service worker became waiting
     wb.addEventListener('externalwaiting', event => {
       // inform any functionality that is interested in this update
       this.newVersionAvailable.next(true);
 
-      // inform any functionality that is interested in this update
+      // listen to application update requests
       this.applicationUpdateRequested.pipe(
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
-        // Send a message telling the service worker to skip waiting.
+        // Send a message telling the service worker to skip waiting and become active.
         event.sw.postMessage({ type: 'SKIP_WAITING' });
 
         // let anybody interested know we are updating the application

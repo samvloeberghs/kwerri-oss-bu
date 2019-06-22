@@ -1,5 +1,6 @@
 [
   {
+    "hidden": true,
     "title": "Lessons learned on offline capabilities with service workers using Workbox - The sequel",
     "slug": "lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel",
     "publishDatetime": "2019-06-22T12:00:00+01:00",

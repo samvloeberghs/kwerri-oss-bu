@@ -8,21 +8,10 @@ import { Workbox } from 'workbox-window';
 })
 export class ServiceWorkerService {
 
-  private readonly swUpdateInterval = 4 * 60 * 60 * 1000; // 4h
-  private swRegistration: ServiceWorkerRegistration;
+  // check every 4h if a new version is available
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
 
-  constructor() {
-    this.registerServiceWorker();
-  }
-
-  public async checkForUpdate() {
-    try {
-      console.log('updating sw');
-      return await this.swRegistration.update();
-    } catch (err) {
-      console.log('sw.js could not be updated', err);
-    }
-  }
+  // ...
 
   private async registerServiceWorker() {
     const wb = new Workbox('/sw.js', {});

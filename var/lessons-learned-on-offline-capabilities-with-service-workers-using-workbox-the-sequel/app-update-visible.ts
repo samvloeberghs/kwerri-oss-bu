@@ -16,24 +16,7 @@ export class ServiceWorkerService {
     this.registerVisibileChangeListener();
   }
 
-  public async checkForUpdate() {
-    try {
-      console.log('updating sw');
-      return await this.swRegistration.update();
-    } catch (err) {
-      console.log('sw.js could not be updated', err);
-    }
-  }
-
-  private async registerServiceWorker() {
-    const wb = new Workbox('/sw.js', {});
-
-    try {
-      this.swRegistration = await wb.register();
-    } catch (e) {
-      console.log('error registering service worker', e);
-    }
-  }
+  // ...
 
   private registerVisibileChangeListener() {
     fromEvent(document, 'visibilitychange').subscribe(() => {

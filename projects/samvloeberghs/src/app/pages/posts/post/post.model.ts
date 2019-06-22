@@ -11,4 +11,5 @@ export interface Post {
   author?: string;
   section?: string;
   content?: string | SafeHtml;
+  hidden?: boolean;
 }

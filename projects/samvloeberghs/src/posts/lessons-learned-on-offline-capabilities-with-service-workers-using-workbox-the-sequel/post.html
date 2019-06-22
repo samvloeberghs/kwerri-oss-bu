@@ -20,8 +20,8 @@
   </h2>
 
   <ol>
-    <li>Better detection for first install with service worker</li>
-    <li>Updating the application while using it</li>
+    <li>Better detection for a first-time install of a service worker</li>
+    <li>Updating the application while it's in use</li>
   </ol>
 
   <p>
@@ -32,7 +32,7 @@
 
   <h2>
     <span>
-     Better detection for first install with service worker
+     Better detection for a first-time install of a service worker
     </span>
   </h2>
 
@@ -46,11 +46,11 @@
   <p>
     If we consider the code to register the service worker from the previous post, the only thing we have to change is
     send an event to the service worker, to claim the clients instead of reloading the page. This is demonstrated on
-    line 18 and 23 in the following code. The logic to detect a first service worker remained unchanged.
+    line 19 and 25 in the following code. The logic to detect a first service worker remained unchanged.
   </p>
 
   <h4 class="codetitle">service-worker-registration.ts</h4>
-  <pre data-line="18,23"><code class="language-ts line-numbers">// Check that service workers are available
+  <pre data-line="19,25"><code class="language-ts line-numbers">// Check that service workers are available
 if ('serviceWorker' in navigator) {
   // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
@@ -67,18 +67,20 @@ if ('serviceWorker' in navigator) {
 
       if (newWorker) {
         if (newWorker.state === 'activated' && !waitingWoker) {
+          // - no more window.location.reload();
           newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
         }
         newWorker.addEventListener('statechange', () => {
           // newWorker.state has changed
           if (newWorker.state === 'activated' && !waitingWoker) {
+            // - no more window.location.reload();
             newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
           }
         });
       }
     })
     .catch(err => {
-    console.log('service worker could not be registered', err);
+      console.log('service worker could not be registered', err);
     });
   });
 }
@@ -144,7 +146,7 @@ wb.register();
 
   <h2>
     <span>
-     Updating the application while using it
+     Updating the application while it's in use
     </span>
   </h2>
 
@@ -158,7 +160,7 @@ wb.register();
   </p>
   <p>
     In those cases the only way of updating seems to be closing and reopening the application. <strong>Fortunately it's
-    not</strong>. There are several ways of doing an update in-application: by means of <em>user-intent</em>, when the
+    not</strong>. There are several ways of doing an update in-application. By means of <em>user-intent</em>, when the
     <em>application becomes visible</em> again or by <em>setting up an interval</em>. Let's explore these 3 options.
   </p>
 
@@ -178,6 +180,7 @@ wb.register();
     <code>swRegistration.update()</code>. Consider the following <code>ServiceWorkerService</code>:
   </p>
 
+  <h4 class="codetitle">app-update-user-intent.ts</h4>
   <pre data-line="9,18,28"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
 import { Workbox } from 'workbox-window';
 
@@ -249,6 +252,151 @@ export class ServiceWorkerService {
     <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">Read more about this consideration in my previous blogpost</a>.
   </p>
 
+  <p>
+    Before we dive further into the code and details for this example, we will go trough the most simple use-case
+    that describes the desired functionality:
+  </p>
+
+  <ol>
+    <li>
+      The user already visited our application before, so there is an active service worker for our application in
+      the browser.
+    </li>
+    <li>
+      During usage of the application, we deploy a new version. The automatic update interval runs a cycle and finds
+      the new version of our application. The new service worker installs and goes into waiting state.
+    </li>
+    <li>
+      Our application is notified of this new version and shows the user an update button to express his intent.
+      Meanwhile the new service worker stays in waiting state.
+    </li>
+    <li>
+      When the user clicks the button, our new service worker is informed and skips the waiting phase.
+      As soon as the new service worker finishes his caching work and install process it becomes activated.
+    </li>
+    <li>
+      The application gets notified and refreshes to load the complete new version of the application. If we wouldn't
+      reload we might have the situation that the functionality of our new service worker is not compatible with
+      our currently loaded application.
+    </li>
+  </ol>
+
+  <p>
+    Listening for a new waiting service worker using Workbox is a little bit unexpected and different from handling
+    a new waiting service worker when we try an update from within the application. For these situations Workbox
+    dispatches lifecycle events like <code>externalinstalling</code> when updates are arriving from "external"
+    service workers. Any version which is not the current Workbox instance or service worker registration can be
+    considered as external.
+  </p>
+
+  <h4 class="codetitle">app-update-external.ts</h4>
+  <pre data-line="43, 48-50, 53, 67-69, 58, 62"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
+import { Workbox } from 'workbox-window';
+
+declare const window: any;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EnvironmentService {
+
+  public newVersionAvailable$: Observable<boolean>;
+
+  private readonly newVersionAvailable = new BehaviorSubject(false);
+  private readonly applicationUpdateRequested = new BehaviorSubject(false);
+  // check every 4h if a new version is available
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
+
+  private swRegistration: ServiceWorkerRegistration;
+
+  constructor() {
+    this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
+    this.registerServiceWorker();
+  }
+
+  public update() {
+    this.applicationUpdateRequested.next(true);
+  }
+
+  public async checkForUpdate() {
+    // ...
+  }
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    // ...
+
+    // we use this waiting listener to handle the update we do
+    // based on an interval, user intent or visibility change
+    // in this case another service worker became waiting
+    wb.addEventListener('externalwaiting', event => {
+      // inform any functionality that is interested in this update
+      this.newVersionAvailable.next(true);
+
+      // listen to application update requests
+      this.applicationUpdateRequested.pipe(
+        filter((applicationUpdateRequested) => applicationUpdateRequested),
+        first(),
+      ).subscribe(_ => {
+        // Send a message telling the service worker to skip waiting and become active.
+        event.sw.postMessage({ type: 'SKIP_WAITING' });
+      });
+    });
+
+    // the other service worker became actived!
+    wb.addEventListener('externalactivated', () => {
+      // If your service worker is configured to precache assets, those
+      // assets should all be available now.
+      // This activation was on request of the user, so let's finally reload the page
+      window.location.reload();
+    });
+
+    try {
+      this.swRegistration = await wb.register();
+      setInterval(async () => {
+        this.checkForUpdate();
+      }, this.swUpdateInterval);
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+}
+</code></pre>
+
+  <p>
+    Let's map our usecase written out above onto the code:
+  </p>
+
+  <ol>
+    <li>
+      We assume an active service worker is available while running a <code>checkForUpdate</code>(line 68) and a new
+      version of the application is found and installing
+    </li>
+    <li>
+      Our event listener for <code>externalwaiting</code>(line 43) receives a new event and updates the application that
+      a new version is available. This value is exposed as an Observable in the application, so we can show a
+      notification.
+    </li>
+    <li>
+      The event listener subscribes and starts listening to the user intent to update the application to the new
+      version (line 48-50). When the user gives his go, an event <code>SKIP_WAITING</code> is sent to the service
+      worker, instructing it to become activated (line 53).
+    </li>
+    <li>
+        The event listener <code>externalactivated</code> receives a new event, indicating that the new service worker
+        became activated (line 58). Now we can reload to activate the complete new application (line 62)!
+    </li>
+  </ol>
+
+  <p class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    The full code for handling all these usecases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
+  </p>
+
   <h3>
     <span>Update application when it becomes visible again</span>
   </h3>
@@ -259,7 +407,8 @@ export class ServiceWorkerService {
     <code>document</code> as shown in the highlighted code below.
   </p>
 
-  <pre data-line="14,36-40"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+  <h4 class="codetitle">app-update-visible.ts</h4>
+  <pre data-line="14,19-23"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
 import { Workbox } from 'workbox-window';
 import { fromEvent } from 'rxjs';
 
@@ -268,31 +417,14 @@ import { fromEvent } from 'rxjs';
 })
 export class ServiceWorkerService {
 
- private swRegistration: ServiceWorkerRegistration;
+  // ...
 
   constructor() {
     this.registerServiceWorker();
     this.registerVisibileChangeListener();
   }
 
-  public async checkForUpdate() {
-    try {
-      console.log('updating sw');
-      return await this.swRegistration.update();
-    } catch (err) {
-      console.log('sw.js could not be updated', err);
-    }
-  }
-
-  private async registerServiceWorker() {
-    const wb = new Workbox('/sw.js', {});
-
-    try {
-      this.swRegistration = await wb.register();
-    } catch (e) {
-      console.log('error registering service worker', e);
-    }
-  }
+  // ...
 
   private registerVisibileChangeListener() {
     fromEvent(document, 'visibilitychange').subscribe(() => {
@@ -314,11 +446,13 @@ export class ServiceWorkerService {
   </h3>
 
   <p>
-    One more other strategy is <em>requesting an update on an interval</em>, for example every 4 hours.
+    One more other strategy is <em>requesting an update on an interval</em>, for example every 4 hours. This way the
+    user will be presented with the update possibility automatically if a new version has been deployed recently.
     The extra logic / code for this is a simple 3-liner as highlighted below:
   </p>
 
-  <pre data-line="31-33"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+  <h4 class="codetitle">app-update-interval.ts</h4>
+  <pre data-line="10, 20-22"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
 import { Workbox } from 'workbox-window';
 
 @Injectable({
@@ -326,21 +460,10 @@ import { Workbox } from 'workbox-window';
 })
 export class ServiceWorkerService {
 
-  private readonly swUpdateInterval = 4 * 60 * 60 * 1000; // 4h
-  private swRegistration: ServiceWorkerRegistration;
+  // check every 4h if a new version is available
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000
 
-  constructor() {
-    this.registerServiceWorker();
-  }
-
-  public async checkForUpdate() {
-    try {
-      console.log('updating sw');
-      return await this.swRegistration.update();
-    } catch (err) {
-      console.log('sw.js could not be updated', err);
-    }
-  }
+  // ...
 
   private async registerServiceWorker() {
     const wb = new Workbox('/sw.js', {});

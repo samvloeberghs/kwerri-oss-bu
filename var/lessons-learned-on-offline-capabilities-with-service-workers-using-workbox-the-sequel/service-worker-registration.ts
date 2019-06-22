@@ -16,11 +16,13 @@ if ('serviceWorker' in navigator) {
 
         if (newWorker) {
           if (newWorker.state === 'activated' && !waitingWoker) {
+            // - no more window.location.reload();
             newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
           }
           newWorker.addEventListener('statechange', () => {
             // newWorker.state has changed
             if (newWorker.state === 'activated' && !waitingWoker) {
+              // - no more window.location.reload();s
               newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
             }
           });
