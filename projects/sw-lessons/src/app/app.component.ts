@@ -43,4 +43,8 @@ export class AppComponent {
     this.environmentService.update();
   }
 
+  public checkForUpdate() {
+    this.environmentService.checkForUpdate();
+  }
+
 }

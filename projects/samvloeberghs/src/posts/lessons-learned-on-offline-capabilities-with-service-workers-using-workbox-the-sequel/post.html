@@ -21,7 +21,7 @@
 
   <ol>
     <li>Better detection for first install with service worker</li>
-    <li>Using an interval update can be tricky</li>
+    <li>Updating the application while using it</li>
   </ol>
 
   <p>
@@ -52,10 +52,10 @@
   <h4 class="codetitle">service-worker-registration.ts</h4>
   <pre data-line="18,23"><code class="language-ts line-numbers">// Check that service workers are available
 if ('serviceWorker' in navigator) {
-    // Use the window load event to keep the page load performant
-    window.addEventListener('load', () => {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js').then(registration => {
-    if (navigator.serviceWorker.controller) {
+      if (navigator.serviceWorker.controller) {
         // let the application know our service worker is ready
         window['serviceWorkerReady'] = true;
         window.dispatchEvent(new CustomEvent('service-worker-ready'));
@@ -67,11 +67,11 @@ if ('serviceWorker' in navigator) {
 
       if (newWorker) {
         if (newWorker.state === 'activated' && !waitingWoker) {
-    newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
+          newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
         }
         newWorker.addEventListener('statechange', () => {
-    // newWorker.state has changed
-    if (newWorker.state === 'activated' && !waitingWoker) {
+          // newWorker.state has changed
+          if (newWorker.state === 'activated' && !waitingWoker) {
             newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
           }
         });
@@ -90,7 +90,7 @@ if ('serviceWorker' in navigator) {
   </p>
 
   <h4 class="codetitle">service-worker.js</h4>
-  <pre><code class="language-js line-numbers">// ... other sw functionality
+  <pre data-line="5"><code class="language-js line-numbers">// ... other sw functionality
 
 self.addEventListener('message', event => {
     if (event.data && event.data.type === 'CLIENTS_CLAIM') {
@@ -115,18 +115,17 @@ self.addEventListener('message', event => {
   </p>
 
   <h4 class="codetitle">service-worker-registration-workbox-window.ts</h4>
-  <pre data-line="8,15"><code class="language-ts line-numbers">import { Workbox } from 'workbox-window';
+  <pre data-line="8,14"><code class="language-ts line-numbers">import { Workbox } from 'workbox-window';
 
 const wb = new Workbox('/service-worker.js', {});
 
 wb.addEventListener('activated', async event => {
-    // `event.isUpdate` will be true if another version of the service
-    // worker was controlling the page when this version was registered.
-    if (!event.isUpdate) {
+  // `event.isUpdate` will be true if another version of the service
+  // worker was controlling the page when this version was registered.
+  if (!event.isUpdate) {
     // If your service worker is configured to precache assets, those
     // assets should all be available now.
-
-    // Send a message telling the service worker to claim the clients
+    // So send a message telling the service worker to claim the clients
     // This is the first install, so the functionality of the app
     // should meet the functionality of the service worker!
     wb.messageSW({ type: 'CLIENTS_CLAIM' });
@@ -145,33 +144,220 @@ wb.register();
 
   <h2>
     <span>
-     Using an interval update can be tricky
+     Updating the application while using it
     </span>
   </h2>
 
   <p>
-    With PWA's installed on the homescreeen and opened as a native-like application it is possible that those
-    application are opened for a long time. Updating a new version of the application and installing a new service
-    worker could potentially by extended for a long time. Until the user closes and reopens the application, or
-    refreshes. It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
+    With PWA's installed on the homescreeen and opened as a native-like application it's possible that those
+    <em>applications are opened for a long time</em>. Updating a new version of the application and installing a new
+    service worker could potentially by extended or postponed for a long time, until the user closes and reopens the
+    application, or refreshes. It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
                             target="_blank">possible to disable the refresh by pulling down the application
     completely</a>.
   </p>
   <p>
     In those cases the only way of updating seems to be closing and reopening the application. <strong>Fortunately it's
-    not</strong>. There are several ways of doing an update in-application, by means of user-intent, or by
-    setting up an interval.
+    not</strong>. There are several ways of doing an update in-application: by means of <em>user-intent</em>, when the
+    <em>application becomes visible</em> again or by <em>setting up an interval</em>. Let's explore these 3 options.
   </p>
+
+  <h3>
+    <span>Update application by user-intent</span>
+  </h3>
+
+  <p>
+    The simplest way of asking for an update to the application is by <em>letting the user click a button</em>. So we are gonna
+    take this example to show how to update the application while running it. The other options and examples are just
+    defining a different approach or intent to update.
+  </p>
+
+  <p>
+    To be able to update our application while running it we need to make sure that we are keeping the original
+    registration. Checking for a new version and performing an update it than as simple as just calling
+    <code>swRegistration.update()</code>. Consider the following <code>ServiceWorkerService</code>:
+  </p>
+
+  <pre data-line="9,18,28"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { Workbox } from 'workbox-window';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceWorkerService {
+
+  private swRegistration: ServiceWorkerRegistration;
+
+  constructor() {
+    this.registerServiceWorker();
+  }
+
+  public async checkForUpdate() {
+    try {
+      console.log('updating sw');
+      return await this.swRegistration.update();
+    } catch (err) {
+      console.log('sw.js could not be updated', err);
+    }
+  }
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    try {
+      this.swRegistration = await wb.register();
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+}</code></pre>
+
+  <p>
+    This Angular example service, <em>which can BTW be easily ported to any framework</em>, registers the service worker as soon
+    as the service gets instantiated. The <code>register</code> method call on the Workbox instance gives us a native
+    <code>ServiceWorkerRegistration</code> that we save in the <code>serviceWorkerRegistration</code> property.
+  </p>
+
+  <p>
+    Now any button in the application can be coupled to check for an update of the application by calling the
+    <code>checkForUpdate method</code>. This method uses the previously saved registration and calls <code>update</code>
+    on it.
+  </p>
+  <p>
+    This method attempts to update the service worker by fetching the registration's URL. In case there is a
+    byte-by-byte difference to the current service worker, the new service worker will ge installed and eventually will
+    go in a waiting state, after its potential new resources have been cached and the logic has been loaded.
+  </p>
+
+  <p>
+    Calling
+  </p>
+
+  <h3>
+    <span>Update application when it becomes visible again</span>
+  </h3>
 
   <p>
 
   </p>
+
+  <pre data-line="14,36-40"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { Workbox } from 'workbox-window';
+import { fromEvent } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceWorkerService {
+
+ private swRegistration: ServiceWorkerRegistration;
+
+  constructor() {
+    this.registerServiceWorker();
+    this.registerVisibileChangeListener();
+  }
+
+  public async checkForUpdate() {
+    try {
+      console.log('updating sw');
+      return await this.swRegistration.update();
+    } catch (err) {
+      console.log('sw.js could not be updated', err);
+    }
+  }
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    try {
+      this.swRegistration = await wb.register();
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+  private registerVisibileChangeListener() {
+    fromEvent(document, 'visibilitychange').subscribe(() => {
+      this.checkForUpdate();
+    });
+  }
+
+}
+</code></pre>
+
+  <h3>
+    <span>Update application by setting up an interval</span>
+  </h3>
+
+  <p>
+
+  </p>
+
+  <pre data-line="31-33"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { Workbox } from 'workbox-window';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceWorkerService {
+
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000; // 4h
+  private swRegistration: ServiceWorkerRegistration;
+
+  constructor() {
+    this.registerServiceWorker();
+  }
+
+  public async checkForUpdate() {
+    try {
+      console.log('updating sw');
+      return await this.swRegistration.update();
+    } catch (err) {
+      console.log('sw.js could not be updated', err);
+    }
+  }
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    try {
+      this.swRegistration = await wb.register();
+
+      setInterval(async () => {
+        this.checkForUpdate();
+      }, this.swUpdateInterval);
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+}
+</code></pre>
 
   <h2>
     <span>
     Conclusion
     </span>
   </h2>
+
+  <p>
+    Today we learned a better way of controlling the application with our service worker on the very first load. Instead
+    of refreshing we use the <code>clients.claim()</code> method, but in a way that we won't potentially break our
+    application.
+  </p>
+
+  <p>
+    Furthermore, we have explored a few ideas on how to update our application from within the application. This is
+    particularly useful if our applications are long-living and we want to make sure our users get the latest
+    functionalities.
+  </p>
+
+  <p>
+    Workbox and service workers in general still have many unknown capabilities that I'm learning about. While we keep
+    developing we explore new ideas and ways of optimizing our code. I think I will be writing more about service
+    workers in the future :)
+  </p>
 
   <h2><span>Further reading</span></h2>
 
@@ -193,6 +379,12 @@ wb.register();
       <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior"
          target="_blank" rel="noopener">
         Take control of your scroll: customizing pull-to-refresh and overflow effects
+      </a>
+    </li>
+    <li>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/update"
+         target="_blank" rel="noopener">
+        ServiceWorkerRegistration documentation
       </a>
     </li>
   </ol>

@@ -30,6 +30,7 @@ export class EnvironmentService {
   private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
   // private readonly swUpdateInterval = 1 * 60 * 1000; // 1m for testing
   private swRegistration: ServiceWorkerRegistration;
+  private serviceWorkerAvailable = ('serviceWorker' in navigator && environment.production);
 
   private runningStandAlone = false;
   private visible = true;
@@ -38,14 +39,7 @@ export class EnvironmentService {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
 
-    // Check that service workers are available
-    // Only register service worker when in production
-    if ('serviceWorker' in navigator && environment.production) {
-      this.registerServiceWorker();
-    } else {
-      this.serviceWorkerReady.next(true);
-    }
-
+    this.registerServiceWorker();
     this.checkRunningStandAlone();
     this.registerVisibileChangeListener();
   }
@@ -68,7 +62,27 @@ export class EnvironmentService {
     this.applicationUpdateRequested.next(true);
   }
 
+  public async checkForUpdate(): Promise<any> {
+    if (this.serviceWorkerAvailable) {
+      try {
+        console.log('updating sw by check');
+        return await this.swRegistration.update();
+      } catch (err) {
+        console.log('sw.js could not be updated by check', err);
+      }
+    } else {
+      console.log('sw functionality not available');
+    }
+  }
+
   private async registerServiceWorker(): Promise<any> {
+    // Check that service workers are available
+    // Only register service worker when in production
+    if (!this.serviceWorkerAvailable) {
+      this.serviceWorkerReady.next(true);
+      return;
+    }
+
     const wb = new Workbox(this.swFile, this.swRegisterOptions);
 
     wb.addEventListener('activated', async event => {
@@ -174,13 +188,15 @@ export class EnvironmentService {
     if (document) {
       fromEvent(document, 'visibilitychange').pipe().subscribe(async () => {
         this.visible = document.visibilityState === 'visible';
-        if ('serviceWorker' in navigator && environment.production) {
+        if (this.serviceWorkerAvailable) {
           try {
             console.log('updating sw by visibility change');
             await this.swRegistration.update();
           } catch (err) {
             console.log('sw.js could not be updated by visibility change', err);
           }
+        } else {
+          console.log('sw functionality not available');
         }
       });
     }
