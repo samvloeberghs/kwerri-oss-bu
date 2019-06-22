@@ -149,7 +149,7 @@ wb.register();
   </h2>
 
   <p>
-    With PWA's installed on the homescreeen and opened as a native-like application it's possible that those
+    With PWA's installed on the homescreeen and opened as native-like applications it's possible that those
     <em>applications are opened for a long time</em>. Updating a new version of the application and installing a new
     service worker could potentially by extended or postponed for a long time, until the user closes and reopens the
     application, or refreshes. It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
@@ -174,7 +174,7 @@ wb.register();
 
   <p>
     To be able to update our application while running it we need to make sure that we are keeping the original
-    registration. Checking for a new version and performing an update it than as simple as just calling
+    registration. Checking for a new version and performing an update is then as simple as just calling
     <code>swRegistration.update()</code>. Consider the following <code>ServiceWorkerService</code>:
   </p>
 
@@ -225,13 +225,28 @@ export class ServiceWorkerService {
     on it.
   </p>
   <p>
-    This method attempts to update the service worker by fetching the registration's URL. In case there is a
-    byte-by-byte difference to the current service worker, the new service worker will ge installed and eventually will
-    go in a waiting state, after its potential new resources have been cached and the logic has been loaded.
+    The <code>update</code> method tries to update the service worker by fetching the registration's URL. In case there
+    is a <em>byte-by-byte difference</em> to the current service worker, the new service worker will ge installed and
+    eventually will go in a waiting state, after its potential new resources have been cached and the logic has been
+    loaded.
   </p>
 
+  <h3>
+    <span>Handling the new but waiting service worker</span>
+  </h3>
+
   <p>
-    Calling
+    Whenever our application gets a hold of a new but waiting service worker, we can safely assume that our application
+    can be updated. So we show a message to the user that an action, like refreshing the page, can be invoked to load
+    the new functionality. By using this approach we <em>keep the responsibility with the user</em> to load the new version.
+  </p>
+
+  <p class="alert alert-warning">
+    <i class="fa fa-exclamation-circle"></i>
+    Immediately activating the new service worker, by using <code>skipWaiting()</code> and/or <code>clients.claim()</code>
+    for all the clients when it becomes waiting can potentially break your application. The functionality from the new
+    service worker could not be compatible with the currently loaded old version of your application.
+    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">Read more about this consideration in my previous blogpost</a>.
   </p>
 
   <h3>
@@ -239,7 +254,9 @@ export class ServiceWorkerService {
   </h3>
 
   <p>
-
+    Another strategy to try and update your application can be <em>based on the visibility of your application</em>. As
+    soon as your functionality is loaded, we can start listening to the <code>visibilitychange</code> event on the
+    <code>document</code> as shown in the highlighted code below.
   </p>
 
   <pre data-line="14,36-40"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
@@ -286,12 +303,19 @@ export class ServiceWorkerService {
 }
 </code></pre>
 
+  <p>
+    Now every time your application gets hidden, for example when opening a new tab in your browser or opening a new
+    application on your smartphone, and you choose to make the tab visible again, or you reopen the application, the
+    app will try to update the service worker.
+  </p>
+
   <h3>
     <span>Update application by setting up an interval</span>
   </h3>
 
   <p>
-
+    One more other strategy is <em>requesting an update on an interval</em>, for example every 4 hours.
+    The extra logic / code for this is a simple 3-liner as highlighted below:
   </p>
 
   <pre data-line="31-33"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
@@ -354,8 +378,8 @@ export class ServiceWorkerService {
   </p>
 
   <p>
-    Workbox and service workers in general still have many unknown capabilities that I'm learning about. While we keep
-    developing we explore new ideas and ways of optimizing our code. I think I will be writing more about service
+    Workbox and service workers in general still have many unknown capabilities that I'm learning about. But while we
+    keep developing we explore new ideas and ways of optimizing our code. I think I will be writing more about service
     workers in the future :)
   </p>
 
@@ -389,6 +413,7 @@ export class ServiceWorkerService {
     </li>
   </ol>
 
+  <!--
   <h2>
     <span>
       Special thanks to
@@ -407,5 +432,6 @@ export class ServiceWorkerService {
     for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so
     please let me know!
   </p>
+  -->
 
 </section>

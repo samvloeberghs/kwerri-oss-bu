@@ -65,10 +65,10 @@ export class EnvironmentService {
   public async checkForUpdate(): Promise<any> {
     if (this.serviceWorkerAvailable) {
       try {
-        console.log('updating sw by check');
+        console.log('updating sw');
         return await this.swRegistration.update();
       } catch (err) {
-        console.log('sw.js could not be updated by check', err);
+        console.log('sw.js could not be updated', err);
       }
     } else {
       console.log('sw functionality not available');
@@ -162,12 +162,7 @@ export class EnvironmentService {
       this.swRegistration = await wb.register();
 
       setInterval(async () => {
-        try {
-          console.log('updating sw by interval');
-          await this.swRegistration.update();
-        } catch (err) {
-          console.log('sw.js could not be updated by interval', err);
-        }
+        this.checkForUpdate();
       }, this.swUpdateInterval);
 
       if (navigator.serviceWorker.controller) {
@@ -189,12 +184,7 @@ export class EnvironmentService {
       fromEvent(document, 'visibilitychange').pipe().subscribe(async () => {
         this.visible = document.visibilityState === 'visible';
         if (this.serviceWorkerAvailable) {
-          try {
-            console.log('updating sw by visibility change');
-            await this.swRegistration.update();
-          } catch (err) {
-            console.log('sw.js could not be updated by visibility change', err);
-          }
+          this.checkForUpdate();
         } else {
           console.log('sw functionality not available');
         }
