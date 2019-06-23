@@ -60,7 +60,7 @@ aside {
 
   h1 {
     text-transform: uppercase;
-    color: #666;
+    color: #333;
     text-align: center;
     font-size: 1.3em;
     letter-spacing: 1px;
@@ -77,23 +77,34 @@ aside {
     }
 
     a {
-      color: #666;
+      color: #333;
       text-decoration: none;
 
       &:hover {
-        color: #222;
+        color: #111;
       }
     }
 
   }
 
   h2 {
-    margin-bottom: 20px;
-    font-size: 1.8em;
+    text-transform: uppercase;
+    color: #333;
+    font-size: 1.3em;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
   }
 
   h3 {
     font-size: 1.6em;
+  }
+
+
+  p {
+    line-height: 25px;
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 20px;
   }
 
   nav ol {
@@ -228,21 +239,6 @@ aside {
 
     }
 
-  }
-
-  h2 {
-    text-transform: uppercase;
-    color: #666;
-    font-size: 1.3em;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-  }
-
-  p {
-    line-height: 25px;
-    font-size: 1.5em;
-    color: #888;
-    margin-bottom: 20px;
   }
 
   #mobilemenu {

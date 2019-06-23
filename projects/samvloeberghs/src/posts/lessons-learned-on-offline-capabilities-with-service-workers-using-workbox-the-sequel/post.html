@@ -40,13 +40,13 @@
     In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous post
     about service workers and Workbox</a> I used a somewhat shady technique with a refresh to activate the service
     worker functionality on the first load of the application. <em>This is completely unnecessary</em>
-    and the outcome can be achieved using other techniques.
+    and the same outcome can be achieved using other techniques.
   </p>
 
   <p>
     If we consider the code to register the service worker from the previous post, the only thing we have to change is
-    send an event to the service worker, to claim the clients instead of reloading the page. This is demonstrated on
-    line 19 and 25 in the following code. The logic to detect a first service worker remained unchanged.
+    <em>send an event to the service worker to claim the clients</em>, instead of reloading the page. This is
+    demonstrated on line 19 and 25 in the following code. The logic to detect a first service worker remained unchanged.
   </p>
 
   <h4 class="codetitle">service-worker-registration.ts</h4>
@@ -113,7 +113,7 @@ self.addEventListener('message', event => {
   <p>
     With Workbox Window we can listen for the <code>activated</code> event on the service worker registration.
     This events holds a property <code>isUpdate</code> that indicates if a previous version was controlling the page.
-    If not, we can assume this is a first time install.
+    If not, we can safely assume this is a first time install.
   </p>
 
   <h4 class="codetitle">service-worker-registration-workbox-window.ts</h4>
@@ -139,9 +139,9 @@ wb.register();
 
   <p>
     Similar to our previous example, without Workbox Window, our service worker needs to be listening to messages and
-    act accordingly on the message of type <code>CLIENTS_CLAIM</code>. <code>wb.messageSW</code> is a wrapper function
-    that provides a message and reply mechanism using a <code>MessageChannel</code> but also just send a message to the
-    service worker using <code>postMessage</code>.
+    act accordingly on the message of type <code>CLIENTS_CLAIM</code>. <code>wb.messageSW</code> is a Workbox wrapper
+    function that provides a message and reply mechanism using a <code>MessageChannel</code> but basically just sends a
+    message to the service worker using <code>postMessage</code>.
   </p>
 
   <h2>
@@ -154,9 +154,14 @@ wb.register();
     With PWA's installed on the homescreeen and opened as native-like applications it's possible that those
     <em>applications are opened for a long time</em>. Updating a new version of the application and installing a new
     service worker could potentially by extended or postponed for a long time, until the user closes and reopens the
-    application, or refreshes. It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
+    application, or refreshes the application.
+  </p>
+
+  <p>
+    It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
                             target="_blank">possible to disable the refresh by pulling down the application
-    completely</a>.
+    completely</a>. This could be done if the functionality requires it. In case of for example a full screen map,
+    pinching, zooming and other gestures could lead to an unexpected refresh.
   </p>
   <p>
     In those cases the only way of updating seems to be closing and reopening the application. <strong>Fortunately it's
@@ -175,9 +180,9 @@ wb.register();
   </p>
 
   <p>
-    To be able to update our application while running it we need to make sure that we are keeping the original
-    registration. Checking for a new version and performing an update is then as simple as just calling
-    <code>swRegistration.update()</code>. Consider the following <code>ServiceWorkerService</code>:
+    To be able to update our application while running it we need to make sure that we <em>keep track of the original
+    service worker registration</em>. Checking for a new version and performing an update is then as simple as just
+    calling <code>swRegistration.update()</code>. Please consider the following <code>ServiceWorkerService</code>:
   </p>
 
   <h4 class="codetitle">app-update-user-intent.ts</h4>
@@ -224,14 +229,14 @@ export class ServiceWorkerService {
 
   <p>
     Now any button in the application can be coupled to check for an update of the application by calling the
-    <code>checkForUpdate method</code>. This method uses the previously saved registration and calls <code>update</code>
-    on it.
+    <code>checkForUpdate</code> method. This method uses the previously saved <code>swRegistration</code> and calls
+    <code>update</code> on it.
   </p>
+
   <p>
     The <code>update</code> method tries to update the service worker by fetching the registration's URL. In case there
-    is a <em>byte-by-byte difference</em> to the current service worker, the new service worker will ge installed and
-    eventually will go in a waiting state, after its potential new resources have been cached and the logic has been
-    loaded.
+    is a <em>byte-by-byte difference</em> to the current service worker, the new service worker will ge installed. After
+    its potential new resources have been cached and the logic has been loaded it will eventually go in a waiting state.
   </p>
 
   <h3>
@@ -253,8 +258,8 @@ export class ServiceWorkerService {
   </p>
 
   <p>
-    Before we dive further into the code and details for this example, we will go trough the most simple use-case
-    that describes the desired functionality:
+    Before we dive further into the code and details for this example, <em>we will go trough the most simple use-case
+    that describes the desired functionality</em>:
   </p>
 
   <ol>
@@ -263,15 +268,15 @@ export class ServiceWorkerService {
       the browser.
     </li>
     <li>
-      During usage of the application, we deploy a new version. The automatic update interval runs a cycle and finds
+      During usage of the application, we deploy a new version. The user clicks a button to check and finds
       the new version of our application. The new service worker installs and goes into waiting state.
     </li>
     <li>
-      Our application is notified of this new version and shows the user an update button to express his intent.
+      Our application is notified of this new version and shows the user an update button to express his further intent.
       Meanwhile the new service worker stays in waiting state.
     </li>
     <li>
-      When the user clicks the button, our new service worker is informed and skips the waiting phase.
+      When the user clicks the update button, our new service worker is informed and skips the waiting phase.
       As soon as the new service worker finishes his caching work and install process it becomes activated.
     </li>
     <li>
@@ -281,10 +286,14 @@ export class ServiceWorkerService {
     </li>
   </ol>
 
+  <h3>
+    <span>Listening for a new service worker</span>
+  </h3>
+
   <p>
-    Listening for a new waiting service worker using Workbox is a little bit unexpected and different from handling
-    a new waiting service worker when we try an update from within the application. For these situations Workbox
-    dispatches lifecycle events like <code>externalinstalling</code> when updates are arriving from "external"
+    Listening for a new waiting service worker using Workbox when we try an update from within the application is a
+    little bit unexpected and different from handling a new waiting service worker after a refresh. For these situations
+    Workbox dispatches lifecycle events like <code>externalinstalling</code> when updates are arriving from "external"
     service workers. Any version which is not the current Workbox instance or service worker registration can be
     considered as external.
   </p>
