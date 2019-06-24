@@ -64,9 +64,6 @@ export class EnvironmentService {
 
     try {
       this.swRegistration = await wb.register();
-      setInterval(async () => {
-        this.checkForUpdate();
-      }, this.swUpdateInterval);
     } catch (e) {
       console.log('error registering service worker', e);
     }

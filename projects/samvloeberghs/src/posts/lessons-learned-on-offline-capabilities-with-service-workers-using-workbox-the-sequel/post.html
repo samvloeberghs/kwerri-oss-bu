@@ -151,8 +151,8 @@ wb.register();
   </h2>
 
   <p>
-    With PWA's installed on the homescreeen and opened as native-like applications it's possible that those
-    <em>applications are opened for a long time</em>. Updating a new version of the application and installing a new
+    With PWA's installed on the homescreen and opened as native-like applications it's possible that those
+    <em>applications are running for a long time</em>. Updating a new version of the application and installing a new
     service worker could potentially be extended or postponed for a long time, until the user closes and reopens the
     application, or refreshes the application.
   </p>
@@ -165,7 +165,7 @@ wb.register();
   </p>
   <p>
     In those cases the only way of updating seems to be closing and reopening the application. <strong>Fortunately it's
-    not</strong>. There are several ways of doing an update in-application. By means of <em>user-intent</em>, when the
+    not</strong>. There are several ways of doing an in-application update. By means of <em>user-intent</em>, when the
     <em>application becomes visible</em> again or by <em>setting up an interval</em>. Let's explore these 3 options.
   </p>
 
@@ -222,7 +222,7 @@ export class ServiceWorkerService {
 }</code></pre>
 
   <p>
-    This Angular example service, <em>which can BTW be easily ported to any framework</em>, registers the service worker as soon
+    This Angular example service, <em>which can be easily ported to any framework</em>, registers the service worker as soon
     as the service gets instantiated. The <code>register</code> method call on the Workbox instance gives us a native
     <code>ServiceWorkerRegistration</code> that we save in the <code>serviceWorkerRegistration</code> property.
   </p>
@@ -365,9 +365,6 @@ export class EnvironmentService {
 
     try {
       this.swRegistration = await wb.register();
-      setInterval(async () => {
-        this.checkForUpdate();
-      }, this.swUpdateInterval);
     } catch (e) {
       console.log('error registering service worker', e);
     }
@@ -377,16 +374,16 @@ export class EnvironmentService {
 </code></pre>
 
   <p>
-    Let's map our usecase written out above onto the code:
+    Let's map our use case written out above onto the code:
   </p>
 
   <ol>
     <li>
-      We assume an active service worker is available while running a <code>checkForUpdate</code>(line 68) and a new
-      version of the application is found and installing
+      We assume an active service worker is available while running a <code>checkForUpdate</code> (line 31) and a new
+      version of the application is found and installing.
     </li>
     <li>
-      Our event listener for <code>externalwaiting</code>(line 43) receives a new event and updates the application that
+      Our event listener for <code>externalwaiting</code> (line 43) receives a new event and updates the application that
       a new version is available. This value is exposed as an Observable in the application, so we can show a
       notification.
     </li>
@@ -403,7 +400,7 @@ export class EnvironmentService {
 
   <p class="alert alert-info">
     <i class="fa fa-info-circle"></i>
-    The full code for handling all these usecases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
+    The full code for handling all these use cases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
   </p>
 
   <h3>
@@ -555,6 +552,11 @@ export class ServiceWorkerService {
     <li>
       <a href="https://twitter.com/sh33dafi" rel="noopener" target="_blank">
         Yannick Houbrix
+      </a>
+    </li>
+    <li>
+      <a href="https://twitter.com/dennisjaamann" rel="noopener" target="_blank">
+        Dennis Jaamann
       </a>
     </li>
   </ul>
