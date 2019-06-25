@@ -16,4 +16,4 @@ if (true) {
 }
 
 
-if(true){ return false; }
+if(true){ console.log('yo'); return false; }
