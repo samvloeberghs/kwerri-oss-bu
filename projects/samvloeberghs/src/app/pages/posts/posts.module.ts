@@ -5,6 +5,7 @@ import { PostComponent } from './post/post.component';
 import { PostsRoutingModule } from './posts-routing.module';
 import { PostsComponent } from './posts.component';
 import { SharedModule } from '../../shared/shared.module';
+import { ImageZoomComponent } from './image-zoom/image-zoom.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { SharedModule } from '../../shared/shared.module';
   declarations: [
     PostsComponent,
     PostComponent,
+    ImageZoomComponent,
   ],
 })
 export class PostsModule {

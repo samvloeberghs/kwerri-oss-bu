@@ -17,6 +17,13 @@
 
   <sv-hire-me></sv-hire-me>
 
+  <sv-image-zoom
+    *ngIf="currentZoomImage"
+    (close)="closeImageZoom()"
+    [imgLink]="currentZoomImage"
+    [title]="currentZoomImageTitle">
+  </sv-image-zoom>
+
   <!--
   <hr/>
 

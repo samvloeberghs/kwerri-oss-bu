@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
@@ -19,6 +19,8 @@ export class PostComponent implements OnInit, AfterViewChecked {
   post: Post;
   error: any;
   highlighted = false;
+  currentZoomImage: string;
+  currentZoomImageTitle: string;
 
   constructor(
     private readonly router: Router,
@@ -27,9 +29,9 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly seoSocialShareService: SeoSocialShareService,
     private readonly sanitizer: DomSanitizer,
     private readonly jsonLdService: JsonLdService,
-    private readonly highlightService: HighlightService
+    private readonly highlightService: HighlightService,
+    private readonly elementRef: ElementRef,
   ) {
-
   }
 
   ngOnInit() {
@@ -91,7 +93,21 @@ export class PostComponent implements OnInit, AfterViewChecked {
     if (this.post && this.post.content && !this.highlighted) {
       this.highlightService.highlightAll();
       this.highlighted = true;
+      this.initImageZoom();
     }
+  }
+
+  public closeImageZoom() {
+    this.currentZoomImage = undefined;
+    this.currentZoomImageTitle = undefined;
+  }
+
+  private initImageZoom() {
+    this.elementRef.nativeElement.querySelector('img.zoomin').addEventListener('click', ($event) => {
+      console.log($event.target.src);
+      this.currentZoomImage = $event.target.src;
+      this.currentZoomImageTitle = $event.target.title;
+    });
   }
 
 }

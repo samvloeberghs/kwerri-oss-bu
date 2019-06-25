@@ -144,6 +144,14 @@ wb.register();
     message to the service worker using <code>postMessage</code>.
   </p>
 
+  <h3>
+    <span>Visual representation
+  </h3>
+
+  <img class="extraspace zoomin"
+     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_1.svg"
+     alt=""/>
+
   <h2>
     <span>
      Updating the application while it's in use
@@ -397,6 +405,20 @@ export class EnvironmentService {
         became activated (line 58). Now we can reload to activate the complete new application (line 62)!
     </li>
   </ol>
+
+  <!--
+  <h3>
+    <span>Visual representation
+  </h3>
+
+  <p>
+    For your convenience, I've tried to put the logic into a flow chart:
+  </p>
+
+  <img class="extraspace"
+     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_2.svg"
+     alt=""/>
+  -->
 
   <p class="alert alert-info">
     <i class="fa fa-info-circle"></i>
