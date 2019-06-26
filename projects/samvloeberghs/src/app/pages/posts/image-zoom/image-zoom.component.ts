@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+
+export enum KEY_CODE {
+  ESCAPE = 27
+}
+
+export interface ZoomImage {
+  title: string;
+  src: string;
+}
 
 @Component({
   selector: 'sv-image-zoom',
@@ -7,8 +16,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ImageZoomComponent implements OnInit {
 
-  @Input() imgLink: string;
-  @Input() imgTitle: string;
+  @Input() zoomImage: ZoomImage;
 
   @Output() close: EventEmitter<void> = new EventEmitter();
 
@@ -16,12 +24,19 @@ export class ImageZoomComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.imgLink);
   }
 
   closeZoom($event) {
     $event.preventDefault();
     this.close.emit();
   }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.keyCode === KEY_CODE.ESCAPE) {
+      this.closeZoom(event);
+    }
+  }
+
 
 }

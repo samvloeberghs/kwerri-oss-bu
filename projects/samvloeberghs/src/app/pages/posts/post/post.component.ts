@@ -8,6 +8,7 @@ import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
 import { HighlightService } from '../../../shared/highlight.service';
+import { ZoomImage } from '../image-zoom/image-zoom.component';
 
 @Component({
   selector: 'sv-post',
@@ -19,8 +20,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
   post: Post;
   error: any;
   highlighted = false;
-  currentZoomImage: string;
-  currentZoomImageTitle: string;
+  currentZoomImage: ZoomImage;
 
   constructor(
     private readonly router: Router,
@@ -98,16 +98,20 @@ export class PostComponent implements OnInit, AfterViewChecked {
   }
 
   public closeImageZoom() {
-    this.currentZoomImage = undefined;
-    this.currentZoomImageTitle = undefined;
+    this.currentZoomImage = null;
   }
 
   private initImageZoom() {
-    this.elementRef.nativeElement.querySelector('img.zoomin').addEventListener('click', ($event) => {
-      console.log($event.target.src);
-      this.currentZoomImage = $event.target.src;
-      this.currentZoomImageTitle = $event.target.title;
-    });
+    const htmlElements = this.elementRef.nativeElement.querySelector('img.zoomin');
+
+    if (htmlElements) {
+      htmlElements.addEventListener('click', ($event) => {
+        this.currentZoomImage = {
+          src: $event.target.src,
+          title: $event.target.title,
+        };
+      });
+    }
   }
 
 }

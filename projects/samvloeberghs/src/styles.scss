@@ -204,7 +204,7 @@ ol, ul, p {
       padding: 5px 15px 5px 10px;
       line-height: 1.5;
     }
-    
+
     td p {
       font-size: 1em;
     }
@@ -351,6 +351,10 @@ ol, ul, p {
         margin: 25px auto;
       }
 
+      &.zoomin {
+        cursor: pointer;
+      }
+
     }
 
     /*
@@ -363,7 +367,7 @@ ol, ul, p {
 
     .copy {
       font-style: italic;
-      line-height:1.3;
+      line-height: 1.3;
 
       small {
         font-size: 0.8em;
@@ -373,6 +377,7 @@ ol, ul, p {
     table {
       tr {
         border-bottom: 1px solid #eee;
+
         &:nth-child(even) {
           background: #f6f6f6;
         }
