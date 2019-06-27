@@ -86,6 +86,12 @@ if ('serviceWorker' in navigator) {
 }
 </code></pre>
 
+  <p class="alert alert-warning">
+    <i class="fa fa-exclamation-circle"></i>
+    Please don't use the above code in your application, as it's a bad implementation! A better implementation using
+    Workbox is discussed below.
+  </p>
+
   <p>
     For this to work we need to make our service worker react to messages and claim the clients for this installation
     of the service worker. We do this by registering an event listener on the <code>message</code> event:
@@ -145,12 +151,40 @@ wb.register();
   </p>
 
   <h3>
-    <span>Visual representation
+    <span>Visual representation</span>
   </h3>
 
   <img class="extraspace zoomin"
-     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_1.svg"
+     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_1.gif"
      alt=""/>
+
+  <p>
+    The animated GIF shown above highlights the steps our code takes in registering a service worker for the first time.
+    Let's go over all the steps shown in the animation:
+  </p>
+
+  <ol>
+
+    <li>
+      Our application creates a new <code>Workbox</code> instance that registers the service worker.
+    </li>
+    <li>
+      The service worker installs and proceeds trough the waiting process to the activated process. At this point
+      the service worker is not yet controlling the application (or client).
+    </li>
+    <li>
+      Through the workbox event system we receive the <code>activated</code> event. We check based on this event if the
+      activation is an update or not. In this case it's not.
+    </li>
+    <li>
+      The application logic sends an event trough the messasging system of Workbox, using <code>postMessage</code>, an
+      event "CLIENTS_CLAIM" instructing the service worker to take control over the active clients.
+    </li>
+    <li>
+      The service worker receives this event and acts accordingly, executing <code>clients.claim()</code>.
+    </li>
+
+  </ol>
 
   <h2>
     <span>
@@ -424,6 +458,53 @@ export class EnvironmentService {
     <i class="fa fa-info-circle"></i>
     The full code for handling all these use cases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
   </p>
+
+  <h3>
+    <span>Visual representation</span>
+  </h3>
+
+  <img class="extraspace zoomin"
+     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_3.gif"
+     alt=""/>
+
+  <p>
+    The animated GIF shown above highlights the steps our code takes when the application is responsible for checking
+    for a new version of the application on the server. As mentioned this can be <em>by user-intent</em>, when the
+    <em>application becomes visible again</em> or by <em>setting up an interval</em>. Let's go trough the animation
+    step-by-step:
+  </p>
+
+  <ol>
+    <li>
+      Our application creates a new <code>Workbox</code> instance that registers the service worker.
+      The application logic checks if there is already a service worker controlling the page. In this situation, this is
+      the case so we let our application logic know.
+    </li>
+    <li>
+      By means of user-intent, visibilitychange or the interval our application performs a check, checking the server
+      for a potential new version of the service worker and application.
+    </li>
+    <li>
+      The new service worker installs and goes into the <code>waiting</code> state.
+    </li>
+    <li>
+      Our Workbox instance picks up this change via the <code>externalwaiting</code> event listener and updates the
+      application, letting it know there is a new version available. This allows the application to show an update
+      button to the user, giving him the option to load the new version of the application.
+    </li>
+    <li>
+      The user express his intent and asks for an update of the application. The application logic sends a message
+      "SKIP_WAITING" to the new service worker, instructing it to advance to the <code>activated</code> state.
+    </li>
+    <li>
+      The new service worker becomes activated and updates the application trough the <code>externalactivated</code>
+      event, fired by the Workbox instance.
+    </li>
+    <li>
+      This last step finally instructs our application to do a programmatic reload, activating the newly cached version
+      of our application.
+    </li>
+  </ol>
 
   <h3>
     <span>Update application when it becomes visible again</span>
