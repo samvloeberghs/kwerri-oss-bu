@@ -102,10 +102,11 @@ export class PostComponent implements OnInit, AfterViewChecked {
   }
 
   private initImageZoom() {
-    const htmlElements = this.elementRef.nativeElement.querySelector('img.zoomin');
+    const htmlElements = this.elementRef.nativeElement.querySelectorAll('img.zoomin');
 
-    if (htmlElements) {
-      htmlElements.addEventListener('click', ($event) => {
+    debugger;
+    for (let i = 0; i < htmlElements.length; i++) {
+      htmlElements[i].addEventListener('click', ($event) => {
         this.currentZoomImage = {
           src: $event.target.src,
           title: $event.target.title,
