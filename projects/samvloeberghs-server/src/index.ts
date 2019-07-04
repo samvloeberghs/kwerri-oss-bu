@@ -38,7 +38,7 @@ if (!PROD) {
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
-app.engine('html', (_, options, callback) => {
+app.engine('html', (_, options: any, callback: Function) => {
   renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     url: options.req.url,

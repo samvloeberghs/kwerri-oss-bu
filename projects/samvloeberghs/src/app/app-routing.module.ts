@@ -5,27 +5,27 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './pages/home/home.module#HomeModule',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'kwerri',
-    loadChildren: './pages/kwerri/kwerri.module#KwerriModule',
+    loadChildren: () => import('./pages/kwerri/kwerri.module').then(m => m.KwerriModule),
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#AboutModule',
+    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
   },
   {
     path: 'talks-workshops',
-    loadChildren: './pages/talks/talks.module#TalksModule',
+    loadChildren: () => import('./pages/talks/talks.module').then(m => m.TalksModule),
   },
   {
     path: 'projects',
-    loadChildren: './pages/projects/projects.module#ProjectsModule',
+    loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule),
   },
   {
     path: 'posts',
-    loadChildren: './pages/posts/posts.module#PostsModule',
+    loadChildren: () => import('./pages/posts/posts.module').then(m => m.PostsModule),
   },
   {
     path: 'not-found',

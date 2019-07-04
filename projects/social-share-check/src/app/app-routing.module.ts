@@ -4,27 +4,27 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './pages/home/home.module#HomeModule',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'facebook-sharing-debugger',
-    loadChildren: './pages/facebook-sharing-debugger/facebook-sharing-debugger.module#FacebookSharingDebuggerModule',
+    loadChildren: () => import('./pages/facebook-sharing-debugger/facebook-sharing-debugger.module').then(m => m.FacebookSharingDebuggerModule),
   },
   {
     path: 'twitter-card-validator',
-    loadChildren: './pages/twitter-card-validator/twitter-card-validator.module#TwitterCardValidatorModule',
+    loadChildren: () => import('./pages/twitter-card-validator/twitter-card-validator.module').then(m => m.TwitterCardValidatorModule),
   },
   {
     path: 'linkedin-post-inspector',
-    loadChildren: './pages/linkedin-post-inspector/linkedin-post-inspector.module#LinkedinPostInspectorModule',
+    loadChildren: () => import('./pages/linkedin-post-inspector/linkedin-post-inspector.module').then(m => m.LinkedinPostInspectorModule),
   },
   {
     path: 'tips-and-tricks',
-    loadChildren: './pages/tips-and-tricks/tips-and-tricks.module#TipsAndTricksModule',
+    loadChildren: () => import('./pages/tips-and-tricks/tips-and-tricks.module').then(m => m.TipsAndTricksModule),
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#AboutModule',
+    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
   }
 ];
 

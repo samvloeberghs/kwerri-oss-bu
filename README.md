@@ -4,8 +4,7 @@
 
 - https://samvloeberghs.be
 - https://social-share-check.app
-- json ld library
-- better seo-service
+- [ngx-seo](https://www.npmjs.com/package/ngx-seo) (better meta tags & json ld library)
 - sw learnings example application
 
 ## Angular CLI

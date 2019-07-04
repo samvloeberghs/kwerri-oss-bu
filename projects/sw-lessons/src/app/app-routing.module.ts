@@ -6,15 +6,15 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './pages/home/home.module#HomeModule',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'contact',
-    loadChildren: './pages/contact/contact.module#ContactModule',
+    loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule),
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#AboutModule',
+    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
   },
   {
     path: 'not-found',
