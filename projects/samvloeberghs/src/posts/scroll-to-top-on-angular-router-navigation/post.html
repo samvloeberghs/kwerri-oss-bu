@@ -1,10 +1,17 @@
 <section class="entry-content post-body " itemprop="articleBody">
 
-  <p class="alert alert-info">
+  <p class="alert alert-info striketrough">
     <i class="fa fa-info-circle"></i>
     <em>Update (December 2018):</em> This article has been updated to represent the newly available <code>ViewportScroller</code>
     class, available from Angular v7+. This class implementation wraps around the window object and only executes if
     the window object is available.
+  </p>
+
+  <p class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    <em>Update (July 2019):</em> This article has been updated to use the proper configuration on the
+    <code>RouterModule</code> to perform a scroll to top on navigation and preserve the previous scroll position.
+    See the last section of this article.
   </p>
 
   <p>
@@ -98,6 +105,76 @@ export class AppComponent {
     class, available from Angular v7+. This class implementation wraps around the window object and only executes if
     the window object is available.
   </p>
+
+  <p class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    <em>Update (July 2019):</em> This article has been updated to use the proper configuration on the
+    <code>RouterModule</code> to perform a scroll to top on navigation and preserve the previous scroll position.
+  </p>
+
+  <h2>
+    <span>Using the <code>scrollPositionRestoration</code> config option of the <code>RouterModule</code></span>
+  </h2>
+
+  <p>
+    Since <code>v6.1</code> it is possible to set a configuration option <code>scrollPositionRestoration</code> on the
+    <code>RouterModule</code> that will preserve the scrolling position of the previous route and scroll to top on
+    a succesful navigation to the new route.
+  </p>
+
+  <h4 class="codetitle">app-routin.module.ts</h4>
+  <pre><code class="language-ts line-numbers">import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+  {
+    path: '',
+    loadChildren: './pages/home/home.module#HomeModule',
+  },
+  // ..
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabled',
+      scrollPositionRestoration: 'enabled'
+    })
+  ],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {
+}
+</code></pre>
+
+  <p>
+    This is currently implemented on my blog as you can see. And with a simple style setting on the HTML this performs
+    a smooth scroll whenever there is the need to!
+  </p>
+
+  <h4 class="codetitle">styles.scss</h4>
+  <pre><code class="language-css line-numbers">html {
+    scroll-behavior: smooth;
+}
+</code></pre>
+
+  <h3>
+    <span>Visual example</span>
+  </h3>
+
+  <p>
+    In the visual example below I first scroll down on the projects page. Next I navigate to the posts overview.
+    During this navigation, the window is scrolled to top automatically. When I hit back in the browser, the application
+    is again focussed on the scrolling position I was before.
+  </p>
+
+  <img class="extraspace zoomin"
+       src="/posts/scroll-to-top-on-angular-router-navigation/scroll-to-top.gif"
+       alt=""/>
+
+  <h2>
+    <span>Conclusion</span>
+  </h2>
 
   <p>
     And that was it! Be aware that the <code>window</code> object might not be available in every context, except

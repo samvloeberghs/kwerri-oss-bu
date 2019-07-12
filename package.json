@@ -9,6 +9,7 @@
     "test": "npx ng test",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
+    "analyze": "webpack-bundle-analyzer",
     "serve:sw-lessons": "npx ws --port 4401 -d dist/sw-lessons",
     "serve:samvloeberghs:ssr:local": "node server/samvloeberghs-server/index.js",
     "serve:samvloeberghs:ssr:prod": "bnr serve:samvloeberghs:ssr:prod",
@@ -98,6 +99,7 @@
     "tslib": "^1.9.0",
     "tslint": "~5.12.1",
     "typescript": "~3.2.4",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.2.2",
     "webpack-node-externals": "^1.7.2",
     "workbox-cli": "^4.1.0"

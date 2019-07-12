@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { ViewportScroller } from '@angular/common';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-seo';
 
@@ -19,7 +18,6 @@ export class RouteHelper {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private readonly viewportScroller: ViewportScroller,
     private readonly seoSocialShareService: SeoSocialShareService,
     private readonly jsonLdService: JsonLdService,
   ) {
@@ -34,11 +32,9 @@ export class RouteHelper {
   }
 
   private setupRouting() {
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      tap(() => {
-        this.viewportScroller.scrollToPosition([0, 0]);
-      }),
       map(() => this.activatedRoute),
       map(route => {
         while (route.firstChild) {
@@ -48,7 +44,6 @@ export class RouteHelper {
       }),
       filter(route => route.outlet === 'primary'),
     ).subscribe((route: ActivatedRoute) => {
-      this.viewportScroller.scrollToPosition([0, 0]);
       const seo: any = route.snapshot.data['seo'];
       if (seo) {
         const jsonLd = this.jsonLdService.getObject('Website', {
