@@ -11,6 +11,13 @@
   <p class="posted">
     Posted on
     <time [attr.datetime]="post.publishDatetime">{{ post.publishDatetime | date:'fullDate'}}</time>
+    <span *ngIf="!!post.updateDatetime && post.publishDatetime != post.updateDatetime">
+      <em>
+        <br />
+        Last update on
+        <time [attr.datetime]="post.updateDatetime">{{ post.updateDatetime | date:'fullDate'}}</time>
+      </em>
+    </span>
   </p>
 
   <div [innerHtml]="post.content" highlight-js-content=".highlighted"></div>
