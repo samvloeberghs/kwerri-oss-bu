@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 export enum KEY_CODE {
   ESCAPE = 27
@@ -14,17 +14,11 @@ export interface ZoomImage {
   templateUrl: './image-zoom.component.html',
   styleUrls: ['./image-zoom.component.scss'],
 })
-export class ImageZoomComponent implements OnInit {
+export class ImageZoomComponent {
 
   @Input() zoomImage: ZoomImage;
 
   @Output() close: EventEmitter<void> = new EventEmitter();
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
 
   closeZoom($event) {
     $event.preventDefault();
