@@ -30,6 +30,7 @@
               "projects/samvloeberghs/src/sitemap.xml"
             ],
             "styles": [
+              "projects/samvloeberghs/src/assets/fontawesome/css/font-awesome.min.css",
               "projects/samvloeberghs/src/styles.scss"
             ],
             "scripts": []
