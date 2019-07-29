@@ -1,10 +1,11 @@
 /** @format */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
-import { Workbox } from 'workbox-window';
 
+import { Workbox } from 'workbox-window';
 import { environment } from '../environments/environment';
 
 declare const window: any;
@@ -16,27 +17,28 @@ declare const document: any;
 })
 export class EnvironmentService {
 
-  public newVersionAvailable$: Observable<boolean>;
-  public applicationUpdateOngoing$: Observable<boolean>;
+  public readonly newVersionAvailable$: Observable<boolean>;
+  public readonly applicationUpdateOngoing$: Observable<boolean>;
+
+  public runningStandAlone = false;
 
   private readonly newVersionAvailable = new BehaviorSubject(false);
   private readonly applicationUpdateOngoing = new BehaviorSubject(false);
   private readonly applicationUpdateRequested = new BehaviorSubject(false);
   private readonly serviceWorkerReady = new BehaviorSubject(false);
+  private readonly sw = {
+    file : '/sw.js',
+    registerOptions: {},
+    updateInterval: 4 * 60 * 60 * 1000 // every 4h
+    // updateInterval = 1 * 60 * 1000; // 1m for testing
+  };
 
-  private readonly swFile = '/sw.js';
-  private readonly swRegisterOptions = {};
-  // check every 4h if a new version is available
-  private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
-  // private readonly swUpdateInterval = 1 * 60 * 1000; // 1m for testing
   private swRegistration: ServiceWorkerRegistration;
-  // Service only available in production ( bundled assets )
-  private serviceWorkerAvailable = ('serviceWorker' in navigator && environment.production);
-
-  private runningStandAlone = false;
+  // serviceWorker only available in production ( bundled assets )
+  private serviceWorkerAvailable = false;
   private visible = true;
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
 
@@ -66,17 +68,22 @@ export class EnvironmentService {
   public async checkForUpdate(): Promise<any> {
     if (this.serviceWorkerAvailable) {
       try {
-        console.log('updating sw');
+        console.info('updating sw');
         return await this.swRegistration.update();
       } catch (err) {
-        console.log('sw.js could not be updated', err);
+        console.error('sw.js could not be updated', err);
       }
     } else {
-      console.log('sw functionality not available');
+      console.info('sw functionality currently not available');
     }
   }
 
   private async registerServiceWorker(): Promise<any> {
+    // only do this in the browser
+    if (isPlatformBrowser(this.platformId)) {
+      this.serviceWorkerAvailable = 'serviceWorker' in navigator && environment.production;
+    }
+
     // Check that service workers are available
     // Only register service worker when in production
     if (!this.serviceWorkerAvailable) {
@@ -84,7 +91,7 @@ export class EnvironmentService {
       return;
     }
 
-    const wb = new Workbox(this.swFile, this.swRegisterOptions);
+    const wb = new Workbox(this.sw.file, this.sw.registerOptions);
 
     wb.addEventListener('activated', async event => {
       if (!event.isUpdate) {
@@ -166,7 +173,7 @@ export class EnvironmentService {
 
       setInterval(async () => {
         this.checkForUpdate();
-      }, this.swUpdateInterval);
+      }, this.sw.updateInterval);
 
       if (navigator.serviceWorker.controller) {
         this.serviceWorkerReady.next(true);
@@ -177,19 +184,20 @@ export class EnvironmentService {
   }
 
   private checkRunningStandAlone() {
-    if (window && 'matchMedia' in window) {
+    // only do this in the browser
+    if (isPlatformBrowser(this.platformId) && 'matchMedia' in window) {
       this.runningStandAlone = window.matchMedia('(display-mode: standalone)').matches;
     }
   }
 
   private registerVisibileChangeListener() {
-    if (document) {
+    // only do this in the browser
+    if (isPlatformBrowser(this.platformId)) {
       fromEvent(document, 'visibilitychange').pipe().subscribe(async () => {
         this.visible = document.visibilityState === 'visible';
-        if (this.serviceWorkerAvailable) {
+        // only check for update if the page became visible
+        if (this.visible) {
           this.checkForUpdate();
-        } else {
-          console.log('sw functionality not available');
         }
       });
     }
