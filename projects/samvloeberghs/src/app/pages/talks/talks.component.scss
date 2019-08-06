@@ -14,6 +14,10 @@ ul {
     margin: {
       bottom: 15px;
     }
+
+    &.canceled {
+      text-decoration: line-through;
+    }
   }
 
 }
@@ -21,8 +25,9 @@ ul {
 table.speaker-info {
 
   @media (max-width: 920px) {
-    width:100%;
+    width: 100%;
   }
+
   th {
     @media (min-width: 920px) {
       min-width: 225px;
@@ -30,9 +35,9 @@ table.speaker-info {
   }
 
   th, td {
-    display:block;
+    display: block;
     word-break: break-word;
-    padding:{
+    padding: {
       left: 0;
     }
   }

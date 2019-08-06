@@ -27,9 +27,9 @@ export class EnvironmentService {
   private readonly applicationUpdateRequested = new BehaviorSubject(false);
   private readonly serviceWorkerReady = new BehaviorSubject(false);
   private readonly sw = {
-    file : '/sw.js',
+    file: '/sw.js',
     registerOptions: {},
-    updateInterval: 4 * 60 * 60 * 1000 // every 4h
+    updateInterval: 4 * 60 * 60 * 1000, // every 4h
     // updateInterval = 1 * 60 * 1000; // 1m for testing
   };
 
