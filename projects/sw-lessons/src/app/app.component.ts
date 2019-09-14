@@ -6,7 +6,7 @@ import { EnvironmentService } from './environment.service';
 @Component({
   selector: 'swl-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
 
@@ -19,31 +19,31 @@ export class AppComponent {
 
   }
 
-  public async setOAuthToken() {
+  public async setOAuthToken(): Promise<any> {
     this.currentOAuthToken = 'header.payload.signature';
     const customStore = new Store('swl-db', 'swl-db-store');
     await set('token', this.currentOAuthToken, customStore);
   }
 
-  public async unsetOAuthToken() {
+  public async unsetOAuthToken(): Promise<any> {
     this.currentOAuthToken = undefined;
     const customStore = new Store('swl-db', 'swl-db-store');
     await del('token', customStore);
   }
 
-  public loadMapTile() {
+  public loadMapTile(): void  {
     this.mapTile = `/assets/map.png?t=${Date.now()}`;
   }
 
-  public unloadMapTile() {
+  public unloadMapTile(): void  {
     this.mapTile = undefined;
   }
 
-  public loadNewVersion() {
+  public loadNewVersion(): void  {
     this.environmentService.update();
   }
 
-  public checkForUpdate() {
+  public checkForUpdate(): void {
     this.environmentService.checkForUpdate();
   }
 

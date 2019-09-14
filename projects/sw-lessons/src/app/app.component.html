@@ -1,36 +1,58 @@
-<div *ngIf="newVersionAvailable$ | async">
-  <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
-          (click)="loadNewVersion()">
-    New version available, reload?
-  </button>
-  <ng-template #updateOngoing>
-    Update ongoing!
-  </ng-template>
+<h1>Service worker lessons</h1>
+<hr />
+
+<div class="row">
+  <div class="box">
+
+    <div *ngIf="newVersionAvailable$ | async">
+      <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
+              (click)="loadNewVersion()">
+        New version available, reload?
+      </button>
+      <ng-template #updateOngoing>
+        Update ongoing!
+      </ng-template>
+    </div>
+
+    <button (click)="checkForUpdate()">Check for update</button>
+
+  </div>
+  <div class="box">
+
+    <button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
+    <button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
+    Token: {{currentOAuthToken}}
+    <button (click)="loadMapTile()">Load Map Tile</button>
+    <button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
+
+  </div>
+  <div class="box">
+
+  </div>
 </div>
 
-<h1>Service worker lessons</h1>
-
-<button (click)="checkForUpdate()">Check for update</button>
-<ul>
-  <li>
-    <a routerLink="/">Home</a>
-  </li>
-  <li>
-    <a routerLink="/about">About</a>
-  </li>
-  <li>
-    <a routerLink="/contact">Contact</a>
-  </li>
-</ul>
 <hr/>
 
-<button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
-<button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
-Token: {{currentOAuthToken}}
-<button (click)="loadMapTile()">Load Map Tile</button>
-<button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
-<img [src]="mapTile" *ngIf="mapTile"/>
+<div class="row">
+  <div class="box">
+    <ul>
+      <li>
+        <a routerLink="/">Home</a>
+      </li>
+      <li>
+        <a routerLink="/about">About</a>
+      </li>
+      <li>
+        <a routerLink="/contact">Contact</a>
+      </li>
+    </ul>
+  </div>
+  <div class="box">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="box">
+    <img [src]="mapTile" *ngIf="mapTile"/>
+  </div>
+</div>
 
-<hr/>
-<router-outlet></router-outlet>
 

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.row {
+  display: flex;
+}
+.box {
+  flex: 1 1 auto;
+  padding: 50px;
+
+  &:not(:last-child){
+    border-right: 1px solid #000;
+  }
+}

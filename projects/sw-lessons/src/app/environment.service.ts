@@ -68,13 +68,13 @@ export class EnvironmentService {
   public async checkForUpdate(): Promise<any> {
     if (this.serviceWorkerAvailable) {
       try {
-        console.info('updating sw');
+        console.log('updating sw');
         return await this.swRegistration.update();
       } catch (err) {
         console.error('sw.js could not be updated', err);
       }
     } else {
-      console.info('sw functionality currently not available');
+      console.log('sw functionality currently not available');
     }
   }
 
@@ -183,14 +183,14 @@ export class EnvironmentService {
     }
   }
 
-  private checkRunningStandAlone() {
+  private checkRunningStandAlone(): void {
     // only do this in the browser
     if (isPlatformBrowser(this.platformId) && 'matchMedia' in window) {
       this.runningStandAlone = window.matchMedia('(display-mode: standalone)').matches;
     }
   }
 
-  private registerVisibileChangeListener() {
+  private registerVisibileChangeListener(): void {
     // only do this in the browser
     if (isPlatformBrowser(this.platformId)) {
       fromEvent(document, 'visibilitychange').pipe().subscribe(async () => {

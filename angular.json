@@ -261,6 +261,11 @@
       "root": "projects/sw-lessons/",
       "sourceRoot": "projects/sw-lessons/src",
       "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "prefix": "swl",
       "schematics": {},
       "architect": {
@@ -277,7 +282,7 @@
               "projects/sw-lessons/src/assets"
             ],
             "styles": [
-              "projects/sw-lessons/src/styles.css"
+              "projects/sw-lessons/src/styles.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -335,7 +340,7 @@
             "tsConfig": "projects/sw-lessons/tsconfig.spec.json",
             "karmaConfig": "projects/sw-lessons/karma.conf.js",
             "styles": [
-              "projects/sw-lessons/src/styles.css"
+              "projects/sw-lessons/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
