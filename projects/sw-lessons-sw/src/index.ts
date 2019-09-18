@@ -111,6 +111,7 @@ if (workbox) {
   workbox.routing.registerRoute(/assets\/flags\/(?![_])(.*)/, args => {
     return flagsHandler.handle(args)
       .then(response => {
+        console.log(response);
         if (!response || response.status === 404) {
           return defaultFlag();
         }
