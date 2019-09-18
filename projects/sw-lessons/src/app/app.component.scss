@@ -9,11 +9,19 @@
 .row {
   display: flex;
 }
+
 .box {
   flex: 1 1 auto;
   padding: 50px;
 
-  &:not(:last-child){
+  &:not(:last-child) {
     border-right: 1px solid #000;
   }
+}
+
+.new-version-available {
+  background: green;
+  border: 1px solid darkgreen;
+  color: #fff;
+  margin-bottom: 20px;
 }

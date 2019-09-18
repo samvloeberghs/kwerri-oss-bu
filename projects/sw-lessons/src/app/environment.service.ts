@@ -71,7 +71,7 @@ export class EnvironmentService {
         console.log('updating sw');
         return await this.swRegistration.update();
       } catch (err) {
-        console.error('sw.js could not be updated', err);
+        console.log('sw.js could not be updated', err);
       }
     } else {
       console.log('sw functionality currently not available');

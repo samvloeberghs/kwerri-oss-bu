@@ -6,6 +6,7 @@ const path = require('path');
 module.exports = {
   target: 'node',
   mode: 'none',
+  devtool: 'inline-source-map',
   entry: {
     index: path.join(__dirname, 'src', 'index.ts')
   },

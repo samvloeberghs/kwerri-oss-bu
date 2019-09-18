@@ -27,6 +27,18 @@ if (workbox) {
     workbox.precaching.getCacheKeyForURL('/index.html'),
   );
 
+  // Google Analytics cache setup
+  // see https://developers.google.com/web/tools/workbox/modules/workbox-google-analytics
+  workbox.googleAnalytics.initialize({
+    parameterOverrides: {
+      cd1: 'offline',
+    },
+    hitFilter: (params) => {
+      const queueTimeInSeconds = Math.round(params.get('qt') / 1000);
+      params.set('cm1', queueTimeInSeconds);
+    },
+  });
+
   // Google Fonts cache setup
   // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
   workbox.routing.registerRoute(
@@ -60,7 +72,6 @@ if (workbox) {
       return /map\.png/.test(url);
     },
     async ({ event, url }) => {
-
       // get the eventual token
       const customStore = new Store('swl-db', 'swl-db-store');
       const oAuthToken = await get<string>('token', customStore);
@@ -85,9 +96,37 @@ if (workbox) {
         .catch(err => {
           return fetch(defaultNotAuthedBase);
         });
-
     },
   );
+
+  // Flags default handler
+  const flagsHandler = new workbox.strategies.CacheFirst({
+    cacheName: 'flags-cache',
+  });
+
+  const defaultFlag = () => caches.match(
+    workbox.precaching.getCacheKeyForURL('/assets/_defaultflag.png'),
+  );
+
+  workbox.routing.registerRoute(/assets\/flags\/(?![_])(.*)/, args => {
+    return flagsHandler.handle(args)
+      .then(response => {
+        if (!response || response.status === 404) {
+          return defaultFlag();
+        }
+        return response;
+      }).catch(() => {
+        return defaultFlag();
+      });
+  });
+
+  // Liefi handler
+  const lieFiDataHandler = new workbox.strategies.NetworkFirst({
+    cacheName: 'data-liefi-cache',
+    networkTimeoutSeconds: 5,
+  });
+
+  workbox.routing.registerRoute(/assets\/data\.json/, lieFiDataHandler);
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

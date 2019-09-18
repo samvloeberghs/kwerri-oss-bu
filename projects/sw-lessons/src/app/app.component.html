@@ -1,11 +1,12 @@
-<h1>Service worker lessons</h1>
-<hr />
+<h1>Workbox demo</h1>
+<hr/>
 
 <div class="row">
   <div class="box">
 
-    <div *ngIf="newVersionAvailable$ | async">
+    <div *ngIf="(newVersionAvailable$ | async)">
       <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
+              class="new-version-available"
               (click)="loadNewVersion()">
         New version available, reload?
       </button>
@@ -22,11 +23,44 @@
     <button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
     <button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
     Token: {{currentOAuthToken}}
-    <button (click)="loadMapTile()">Load Map Tile</button>
+    <br/><br/>
+    <button (click)="loadMapTile()" *ngIf="!mapTile">Load Map Tile</button>
     <button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
 
   </div>
   <div class="box">
+
+    <div>
+      Load a country flag:
+      <select (change)="loadFlag($event)">
+        <option value="">none selected</option>
+        <option value="be">BE (be.png)</option>
+        <option value="de">DE (de.png)</option>
+        <option value="fr">FR (fr.png)</option>
+        <option value="nl">NL (nl.png)</option>
+        <option value="lu">LU (lu.png)</option>
+        <option disabled value="">---</option>
+        <option value="usa">USA (usa.png)</option>
+        <option value="uk">UK (uk.png)</option>
+      </select>
+    </div>
+
+    <br/><br/>
+
+    <img [src]="currentFlag" *ngIf="currentFlag"/>
+
+  </div>
+  <div class="box">
+    <div>
+      <button (click)="loadDataWithLieFiCheck()">
+        Load data with Li-Fie check
+      </button>
+
+      <div *ngIf="(lieFiData$ | async) as lieFiData">
+        <br/><br/>
+        <pre>{{ lieFiData | json}}</pre>
+      </div>
+    </div>
 
   </div>
 </div>
