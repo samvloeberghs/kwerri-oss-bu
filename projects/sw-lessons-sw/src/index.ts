@@ -21,11 +21,51 @@ if (workbox) {
 
   // default page handler for offline usage, where the browser does not how to handle deep links
   // it's a SPA, so each path that is a navigation should default to index.html
-  workbox.routing.registerNavigationRoute(
-    // Assuming '/index.html' has been precached,
-    // look up its corresponding cache key.
-    workbox.precaching.getCacheKeyForURL('/index.html'),
-  );
+  let defaultSPAPageHandlerVerison;
+  defaultSPAPageHandlerVerison = 3;
+
+  // 1st, native service worker version
+  if (defaultSPAPageHandlerVerison === 1) {
+    self.addEventListener('fetch', (event) => {
+      if (event.request.mode === 'navigate') {
+        event.respondWith(
+          caches.match('/index.html').then((response) => {
+            return response || fetch(event.request);
+          }).catch(error => {
+            return fetch(event.request);
+          }),
+        );
+      }
+      return;
+    });
+  }
+
+  // 2nd, workbox version
+  if (defaultSPAPageHandlerVerison === 2) {
+    workbox.routing.registerRoute(
+      ({ event }) => event.request.mode === 'navigate',
+      async () => {
+        const defaultBase = '/index.html';
+        return caches
+          .match(workbox.precaching.getCacheKeyForURL(defaultBase))
+          .then(response => {
+            return response || fetch(defaultBase);
+          })
+          .catch(err => {
+            return fetch(defaultBase);
+          });
+      },
+    );
+  }
+
+  // 3rd, best workbox version
+  if (defaultSPAPageHandlerVerison === 3) {
+    workbox.routing.registerNavigationRoute(
+      // Assuming '/index.html' has been precached,
+      // look up its corresponding cache key.
+      workbox.precaching.getCacheKeyForURL('/index.html'),
+    );
+  }
 
   // Google Analytics cache setup
   // see https://developers.google.com/web/tools/workbox/modules/workbox-google-analytics
@@ -103,15 +143,12 @@ if (workbox) {
   const flagsHandler = new workbox.strategies.CacheFirst({
     cacheName: 'flags-cache',
   });
-
-  const defaultFlag = () => caches.match(
-    workbox.precaching.getCacheKeyForURL('/assets/_defaultflag.png'),
-  );
-
   workbox.routing.registerRoute(/assets\/flags\/(?![_])(.*)/, args => {
+    const defaultFlag = () => caches.match(
+      workbox.precaching.getCacheKeyForURL('/assets/_defaultflag.png'),
+    );
     return flagsHandler.handle(args)
       .then(response => {
-        console.log(response);
         if (!response || response.status === 404) {
           return defaultFlag();
         }
@@ -125,8 +162,12 @@ if (workbox) {
   const lieFiDataHandler = new workbox.strategies.NetworkFirst({
     cacheName: 'data-liefi-cache',
     networkTimeoutSeconds: 5,
+    plugins: [
+      new workbox.backgroundSync.Plugin('liefiQueue', {
+        maxRetentionTime: 24 * 60, // Retry max 24h (specified in min)
+      }),
+    ],
   });
-
   workbox.routing.registerRoute(/assets\/data\.json/, lieFiDataHandler);
 
 } else {
