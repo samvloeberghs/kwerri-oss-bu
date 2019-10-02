@@ -160,13 +160,7 @@ if (workbox) {
 
   // Liefi handler
   const lieFiDataHandler = new workbox.strategies.NetworkFirst({
-    cacheName: 'data-liefi-cache',
     networkTimeoutSeconds: 5,
-    plugins: [
-      new workbox.backgroundSync.Plugin('liefiQueue', {
-        maxRetentionTime: 24 * 60, // Retry max 24h (specified in min)
-      }),
-    ],
   });
   workbox.routing.registerRoute(/assets\/data\.json/, lieFiDataHandler);
 

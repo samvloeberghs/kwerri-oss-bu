@@ -37,7 +37,6 @@ export class AppComponent {
   }
 
   public async checkOAuthToken(): Promise<any> {
-    this.currentOAuthToken = 'header.payload.signature';
     const customStore = new Store('swl-db', 'swl-db-store');
     try {
       const token = await get('token', customStore);
