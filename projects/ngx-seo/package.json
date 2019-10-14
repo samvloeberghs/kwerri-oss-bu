@@ -1,6 +1,6 @@
 {
   "name": "ngx-seo",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "peerDependencies": {
     "@angular/common": "^8.2.10",
     "@angular/core": "^8.2.10",
