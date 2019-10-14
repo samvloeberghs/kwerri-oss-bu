@@ -1,7 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 import { SeoSocialShareData } from './interfaces/seo-social-share-data';
+
+export enum MetaTagAttr {
+  name = 'name',
+  property = 'property'
+}
+
+export interface MetaTag {
+  attr: MetaTagAttr;
+  attrValue: string;
+  value?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +23,11 @@ export class SeoSocialShareService {
   constructor(
     private readonly metaService: Meta,
     private readonly titleService: Title,
+    @Inject(DOCUMENT) private readonly document,
   ) {
   }
 
-  setData(data: SeoSocialShareData) {
+  public setData(data: SeoSocialShareData): void {
     this.setTitle(data.title);
     this.setMetaDescription(data.description);
     this.setUrl(data.url);
@@ -26,48 +39,67 @@ export class SeoSocialShareService {
     this.setType(data.type);
   }
 
-  setSection(newSection?: string) {
+  public setSection(newSection?: string): void {
     if (newSection && newSection.length) {
-      this.metaService.updateTag({name: 'article:section', content: newSection});
+      this.metaService.updateTag({ name: 'article:section', content: newSection });
     } else {
       this.metaService.removeTag(`name='article:section'`);
     }
   }
 
-  setTwitterSiteCreator(site?: string) {
+  public setTwitterSiteCreator(site?: string): void {
     if (site && site.length) {
-      this.metaService.updateTag({name: 'twitter:site', content: site});
-      this.metaService.updateTag({name: 'twitter:creator', content: site});
+      this.metaService.updateTag({ name: 'twitter:site', content: site });
+      this.metaService.updateTag({ name: 'twitter:creator', content: site });
     } else {
       this.metaService.removeTag(`name='twitter:site'`);
       this.metaService.removeTag(`name='twitter:creator'`);
     }
   }
 
-  setTwitterCard(card?: string) {
+  public setTwitterCard(card?: string): void {
     if (card && card.length) {
-      this.metaService.updateTag({name: 'twitter:card', content: card});
+      this.metaService.updateTag({ name: 'twitter:card', content: card });
     } else {
       this.metaService.removeTag(`name='twitter:card'`);
     }
   }
 
-  setFbAppId(appId?: string) {
+  public setFbAppId(appId?: string): void {
     if (appId && appId.length) {
-      this.metaService.updateTag({property: 'fb:app_id', content: appId});
+      this.metaService.updateTag({ property: 'fb:app_id', content: appId });
     } else {
       this.metaService.removeTag(`property='fb:app_id'`);
+    }
+  }
+
+  public setMetaTag(metaTag: MetaTag): void {
+    if (Boolean(metaTag.value)) {
+      const metaTagObject = {
+        [metaTag.attr]: metaTag.attrValue,
+        content: metaTag.value,
+      };
+      this.metaService.updateTag(metaTagObject);
+    } else {
+      const selector = `${metaTag.attr}='${metaTag.attrValue}'`;
+      this.metaService.removeTag(selector);
+    }
+  }
+
+  public setMetaTags(metaTags: MetaTag[]): void {
+    for (const metaTag of metaTags) {
+      this.setMetaTag(metaTag);
     }
   }
 
   private setTitle(title: string = '') {
     this.titleService.setTitle(title);
     if (title && title.length) {
-      this.metaService.updateTag({name: 'twitter:title', content: title});
-      this.metaService.updateTag({name: 'twitter:image:alt', content: title});
-      this.metaService.updateTag({property: 'og:image:alt', content: title});
-      this.metaService.updateTag({property: 'og:title', content: title});
-      this.metaService.updateTag({name: 'title', content: title});
+      this.metaService.updateTag({ name: 'twitter:title', content: title });
+      this.metaService.updateTag({ name: 'twitter:image:alt', content: title });
+      this.metaService.updateTag({ property: 'og:image:alt', content: title });
+      this.metaService.updateTag({ property: 'og:title', content: title });
+      this.metaService.updateTag({ name: 'title', content: title });
     } else {
       this.metaService.removeTag(`name='twitter:title'`);
       this.metaService.removeTag(`name='twitter:image:alt'`);
@@ -79,7 +111,7 @@ export class SeoSocialShareService {
 
   private setType(type?: string) {
     if (type && type.length) {
-      this.metaService.updateTag({property: 'og:type', content: type});
+      this.metaService.updateTag({ property: 'og:type', content: type });
     } else {
       this.metaService.removeTag(`property='og:type'`);
     }
@@ -87,9 +119,9 @@ export class SeoSocialShareService {
 
   private setMetaDescription(description?: string) {
     if (description && description.length) {
-      this.metaService.updateTag({name: 'twitter:description', content: description});
-      this.metaService.updateTag({property: 'og:description', content: description});
-      this.metaService.updateTag({name: 'description', content: description});
+      this.metaService.updateTag({ name: 'twitter:description', content: description });
+      this.metaService.updateTag({ property: 'og:description', content: description });
+      this.metaService.updateTag({ name: 'description', content: description });
     } else {
       this.metaService.removeTag(`name='twitter:description'`);
       this.metaService.removeTag(`property='og:description'`);
@@ -99,9 +131,9 @@ export class SeoSocialShareService {
 
   private setImage(image?: string) {
     if (image && image.length) {
-      this.metaService.updateTag({name: 'twitter:image', content: image});
-      this.metaService.updateTag({property: 'og:image', content: image});
-      this.metaService.updateTag({property: 'og:image:height', content: '630'});
+      this.metaService.updateTag({ name: 'twitter:image', content: image });
+      this.metaService.updateTag({ property: 'og:image', content: image });
+      this.metaService.updateTag({ property: 'og:image:height', content: '630' });
     } else {
       this.metaService.removeTag(`name='twitter:image'`);
       this.metaService.removeTag(`property='og:image'`);
@@ -111,17 +143,18 @@ export class SeoSocialShareService {
 
   private setUrl(url?: string) {
     if (url && url.length) {
-      this.metaService.updateTag({property: 'og:url', content: url});
+      this.metaService.updateTag({ property: 'og:url', content: url });
     } else {
       this.metaService.removeTag(`property='og:url'`);
     }
+    this.setCanonicalUrl(url);
   }
 
   private setPublished(publishedDateString?: string) {
     if (publishedDateString) {
       const publishedDate = new Date(publishedDateString);
-      this.metaService.updateTag({name: 'article:published_time', content: publishedDate.toISOString()});
-      this.metaService.updateTag({name: 'published_date', content: publishedDate.toISOString()});
+      this.metaService.updateTag({ name: 'article:published_time', content: publishedDate.toISOString() });
+      this.metaService.updateTag({ name: 'published_date', content: publishedDate.toISOString() });
     } else {
       this.metaService.removeTag(`name='article:published_time'`);
       this.metaService.removeTag(`name='publication_date'`);
@@ -131,8 +164,8 @@ export class SeoSocialShareService {
   private setModified(modifiedDateString?: string) {
     if (modifiedDateString) {
       const modifiedDate = new Date(modifiedDateString);
-      this.metaService.updateTag({name: 'article:modified_time', content: modifiedDate.toISOString()});
-      this.metaService.updateTag({name: 'og:updated_time', content: modifiedDate.toISOString()});
+      this.metaService.updateTag({ name: 'article:modified_time', content: modifiedDate.toISOString() });
+      this.metaService.updateTag({ name: 'og:updated_time', content: modifiedDate.toISOString() });
     } else {
       this.metaService.removeTag(`name='article:modified_time'`);
       this.metaService.removeTag(`name='og:updated_time'`);
@@ -141,11 +174,27 @@ export class SeoSocialShareService {
 
   private setAuthor(author?: string) {
     if (author && author.length) {
-      this.metaService.updateTag({name: 'article:author', content: author});
-      this.metaService.updateTag({name: 'author', content: author});
+      this.metaService.updateTag({ name: 'article:author', content: author });
+      this.metaService.updateTag({ name: 'author', content: author });
     } else {
       this.metaService.removeTag(`name='article:author'`);
       this.metaService.removeTag(`name='author'`);
+    }
+  }
+
+  private setCanonicalUrl(url?: string) {
+    // first remove potential previous url
+    const selector = `link[rel='canonical']`;
+    const canonicalElement = this.document.head.querySelector(selector);
+    if (canonicalElement) {
+      this.document.head.removeChild(canonicalElement);
+    }
+
+    if (url && url.length) {
+      const link: HTMLLinkElement = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+      link.setAttribute('href', url);
     }
   }
 
