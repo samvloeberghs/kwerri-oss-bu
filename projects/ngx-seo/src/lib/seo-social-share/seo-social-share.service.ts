@@ -92,6 +92,22 @@ export class SeoSocialShareService {
     }
   }
 
+  public setCanonicalUrl(url?: string) {
+    // first remove potential previous url
+    const selector = `link[rel='canonical']`;
+    const canonicalElement = this.document.head.querySelector(selector);
+    if (canonicalElement) {
+      this.document.head.removeChild(canonicalElement);
+    }
+
+    if (url && url.length) {
+      const link: HTMLLinkElement = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+      link.setAttribute('href', url);
+    }
+  }
+
   private setTitle(title: string = '') {
     this.titleService.setTitle(title);
     if (title && title.length) {
@@ -179,22 +195,6 @@ export class SeoSocialShareService {
     } else {
       this.metaService.removeTag(`name='article:author'`);
       this.metaService.removeTag(`name='author'`);
-    }
-  }
-
-  private setCanonicalUrl(url?: string) {
-    // first remove potential previous url
-    const selector = `link[rel='canonical']`;
-    const canonicalElement = this.document.head.querySelector(selector);
-    if (canonicalElement) {
-      this.document.head.removeChild(canonicalElement);
-    }
-
-    if (url && url.length) {
-      const link: HTMLLinkElement = this.document.createElement('link');
-      link.setAttribute('rel', 'canonical');
-      this.document.head.appendChild(link);
-      link.setAttribute('href', url);
     }
   }
 
