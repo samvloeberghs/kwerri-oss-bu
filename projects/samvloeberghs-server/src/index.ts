@@ -81,7 +81,7 @@ app.use(compression({
 
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
-  maxAge: '604800000', // THIS IS IN MS!!
+  maxAge: '31536000000', // THIS IS IN MS!!
 }));
 
 // Decide the caching strategy
