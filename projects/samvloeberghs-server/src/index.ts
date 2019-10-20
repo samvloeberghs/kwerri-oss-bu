@@ -81,7 +81,7 @@ app.use(compression({
 
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
-  maxAge: '1w'
+  maxAge: '604800',
 }));
 
 // Decide the caching strategy
@@ -108,6 +108,9 @@ const ngApp = (req: Request, res: Response, next: Function) => {
   // GENERE CACHEPATH AND GET THE CACHE
   const cachePath = getCachePath(req.originalUrl);
   myCache.get(cachePath, (entry) => {
+
+    // SET A 7d CACHE HEADER
+    res.header('Cache-Control', 'public, max-age=604800, immutable');
 
     // IF WE HAVE A CACHE ENTRY
     // return the cache entry
