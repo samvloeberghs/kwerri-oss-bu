@@ -7,6 +7,8 @@ import { enableProdMode } from '@angular/core';
 import * as express from 'express';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import { RenderOptions } from '@nguniversal/express-engine';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
@@ -29,12 +31,20 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
-app.engine('html', (_, options, callback) => {
+app.engine('html', (_, options: RenderOptions, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     url: options.req.url,
     extraProviders: [
       provideModuleMap(LAZY_MODULE_MAP),
+      {
+        provide: REQUEST,
+        useValue: options.req,
+      },
+      {
+        provide: RESPONSE,
+        useValue: options.req.res,
+      },
     ],
   }).then(html => {
     callback(null, html);

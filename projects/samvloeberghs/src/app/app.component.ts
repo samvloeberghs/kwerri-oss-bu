@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { SeoSocialShareService } from 'ngx-seo';
 
 import { RouteHelper } from './shared/route-helper.service';
@@ -8,10 +8,12 @@ import { EnvironmentService } from './shared/environment.service';
 @Component({
   selector: 'sv-app',
   templateUrl: './app.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
 
+  public readonly currentUrl$ = this.routehelper.currentUrl$;
   public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$;
   public mobileNavToggled = false;
 

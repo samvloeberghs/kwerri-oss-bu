@@ -9,12 +9,16 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('../../../dist/samvloeberghs/server/main');
-const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
+const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
+
 const spdy = require('spdy');
 const compression = require('compression');
-import { MemoryCacheStore, getCachePath, isValidPage, FileCacheStore } from './cache';
+import { MemoryCacheStore, getCachePath, FileCacheStore } from './cache';
 import { type } from './cache.config';
+import { Request, Response } from 'express';
+import { RenderOptions } from '@nguniversal/express-engine';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
@@ -38,12 +42,20 @@ if (!PROD) {
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
-app.engine('html', (_, options: any, callback) => {
+app.engine('html', (_, options: RenderOptions, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
     document: template,
     url: options.req.url,
     extraProviders: [
       provideModuleMap(LAZY_MODULE_MAP),
+      {
+        provide: REQUEST,
+        useValue: options.req,
+      },
+      {
+        provide: RESPONSE,
+        useValue: options.req.res,
+      },
     ],
   }).then(html => {
     callback(null, html);
@@ -53,30 +65,6 @@ app.engine('html', (_, options: any, callback) => {
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 app.set('port', PORT);
-
-/*
-const corsOptions = {
-  origin: 'https://samvloeberghs.be',
-  preflightContinue: true,
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-*/
-
-app.use((req, res, next) => {
-  const corsWhitelist = [
-    'https://www.samvloeberghs.be',
-    `https://www.samvloeberghs.be:${PORT}`,
-    'https://samvloeberghs.be',
-    `https://samvloeberghs.be:${PORT}`,
-  ];
-  if (corsWhitelist.indexOf(req.get('origin')) !== -1) {
-    res.header('Access-Control-Allow-Origin', req.get('origin'));
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, HEAD, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  }
-  next();
-});
 
 app.use(compression({
   filter: (req, res) => {
@@ -105,7 +93,7 @@ switch (type) {
     break;
 }
 
-const ngApp = (req, res) => {
+const ngApp = (req: Request, res: Response, next: Function) => {
 
   const config = {
     req,
@@ -113,53 +101,52 @@ const ngApp = (req, res) => {
     preboot: true,
     baseUrl: '/',
     requestUrl: req.originalUrl,
-    originUrl: PROD ? 'https://samvloeberghs.be' : HTTPS ? `https://localhost:${PORT}` : `http://localhost:${PORT}`,
   };
 
-  if (isValidPage(req.originalUrl)) {
+  // GENERE CACHEPATH AND GET THE CACHE
+  const cachePath = getCachePath(req.originalUrl);
+  myCache.get(cachePath, (entry) => {
 
-    // IF CACHE ALLOWED
-    // ----------------
+    // IF WE HAVE A CACHE ENTRY
+    // return the cache entry
+    if (entry) {
+      // console.log('entry served from cache: ', cachePath);
+      res.send(entry);
+    } else {
 
-    const cachePath = getCachePath(req.originalUrl);
+      // NO CACHE ENTRY
+      // LET'S RENDER
+      res.render('index', config, (err, html) => {
 
-    myCache.get(cachePath, (entry) => {
+        // SOMETHING HAS FAILED
+        // just log the error and return the original template for CSR
+        if (err) {
+          console.log(err);
+          res.send(template);
+        }
 
-      if (entry) {
-        res.send(entry);
-      } else {
+        // MINIFY THE HTML
+        // but not too much:
+        // https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal
+        const minifiedHtml = minify(html, minifyOptions);
 
-        res.render('index', config, (err, html) => {
-
-          if (err) {
-            console.log(err);
-          }
-
-          const minifiedHtml = minify(html, minifyOptions);
+        // CHECK IF IT WAS AN OK STATUS CODE
+        // if so cache
+        if (res.statusCode > -1 && res.statusCode < 300) {
           myCache.put(cachePath, minifiedHtml);
-          res.send(minifiedHtml);
+          // console.log('entry rendered from scratch and now in cache: ', cachePath);
+        } else {
+          // console.log('entry rendered from scratch: ', cachePath);
+        }
 
-        });
+        // RETURN THE MINIFIED HTML
+        res.send(minifiedHtml);
 
-      }
+      });
 
-    });
+    }
 
-  } else {
-
-    // NO VALID PAGE
-    // -----------------
-
-    res.render('index', config, (err, html) => {
-
-      if (err) {
-        console.log(err);
-      }
-
-      res.status(404).send(minify(html, minifyOptions));
-
-    });
-  }
+  });
 
 };
 
@@ -221,7 +208,7 @@ if (HTTPS) {
 
   const http = require('http');
   http.createServer(function (req, res) {
-    res.writeHead(301, {'Location': 'https://' + req.headers['host'] + req.url});
+    res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url });
     res.end();
   }).listen(HTTP_PORT, () => {
     console.log(`Node server listening on ${HTTP_PORT}`);

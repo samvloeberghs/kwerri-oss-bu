@@ -1,0 +1,6 @@
+@mixin svg-bg-icon($data, $size, $position: '0px 0px') {
+  background-image: url($data);
+  background-repeat: no-repeat;
+  background-size: #{$size};
+  background-position: #{$position};
+}

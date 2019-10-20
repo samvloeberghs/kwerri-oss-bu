@@ -108,7 +108,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setTitle(title: string = '') {
+  public setTitle(title: string = '') {
     this.titleService.setTitle(title);
     if (title && title.length) {
       this.metaService.updateTag({ name: 'twitter:title', content: title });
@@ -125,7 +125,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setType(type?: string) {
+  public setType(type?: string) {
     if (type && type.length) {
       this.metaService.updateTag({ property: 'og:type', content: type });
     } else {
@@ -133,7 +133,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setMetaDescription(description?: string) {
+  public setMetaDescription(description?: string) {
     if (description && description.length) {
       this.metaService.updateTag({ name: 'twitter:description', content: description });
       this.metaService.updateTag({ property: 'og:description', content: description });
@@ -145,7 +145,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setImage(image?: string) {
+  public setImage(image?: string) {
     if (image && image.length) {
       this.metaService.updateTag({ name: 'twitter:image', content: image });
       this.metaService.updateTag({ property: 'og:image', content: image });
@@ -157,7 +157,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setUrl(url?: string) {
+  public setUrl(url?: string) {
     if (url && url.length) {
       this.metaService.updateTag({ property: 'og:url', content: url });
     } else {
@@ -166,7 +166,7 @@ export class SeoSocialShareService {
     this.setCanonicalUrl(url);
   }
 
-  private setPublished(publishedDateString?: string) {
+  public setPublished(publishedDateString?: string) {
     if (publishedDateString) {
       const publishedDate = new Date(publishedDateString);
       this.metaService.updateTag({ name: 'article:published_time', content: publishedDate.toISOString() });
@@ -177,7 +177,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setModified(modifiedDateString?: string) {
+  public setModified(modifiedDateString?: string) {
     if (modifiedDateString) {
       const modifiedDate = new Date(modifiedDateString);
       this.metaService.updateTag({ name: 'article:modified_time', content: modifiedDate.toISOString() });
@@ -188,7 +188,7 @@ export class SeoSocialShareService {
     }
   }
 
-  private setAuthor(author?: string) {
+  public setAuthor(author?: string) {
     if (author && author.length) {
       this.metaService.updateTag({ name: 'article:author', content: author });
       this.metaService.updateTag({ name: 'author', content: author });

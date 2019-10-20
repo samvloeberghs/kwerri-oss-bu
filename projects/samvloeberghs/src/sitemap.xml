@@ -34,6 +34,14 @@
     <priority>0.64</priority>
   </url>
   <url>
+    <loc>https://samvloeberghs.be/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://samvloeberghs.be/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox</loc>
+    <priority>0.64</priority>
+  </url>
+  <url>
     <loc>https://samvloeberghs.be/posts/outputting-json-ld-with-angular-universal</loc>
     <priority>0.64</priority>
   </url>
@@ -51,12 +59,6 @@
   </url>
   <url>
     <loc>https://samvloeberghs.be/posts/whats-with-the-subjects-in-rxjs5</loc>
-    <priority>0.64</priority>
-  </url>
-  <url>
-    <loc>
-      https://samvloeberghs.be/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application
-    </loc>
     <priority>0.64</priority>
   </url>
 

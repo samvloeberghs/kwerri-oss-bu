@@ -5,6 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-seo';
 
 import { environment } from '../../environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 // inject in root
 @Injectable({
@@ -12,7 +13,10 @@ import { environment } from '../../environments/environment';
 })
 export class RouteHelper {
 
-  private routes = [, '/', '/posts', '/talks-workshops', '/projects', '/about', '/kwerri'];
+  public readonly currentUrl$: Observable<string>;
+
+  private readonly currentUrl = new BehaviorSubject<string>('');
+  private readonly routes = [, '/', '/posts', '/talks-workshops', '/projects', '/about', '/kwerri'];
 
   constructor(
     private readonly router: Router,
@@ -23,6 +27,7 @@ export class RouteHelper {
   ) {
     this.angulartics2GoogleAnalytics.startTracking();
     this.setupRouting();
+    this.currentUrl$ = this.currentUrl.asObservable();
   }
 
   keyboardNavigate(key: string | number) {
@@ -45,6 +50,7 @@ export class RouteHelper {
       filter(route => route.outlet === 'primary'),
     ).subscribe((route: ActivatedRoute) => {
       const seo: any = route.snapshot.data['seo'];
+      this.currentUrl.next(this.router.routerState.snapshot.url);
       if (seo) {
         const jsonLd = this.jsonLdService.getObject('Website', {
           name: seo.title,

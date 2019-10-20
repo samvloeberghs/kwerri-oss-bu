@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
@@ -14,13 +14,14 @@ import { ZoomImage } from '../image-zoom/image-zoom.component';
   selector: 'sv-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PostComponent implements OnInit, AfterViewChecked {
 
-  post: Post;
-  error: any;
-  highlighted = false;
-  currentZoomImage: ZoomImage;
+  public post: Post;
+  public error: any;
+  public highlighted = false;
+  public currentZoomImage: ZoomImage;
 
   constructor(
     private readonly router: Router,

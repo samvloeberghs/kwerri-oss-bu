@@ -29,10 +29,11 @@
               "projects/samvloeberghs/src/posts",
               "projects/samvloeberghs/src/sitemap.xml"
             ],
-            "styles": [
-              "projects/samvloeberghs/src/assets/fontawesome/css/font-awesome.min.css",
-              "projects/samvloeberghs/src/styles.scss"
-            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/samvloeberghs/src/scss"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -46,7 +47,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -120,7 +121,12 @@
           "options": {
             "outputPath": "dist/samvloeberghs/server",
             "main": "projects/samvloeberghs/src/main.server.ts",
-            "tsConfig": "projects/samvloeberghs/tsconfig.server.json"
+            "tsConfig": "projects/samvloeberghs/tsconfig.server.json",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/samvloeberghs/src/scss"
+              ]
+            }
           },
           "configurations": {
             "production": {

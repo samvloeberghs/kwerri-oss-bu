@@ -1,26 +1,30 @@
-:host {
+@import 'hl';
+
+// can't use host here because of viewEncapsulation none
+sv-post {
   display: block;
-  margin-bottom: 20px
-}
+  margin-bottom: 20px;
 
-h1 {
-  margin-bottom: 35px !important;
-  margin-left: 69px;
-}
-
-.posted {
-  font: {
-    size: 14px !important;
-    style: italic;
+  h1 {
+    margin-bottom: 35px !important;
+    margin-left: 69px;
   }
-  line-height: 24px !important;
-  margin-bottom: 25px !important;
-}
 
-img.introimage {
-  float: left;
-  display: block;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  max-height: 54px;
+  .posted {
+    font: {
+      size: 14px !important;
+      style: italic;
+    }
+    line-height: 24px !important;
+    margin-bottom: 25px !important;
+  }
+
+  img.introimage {
+    float: left;
+    display: block;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    max-height: 54px;
+  }
+
 }
