@@ -80,7 +80,9 @@ app.use(compression({
 }));
 
 // Server static files from /browser
-app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
+app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
+  maxAge: '1w'
+}));
 
 // Decide the caching strategy
 let myCache;
