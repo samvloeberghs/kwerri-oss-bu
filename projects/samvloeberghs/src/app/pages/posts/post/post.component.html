@@ -1,6 +1,6 @@
 <article *ngIf="post" class="post">
 
-  <img [lazyLoad]="post.img" [alt]="post.title" class="introimage"/>
+  <img [src]="post.img" [alt]="post.title" class="introimage"/>
 
   <h1>
         <span [innerHtml]="post.title">
