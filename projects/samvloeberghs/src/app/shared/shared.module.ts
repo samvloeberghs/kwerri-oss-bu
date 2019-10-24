@@ -2,6 +2,8 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+
 import { HighlightService } from './highlight.service';
 import { HireMeComponent } from './hire-me/hire-me.component';
 
@@ -9,6 +11,7 @@ const MODULES = [
   CommonModule,
   RouterModule,
   HttpClientModule,
+  LazyLoadImageModule,
 ];
 
 const PIPES = [
@@ -16,7 +19,7 @@ const PIPES = [
 ];
 
 const COMPONENTS = [
-  // put shared components here
+  HireMeComponent,
 ];
 
 const PROVIDERS = [
@@ -30,13 +33,14 @@ const PROVIDERS = [
   declarations: [
     ...PIPES,
     ...COMPONENTS,
-    HireMeComponent,
   ],
   providers: [
     ...PROVIDERS,
   ],
   exports: [
-    HireMeComponent,
+    ...PIPES,
+    ...COMPONENTS,
+    ...MODULES,
   ],
 })
 export class SharedModule {

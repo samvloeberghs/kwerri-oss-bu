@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { KwerriRoutingModule } from './kwerri-routing.module';
 import { KwerriComponent } from './kwerri.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    KwerriRoutingModule
+    KwerriRoutingModule,
+    SharedModule
   ],
   declarations: [
     KwerriComponent

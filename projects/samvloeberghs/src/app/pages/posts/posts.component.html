@@ -8,7 +8,7 @@
   <article *ngIf="!post.hidden">
 
     <a [routerLink]="['/posts', post.slug]" class="img" [attr.title]="post.title">
-      <img [src]="post.img" [alt]="post.title"/>
+      <img [lazyLoad]="post.img" [alt]="post.title"/>
     </a>
 
     <a [routerLink]="['/posts', post.slug]" class="excerpt" [attr.title]="post.title">
