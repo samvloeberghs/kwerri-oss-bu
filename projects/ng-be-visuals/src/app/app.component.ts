@@ -35,12 +35,30 @@ export class AppComponent {
     id: 'michaeljanniklas',
     img: '/assets/michael-janniklas.jpg',
     title: 'To be defined',
+    multi: true,
     author: 'Michael Hladky & Jan-Niklas Wortman',
-  },{
+  }, {
     id: 'anasherry',
     img: '/assets/ana-sherry.jpg',
     title: 'Exploring Web VR',
+    multi: true,
     author: 'Ana Cidre & Sherry List',
+  }, {
+    id: 'bonniesam',
+    multi: true,
+    img: '/assets/bonnie-sam.jpg',
+    title: 'TBD',
+    author: 'Bonnie & Samantha Brennan',
+  }, {
+    id: 'isaac',
+    img: '/assets/isaac.jpg',
+    title: 'TBD',
+    author: 'Isaac Mann',
+  }, {
+    id: 'dominic',
+    img: '/assets/dominic.jpg',
+    title: 'TBD',
+    author: 'Dominic Elm',
   }];
 
 }
