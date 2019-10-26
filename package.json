@@ -64,6 +64,7 @@
     "enhanced-resolve": "^4.1.0",
     "express": "^4.17.1",
     "html-minifier": "^4.0.0",
+    "html2canvas": "^1.0.0-rc.5",
     "idb-keyval": "^3.2.0",
     "memory-cache": "^0.2.0",
     "ng-lazyload-image": "^7.0.1",

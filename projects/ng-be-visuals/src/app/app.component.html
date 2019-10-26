@@ -1,0 +1,15 @@
+<div class="wrapper" *ngFor="let speaker of speakers">
+  <div class="sponsor" [id]="speaker.id">
+    <div class="sponsor--left">
+      <img class="picture" [src]="speaker.img" alt=""/>
+    </div>
+    <div class="sponsor--right">
+      <img class="ngbe" src="/assets/ng-be.png" alt="NG-BE 2019"/>
+      <span class="year">NG-BE 2019</span>
+      <span class="date">December 6 - Ghent</span>
+      <span class="author">Speaker: <span>{{speaker.author}}</span></span>
+      <h1 class="title">{{speaker.title}}</h1>
+    </div>
+  </div>
+
+</div>

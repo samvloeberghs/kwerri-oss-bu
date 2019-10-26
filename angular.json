@@ -368,6 +368,116 @@
           }
         }
       }
+    },
+    "ng-be-visuals": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ng-be-visuals",
+      "sourceRoot": "projects/ng-be-visuals/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ng-be-visuals",
+            "index": "projects/ng-be-visuals/src/index.html",
+            "main": "projects/ng-be-visuals/src/main.ts",
+            "polyfills": "projects/ng-be-visuals/src/polyfills.ts",
+            "tsConfig": "projects/ng-be-visuals/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/ng-be-visuals/src/favicon.ico",
+              "projects/ng-be-visuals/src/assets"
+            ],
+            "styles": [
+              "projects/ng-be-visuals/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ng-be-visuals/src/environments/environment.ts",
+                  "with": "projects/ng-be-visuals/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ng-be-visuals:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-be-visuals:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ng-be-visuals:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-be-visuals/src/test.ts",
+            "polyfills": "projects/ng-be-visuals/src/polyfills.ts",
+            "tsConfig": "projects/ng-be-visuals/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-be-visuals/karma.conf.js",
+            "assets": [
+              "projects/ng-be-visuals/src/favicon.ico",
+              "projects/ng-be-visuals/src/assets"
+            ],
+            "styles": [
+              "projects/ng-be-visuals/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-be-visuals/tsconfig.app.json",
+              "projects/ng-be-visuals/tsconfig.spec.json",
+              "projects/ng-be-visuals/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "samvloeberghs"
