@@ -47,7 +47,7 @@ export class AppComponent {
     id: 'bonniesam',
     multi: true,
     img: '/assets/speakers/bonnie-sam.jpg',
-    title: 'TBD',
+    title: 'Dev up!',
     author: 'Bonnie & Samantha Brennan',
   }, {
     id: 'isaac',
