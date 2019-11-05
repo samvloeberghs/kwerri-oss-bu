@@ -1,31 +1,130 @@
 .wrapper {
   margin: 30px auto;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.sponsor {
-  font-family: 'Montserrat', sans-serif;
+.sponsor,
+.speaker {
   width: 1200px;
   height: 630px;
   margin: 0 auto 30px auto;
-  background: #eee;
   display: flex;
   overflow: hidden;
 
-  &--left {
-    width: 45%;
+  &__left {
     height: 630px;
     flex: 0 1 auto;
   }
 
-  &--right {
-    background: #fff;
+  &__right {
     clip-path: polygon(25% 0, 100% 0%, 100% 100%, 0% 100%);
-    width: 55%;
     height: 630px;
     flex: 0 1 auto;
     position: relative;
     padding: 60px;
     z-index: 1;
+  }
+
+  .year {
+    display: block;
+    text: {
+      align: center;
+    }
+    margin: {
+      bottom: 30px;
+    }
+  }
+
+}
+
+.sponsor {
+  background: #fff;
+
+  &__left {
+    width: 65%;
+  }
+
+  &__right {
+    background: #eee;
+    width: 35%;
+  }
+
+  .ngbe {
+    width: 150px;
+    display: block;
+    margin: 0 0 15px auto;
+  }
+
+  .year {
+    width: 150px;
+    margin: 0 0 30px auto;
+  }
+
+  .picture {
+    display: block;
+    width: 100%;
+    margin: auto;
+    margin-top: 38px;
+    margin-left: 45px;
+    z-index: 10;
+  }
+
+  .level {
+    background: #f2b31b;
+    color: white;
+    padding: 5px;
+    text: {
+      align: center;
+      transform: uppercase;
+    }
+    margin: 0 0 60px auto;
+    font: {
+      size: 1.6em;
+      weight: 500;
+    }
+    width: 300px;
+    display: block;
+  }
+
+  .name {
+    font-weight: 600;
+    letter-spacing: 2px;
+    text: {
+      transform: uppercase;
+      align: right;
+    }
+    margin: {
+      top: 30px;
+      left: 60px;
+    }
+    word-break: unset;
+    color: #2e2d2c;
+    font-size: 2.5em;
+  }
+
+}
+
+.speaker {
+  background: #eee;
+
+  &__left {
+    width: 45%;
+  }
+
+  &__right {
+    background: #fff;
+    width: 55%;
+  }
+
+  .ngbe {
+    width: 110px;
+    display: block;
+    margin: 0 0 15px auto;
+  }
+
+  .year {
+    width: 110px;
+    margin: 0 0 15px auto;
   }
 
   .picture {
@@ -34,25 +133,6 @@
     z-index: 10;
     margin-left: -45px;
     // filter: grayscale(100%);
-  }
-
-  .ngbe {
-    width: 20%;
-    display: block;
-    margin: 0 0 15px auto;
-  }
-
-  .year {
-    display: block;
-    text: {
-      align: right;
-    }
-    margin: {
-      bottom: 30px;
-    }
-    padding: {
-      right: 15px;
-    }
   }
 
   .date {
@@ -98,9 +178,9 @@
       top: 30px;
       left: 60px;
     }
+    word-break: unset;
     color: #2e2d2c;
     font-size: 2.1em;
   }
-
 
 }

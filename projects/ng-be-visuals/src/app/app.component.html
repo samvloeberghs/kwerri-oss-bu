@@ -1,9 +1,22 @@
+<div class="wrapper" *ngFor="let sponsor of sponsors">
+  <div class="sponsor" [id]="sponsor.id">
+    <div class="sponsor__left">
+      <img class="picture" [src]="sponsor.img" alt=""/>
+    </div>
+    <div class="sponsor__right">
+      <img class="ngbe" src="/assets/ng-be.png" alt="NG-BE 2019"/>
+      <span class="year">NG-BE 2019</span>
+      <span class="level">{{sponsor.level}} sponsor</span>
+    </div>
+  </div>
+</div>
+
 <div class="wrapper" *ngFor="let speaker of speakers">
-  <div class="sponsor" [id]="speaker.id">
-    <div class="sponsor--left">
+  <div class="speaker" [id]="speaker.id">
+    <div class="speaker__left">
       <img class="picture" [src]="speaker.img" alt=""/>
     </div>
-    <div class="sponsor--right">
+    <div class="speaker__right">
       <img class="ngbe" src="/assets/ng-be.png" alt="NG-BE 2019"/>
       <span class="year">NG-BE 2019</span>
       <span class="date">December 6 - Ghent</span>
@@ -11,5 +24,4 @@
       <h1 class="title">{{speaker.title}}</h1>
     </div>
   </div>
-
 </div>

@@ -69,7 +69,7 @@ export class EnvironmentService {
     if (this.serviceWorkerAvailable) {
       try {
         console.log('updating sw');
-        return await this.swRegistration.update();
+        return await wb.up
       } catch (err) {
         console.log('sw.js could not be updated', err);
       }
