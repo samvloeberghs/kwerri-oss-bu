@@ -5,7 +5,7 @@
 img#kwerri {
   display: block;
   float: left;
-  max-width: 250px;
+  max-width: 200px;
   margin: {
     bottom: 25px;
     right: 50px;
@@ -13,14 +13,21 @@ img#kwerri {
   border: 15px solid #f6f6f6;
   padding: 15px;
 
-  @media (max-width: 1024px) {
-    width: 80%;
+  @media (max-width: 1249px) {
     max-width: none;
     float: none;
     margin: {
+      bottom: 25px;
+      right: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    width: calc(100% - 60px);
+    margin: {
       bottom: 50px;
-      right: auto;
-      left: auto;
+      right: 0;
+      left: 0;
     }
   }
 }
@@ -30,9 +37,11 @@ table {
     td {
       vertical-align: top;
       padding-right: 50px;
+
       &:last-child {
         padding-right: 0px;
       }
+
       p {
         margin-bottom: 0;
       }
@@ -54,6 +63,7 @@ table {
     @media (min-width: 1300px) {
       width: calc(1 / 5 * 100%);
     }
+
     img {
       display: block;
       margin: 0 auto;
@@ -66,15 +76,19 @@ table {
 @media (max-width: 480px) {
   table {
     display: block;
+
     tbody {
       display: block;
     }
+
     tr {
       display: block;
+
       td {
         margin-bottom: 15px;
         display: block;
         padding: 0;
+
         &:last-child {
           margin-bottom: 0;
         }
@@ -87,6 +101,7 @@ table {
   margin: {
     top: 40px;
   }
+
   h1 {
     margin: {
       bottom: 20px;
@@ -104,6 +119,7 @@ table {
       size: 1.6em;
     }
   }
+
   h3 {
     margin: {
       bottom: 10px;
@@ -112,6 +128,7 @@ table {
       size: 1.4em;
     }
   }
+
   h4 {
     margin: {
       bottom: 5px;
@@ -120,16 +137,19 @@ table {
       size: 1.2em;
     }
   }
+
   p {
     font: {
       size: 1em;
     }
   }
+
   ul, ol {
     font: {
       size: 1em;
     }
     margin-bottom: 10px;
+
     li {
       font: {
         size: 1em;
