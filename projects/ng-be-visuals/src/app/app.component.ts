@@ -40,7 +40,7 @@ export class AppComponent {
   }, {
     id: 'anasherry',
     img: '/assets/speakers/ana-sherry.jpg',
-    title: 'Exploring Web VR',
+    title: 'Exploring WebVR',
     multi: true,
     author: 'Ana Cidre & Sherry List',
   }, {
@@ -57,7 +57,7 @@ export class AppComponent {
   }, {
     id: 'dominic',
     img: '/assets/speakers/dominic.jpg',
-    title: 'TBD',
+    title: 'Master Tooling by Hacking the Angular Compiler',
     author: 'Dominic Elm',
   }];
 
