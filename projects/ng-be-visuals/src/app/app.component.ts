@@ -17,10 +17,10 @@ export class AppComponent {
     title: 'Enterprise Grade Angular Reactive Forms',
     author: 'Juri Strumpflohner',
   }, {
-    id: 'amir',
-    img: '/assets/speakers/amir.jpg',
-    title: 'Reliably End-to-End Testing Angular Applications',
-    author: 'Amir Rustamzadeh',
+    id: 'kwinten',
+    img: '/assets/speakers/kwinten.png',
+    title: 'RxJS Recipes',
+    author: 'Kwinten Pisman',
   }, {
     id: 'max',
     img: '/assets/speakers/max.jpg',
