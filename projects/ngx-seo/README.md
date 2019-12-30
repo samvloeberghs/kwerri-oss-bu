@@ -18,7 +18,7 @@ For more info about this topic, please see the 2 blogposts mentioned below.
       - [Setting other `<meta>` tags](#setting-other---meta---tags)
       - [Setting other, not `<meta>` tags](#setting-other--not---meta---tags)
     + [JSON-LD modules and service](#json-ld-modules-and-service)
-    + [Multiple JSON-LD objects](#multiple-json-ld-objects)
+      - [Multiple JSON-LD objects](#multiple-json-ld-objects)
 * [More information](#more-information)
 * [Thanks to](#thanks-to)
 
@@ -247,7 +247,7 @@ constructor(private readonly jsonLdService: JsonLdService) {
 }
 ```
 
-### Multiple JSON-LD objects
+#### Multiple JSON-LD objects
 
 It is possible to provide one or more JSON-LD objects. Just create multiple objects and pass them as an array to the service:
 
