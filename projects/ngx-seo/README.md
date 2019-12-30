@@ -5,7 +5,7 @@
 **Important:**
 In general you should only use these services when you are using Angular Universal. 
 Generating meta tags and JSON-LD on the frontend is basically useless as crawlers are not able to generate and render JS heavy applications.
-The only exception is the 2 round indexing mechanism that Google Search / Index leverages.  
+The only exception is the 2-round indexing mechanism that Google Search / Index leverages.  
 
 For more info about this topic, please see the 2 blogposts mentioned below.
 
@@ -24,23 +24,139 @@ The library contains multiple services.
 ### SeoSocialShareService
 
 The service `SeoSocialShareService` can be used to set the correct meta tags for enabling social-media sharing previews.
+The service is provided in the `root` module. So the only thing you need to do is inject it where you need it.
 
-The service is provided in the `root` module. So the only thing you need to do is inject it where you need it. 
+```angular2
+import { SeoSocialShareService } fron 'ngx-seo';
+
+constructor(private readonly seoSocialShareService: SeoSocialShareService) {
+  ...
+}
+``` 
+
+#### Available methods:
+
 After that you can use the provided interface `SeoSocialShareData` and the `setData` method to pass in your data.
 
 ```angular2
-constructor(
-    private readonly seoSocialShareService: SeoSocialShareService,
-) {
-  const seoData: SeoSocialShareData = {
+const seoData: SeoSocialShareData = {
     title: ''
     description: ''
     image: '',
     ...
-  };
-  this.seoSocialShareService.setData(seoData);
+};
+this.seoSocialShareService.setData(seoData);
+```
+
+**Important**: 
+Using the `setData` method will reset all other data provided before. If you use the `setData` method, ensure that all the values that you want serialized as `<meta>` tags are provided:
+
+```ts
+export interface SeoSocialShareData {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  author?: string;
+  section?: string;
+  published?: string;
+  modified?: string;
 }
 ```
+
+Or you can set the specific values value by value as explained below.
+
+#### Other available methods
+
+The other available methods are in line with the key-value pairs available in the `SeoSocialShareData` interface. 
+Using a specific setter methods allows you to update/remove a specific set of meta tags.
+
+For example, using the `setDescription(description?: string)` method will set the following meta tags
+with the given description. If you want to unset them leave the parameter undefined:
+
+- `name='twitter:description'`
+- `property='og:description'`
+- `name='description'`
+
+The following methods are available, setting the listed meta & other tags:
+
+- `setTitle(title?: string)`
+    - `meta[name='twitter:title']`
+    - `meta[name='twitter:image:alt']`
+    - `meta[property='og:image:alt']`
+    - `meta[property='og:title']`
+    - `meta[name='title']`
+    
+- `setDescription`
+    - `meta[name='twitter:description']`
+    - `meta[property='og:description']`
+    - `meta[name='description']`
+ 
+- `setUrl`
+    - `meta[property='og:url']`
+    
+- `setImage`
+    - `meta[name='twitter:image']`
+    - `meta[property='og:image']`
+    - `meta[property='og:image:height']`
+    
+- `setPublished`
+    - `meta[name='article:published_time']`
+    - `meta[name='publication_date']`
+    
+- `setModified`
+    - `meta[name='article:modified_time']`
+    - `meta[name='og:updated_time']`
+    
+- `setAuthor`
+    - `meta[name='article:author']`
+    - `meta[name='author']`
+    
+- `setSection`
+    - `meta[name='article:section']`
+    
+- `setType`
+    - `meta[property='og:type']`
+    
+- `setTwitterSiteCreator`
+    - `meta[name='twitter:site']`
+    - `meta[name='twitter:creator']`
+    
+- `setTwitterCard`
+    - `meta[name='twitter:card']`
+    
+- `setFbAppId`
+    - `meta[property='fb:app_id']`
+
+#### Setting other `<meta>` tags
+
+If you want to set, update or remove other meta tags, you can use the `setMetaTag` and `setMetaTags` methods.
+These methods accept a value of type `NgxSeoMetaTag`:
+
+```angular2
+export enum NgxSeoMetaTagAttr {
+  name = 'name',
+  property = 'property'
+}
+
+export interface NgxSeoMetaTag {
+  attr: NgxSeoMetaTagAttr;
+  attrValue: string;
+  value?: string;
+}
+```
+> If you have specific meta tag or set of meta tags you want added to this library, let me know or submit a pull request!
+
+#### Setting other, not `<meta>` tags
+
+Some other tags in the `<head>`, like for example the `canonical link` can be relevant to SEO as well. 
+These are not injected by the provided `MetaService` of Angular but can be set using the `SeoSocialShareService`.
+
+- `setCanonicalUrl(url?: string) `
+    - `link[rel='canonical']`
+    
+ 
 
 ### JSON-LD modules and service
 
@@ -77,7 +193,7 @@ export class AppModule {
 }
 ```
 
-In the server module `app.server.module.ts`, where you typically import the `app.module.ts`, you have to import the `ServerJsonLdModule`.
+In the server module, `app.server.module.ts`, where you typically import the `app.module.ts`, you have to import the `ServerJsonLdModule`.
 This will tell the server to inject the static version of your JSON-ld data object into the static HTML.
 
 ```angular2
@@ -105,9 +221,7 @@ export class AppServerModule {
 Now, just as the `SeoSocialShareService`, you can inject the `JsonLdService`, to set your data. For more details about the structure of the JSON-LD data, please see below.
 
 ```angular2
-constructor(
-    private readonly jsonLdService: JsonLdService,
-) {
+constructor(private readonly jsonLdService: JsonLdService) {
   const jsonLdObject = this.jsonLdService.getObject('Website', {
     name: '',
     url: '',

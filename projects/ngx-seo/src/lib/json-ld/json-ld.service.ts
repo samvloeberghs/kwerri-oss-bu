@@ -1,6 +1,5 @@
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 export interface JsonLd {
   [param: string]: string | Object;

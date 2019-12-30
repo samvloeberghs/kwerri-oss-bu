@@ -4,13 +4,13 @@ import { DOCUMENT } from '@angular/common';
 
 import { SeoSocialShareData } from './interfaces/seo-social-share-data';
 
-export enum MetaTagAttr {
+export enum NgxSeoMetaTagAttr {
   name = 'name',
   property = 'property'
 }
 
-export interface MetaTag {
-  attr: MetaTagAttr;
+export interface NgxSeoMetaTag {
+  attr: NgxSeoMetaTagAttr;
   attrValue: string;
   value?: string;
 }
@@ -28,83 +28,22 @@ export class SeoSocialShareService {
   }
 
   public setData(data: SeoSocialShareData): void {
+    this.setSection(data.section);
     this.setTitle(data.title);
-    this.setMetaDescription(data.description);
-    this.setUrl(data.url);
+    this.setType(data.type);
+    this.setDescription(data.description);
     this.setImage(data.image);
+    this.setUrl(data.url);
     this.setPublished(data.published);
     this.setModified(data.modified);
     this.setAuthor(data.author);
-    this.setSection(data.section);
-    this.setType(data.type);
   }
 
-  public setSection(newSection?: string): void {
-    if (newSection && newSection.length) {
-      this.metaService.updateTag({ name: 'article:section', content: newSection });
+  public setSection(section?: string): void {
+    if (Boolean(section)) {
+      this.metaService.updateTag({ name: 'article:section', content: section });
     } else {
       this.metaService.removeTag(`name='article:section'`);
-    }
-  }
-
-  public setTwitterSiteCreator(site?: string): void {
-    if (site && site.length) {
-      this.metaService.updateTag({ name: 'twitter:site', content: site });
-      this.metaService.updateTag({ name: 'twitter:creator', content: site });
-    } else {
-      this.metaService.removeTag(`name='twitter:site'`);
-      this.metaService.removeTag(`name='twitter:creator'`);
-    }
-  }
-
-  public setTwitterCard(card?: string): void {
-    if (card && card.length) {
-      this.metaService.updateTag({ name: 'twitter:card', content: card });
-    } else {
-      this.metaService.removeTag(`name='twitter:card'`);
-    }
-  }
-
-  public setFbAppId(appId?: string): void {
-    if (appId && appId.length) {
-      this.metaService.updateTag({ property: 'fb:app_id', content: appId });
-    } else {
-      this.metaService.removeTag(`property='fb:app_id'`);
-    }
-  }
-
-  public setMetaTag(metaTag: MetaTag): void {
-    if (Boolean(metaTag.value)) {
-      const metaTagObject = {
-        [metaTag.attr]: metaTag.attrValue,
-        content: metaTag.value,
-      };
-      this.metaService.updateTag(metaTagObject);
-    } else {
-      const selector = `${metaTag.attr}='${metaTag.attrValue}'`;
-      this.metaService.removeTag(selector);
-    }
-  }
-
-  public setMetaTags(metaTags: MetaTag[]): void {
-    for (const metaTag of metaTags) {
-      this.setMetaTag(metaTag);
-    }
-  }
-
-  public setCanonicalUrl(url?: string) {
-    // first remove potential previous url
-    const selector = `link[rel='canonical']`;
-    const canonicalElement = this.document.head.querySelector(selector);
-    if (canonicalElement) {
-      this.document.head.removeChild(canonicalElement);
-    }
-
-    if (url && url.length) {
-      const link: HTMLLinkElement = this.document.createElement('link');
-      link.setAttribute('rel', 'canonical');
-      this.document.head.appendChild(link);
-      link.setAttribute('href', url);
     }
   }
 
@@ -133,7 +72,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setMetaDescription(description?: string) {
+  public setDescription(description?: string) {
     if (description && description.length) {
       this.metaService.updateTag({ name: 'twitter:description', content: description });
       this.metaService.updateTag({ property: 'og:description', content: description });
@@ -195,6 +134,67 @@ export class SeoSocialShareService {
     } else {
       this.metaService.removeTag(`name='article:author'`);
       this.metaService.removeTag(`name='author'`);
+    }
+  }
+
+  public setTwitterSiteCreator(site?: string): void {
+    if (Boolean(site)) {
+      this.metaService.updateTag({ name: 'twitter:site', content: site });
+      this.metaService.updateTag({ name: 'twitter:creator', content: site });
+    } else {
+      this.metaService.removeTag(`name='twitter:site'`);
+      this.metaService.removeTag(`name='twitter:creator'`);
+    }
+  }
+
+  public setTwitterCard(card?: string): void {
+    if (Boolean(card)) {
+      this.metaService.updateTag({ name: 'twitter:card', content: card });
+    } else {
+      this.metaService.removeTag(`name='twitter:card'`);
+    }
+  }
+
+  public setFbAppId(appId?: string): void {
+    if (Boolean(appId)) {
+      this.metaService.updateTag({ property: 'fb:app_id', content: appId });
+    } else {
+      this.metaService.removeTag(`property='fb:app_id'`);
+    }
+  }
+
+  public setMetaTag(metaTag: NgxSeoMetaTag): void {
+    if (Boolean(metaTag.value)) {
+      const metaTagObject = {
+        [metaTag.attr]: metaTag.attrValue,
+        content: metaTag.value,
+      };
+      this.metaService.updateTag(metaTagObject);
+    } else {
+      const selector = `${metaTag.attr}='${metaTag.attrValue}'`;
+      this.metaService.removeTag(selector);
+    }
+  }
+
+  public setMetaTags(metaTags: NgxSeoMetaTag[]): void {
+    for (const metaTag of metaTags) {
+      this.setMetaTag(metaTag);
+    }
+  }
+
+  public setCanonicalUrl(url?: string) {
+    // first remove potential previous url
+    const selector = `link[rel='canonical']`;
+    const canonicalElement = this.document.head.querySelector(selector);
+    if (canonicalElement) {
+      this.document.head.removeChild(canonicalElement);
+    }
+
+    if (url && url.length) {
+      const link: HTMLLinkElement = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+      link.setAttribute('href', url);
     }
   }
 
