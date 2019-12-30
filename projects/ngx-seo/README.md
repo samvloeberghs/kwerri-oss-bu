@@ -1,29 +1,46 @@
 # ngx-seo
 
-`ngx-seo` is a library to help generate and inject proper JSON-LD objects and Meta tags that allow for social sharing into server-side generated Angular applications using Universal.
+`ngx-seo` is a library to help generate and inject proper JSON-LD objects, Meta and other tags in the head that allow for social sharing into server-side generated Angular applications using Universal.
 
 **Important:**
 In general you should only use these services when you are using Angular Universal. 
-Generating meta tags and JSON-LD on the frontend is basically useless as crawlers are not able to generate and render JS heavy applications.
+Generating meta tags and JSON-LD on the frontend is basically useless as not all crawlers are able to generate and render JS heavy applications.
 The only exception is the 2-round indexing mechanism that Google Search / Index leverages.  
 
 For more info about this topic, please see the 2 blogposts mentioned below.
 
+## Table of contents
+* [Installation](#installation)
+* [Usage](#usage)
+    + [SeoSocialShareService](#seosocialshareservice)
+      - [Available methods:](#available-methods-)
+      - [Other available methods](#other-available-methods)
+      - [Setting other `<meta>` tags](#setting-other---meta---tags)
+      - [Setting other, not `<meta>` tags](#setting-other--not---meta---tags)
+    + [JSON-LD modules and service](#json-ld-modules-and-service)
+    + [Multiple JSON-LD objects](#multiple-json-ld-objects)
+* [More information](#more-information)
+* [Thanks to](#thanks-to)
+
 ## Installation
 
-To install this library run
+To install this library with `npm` run
 
 ```
 $ npm install ngx-seo --save
 ```
+or with `yarn`
+```
+$ yarn add ngx-seo
+```
 
 ## Usage
 
-The library contains multiple services. 
+The library contains multiple services. The `SeoSocialShareService` and the `JsonLdService`.
 
 ### SeoSocialShareService
 
-The service `SeoSocialShareService` can be used to set the correct meta tags for enabling social-media sharing previews.
+The service `SeoSocialShareService` can be used to set the correct meta tags for enabling social-media sharing previews and adding vital information for SEO purposes.
 The service is provided in the `root` module. So the only thing you need to do is inject it where you need it.
 
 ```angular2
@@ -65,7 +82,7 @@ export interface SeoSocialShareData {
 }
 ```
 
-Or you can set the specific values value by value as explained below.
+Or you can set the specific values value-by-value as explained below.
 
 #### Other available methods
 
@@ -250,6 +267,6 @@ Please see the blogposts for more detailed explanations:
 - https://samvloeberghs.be/posts/outputting-json-ld-with-angular-universal
 - https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal
 
-### Thanks to
+## Thanks to
 
 [Zama Khan Mohammed](https://medium.com/@zamamohammed) for giving feedback and thinking about improvements.
