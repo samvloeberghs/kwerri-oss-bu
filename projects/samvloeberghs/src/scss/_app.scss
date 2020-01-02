@@ -28,17 +28,9 @@ html {
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   font-size: 12px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
-}
-
-h4 {
-  margin-top: 0;
-  color: inherit;
+  font-weight: 300;
 }
 
 em {
@@ -130,6 +122,9 @@ ol, ul, p {
     margin-bottom: 20px;
     color: #333;
     line-height: 1.75em;
+    border-bottom: 2px solid #ddd;
+    display: inline-block;
+    padding-bottom: 3px;
   }
 
   h3 {
@@ -196,7 +191,7 @@ ol, ul, p {
     border-collapse: collapse;
     border-spacing: 0;
     margin: {
-      bottom: 15px;
+      bottom: 20px;
     }
 
     thead {
@@ -206,7 +201,7 @@ ol, ul, p {
     th, td {
       text-align: left;
       vertical-align: top;
-      padding: 5px 15px 5px 10px;
+      padding: 5px 15px 5px 0px;
       line-height: 1.5;
     }
 
@@ -262,38 +257,6 @@ ol, ul, p {
   }
 
   .post-body {
-
-    h2 {
-
-      margin: {
-        bottom: 25px;
-      }
-
-      span {
-        font-weight: bold;
-        letter-spacing: 2px;
-        padding: 5px 10px;
-        background: #f6f6f6;
-        border-radius: 5px;
-      }
-
-    }
-
-    h3 {
-
-      margin: {
-        bottom: 25px;
-      }
-
-      span {
-        font-weight: bold;
-        letter-spacing: 2px;
-        padding: 5px 10px;
-        background: #f6f6f6;
-        border-radius: 5px;
-      }
-
-    }
 
     h4 {
       &.codetitle {
@@ -361,14 +324,6 @@ ol, ul, p {
       }
 
     }
-
-    /*
-    code:not(.highlighted) {
-      display: inline-block;
-      padding: 2px 2px;
-      background: #f6f6f6;
-    }
-     */
 
     .copy {
       font-style: italic;

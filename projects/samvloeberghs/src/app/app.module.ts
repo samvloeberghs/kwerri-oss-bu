@@ -21,7 +21,7 @@ export function initApp(environmentService: EnvironmentService) {
     NotFoundComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'samvloeberghs'}),
+    BrowserModule.withServerTransition({appId: 'sv'}),
     // PrebootModule.withConfig({ appRoot: 'sv-app' }),
     BrowserTransferStateModule,
     BrowserJsonLdModule,

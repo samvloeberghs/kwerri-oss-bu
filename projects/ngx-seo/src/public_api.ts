@@ -3,4 +3,4 @@
  */
 
 export { JsonLdService, ServerJsonLdModule, BrowserJsonLdModule } from './lib/json-ld/index';
-export { SeoSocialShareData, SeoSocialShareService, MetaTagAttr, MetaTag } from './lib/seo-social-share/index';
+export { SeoSocialShareData, SeoSocialShareService, NgxSeoMetaTag, NgxSeoMetaTagAttr } from './lib/seo-social-share/index';

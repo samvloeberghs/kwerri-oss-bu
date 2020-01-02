@@ -26,47 +26,6 @@ if (workbox) {
     workbox.precaching.getCacheKeyForURL('/index.html')
   );
 
-  // Google Fonts cache setup
-  // see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
-  routing.registerRoute(
-    /^https:\/\/fonts\.googleapis\.com/,
-    new strategies.StaleWhileRevalidate({
-      cacheName: 'google-fonts-stylesheets'
-    })
-  );
-
-  // Cache the underlying font files with a cache-first strategy for 1 year.
-  routing.registerRoute(
-    /^https:\/\/fonts\.gstatic\.com/,
-    new strategies.CacheFirst({
-      cacheName: 'google-fonts-webfonts',
-      plugins: [
-        new cacheableResponse.Plugin({
-          statuses: [0, 200]
-        }),
-        new expiration.Plugin({
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-          maxEntries: 30,
-          purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
-        })
-      ]
-    })
-  );
-
-  // Cache the underlying font files with a cache-first strategy for 1 year.
-  routing.registerRoute(
-    /assets\/fontawesome\/fonts/,
-    new strategies.CacheFirst({
-      cacheName: 'fontawesome-fonts',
-      plugins: [
-        new expiration.Plugin({
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-          purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
-        })
-      ]
-    })
-  );
-
   routing.registerRoute(
     /posts\/data\.json/,
     new strategies.NetworkFirst({
