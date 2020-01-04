@@ -6,8 +6,9 @@ sv-post {
   margin-bottom: 20px;
 
   h1 {
-    margin-bottom: 35px !important;
-    margin-left: 69px;
+    @media (max-width: 920px) {
+      font-size: 1.4em !important;
+    }
   }
 
   .posted {
@@ -16,7 +17,7 @@ sv-post {
       style: italic;
     }
     line-height: 24px !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 10px !important;
   }
 
   img.introimage {

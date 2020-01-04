@@ -139,6 +139,7 @@ ol, ul, p {
     font-size: 1.6em;
     line-height: 1.4em;
     margin-bottom: 15px;
+    color: #444;
   }
 
   p {
@@ -363,13 +364,18 @@ ol, ul, p {
     }
 
     h2 {
-      font-size: 1.6em;
+      font-size: 1.7em;
       line-height: 2em;
     }
 
     h3 {
-      font-size: 1.3em;
+      font-size: 1.6em;
       line-height: 2em;
+    }
+
+    h4 {
+      font-size: 1.5em;
+      line-height: 1.8em;
     }
 
     p, ul, ol {

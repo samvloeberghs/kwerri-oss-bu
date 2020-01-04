@@ -1,0 +1,143 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2>Angular Universal - Advanced techniques series</h2>
+
+  <p>
+    This article is part of <em>a series around advanced techniques in Angular with Universal</em>. If you get excited about this
+    article be sure to check the others!
+  </p>
+
+  <ol>
+    <li>
+      <a href="posts/better-sharing-on-social-media-platforms-with-angular-universal">
+        Better sharing on social media platforms with Angular Universal
+      </a>
+    </li>
+    <li>
+      <a href="posts/outputting-json-ld-with-angular-universal">
+        Outputting JSON-LD with Angular Universal
+      </a>
+    </li>
+    <li>
+      <a href="posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application">
+        Creating a simple memory cache for your Angular Universal website or application
+      </a>
+    </li>
+    <li>
+        Angular v9 & Universal: SSR and prerendering out of the box!
+    </li>
+  </ol>
+
+  <h2>Target audience</h2>
+
+  <p>
+    This article and guide is intented to help anybody using Angular v9 getting started with Server-side-rendering (SSR)
+    and prerendering their application. <strong>Please be advised that these instructions are only working for new or
+    updated apps using Angular v9.</strong> Getting the same result for Angular v2-v8 requires more and custom setup.
+  </p>
+
+  <h2>Adding Server-side-rendering (SSR) to your application</h2>
+
+  <p>
+    Normally your Angular app is only rendered as soon as your browser loads it. In this case, the only responsibility
+    of the webserver is serving the static files of your Angular app (everything that is in the <code>dist</code> folder
+    after a successful build.
+  </p>
+
+  <p>
+    With SSR, the specific route of your application, for example <code>/about</code> is completely rendered on the
+    server, just as it would render in your browser. This allows search engines like Google and social-media platforms
+    like Facebook to index and show previews of the pages of your application
+  </p>
+
+  <h3>Getting started</h3>
+
+  <p>
+    To get started all you need to do is add the <code>@nguniversal/express-engine</code> package using the angular-cli:
+  </p>
+
+  <pre><code class="language-bash line-numbers">ng add @nguniversal/express-engine@next
+# as soon as v9 is released you can drop the "@next"</code></pre>
+
+  <p>
+    The <code>ng add</code> command updates your application by adding the necessary files and updating the
+    <code>angular.json</code> configuration file. There are 3 new configurations added to the architect section:
+    <code>server</code>, <code>serve-ssr</code> and <code>prerender</code>. Those 3 configurations all work together
+    to achieve the result. Let's walk trough the changes.
+  </p>
+
+  <h4 class="codetitle">updated angular.json</h4>
+  <pre data-line="10-16,23-35,38-42"><code class="language-json line-numbers">{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+    "ng-v9-universal": {
+      "..": "..",
+      "architect": {
+        "..": "..",
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/ng-v9-universal/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "..": ".."
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "ng-v9-universal:build",
+            "serverTarget": "ng-v9-universal:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-v9-universal:build:production",
+              "serverTarget": "ng-v9-universal:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "ng-v9-universal:build:production",
+            "serverTarget": "ng-v9-universal:server:production",
+            "routes": []
+          },
+          "configurations": {
+            "production": {}
+          }
+        }
+      }
+    }
+  }
+  "..": ".."
+}</code></pre>
+
+  <h3>The <code>server</code> run option</h3>
+
+  <p>
+    A server is required to run the Angular build on your system, or the back-end, therefore the <code>server.ts</code>
+    file is added to the root of your project. This TypeScript file contains all the necessary setup to render your
+    routes and serve the static assets of your application. As you can see on line 13-15, the output path for this
+    server is defined, as well as a <code>tsConfig</code> that defines how to build the server TypeScript code. As with
+    the <code>browser</code> build we can also define the production specific environment variables.
+  </p>
+
+  <h2>Special thanks to</h2>
+
+  <ul>
+    <li>
+      <a href="" rel="noopener" target="_blank"></a>
+    </li>
+
+  </ul>
+
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+
+</section>

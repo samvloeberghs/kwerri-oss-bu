@@ -1,11 +1,9 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>
-    <span>Angular Universal - Advanced techniques series</span>
-  </h2>
+  <h2>Angular Universal - Advanced techniques series</h2>
 
   <p>
-    This article is part of <em>a series around advanced techniques in Angular</em>. If you get excited about this
+    This article is part of <em>a series around advanced techniques in Angular with Universal</em>. If you get excited about this
     article be sure to check the others!
   </p>
 
@@ -23,13 +21,14 @@
         Creating a simple memory cache for your Angular Universal website or application
       </a>
     </li>
+    <li>
+      <a href="posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box">
+        Angular v9 & Universal: SSR and prerendering out of the box!
+      </a>
+    </li>
   </ol>
 
-  <h2>
-    <span>
-    Target audience
-    </span>
-  </h2>
+  <h2>Target audience</h2>
 
   <p>
     This article and guide on generating JSON-LD with Angular Universal is targeted to developers that want to generate
@@ -38,18 +37,7 @@
     server-state to the application on the client side.
   </p>
 
-  <h2>
-    <span>
-    First of all; What is JSON-LD?
-    </span>
-  </h2>
-
-  <!--
-  <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
-    You can skip right down if you already know JSON-LD or just want to get coding :))
-  </p>
-  -->
+  <h2>First of all; What is JSON-LD?</h2>
 
   <p>
     JSON-LD is a lightweight Linked Data format. It is easy for humans and machines to read and write. It is based on the
@@ -72,11 +60,7 @@
     give you all you need to validate your Linked Data structures.
   </p>
 
-  <h3>
-    <span>
-    A basic example
-    </span>
-  </h3>
+  <h3>A basic example</h3>
 
   <p>
     What you can see below is a typical example of a JSON-LD data object, injected into the HTML. It describes a <code>LocalBusiness</code>
@@ -112,11 +96,7 @@
 }
 &#x3C;/script&#x3E;</code></pre>
 
-  <h3>
-    <span>
-    Why should you care about JSON-LD?
-    </span>
-  </h3>
+  <h3>Why should you care about JSON-LD?</h3>
 
   <p>
     You should definitely care about JSON-LD for several reasons:
@@ -138,9 +118,7 @@
   </p>
 
   <h2 id="generating-your-json-linked-data-structure">
-    <span>
     Generating your JSON Linked Data structure
-    </span>
   </h2>
 
   <p>
@@ -261,17 +239,9 @@ export class JsonLdService {
   <p>This basic example is what we wanted to achieve. The next step is getting this object outputted in our static
     HTML.</p>
 
-  <h2>
-    <span>
-      Injecting the JSON in the static HTML
-    </span>
-  </h2>
+  <h2>Injecting the JSON in the static HTML</h2>
 
-  <h3>
-    <span>
-      Getting inspiration in the Angular source code
-    </span>
-  </h3>
+  <h3>Getting inspiration in the Angular source code</h3>
 
   <p>
     Injecting the JSON-LD data object in the DOM is only really required when we generate the HTML on the server. To
@@ -357,11 +327,7 @@ export class ServerTransferStateModule {
 export class BrowserTransferStateModule {
 }</code></pre>
 
-  <h3>
-    <span>
-      Our simple BrowserJsonLdModule and ServerJsonLdModule
-    </span>
-  </h3>
+  <h3>Our simple BrowserJsonLdModule and ServerJsonLdModule</h3>
 
   <p>
     Following the concepts and ideas we learned from the <code>ServerTransferStateModule</code> and the <code>BrowserTransferStateModule</code>
@@ -412,11 +378,7 @@ export class ServerJsonLdModule {
 }</code></pre>
 
 
-  <h2>
-    <span>
-      Differentiate execution on the server
-    </span>
-  </h2>
+  <h2>Differentiate execution on the server</h2>
 
   <p>
     To differentiate the execution of our application on the server versus on the browser, in Angular Universal we typically create a new server
@@ -471,11 +433,7 @@ export class AppServerModule {
     module has to be imported in <code>app.module.ts</code> while the server module has to be imported in <code>app.server.module.ts</code>.
   </p>
 
-  <h2>
-    <span>
-    Conclusion
-    </span>
-  </h2>
+  <h2>Conclusion</h2>
 
   <p>
     Generating JSON-LD using Angular Universal is pretty straight-forward. By borrowing concepts from the Angular source
@@ -485,7 +443,7 @@ export class AppServerModule {
     as the app shell.
   </p>
 
-  <h2><span>Further reading</span></h2>
+  <h2>Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -527,11 +485,7 @@ export class AppServerModule {
 
   </ol>
 
-  <h2>
-    <span>
-      Special thanks to
-    </span>
-  </h2>
+  <h2>Special thanks to</h2>
 
   <ul>
     <li>

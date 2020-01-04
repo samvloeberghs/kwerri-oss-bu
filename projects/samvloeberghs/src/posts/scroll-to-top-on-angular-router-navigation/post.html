@@ -56,7 +56,7 @@ $rootScope.$on('$stateChangeSuccess', () => {
     great!
   </p>
 
-  <h2><span>Listening to navigation events in Angular</span></h2>
+  <h2>Listening to navigation events in Angular</h2>
 
   <p>
     It seems that the Angular v2+ router has an <code>events</code> Observable property which you can subscribe on.
@@ -112,9 +112,7 @@ export class AppComponent {
     <code>RouterModule</code> to perform a scroll to top on navigation and preserve the previous scroll position.
   </p>
 
-  <h2>
-    <span>Using the <code>scrollPositionRestoration</code> config option of the <code>RouterModule</code></span>
-  </h2>
+  <h2>Using the <code>scrollPositionRestoration</code> config option of the <code>RouterModule</code></h2>
 
   <p>
     Since <code>v6.1</code> it is possible to set a configuration option <code>scrollPositionRestoration</code> on the
@@ -158,9 +156,7 @@ export class AppRoutingModule {
 }
 </code></pre>
 
-  <h3>
-    <span>Visual example</span>
-  </h3>
+  <h3>Visual example</h3>
 
   <p>
     In the visual example below I first scroll down on the projects page. Next I navigate to the posts overview.
@@ -172,9 +168,7 @@ export class AppRoutingModule {
        src="/posts/scroll-to-top-on-angular-router-navigation/scroll-to-top.gif"
        alt=""/>
 
-  <h2>
-    <span>Conclusion</span>
-  </h2>
+  <h2>Conclusion</h2>
 
   <p>
     And that was it! Be aware that the <code>window</code> object might not be available in every context, except

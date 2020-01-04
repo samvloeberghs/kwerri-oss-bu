@@ -1,11 +1,9 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>
-    <span>Angular Universal - Advanced techniques series</span>
-  </h2>
+  <h2>Angular Universal - Advanced techniques series</h2>
 
   <p>
-    This article is part of <em>a series around advanced techniques in Angular</em>. If you get excited about this
+    This article is part of <em>a series around advanced techniques in Angular with Universal</em>. If you get excited about this
     article be sure to check the others!
   </p>
 
@@ -23,13 +21,14 @@
     <li>
       Creating a simple memory cache for your Angular Universal website or application
     </li>
+    <li>
+      <a href="posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box">
+        Angular v9 & Universal: SSR and prerendering out of the box!
+      </a>
+    </li>
   </ol>
 
-  <h2>
-    <span>
-    Target audience
-    </span>
-  </h2>
+  <h2>Target audience</h2>
 
   <p>
     This article and guide on <em>setting up a simple memory cache for an Angular Universal website or application</em>
@@ -45,11 +44,7 @@
     the processor. The concepts explained can easily be adopted to your framework or technology of choice.
   </p>
 
-  <h2>
-    <span>
-    Our example application
-    </span>
-  </h2>
+  <h2>Our example application</h2>
 
   <p>
     To explain the basics and prove the concept we have to consider an example application, like for example my simple
@@ -67,9 +62,7 @@
       request.</em>
   </p>
 
-  <h3>
-    <span>Simple diagram for basic rendering</span>
-  </h3>
+  <h3>Simple diagram for basic rendering</h3>
 
   <img
     src="/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/universal_basic_render.png"
@@ -94,9 +87,7 @@
     </li>
   </ol>
 
-  <h3>
-    <span>Code for basic rendering</span>
-  </h3>
+  <h3>Code for basic rendering</h3>
 
   <p>
     The code for this basic rendering case is available trough the Angular CLI. The <a
@@ -182,11 +173,7 @@ app.listen(PORT, () => {
     in NodeJS</a>. You can also find some relevant links in the "Further reading" section at the end of the blogpost.
   </p>
 
-  <h2>
-    <span>
-      Why cache?
-    </span>
-  </h2>
+  <h2>Why cache?</h2>
 
   <p>
     The content of our example routes or pages is very unlikely to change often, so there is absolutely <em>no need to
@@ -198,11 +185,7 @@ app.listen(PORT, () => {
     first time your updated page gets a visit, but other strategies are possible as well.
   </p>
 
-  <h2>
-    <span>
-    A simple memory-cache implementation
-    </span>
-  </h2>
+  <h2>A simple memory-cache implementation</h2>
 
   <img
     src="/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application/universal_basic_render_cache_mechanism.png"
@@ -251,9 +234,7 @@ app.listen(PORT, () => {
     reach this goal is minimal and easy to set up.
   </p>
 
-  <h3>
-    <span>Our simple in-memory caching mechanism</span>
-  </h3>
+  <h3>Our simple in-memory caching mechanism</h3>
 
   <p>
     First of all, let's see how <em>our cache implementation</em> would look like. We need a simple CRUD interface to be
@@ -279,9 +260,7 @@ cache.clear();
 </code></pre>
 
 
-  <h3>
-    <span>Code for cached rendering</span>
-  </h3>
+  <h3>Code for cached rendering</h3>
 
   <p>
     As previously mentioned, <code>res.render</code> is where the rendering magic happens. By default
@@ -336,9 +315,7 @@ cache.clear();
     </li>
   </ol>
 
-  <h3>
-    <span>Cache only the existing pages</span>
-  </h3>
+  <h3>Cache only the existing pages</h3>
 
   <p>
     <strong>Be careful with what you cache!</strong> You should only cache the pages that actually exist on your
@@ -357,7 +334,7 @@ cache.clear();
     <code>/</code>, <code>/about</code> and <code>/contact</code> pages to be cached.
   </p>
 
-  <h2><span>Possible extensions and improvements</span></h2>
+  <h2>Possible extensions and improvements</h2>
 
   <p>
     The concepts explained above only touch the basics of implementing a caching strategy and infrastructure.
@@ -382,9 +359,7 @@ cache.clear();
     </li>
   </ol>
 
-  <h3>
-    <span>Generate your static versions at build time</span>
-  </h3>
+  <h3>Generate your static versions at build time</h3>
 
   <p>
     Instead of letting the first visitor of your website be responsible for generating the first cached version
@@ -397,9 +372,7 @@ cache.clear();
     in the cache.
   </p>
 
-  <h3>
-    <span>Create an interface for your cache</span>
-  </h3>
+  <h3>Create an interface for your cache</h3>
 
   <p>
     Maintaining the cache of a small website like this one is easy. Everytime a new version is availables, I clear the
@@ -417,9 +390,7 @@ cache.clear();
     Be sure to implement some security on this interface. You don't want somebody malicious messing with your cache.
   </p>
 
-  <h3>
-    <span>Use a separate caching layer</span>
-  </h3>
+  <h3>Use a separate caching layer</h3>
 
   <p>
     In this example we have implemented <em>caching at the level of the serving application</em>. This couples our
@@ -432,9 +403,7 @@ cache.clear();
     infrastructure completely from our serving application</em>.
   </p>
 
-  <h3>
-    <span>Server-side render only specific pages</span>
-  </h3>
+  <h3>Server-side render only specific pages</h3>
 
   <p>
     <strong>In some cases it might not be required to SSR and cache all pages of your application</strong>. You might
@@ -479,9 +448,7 @@ const ngApp = (req, res) => {
     the browser bootstrap your Angular application.
   </p>
 
-  <h3>
-    <span>Use a file based cache instead of memory cache</span>
-  </h3>
+  <h3>Use a file based cache instead of memory cache</h3>
 
   <p>
     Using a cache that lives in the memory is just one option. If for some reason you don't have much RAM available,
@@ -490,11 +457,7 @@ const ngApp = (req, res) => {
     overhead</em> reading and writing a file introduces.
   </p>
 
-  <h2>
-    <span>
-      Conclusion
-    </span>
-  </h2>
+  <h2>Conclusion</h2>
 
   <p>
     Setting up a simple memory cache is no rocket-science and <em>requires minimal changes to our Universal setup</em>.
@@ -507,7 +470,7 @@ const ngApp = (req, res) => {
     use this on bigger applications and projects.
   </p>
 
-  <h2><span>Further reading</span></h2>
+  <h2>Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -531,11 +494,7 @@ const ngApp = (req, res) => {
     </li>
   </ol>
 
-  <h2>
-    <span>
-      Special thanks to
-    </span>
-  </h2>
+  <h2>Special thanks to</h2>
 
   <ul>
     <li>

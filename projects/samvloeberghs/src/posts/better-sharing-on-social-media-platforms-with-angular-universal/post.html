@@ -1,11 +1,9 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>
-    <span>Angular Universal - Advanced techniques series</span>
-  </h2>
+  <h2>Angular Universal - Advanced techniques series</h2>
 
   <p>
-    This article is part of <em>a series around advanced techniques in Angular</em>. If you get excited about this
+    This article is part of <em>a series around advanced techniques in Angular with Universal</em>. If you get excited about this
     article be sure to check the others!
   </p>
 
@@ -23,13 +21,14 @@
         Creating a simple memory cache for your Angular Universal website or application
       </a>
     </li>
+    <li>
+      <a href="posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box">
+        Angular v9 & Universal: SSR and prerendering out of the box!
+      </a>
+    </li>
   </ol>
 
-  <h2>
-    <span>
-    Target audience
-    </span>
-  </h2>
+  <h2>Target audience</h2>
 
   <p>
     This article and guide on better sharing on social media platforms with Angular Universal is targeted to developers
@@ -38,11 +37,7 @@
     services that will enable better social sharing for platforms like Facebook, Twitter and LinkedIn</em>.
   </p>
 
-  <h2>
-    <span>
-    Angular Universal and SEO problems with SPAs
-    </span>
-  </h2>
+  <h2>Angular Universal and SEO problems with SPAs</h2>
 
   <p>
     It’s not a new concept, running Angular on the server with Universal. The first version of this website was built
@@ -66,11 +61,7 @@
     target="_blank">black hat SEO</a>.
   </p>
 
-  <h2>
-    <span>
-    Indexing capabilities of SPAs by search engines
-    </span>
-  </h2>
+  <h2>Indexing capabilities of SPAs by search engines</h2>
   <p>
     When you generate an Angular application via the angular-cli a <code>polyfills.ts</code> file gets generated. It
     includes the following content:
@@ -118,20 +109,14 @@
     engines are, in general, not very capable of rendering JavaScript while indexing</strong>.
   </p>
 
-  <h3>
-    <span>The 2nd wave of indexing</span>
-  </h3>
+  <h3>The 2nd wave of indexing</h3>
 
   <p>
     It would be wrong stating that SPAs are not being indexed. Google does an extra effort in the 2nd wave of indexing,
     where parsing of JS-heavy applications is done better. <a href="http://www.thesempost.com/google-indexes-ranks-javascript-pages-two-waves-days-apart/" target="_blank" rel="noopener">More information about this specific topic can be found here</a>.
   </p>
 
-  <h2>
-    <span>
-    Google, Bing and others are not the only search engines
-    </span>
-  </h2>
+  <h2>Google, Bing and others are not the only search engines</h2>
 
   <p>
     Everything that is described above is also true for other crawlers, like those of Facebook, Twitter and LinkedIn,
@@ -145,11 +130,7 @@
     only rely on the statically generated HTML.
   </p>
 
-  <h2>
-    <span>
-    How do social media platforms crawl your page?
-    </span>
-  </h2>
+  <h2>How do social media platforms crawl your page?</h2>
 
   <p>
     Social media platforms use your statically generated HTML to show a preview when sharing one of your pages on their
@@ -184,11 +165,7 @@
     want to invalidate the cache of a set of pages in one go.
   </p>
 
-  <h3>
-    <span>
-    Facebook
-    </span>
-  </h3>
+  <h3>Facebook</h3>
 
   <p>
     To get Facebook to show your content correctly you need to implement the following basic <code>meta</code> tags.
@@ -213,11 +190,7 @@
                                        target="_blank">documentation for Facebook sharing</a> to learn more.
   </p>
 
-  <h4>
-    <span>
-    Facebook Sharing Debugger
-    </span>
-  </h4>
+  <h4>Facebook Sharing Debugger</h4>
 
   <p>
     Validating a preview of your post on Facebook can be done via <a
@@ -225,11 +198,7 @@
     Facebook also provides a way to invalidate a batch of pages, which can also be done programmaticaly via their API.
   </p>
 
-  <h3>
-    <span>
-    LinkedIn
-    </span>
-  </h3>
+  <h3>LinkedIn</h3>
 
   <p>
     To get your post to show correctly on LinkedIn you need to implement the following basic <code>meta</code> tags.
@@ -246,11 +215,7 @@
   &#x3C;meta name=&#x22;author&#x22; content=&#x22;Sam Vloeberghs&#x22;&#x3E;
 &#x3C;/head&#x3E;</code></pre>
 
-  <h4>
-    <span>
-    LinkedIn Post Inspector
-    </span>
-  </h4>
+  <h4>LinkedIn Post Inspector</h4>
 
   <p>
     Validating a preview of your post or website and refreshing the cache on LinkedIn can be done via <a
@@ -269,11 +234,7 @@
     content=&#x22;2019-02-24T11:00:00.000Z&#x22;&#x3E;</code> does the trick.
   </p>
 
-  <h3>
-    <span>
-    Twitter
-    </span>
-  </h3>
+  <h3>Twitter</h3>
 
   <p>
     To get your post to show correctly on Twitter as a card you need to implement the following <code>meta</code> tags.
@@ -292,11 +253,7 @@
   &#x3C;meta name=&#x22;twitter:creator&#x22; content=&#x22;@samvloeberghs&#x22;&#x3E;
 &#x3C;/head&#x3E;</code></pre>
 
-  <h4>
-    <span>
-    Twitter Card Validator
-    </span>
-  </h4>
+  <h4>Twitter Card Validator</h4>
 
   <p>
     Validating the preview of your post on Twitter can be done via <a
@@ -308,11 +265,7 @@
     <em>Important</em>: The value of <code>twitter:image</code> must be a fully-qualified complete and absolute URL, not a partial/relative one, or the Twitter crawler will be unable to find and display the image.
   </p>
 
-  <h2>
-    <span>
-    Using the Meta and Title services in Angular
-    </span>
-  </h2>
+  <h2>Using the Meta and Title services in Angular</h2>
 
   <p>
     To achieve all this, the only 2 services we need to use are the <a
@@ -425,11 +378,7 @@ export class SeoSocialShareService {
 
 }</code></pre>
 
-  <h2>
-    <span>
-    Watch out for over-optimization
-    </span>
-  </h2>
+  <h2>Watch out for over-optimization</h2>
 
   <p>
     When generating static pages server side you might consider optimizing the rendered HTML as well. Tools like
@@ -442,11 +391,7 @@ export class SeoSocialShareService {
     platforms use, might not be able to parse it correctly and get out the information they need.
   </p>
 
-  <h3>
-    <span>
-    A simple example
-    </span>
-  </h3>
+  <h3>A simple example</h3>
   <p>
     The following HTMLminifier options remove all the stuff the browser does not need to correctly show your page:
   </p>
@@ -515,11 +460,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     is happy 😃.
   </p>
 
-  <h2 id="conclusion">
-    <span>
-    Conclusion
-    </span>
-  </h2>
+  <h2 id="conclusion">Conclusion</h2>
 
   <p>
     Not all search engines behave the same way. <em>Not only Google, Bing etc. can be categorized as search
@@ -534,7 +475,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     be careful and <em>keep our HTML as strict and structured as possible</em>.
   </p>
 
-  <h2><span>Further reading</span></h2>
+  <h2>Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -549,11 +490,7 @@ const minifiedHtml = minify(html, minifyOptions);</code></pre>
     </li>
   </ol>
 
-  <h2>
-    <span>
-      Special thanks to
-    </span>
-  </h2>
+  <h2>Special thanks to</h2>
 
   <ul>
     <li>
