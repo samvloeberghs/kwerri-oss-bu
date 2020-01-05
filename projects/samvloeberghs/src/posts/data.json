@@ -6,7 +6,7 @@
     "author": "Sam Vloeberghs",
     "img": "/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/angular.png",
     "imgShare": "/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/angular_share.jpg",
-    "short": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla eget felis vitae rhoncus. Nullam iaculis hendrerit fringilla. Cras nec rhoncus nibh, a lacinia tortor."
+    "short": "This article and guide is intented to help anybody using Angular v9 getting started with Server-side-rendering (SSR) and prerendering their application."
   },
   {
     "title": "Lessons learned on offline capabilities with service workers using Workbox - The sequel",

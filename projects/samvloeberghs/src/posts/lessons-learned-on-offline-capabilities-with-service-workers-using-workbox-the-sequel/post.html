@@ -75,7 +75,6 @@ if ('serviceWorker' in navigator) {
 </code></pre>
 
   <p class="alert alert-warning">
-    <i class="fa fa-exclamation-circle"></i>
     Please don't use the above code in your application, as it's a bad implementation! A better implementation using
     Workbox is discussed below.
   </p>
@@ -268,7 +267,6 @@ export class ServiceWorkerService {
   </p>
 
   <p class="alert alert-warning">
-    <i class="fa fa-exclamation-circle"></i>
     Immediately activating the new service worker, by using <code>skipWaiting()</code> and/or <code>clients.claim()</code>
     for all the clients when it becomes waiting can potentially break your application. The functionality from the new
     service worker could not be compatible with the currently loaded old version of your application.
@@ -415,7 +413,6 @@ export class EnvironmentService {
   </ol>
 
   <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
     The full code for handling all these use cases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
   </p>
 

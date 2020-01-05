@@ -104,7 +104,6 @@ workbox.routing.registerRoute(
 </code></pre>
 
   <p class="alert alert-warning">
-    <i class="fa fa-exclamation-circle"></i>
     Please also keep in mind that this reflects the behavior of the server in case of a SPA setup. <strong>For all requests
     not matching a static resource like an image, or a dynamic resource like an API, the server should return the <code>index.html</code> file</strong>!
   </p>
@@ -120,7 +119,6 @@ workbox.routing.registerRoute(
   </p>
 
   <p class="alert alert-quote">
-    <i class="fa fa-quote-left"></i>
     <em>Note:</em> I see a lot of people including <code>clients.claim()</code> as boilerplate, but I rarely do so
     myself. It only
     really matters on the very first load, and due to progressive enhancement the page is usually working happily
@@ -242,13 +240,11 @@ if ('serviceWorker' in navigator) {
   </p>
 
   <p class="alert alert-warning striketrough">
-    <i class="fa fa-warning"></i>
     <strong>Please let me know if you have other suggestions!</strong> I'm curious for other methods because of the
     refresh I'm not very happy about..
   </p>
 
   <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
     <strong>Update June 2019</strong>: I've written a follow-up article that clears out my bad feeling about the
     previous implementation and mistakes I made. Be sure to <a
     href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel">check it out here</a>.
@@ -467,7 +463,6 @@ workbox.routing.registerRoute(
 </code></pre>
 
   <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
     A possible extension for this functionality would be to check if the status code of the response coming from the
     server is as expected, for example a <code>200 OK</code>. If not a valid or expected response code, return the cached <code>not_authorized.png</code> image.
   </p>

@@ -3,7 +3,8 @@
   <h2>Angular Universal - Advanced techniques series</h2>
 
   <p>
-    This article is part of <em>a series around advanced techniques in Angular with Universal</em>. If you get excited about this
+    This article is part of <em>a series around advanced techniques in Angular with Universal</em>. If you get excited
+    about this
     article be sure to check the others!
   </p>
 
@@ -24,30 +25,69 @@
       </a>
     </li>
     <li>
-        Angular v9 & Universal: SSR and prerendering out of the box!
+      Angular v9 & Universal: SSR and prerendering out of the box!
     </li>
   </ol>
 
   <h2>Target audience</h2>
 
   <p>
-    This article and guide is intented to help anybody using Angular v9 getting started with Server-side-rendering (SSR)
+    This article and guide is intented to help anybody using Angular v9 getting started with server-side-rendering (SSR)
     and prerendering their application. <strong>Please be advised that these instructions are only working for new or
     updated apps using Angular v9.</strong> Getting the same result for Angular v2-v8 requires more and custom setup.
   </p>
+
+  <h2>Example project</h2>
+
+  <p>
+    For the example project we are using a bare minimum angular-cli generated project with routing enabled. A home
+    (<code>/</code>) and about (<code>/about</code>) route and their components were generated as well. By using a
+    lazy-loaded <code>news</code> module, an extra dynamic overview (<code>/news</code>) and newsdetail
+    (<code>/news/:id</code>) route were configured as well.
+  </p>
+  <p>
+    The data for this overview and detail page is a simple JSON
+    data object we load from the static assets folder (<code>/assets/news.json</code>) and looks like this:
+  </p>
+
+  <h4 class="codetitle">updated angular.json</h4>
+  <pre><code class="language-json line-numbers">[
+    {
+    "id": 1,
+    "title": "Newsitem #1",
+    "short": "Lorem ipsum dolor sit amet, ...",
+  },
+    {
+    "id": 2,
+    "title": "Newsitem #2",
+    "short": "Lorem ipsum dolor sit amet, ..."
+  }
+]
+</code></pre>
+
+  <p>
+    The following animation shows how our application behaves using the routes and loading the dynamic data.
+    <a href="https://github.com/samvloeberghs/ng-v9-universal" target="_blank" rel="noopener">The full
+      source code for this basic example application can be found here</a>.
+  </p>
+
+  <img class="extraspace zoomin"
+       src="/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/example_app.gif"
+       alt=""/>
 
   <h2>Adding Server-side-rendering (SSR) to your application</h2>
 
   <p>
     Normally your Angular app is only rendered as soon as your browser loads it. In this case, the only responsibility
     of the webserver is serving the static files of your Angular app (everything that is in the <code>dist</code> folder
-    after a successful build.
+    after a successful build).
   </p>
 
   <p>
-    With SSR, the specific route of your application, for example <code>/about</code> is completely rendered on the
+    With SSR, the specific route of your application, for example <code>/about</code>, is completely rendered on the
     server, just as it would render in your browser. This allows search engines like Google and social-media platforms
-    like Facebook to index and show previews of the pages of your application
+    like Facebook to index and show previews of the pages of your application, because the full HTML is available from
+    the initial load from the server, without JavaScript required.
   </p>
 
   <h3>Getting started</h3>
@@ -62,12 +102,12 @@
   <p>
     The <code>ng add</code> command updates your application by adding the necessary files and updating the
     <code>angular.json</code> configuration file. There are 3 new configurations added to the architect section:
-    <code>server</code>, <code>serve-ssr</code> and <code>prerender</code>. Those 3 configurations all work together
-    to achieve the result. Let's walk trough the changes.
+    <code>server</code>, <code>serve-ssr</code> and <code>prerender</code>. All those 3 configurations have their own
+    porpuse and together they allow us to achieve the required results. Let's walk trough the changes.
   </p>
 
   <h4 class="codetitle">updated angular.json</h4>
-  <pre data-line="10-16,23-35,38-42"><code class="language-json line-numbers">{
+  <pre data-line="10-16,41"><code class="language-json line-numbers">{
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
     "newProjectRoot": "projects",
@@ -119,16 +159,157 @@
   "..": ".."
 }</code></pre>
 
-  <h3>The <code>server</code> run option</h3>
+  <h2>The <code>server</code> run option</h2>
 
   <p>
     A server is required to run the Angular build on your system, or the back-end, therefore the <code>server.ts</code>
     file is added to the root of your project. This TypeScript file contains all the necessary setup to render your
     routes and serve the static assets of your application. As you can see on line 13-15, the output path for this
-    server is defined, as well as a <code>tsConfig</code> that defines how to build the server TypeScript code. As with
-    the <code>browser</code> build we can also define the production specific environment variables.
+    server is defined, as well as a <code>tsConfig</code> that defines how to build the server TypeScript code. Just as
+    with the <code>browser</code> build we can also define the production specific environment variables.
   </p>
 
+  <p>
+    Building this server is as easy as building your Angular application. Just run the following command in your
+    terminal, and the server will be build into <code>dist/ng-v9-universal/server</code>.
+  </p>
+
+  <pre><code class="language-bash line-numbers">npm run build:ssr</code></pre>
+
+  <h2>The <code>serve-ssr</code> run option</h2>
+
+  <p>
+    While developing your application you'll probably just run <code>ng serve</code>. This command will setup a
+    dev-server for your with hot-reloading and everything else that will provide you with a nice developer experience.
+  </p>
+
+  <p>
+    Testing the server-side-rendering part can be done while developing as well. To do this, just run the application as
+    <code>ng run ng-v9-universal:serve-ssr</code> and the server source files will be watched next to the application
+    source files. Changing the code of the application or the server will automatically restart the application because
+    of live-reloading.
+  </p>
+
+  <p>
+    Now if you reload any page, for example the news overview (<code>/news</code>), the initial payload will contain the
+    fully rendered HTML for the news overview, including the dynamic data.
+  </p>
+
+  <img class="extraspace zoomin"
+       src="/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/example_ssr.gif"
+       alt=""/>
+
+  <h2>The <code>prerender</code> run option</h2>
+
+  <p>
+    A final addition is the possibility to prerender the routes of your application. For this to work the prerender
+    builder guesses static routes using <code>guess-parser</code>, build by
+    <a href="https://twitter.com/mgechev" target="_blank" rel="noopener">@mgechev</a>. The routing modules of your
+    application are analyzed and the routes found are prerendered.
+  </p>
+
+  <p>
+    To prerender the routes of your application, just run:
+  </p>
+
+  <pre><code class="language-bash line-numbers">npm run prerender</code></pre>
+
+  <h3>Rendering more (dynamic) routes</h3>
+
+  <p>
+    As shown in the <code>angular.json</code> config file at line 41, it is possible to list other known routes of the
+    application. In our case for example we could list the <code>/news</code>, <code>/news/1</code> and
+    <code>/news/2</code> routes. This will instruct the builder to also prerender those extra routes. Especially for
+    lazy-loaded modules this might be important, as these are not so easily guessed by <code>guess-parser</code>.
+  </p>
+
+  <p>
+    To render more dynamic routes, like the news detail pages in our sample application, we need some more logic.
+    Basically you need to find a way to let the prerender know what routes to prerender. This can be done by,
+    for example, defining a <code>listRoutes.js</code> script that will list all the routes in a text file. This file
+    can then by passed to the prerender script as follows:
+  </p>
+
+  <pre><code class="language-bash line-numbers">npm run prerender --routesFile routes.txt</code></pre>
+
+  <p>
+    An example of a script to list up all the required routes is shown below. All the routes listed in this text file
+    are added to the routes already defined in the <code>routes</code> array of the
+    <code>angular.json</code> config file before prerendering.
+  </p>
+
+  <h4 class="codetitle">scripts/list-routes.js</h4>
+  <pre><code class="language-javascript line-numbers">const fs = require('fs');
+const axios = require('axios');
+const endOfLine = require('os').EOL;
+const newsDataPath = 'http://localhost:4200/assets/news.json';
+const routesFile = './routes.txt';
+
+axios.get(newsDataPath).then(res => {
+    const routes = [];
+    res.data.forEach(newsitem => {
+    routes.push('news/' + newsitem.id);
+  });
+  fs.writeFileSync(routesFile, routes.join(endOfLine), 'utf8');
+}).catch(e => console.log(e));
+</code></pre>
+
+  <p>
+    The scripts in our <code>package.json</code> now look like this:
+  </p>
+
+  <h4 class="codetitle">updated package.json</h4>
+  <pre><code class="language-json line-numbers">{
+  "name": "ng-v9-universal",
+  "version": "0.0.0",
+  "scripts": {
+    "..", "..",
+    "list-routes": "node ./scripts/list-routes.js",
+    "prerender": "npm run list-routes && ng run ng-v9-universal:prerender --routesFile routes.txt"
+  },
+  "..": ".."
+}</code></pre>
+
+  <p class="alert alert-warning">
+    <em>Important</em>: While running the <code>npm run prerender</code> command, be sure to have the application running
+    as well. The static file <code>/assets/news.json</code> needs to be available for the application to prerender all
+    routes! You can do this by just running <code>ng serve</code> in another terminal.
+  </p>
+
+  <h2 id="conclusion">Conclusion</h2>
+
+  <p>
+    I have started this blog with Angular v2 and Universal and back in 2016 it was not easy getting it set up.
+    Universal with Angular v9 has improved developer experience a lot and implementing it is now just a matter of
+    following clearly defined steps.
+  </p>
+  <p>
+    Testing your application and the server-side rendered version of it is now available as one command. Just run
+    <code>npm run dev:ssr</code> to get going!
+  </p>
+  <p>
+    Prerendering your static routes is easy, except if you are using lazy loaded routes, these are not easy to guess by
+    <code>guess-parser</code>. You still need a way to render all your routes. This can be done by listing the routes
+    in a file and feeding it to the builder by using the <code>--routesFile</code> option. How you get to know the list
+    of routes is up to you.
+  </p>
+
+  <h2>Further reading</h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="https://trilon.io/blog/angular-universal-v9-whats-new" target="_blank" rel="noopener">
+        Angular Universal v9: What's New ?
+      </a>
+    </li>
+    <li>
+      <a href="https://twitter.com/vikerman/status/1213318449289551873" target="_blank" rel="noopener">
+        Vikram @vikerman: My last set of tweets from the Angular team
+      </a>
+    </li>
+  </ol>
+
+  <!--
   <h2>Special thanks to</h2>
 
   <ul>
@@ -139,5 +320,5 @@
   </ul>
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
-
+  -->
 </section>
