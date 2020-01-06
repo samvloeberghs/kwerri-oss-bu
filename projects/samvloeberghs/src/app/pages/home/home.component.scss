@@ -64,3 +64,49 @@ ol {
     }
   }
 }
+
+.lastpost {
+  color: #222;
+  font-weight: 400;
+  text-decoration: none;
+  background: #f6f6f6;
+  padding: 10px 20px;
+  margin: {
+    bottom: 40px;
+  }
+  display: flex;
+
+  img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    margin: {
+      right: 10px;
+    }
+  }
+
+  span {
+    line-height: 30px;
+    font-size: 20px;
+  }
+
+  .last {
+    font-weight: bold;
+    min-width: 120px;
+    padding: {
+      right: 20px;
+    }
+
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+
+  .post {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

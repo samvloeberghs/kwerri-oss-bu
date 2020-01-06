@@ -10,6 +10,15 @@
   navigation. If you want to say hi via email, write me at <a href="mailto:[fillinmy.name]@gmail.com" target="_blank">[fillinmy.name]@gmail.com</a>.
 </p>
 
+<a *ngIf="(lastPost$ | async) as post"
+   [routerLink]="['/posts', post.slug]"
+   [title]="post.title"
+   class="lastpost">
+  <span class="last">Latest post: </span>
+  <img [src]="post.img" [alt]="post.title"/>
+  <span class="post">{{post.title}}</span>
+</a>
+
 <!--
 <ol>
   <li>

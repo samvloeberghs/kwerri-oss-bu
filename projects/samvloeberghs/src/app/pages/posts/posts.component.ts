@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { Post } from './post/post.model';
 import { DataService } from '../../shared/data.service';
@@ -11,29 +12,23 @@ import { DataService } from '../../shared/data.service';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent {
 
-  posts: Post[];
-  error: any;
+  public readonly posts$: Observable<Post[]> = this.dataService
+    .getData('/posts/data.json')
+    .pipe(
+      map(response => response as Post[]),
+      tap({
+        error: (_: HttpErrorResponse) => {
+          this.router.navigateByUrl('/not-found');
+        },
+      }),
+    );
 
   constructor(
     private readonly dataService: DataService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {
-  }
-
-  ngOnInit() {
-    this.dataService
-      .getData('/posts/data.json')
-      .pipe(
-        map(response => response as Post[]),
-      )
-      .subscribe(
-        posts => this.posts = posts,
-        (error: HttpErrorResponse) => {
-          this.router.navigateByUrl('/not-found');
-        },
-      );
   }
 
 }

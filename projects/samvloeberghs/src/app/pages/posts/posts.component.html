@@ -4,7 +4,7 @@
     </span>
 </h1>
 
-<ng-container *ngFor="let post of posts; let i = index">
+<ng-container *ngFor="let post of posts$ | async; let i = index">
   <article *ngIf="!post.hidden">
 
     <a [routerLink]="['/posts', post.slug]" class="img" [attr.title]="post.title">
