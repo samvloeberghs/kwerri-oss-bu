@@ -85,7 +85,9 @@ export class PostComponent implements OnInit, AfterViewChecked {
         },
         error => {
           this.error = error;
-          this.router.navigateByUrl('/not-found');
+          this.router.navigateByUrl('/not-found', {
+            replaceUrl: true
+          });
         },
       );
   }

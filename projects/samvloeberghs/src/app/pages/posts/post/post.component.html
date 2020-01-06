@@ -3,10 +3,9 @@
   <img [src]="post.img" [alt]="post.title" class="introimage"/>
 
   <h1>
-        <span [innerHtml]="post.title">
-        </span>
+    <span [innerHtml]="post.title">
+    </span>
   </h1>
-
 
   <p class="posted">
     Posted on
@@ -29,16 +28,5 @@
     (close)="closeImageZoom()"
     [zoomImage]="currentZoomImage">
   </sv-image-zoom>
-
-  <!--
-  <hr/>
-
-  <h2>Leave some feedback please!</h2>
-
-  <p>
-      Do you have anything to add? Or have some other remarks? Please let me know in the comment section below!
-      Looking forward to the discusion!
-  </p>
-  -->
 
 </article>

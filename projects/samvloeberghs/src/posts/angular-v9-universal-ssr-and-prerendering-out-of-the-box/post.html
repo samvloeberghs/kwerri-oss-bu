@@ -180,7 +180,7 @@
 
   <p>
     While developing your application you'll probably just run <code>ng serve</code>. This command will setup a
-    dev-server for your with hot-reloading and everything else that will provide you with a nice developer experience.
+    dev-server for you with hot-reloading and everything else that will provide you with a nice developer experience.
   </p>
 
   <p>
@@ -246,8 +246,8 @@ const newsDataPath = 'http://localhost:4200/assets/news.json';
 const routesFile = './routes.txt';
 
 axios.get(newsDataPath).then(res => {
-    const routes = [];
-    res.data.forEach(newsitem => {
+  const routes = [];
+  res.data.forEach(newsitem => {
     routes.push('news/' + newsitem.id);
   });
   fs.writeFileSync(routesFile, routes.join(endOfLine), 'utf8');
