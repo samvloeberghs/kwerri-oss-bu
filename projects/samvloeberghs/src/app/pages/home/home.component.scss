@@ -76,6 +76,13 @@ ol {
   }
   display: flex;
 
+
+  @media (max-width: 480px) {
+    margin: {
+      bottom: 30px;
+    }
+  }
+
   img {
     display: block;
     width: 30px;

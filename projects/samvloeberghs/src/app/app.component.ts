@@ -13,6 +13,7 @@ import { EnvironmentService } from './shared/environment.service';
 })
 export class AppComponent {
 
+  public readonly today = new Date();
   public readonly currentUrl$ = this.routehelper.currentUrl$;
   public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$;
   public mobileNavToggled = false;
