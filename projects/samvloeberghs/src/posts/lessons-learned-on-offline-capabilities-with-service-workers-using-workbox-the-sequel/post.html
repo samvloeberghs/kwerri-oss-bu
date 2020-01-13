@@ -85,9 +85,12 @@ if ('serviceWorker' in navigator) {
   </p>
 
   <h4 class="codetitle">service-worker.js</h4>
-  <pre data-line="5"><code class="language-js line-numbers">// ... other sw functionality
+  <pre data-line="8"><code class="language-js line-numbers">// ... other sw functionality
 
 self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
   if (event.data && event.data.type === 'CLIENTS_CLAIM') {
     self.clients.claim();
   }
