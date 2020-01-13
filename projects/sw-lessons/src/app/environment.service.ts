@@ -69,7 +69,7 @@ export class EnvironmentService {
     if (this.serviceWorkerAvailable) {
       try {
         console.log('updating sw');
-        return await wb.up
+        return await this.swRegistration.update();
       } catch (err) {
         console.log('sw.js could not be updated', err);
       }
@@ -152,7 +152,10 @@ export class EnvironmentService {
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
-        // Send a message telling the service worker to skip waiting and become active.
+        // Send a message telling the service worker to skip waiting and
+        // become active. We use event.sw.postMessage, and not wb.messageSw,
+        // because we want to message the waiting SW and not the currently
+        // active service worker
         event.sw.postMessage({ type: 'SKIP_WAITING' });
 
         // let anybody interested know we are updating the application

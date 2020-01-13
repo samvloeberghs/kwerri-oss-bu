@@ -313,7 +313,7 @@ export class ServiceWorkerService {
   </p>
 
   <h4 class="codetitle">app-update-external.ts</h4>
-  <pre data-line="43, 48-50, 53, 67-69, 58, 62"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+  <pre data-line="43, 48-51, 56, 61, 65"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
 import { Workbox } from 'workbox-window';
@@ -364,7 +364,10 @@ export class EnvironmentService {
         filter((applicationUpdateRequested) => applicationUpdateRequested),
         first(),
       ).subscribe(_ => {
-        // Send a message telling the service worker to skip waiting and become active.
+        // Send a message telling the service worker to skip waiting and
+        // become active. We use event.sw.postMessage, and not wb.messageSw,
+        // because we want to message the waiting SW and not the currently
+        // active service worker
         event.sw.postMessage({ type: 'SKIP_WAITING' });
       });
     });
@@ -403,12 +406,12 @@ export class EnvironmentService {
     </li>
     <li>
       The event listener subscribes and starts listening to the user intent to update the application to the new
-      version (line 48-50). When the user gives his go, an event <code>SKIP_WAITING</code> is sent to the service
-      worker, instructing it to become activated (line 53).
+      version (line 48-51). When the user gives his go, an event <code>SKIP_WAITING</code> is sent to the service
+      worker, instructing it to become activated (line 56).
     </li>
     <li>
         The event listener <code>externalactivated</code> receives a new event, indicating that the new service worker
-        became activated (line 58). Now we can reload to activate the complete new application (line 62)!
+        became activated (line 61). Now we can reload to activate the complete new application (line 65)!
     </li>
   </ol>
 
