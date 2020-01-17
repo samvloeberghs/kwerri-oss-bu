@@ -1,0 +1,193 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2>Scully - a Static Site Generator for Angular series</h2>
+
+  <p>
+    This article is part of <em>a growing series around Scully - a Static Site Generator for Angular</em>.
+    If you get excited about this article be sure to check the others!
+  </p>
+
+  <ol>
+    <li>
+      Custom plugins for Scully - Angular Static Site Generator
+    </li>
+    <li>
+      (<strong>Work in progress</strong>) Scully or Angular Universal, what is the difference?
+    </li>
+  </ol>
+
+  <h2>Target audience</h2>
+
+  <p>
+    <a href="https://github.com/scullyio/scully" target="_blank" rel="noopener">Scully, the Static Site Generator for
+      Angular</a>, comes with a plugin system that allows us to control which pages to prerender of our Angular
+    application and how to prerender them. In this article we will <em>learn how to setup custom plugins</em> for your
+    own specific usecases. If you care about the performance of your Angular application or website, please continue
+    reading.
+  </p>
+
+  <h2>What is Scully?</h2>
+
+  <p>
+    Scully is basically a static site generator, or SSG, for Angular. It takes your full-blown Angular application and
+    transforms the stable state of all the publicly available pages into a static HTML snapshot. You can deploy these
+    HTML pages to a static webserver, with or without the original Angular application, and your application will load
+    instantly. Even without JS enabled, because all the content is available in the original HTML returned from the
+    server.
+  </p>
+
+  <p>
+    This has some important consequences and benefits. The most important one is that <em>the content of your page is
+    available instantly</em>. After your HTML page has loaded, the application can still bootstrap as the Angular app, giving you
+    the full SPA functionality. But meanwhile the user will not be blocked to read or use the page until the Angular app
+    has started up.
+  </p>
+
+  <h3>Getting started with Scully</h3>
+
+  <p>
+    Getting started with Scully is easy. The
+    <a href="https://github.com/scullyio/scully/blob/master/docs/getting-started.md" target="_blank" rel="noopener">
+      documentation on the Github project</a> will get you going setting up your first project. At the bottom of the
+    article you can find more links and recources about setting up Scully.
+  </p>
+
+  <h3>Support for plugins</h3>
+
+  <p>
+    Scully is able to generate your pages because of a discovery process that finds the available routes of your
+    application by scanning your routing modules. Some routes are easy to discover, like for example the
+    <code>/about</code> route. But other routes, for example dynamic routes like <code>/blog/:slug</code>, need to be
+    listed based on known data, coming from for example a DB or API interface.
+  </p>
+
+  <p>
+    The lists of available pages for these dynamic routes are build using plugins. As example, Scully has a built-in
+    routerplugin of type <code>json</code> that will load a JSON list and use the items in the list as a source for the available pages.
+  </p>
+
+  <h4 class="codetitle">scully.config.js</h4>
+  <pre><code class="language-js line-numbers">const {
+  RouteTypes,
+} = require('@scullyio/scully');
+
+exports.config = {
+  routes: {
+    '/user/:userId': {
+      type: RouteTypes.json,
+      userId: {
+        url: 'https://jsonplaceholder.typicode.com/users',
+        property: 'id',
+      }
+    }
+  }
+}
+</code></pre>
+
+  <p>
+    If we consider that our JSON source <code><a target="_blank" rel="noopener"
+                                                    href="https://jsonplaceholder.typicode.com/users">
+    https://jsonplaceholder.typicode.com/users</a></code> has around 10 users, this plugin
+    will add 10 routes to prerender using our Angular application and Scully. Scully keeps track of the complete list to
+    prerender in the <code>/src/assets/scully-routes.json</code> file.
+  </p>
+
+  <h4 class="codetitle">/src/assets/scully-routes.json</h4>
+  <pre><code class="language-json line-numbers">[
+  {"route": "/"}, {"route": "/about"},
+  ...
+  {"route": "/users/1"},
+  {"route": "/users/2"},
+  ...
+  {"route": "/user/10"}
+]</code></pre>
+
+  <p>
+    The next step is building our own plugins, but let's first shine some light on the example project we will use to
+    explain the details and decide which plugins we need to build.
+  </p>
+
+  <h2>Example project</h2>
+
+  <p>
+    The example is a simple Angular application with a few static routes, like <code>/about</code> and dynamic routes
+    like <code>/news</code> that lists the available newsitems and <code>/news/:id/:slug</code> that shows the detail
+    of a newsitem. The list of newsitems is retrieved from a static resource <code>/assets/news.json</code> and the
+    newsdetail is available at <code>/assets/news/{id}.json</code>.
+  </p>
+
+  <img class="extraspace zoomin"
+       src="/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/example_app.gif"
+       alt=""/>
+
+  <p>
+    Based on the data of <code>/assets/news.json</code> the list of all routes for our example application looks like
+    this:
+  </p>
+
+  <h4 class="codetitle">/src/assets/scully-routes.json</h4>
+  <pre><code class="language-json line-numbers">[
+  {"route":"/"},
+  {"route":"/about"},
+  {"route":"/news"},
+  {"route":"/news/archive"},
+  {"route":"/news/1/newsitem-1"},
+  {"route":"/news/2/newsitem-2"},
+  {"route":"/news/5/newsitem-5"},
+  {"route":"/news/99/newsitem-99"}
+]</code></pre>
+
+  <h2>Custom router plugin</h2>
+
+  <p></p>
+
+  <h2>Custom renderer plugin</h2>
+
+  <p></p>
+
+  <h2>Publishing our plugin</h2>
+
+  <p></p>
+
+  <h2 id="conclusion">Conclusion</h2>
+
+  <p></p>
+
+  <h2>Further reading</h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="https://github.com/scullyio" target="_blank" rel="noopener">
+        Scully - Github organization
+      </a>
+    </li>
+    <li>
+      <a href="https://www.youtube.com/watch?v=BRWKiF0Zkgs" target="_blank" rel="noopener">
+        Scully - live code introduction on Youtube
+      </a>
+    </li>
+    <li>
+      <a href="https://medium.com/angular-in-depth/scully-the-static-site-generator-for-angular-d0608cb028ae" target="_blank" rel="noopener">
+        Scully, the First Static Site Generator for Angular
+      </a>
+    </li>
+    <li>
+      <a href="https://www.learnwithjason.dev/create-a-static-site-using-angular-scully" target="_blank" rel="noopener">
+        Create a Static Site Using Angular & Scully
+      </a>
+    </li>
+  </ol>
+
+  <!--
+  <h2>Special thanks to</h2>
+
+  <ul>
+    <li>
+      <a href="" rel="noopener" target="_blank"></a>
+    </li>
+
+  </ul>
+
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+  -->
+</section>

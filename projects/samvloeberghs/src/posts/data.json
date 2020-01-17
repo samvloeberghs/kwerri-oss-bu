@@ -1,5 +1,14 @@
 [
   {
+    "title": "Custom plugins for Scully - Angular Static Site Generator",
+    "slug": "custom-plugins-for-scully-angular-static-site-generator",
+    "publishDatetime": "2020-01-17T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/posts/custom-plugins-for-scully-angular-static-site-generator/angular.png",
+    "imgShare": "/posts/custom-plugins-for-scully-angular-static-site-generator/angular_share.jpg",
+    "short": "Scully, the Static Site Generator for Angular, comes with a plugin system that allows us to control which pages to prerender of our Angular application and how to prerender them. In this article we will learn how to setup custom plugins for your own specific usecases."
+  },
+  {
     "title": "Angular v9 & Universal: SSR and prerendering out of the box!",
     "slug": "angular-v9-universal-ssr-and-prerendering-out-of-the-box",
     "publishDatetime": "2020-01-05T12:00:00+01:00",
