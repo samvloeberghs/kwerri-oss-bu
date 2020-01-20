@@ -161,7 +161,7 @@ exports.config = {
   </p>
 
   <h4 class="codetitle">/plugins/newsPlugin.js</h4>
-  <pre data-line="6,8,15,20-21"><code class="language-js line-numbers">const {registerPlugin, configValidator, routeSplit} = require('@scullyio/scully');
+  <pre data-line="6,8,15,20-21"><code class="language-js line-numbers">const {registerPlugin, routeSplit} = require('@scullyio/scully');
 const {httpGetJson} = require('@scullyio/scully/utils/httpGetJson');
 
 const NewsPlugin = 'news';
@@ -309,7 +309,8 @@ registerPlugin('render', MinifyHtml, minifyHtmlPlugin, minifyHtmlPluginValidator
     </li>
     <li>
       Finally, we register the plugin to make it available for Scully. The first parameter defines the type of plugin,
-      the second parameter marks the name of the plugin. We also export the MinifyHtml as a type.
+      the second parameter marks the name of the plugin. We also export the MinifyHtml as a type. We can assign a
+      validator function as well, but this is not in the scope of this blogpost!
     </li>
   </ol>
 
