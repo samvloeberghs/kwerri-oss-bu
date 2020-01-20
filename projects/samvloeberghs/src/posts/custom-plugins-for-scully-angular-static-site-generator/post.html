@@ -29,11 +29,11 @@
   <h2>What is Scully?</h2>
 
   <p>
-    Scully is basically a static site generator, or SSG, for Angular. It takes your full-blown Angular application and
-    transforms the stable state of all the publicly available pages into a static HTML snapshot. You can deploy these
-    HTML pages to a static webserver, with or without the original Angular application, and your application will load
-    instantly. Even without JS enabled, because all the content is available in the original HTML returned from the
-    server.
+    Scully is basically <em>a static site generator, or SSG, for Angular</em>. It takes your full-blown Angular
+    application and transforms the stable state of all the publicly available pages into their static HTML snapshot.
+    You can deploy these HTML pages to a static webserver, with or without the original Angular application, and your
+    application will load instantly. <em>Even without JS enabled</em>, because all the content is available in the
+    original HTML returned from the server.
   </p>
 
   <p>
@@ -56,22 +56,25 @@
 
   <p>
     Scully is able to generate your pages because of a discovery process that finds the available routes of your
-    application by scanning your routing modules. Some routes are easy to discover, like for example the
+    application by scanning all the routing modules. Some routes are easy to discover, like for example the
     <code>/about</code> route. But other routes, for example dynamic routes like <code>/blog/:slug</code>, need to be
     listed based on known data, coming from for example a DB or API interface.
   </p>
 
   <p>
-    The lists of available pages for these dynamic routes are build using plugins. As example, Scully has a built-in
-    routerplugin of type <code>json</code> that will load a JSON list and use the items in the list as a source for the available pages.
+    The lists of available pages for these dynamic routes are built using plugins. There are two types of plugins
+    available, <em>router plugins</em> and <em>renderer plugins</em>. As an example, Scully has a built-in
+    router plugin of type <code>RouteTypes.json</code> that will load a JSON list and use the items in the list as a
+    source for the available pages.
   </p>
 
   <h4 class="codetitle">scully.config.js</h4>
-  <pre><code class="language-js line-numbers">const {
+  <pre data-line="8-14"><code class="language-js line-numbers">const {
   RouteTypes,
 } = require('@scullyio/scully');
 
 exports.config = {
+  projectRoot: './src/app',
   routes: {
     '/user/:userId': {
       type: RouteTypes.json,
@@ -88,8 +91,8 @@ exports.config = {
     If we consider that our JSON source <code><a target="_blank" rel="noopener"
                                                     href="https://jsonplaceholder.typicode.com/users">
     https://jsonplaceholder.typicode.com/users</a></code> has around 10 users, this plugin
-    will add 10 routes to prerender using our Angular application and Scully. Scully keeps track of the complete list to
-    prerender in the <code>/src/assets/scully-routes.json</code> file.
+    will add 10 routes to the list of pages to prerender using our Angular application and Scully. Scully keeps track
+    of the complete list to prerender in the <code>/src/assets/scully-routes.json</code> file.
   </p>
 
   <h4 class="codetitle">/src/assets/scully-routes.json</h4>
@@ -110,10 +113,10 @@ exports.config = {
   <h2>Example project</h2>
 
   <p>
-    The example is a simple Angular application with a few static routes, like <code>/about</code> and dynamic routes
-    like <code>/news</code> that lists the available newsitems and <code>/news/:id/:slug</code> that shows the detail
-    of a newsitem. The list of newsitems is retrieved from a static resource <code>/assets/news.json</code> and the
-    newsdetail is available at <code>/assets/news/{id}.json</code>.
+    The example project is a simple Angular application with a few static routes, like <code>/about</code> and dynamic
+    routes like <code>/news</code> that lists the available newsitems and <code>/news/:id/:slug</code> that shows the
+    detail of a newsitem. The list of newsitems is retrieved from a static resource <code>/assets/news.json</code> and
+    the newsdetail is available at <code>/assets/news/{id}.json</code>.
   </p>
 
   <img class="extraspace zoomin"
@@ -122,7 +125,7 @@ exports.config = {
 
   <p>
     Based on the data of <code>/assets/news.json</code> the list of all routes for our example application looks like
-    this:
+    the list below. Remember, Scully is generating the complete list.
   </p>
 
   <h4 class="codetitle">/src/assets/scully-routes.json</h4>
@@ -139,11 +142,203 @@ exports.config = {
 
   <h2>Custom router plugin</h2>
 
-  <p></p>
+  <p>
+    To be able to generate the list of pages for our news module, that has detail pages in the form of
+    <code>news/:id/:slug</code> with 2 parameters <code>:id</code> and <code>:slug</code>, we need to program a custom
+    router plugin for Scully. A router plugin is easy, you just need to write some code that will generate a list of
+    routes, based on a given configuration. Let's break down the code from our <code>newsPlugin</code>:
+  </p>
+
+  <h4 class="codetitle">/plugins/newsPlugin.js</h4>
+  <pre data-line="6,7,15,18-19"><code class="language-js line-numbers">const {registerPlugin, configValidator, routeSplit} = require('@scullyio/scully');
+const {httpGetJson} = require('@scullyio/scully/utils/httpGetJson');
+
+const NewsPlugin = 'news';
+
+const newsPlugin = async(route, config) => {
+  const {createPath} = routeSplit(route);
+  const list = await httpGetJson(config.url);
+  const handledRoutes = [];
+  for (let item of list) {
+    handledRoutes.push({
+      route: createPath(item.id, item.slug)
+    });
+  }
+  return handledRoutes;
+};
+
+registerPlugin('router', 'news', newsPlugin);
+exports.NewsPlugin = NewsPlugin;
+</code></pre>
+
+  <ol>
+    <li>
+      The plugin function, defined at line 6, is an async function that expects the <code>route</code> we are handling,
+      in this case the <code>news/:id/:slug</code> route. A <code>config</code> object as the second parameter, that is
+      tight to the route, contains all the information we need to generate the list urls. In this case we only need a
+      url.
+    </li>
+    <li>
+      At line 8 we generate a <code>createPath</code> function based on the given route. This function will be used to
+      build the final page url, based on the JSON data we retrieved from the <code>url</code> defined in the config
+      object and the original route.
+    </li>
+    <li>
+      The code that follows in the async function is the actual implementation generating all the urls available for
+      this route.
+    </li>
+    <li>
+      Finally, we register the plugin to make it available for Scully. The first parameter defines the type of plugin,
+      the second parameter marks the name of the plugin. We also export the NewsPlugin as a type.
+    </li>
+  </ol>
+
+  <h3>Configuring the new plugin</h3>
+
+  <p>
+    Configuring the new router plugin is easy! In our Scully configuration object, we define our route at line 8-11 and
+    we give it the type of our newsPlugin. The only configuration we needed for our custom plugin was the
+    <code>url</code> to fetch the JSON data from, and we are done!
+  </p>
+
+  <h4 class="codetitle">scully.config.js</h4>
+  <pre data-line="8-11"><code class="language-js line-numbers">const {RouteTypes} = require('@scullyio/scully');
+
+const {News} = require('./plugins/newsPlugin');
+
+exports.config = {
+  projectRoot: './src/app',
+  routes: {
+    '/news/:id/:slug': {
+      type: News,
+      url: 'http://localhost:4200/assets/news.json',
+    },
+  }
+};
+</code></pre>
+
+  <p>
+    When running Scully with <code>npm run scully</code> the new router plugin is used and the generated output will be
+    a set of available pages with news details:
+  </p>
+
+  <h4 class="codetitle">/src/assets/scully-routes.json</h4>
+  <pre><code class="language-json line-numbers">[
+    ...
+    {"route":"/news"},
+    {"route":"/news/archive"},
+    {"route":"/news/1/newsitem-1"},
+    {"route":"/news/2/newsitem-2"},
+    {"route":"/news/5/newsitem-5"},
+    {"route":"/news/99/newsitem-99"}
+]</code></pre>
 
   <h2>Custom renderer plugin</h2>
 
-  <p></p>
+  <p>
+    Custom renderer plugins can be used to perform some sort of modification on the generated HTML as
+    <code>postRenderers</code>. These <code>postRenderers</code> can be defined as a default, for all rendered pages,
+    or defined on the level of each route. In the latter case, these <code>postRenderers</code> will only be executed
+    on the pages generated for that specific route.
+  </p>
+
+  <p>
+    A typical thing to do after generating the static HTML of our pages is to minify the HTML. By removing unnecessary
+    code we can make our pages smaller and faster, which will result in more performant loading times. We can easily
+    minify the HTML by defining a <code>minifyHtml</code> renderer plugin.
+  </p>
+
+  <h4 class="codetitle">/plugins/minifyHtmlPlugin.js</h4>
+  <pre data-line="6-19,21-24,26-27"><code class="language-js line-numbers">const {registerPlugin, configValidator} = require('@scullyio/scully');
+const minify = require('html-minifier').minify;
+
+const MinifyHtml = 'minifyHtml';
+
+const minifyOptions = {
+  removeComments: true,
+  removeCommentsFromCDATA: true,
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  removeRedundantAttributes: true,
+  useShortDoctype: true,
+  removeEmptyAttributes: true,
+  minifyCSS: true,
+  // don't remove attribute quotes, not all social media platforms can parse this over-optimization
+  removeAttributeQuotes: false,
+  // don't remove optional tags, like the head, not all social media platforms can parse this over-optimization
+  removeOptionalTags: false,
+};
+
+const minifyHtmlPlugin = async (html, route) => {
+  const minifiedHtml = minify(html, minifyOptions);
+  return Promise.resolve(minifiedHtml);
+};
+
+registerPlugin('render', 'minifyHtml', minifyHtmlPlugin);
+exports.MinifyHtml = MinifyHtml;</code></pre>
+
+  <ol>
+    <li>
+      The first object you see, line 6-19, is the configuration object we use for the
+      <a href="https://www.npmjs.com/package/html-minifier" target="_blank" rel="noopener">HTML minifier</a>. This is
+      the same minifier I used explaining
+      <a href="posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application">how to setup a
+        simple memory cache for Angular Universal</a>
+    </li>
+    <li>
+      Just as with the custom router plugin for we define an async function. This function takes the HTML and
+      associated route as input. In our case we don't need the route, we just transform the HTML by minifying it and
+      return it as resolved Promise.
+    </li>
+    <li>
+      Finally, we register the plugin to make it available for Scully. The first parameter defines the type of plugin,
+      the second parameter marks the name of the plugin. We also export the MinifyHtml as a type.
+    </li>
+  </ol>
+
+  <h3>Configuring the new plugin</h3>
+
+  <p>
+    Configuring the new renderer plugin is, again, easy! In our Scully configuration object, we can define a list of
+    <code>postRenderers</code> as a default for all routes using the <code>defaultPostRenderers</code> option. By
+    configuring Scully like this every page that gets statically generated will be minified.
+  </p>
+
+  <p>
+    Just keep in mind that if you define a route configuration, the same postRenderers need to be attached to the route
+    configuration using <code>postRenderers</code>. The <code>defaultPostRenderers</code> will not be executed in these
+    cases.
+  </p>
+
+    <h4 class="codetitle">scully.config.js</h4>
+  <pre data-line="8-11,15"><code class="language-js line-numbers">const {RouteTypes} = require('@scullyio/scully');
+
+const {MinifyHtml} = require('./plugins/minifyHtmlPlugin');
+const {News} = require('./plugins/newsPlugin');
+
+const postRenderers = [MinifyHtml];
+
+exports.config = {
+  projectRoot: './src/app',
+  defaultPostRenderers: postRenderers,
+  routes: {
+    '/news/:id/:slug': {
+      type: News,
+      url: 'http://localhost:4200/assets/news.json',
+      postRenderers: postRenderers,
+    }
+  }
+};
+</code></pre>
+
+  <p>
+    Running Scully with <code>npm run scully</code> will now not only generate the correct newsdetail pages, it will
+    also minify the HTML of the generated pages:
+  </p>
+
+  <img class="extraspace zoomin"
+       src="/posts/custom-plugins-for-scully-angular-static-site-generator/minified_html.gif"
+       alt=""/>
 
   <h2>Publishing our plugin</h2>
 

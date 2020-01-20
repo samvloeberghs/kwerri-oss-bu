@@ -1,0 +1,28 @@
+{
+  "name": "scully-minify-html",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "html-minifier": "^4.0.0",
+    "@scullyio/scully": "latest"
+  },
+  "maintainers": [
+    "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samvloeberghs/kwerri-oss/tree/master/projects/scully-minify-html"
+  },
+  "keywords": [
+    "angular",
+    "scully",
+    "html",
+    "minifier",
+    "seo",
+    "ssg"
+  ],
+  "contributors": [
+    "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"
+  ],
+  "author": "Sam Vloeberghs",
+  "license": "MIT"
+}
