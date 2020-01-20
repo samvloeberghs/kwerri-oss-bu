@@ -1,8 +1,7 @@
 {
-  "name": "scully-minify-html",
-  "version": "1.2.0",
+  "name": "scully-disable-angular",
+  "version": "1.0.0",
   "peerDependencies": {
-    "html-minifier": "^4.0.0",
     "@scullyio/scully": "latest"
   },
   "maintainers": [
@@ -10,13 +9,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/samvloeberghs/kwerri-oss/tree/master/projects/scully-minify-html"
+    "url": "https://github.com/samvloeberghs/kwerri-oss/tree/master/projects/scully-disable-angular"
   },
   "keywords": [
     "angular",
     "scully",
-    "html",
-    "minifier",
     "seo",
     "ssg"
   ],

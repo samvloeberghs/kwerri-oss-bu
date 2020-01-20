@@ -3,7 +3,7 @@
   <h2>Scully - a Static Site Generator for Angular series</h2>
 
   <p>
-    This article is part of <em>a growing series around Scully - a Static Site Generator for Angular</em>.
+    This article is part of <em>a growing series about Scully - a Static Site Generator for Angular</em>.
     If you get excited about this article be sure to check the others!
   </p>
 
@@ -14,6 +14,11 @@
     <li>
       (<strong>Work in progress</strong>) Scully or Angular Universal, what is the difference?
     </li>
+    <!--
+    <li>
+      (<strong>Work in progress</strong>) Do I still need Angular on the frontend, when statically generating with Scully ?
+    </li>
+    -->
   </ol>
 
   <h2>Target audience</h2>
@@ -48,7 +53,7 @@
   <p>
     Getting started with Scully is easy. The
     <a href="https://github.com/scullyio/scully/blob/master/docs/getting-started.md" target="_blank" rel="noopener">
-      documentation on the Github project</a> will get you going setting up your first project. At the bottom of the
+      documentation on the Github project</a> will get you going with setting up your first project. At the bottom of the
     article you can find more links and recources about setting up Scully.
   </p>
 
@@ -69,7 +74,7 @@
   </p>
 
   <h4 class="codetitle">scully.config.js</h4>
-  <pre data-line="8-14"><code class="language-js line-numbers">const {
+  <pre data-line="8,10-13"><code class="language-js line-numbers">const {
   RouteTypes,
 } = require('@scullyio/scully');
 
@@ -91,8 +96,14 @@ exports.config = {
     If we consider that our JSON source <code><a target="_blank" rel="noopener"
                                                     href="https://jsonplaceholder.typicode.com/users">
     https://jsonplaceholder.typicode.com/users</a></code> has around 10 users, this plugin
-    will add 10 routes to the list of pages to prerender using our Angular application and Scully. Scully keeps track
-    of the complete list to prerender in the <code>/src/assets/scully-routes.json</code> file.
+    will add 10 routes to the list of pages to prerender using our Angular application and Scully. This is done by
+    defining a configuration (line 10-13) that will instruct Scully which property to use, from the objects in the list
+    of the JSON data source, for replacing the dynamic <code>:userId</code> in the route definition (line 8).
+  </p>
+
+  <p>
+    And finally the complete list of pages to prerender is generated! Scully keeps track of these list in the
+    <code>/src/assets/scully-routes.json</code> file.
   </p>
 
   <h4 class="codetitle">/src/assets/scully-routes.json</h4>
@@ -113,10 +124,10 @@ exports.config = {
   <h2>Example project</h2>
 
   <p>
-    The example project is a simple Angular application with a few static routes, like <code>/about</code> and dynamic
+    The example project is a simple Angular application with a few static routes, like <code>/about</code>, and dynamic
     routes like <code>/news</code> that lists the available newsitems and <code>/news/:id/:slug</code> that shows the
-    detail of a newsitem. The list of newsitems is retrieved from a static resource <code>/assets/news.json</code> and
-    the newsdetail is available at <code>/assets/news/{id}.json</code>.
+    detail of a newsitem. The list of newsitems is retrieved via <code>HttpClient</code> from a static resource
+    <code>/assets/news.json</code> and the newsdetail is available at <code>/assets/news/{:id}.json</code>.
   </p>
 
   <img class="extraspace zoomin"
@@ -150,14 +161,14 @@ exports.config = {
   </p>
 
   <h4 class="codetitle">/plugins/newsPlugin.js</h4>
-  <pre data-line="6,7,15,18-19"><code class="language-js line-numbers">const {registerPlugin, configValidator, routeSplit} = require('@scullyio/scully');
+  <pre data-line="6,8,15,20-21"><code class="language-js line-numbers">const {registerPlugin, configValidator, routeSplit} = require('@scullyio/scully');
 const {httpGetJson} = require('@scullyio/scully/utils/httpGetJson');
 
 const NewsPlugin = 'news';
 
 const newsPlugin = async(route, config) => {
-  const {createPath} = routeSplit(route);
   const list = await httpGetJson(config.url);
+  const {createPath} = routeSplit(route);
   const handledRoutes = [];
   for (let item of list) {
     handledRoutes.push({
@@ -167,7 +178,9 @@ const newsPlugin = async(route, config) => {
   return handledRoutes;
 };
 
-registerPlugin('router', 'news', newsPlugin);
+const newsPluginValidator =  async conf => [];
+
+registerPlugin('router', 'news', newsPlugin, newsPluginValidator);
 exports.NewsPlugin = NewsPlugin;
 </code></pre>
 
@@ -189,7 +202,8 @@ exports.NewsPlugin = NewsPlugin;
     </li>
     <li>
       Finally, we register the plugin to make it available for Scully. The first parameter defines the type of plugin,
-      the second parameter marks the name of the plugin. We also export the NewsPlugin as a type.
+      the second parameter marks the name of the plugin. We also export the NewsPlugin as a type. The last parameter
+      is a validator function, but we will not cover this topic in this blogpost.
     </li>
   </ol>
 
@@ -249,41 +263,44 @@ exports.config = {
   </p>
 
   <h4 class="codetitle">/plugins/minifyHtmlPlugin.js</h4>
-  <pre data-line="6-19,21-24,26-27"><code class="language-js line-numbers">const {registerPlugin, configValidator} = require('@scullyio/scully');
-const minify = require('html-minifier').minify;
+  <pre data-line="4-20,22-25,28-29"><code class="language-js line-numbers">import { registerPlugin } from '@scullyio/scully';
+import { minify, Options } from 'html-minifier';
 
-const MinifyHtml = 'minifyHtml';
-
-const minifyOptions = {
-  removeComments: true,
-  removeCommentsFromCDATA: true,
-  collapseWhitespace: true,
-  collapseBooleanAttributes: true,
-  removeRedundantAttributes: true,
-  useShortDoctype: true,
-  removeEmptyAttributes: true,
-  minifyCSS: true,
-  // don't remove attribute quotes, not all social media platforms can parse this over-optimization
-  removeAttributeQuotes: false,
-  // don't remove optional tags, like the head, not all social media platforms can parse this over-optimization
-  removeOptionalTags: false,
+const defaultMinifyOptions: Options = {
+    caseSensitive: true,
+    removeComments: true,
+    collapseWhitespace: true,
+    collapseBooleanAttributes: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    minifyCSS: true,
+    minifyJS: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    // don't remove attribute quotes, not all social media platforms can parse this over-optimization
+    removeAttributeQuotes: false,
+    // don't remove optional tags, like the head, not all social media platforms can parse this over-optimization
+    removeOptionalTags: false,
 };
 
-const minifyHtmlPlugin = async (html, route) => {
-  const minifiedHtml = minify(html, minifyOptions);
-  return Promise.resolve(minifiedHtml);
+export const minifyHtmlPlugin = async (html, route) => {
+    const minifiedHtml = minify(html, defaultMinifyOptions);
+    return Promise.resolve(minifiedHtml);
 };
 
-registerPlugin('render', 'minifyHtml', minifyHtmlPlugin);
-exports.MinifyHtml = MinifyHtml;</code></pre>
+const minifyHtmlPluginValidator = async () => [];
+export const MinifyHtml = 'minifyHtml';
+registerPlugin('render', MinifyHtml, minifyHtmlPlugin, minifyHtmlPluginValidator);
+</code></pre>
 
   <ol>
     <li>
-      The first object you see, line 6-19, is the configuration object we use for the
+      The first object you see, line 4-20, is the configuration object we use for the
       <a href="https://www.npmjs.com/package/html-minifier" target="_blank" rel="noopener">HTML minifier</a>. This is
-      the same minifier I used explaining
-      <a href="posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application">how to setup a
-        simple memory cache for Angular Universal</a>
+      the same minifier I used explaining how to implement
+      <a href="posts/better-sharing-on-social-media-platforms-with-angular-universal">Better sharing on social media
+        platforms with Angular Universal</a>.
     </li>
     <li>
       Just as with the custom router plugin for we define an async function. This function takes the HTML and
@@ -343,18 +360,16 @@ exports.config = {
   <h2>Using the <code>scully-minify-html</code> plugin</h2>
 
   <p>
-    Because it is a plugin and we can share code via npm it would be silly to rewrite the minify html plugin, except
-    for learning purposes ofcourse. Installing it is as easy as running
+    Because it is a plugin and we can share code via npm it would be silly to rewrite the <code>minifyHtml</code>
+    plugin, except for learning purposes ofcourse. Installing it is as easy as running
     <code><a href="http://npmjs.com/package/scully-minify-html" target="_blank" rel="noopener">
       npm i -s scully-minify-html</a></code> in your Angular project. This will install the plugin for you. The only
     thing left is to configure it in your <code>scully.config.js</code> file as follows:
   </p>
 
   <h4 class="codetitle">scully.config.js</h4>
-  <pre data-line="2,4,9,13,18"><code class="language-js line-numbers">const {RouteTypes, registerPlugin} = require('@scullyio/scully');
-const {MinifyHtml, minifyHtmlPluginFactory} = require('scully-minify-html');
-
-registerPlugin('render', MinifyHtml, minifyHtmlPluginFactory({}));
+  <pre data-line="2,7,11,16"><code class="language-js line-numbers">const {RouteTypes} = require('@scullyio/scully');
+const {MinifyHtml} = require('scully-minify-html');
 
 // custom plugins in ./plugins/*.js
 const {News} = require('./plugins/newsPlugin');
@@ -380,22 +395,27 @@ exports.config = {
 
   <ol>
     <li>
-      First of all we import the required code from our freshly installed Scully plugin. We need the plugin itself,
-      called <code>minifyHtmlPluginFactory</code> and the type <code>MinifyHtml</code>we will associate with the plugin.
+      First of all we import the required type <code>MinifyHtml</code> from our freshly installed Scully plugin.
     </li>
     <li>
-      At line 4 we register the plugin, keeping in mind that this is a factory function! We can use the function to pass
-      details, like a configurating object for the
-      <code><a href="https://www.npmjs.com/package/html-minifier" target="_blank" rel="noopener">html-minifier plugin
-      </a></code>
+      At line 7 we define the <code>postRenders</code> list and apply it to the <code>defaultPostRenders</code> (line 11), to run
+      for all routes, and/or configure it per route via <code>postRenderers</code> (line 16). Basically everything we
+      did before implementing the custom renderer plugin.
     </li>
-    <li></li>
-    <li></li>
   </ol>
 
   <h2 id="conclusion">Conclusion</h2>
 
-  <p></p>
+  <p>
+    In this article we have learned how to program and configure custom plugins for Scully. With those custom plugins
+    we can control which pages to generate with <code>router plugins</code> and transform the genenerated HTML with
+    <code>renderer plugins</code>.
+  </p>
+
+  <p>
+    We can configure Scully per route or we can use global configuration options to get to our solution.
+    Keep in mind that <em>Scully is still in full development so expect things to change.</em>
+  </p>
 
   <h2>Further reading</h2>
 

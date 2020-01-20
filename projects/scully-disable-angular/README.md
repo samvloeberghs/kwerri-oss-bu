@@ -1,0 +1,1 @@
+# scully-disable-angular
