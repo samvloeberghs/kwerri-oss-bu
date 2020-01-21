@@ -26,15 +26,15 @@
   <p>
     <a href="https://github.com/scullyio/scully" target="_blank" rel="noopener">Scully, the Static Site Generator for
       Angular</a>, comes with a plugin system that allows us to control which pages to prerender of our Angular
-    application and how to prerender them. In this article we will <em>learn how to setup custom plugins</em> for your
-    own specific usecases. If you care about the performance of your Angular application or website, please continue
+    application and how to prerender them. In this article, we will <em>learn how to setup custom plugins</em> for your
+    specific use cases. If you care about the performance of your Angular application or website, please continue
     reading.
   </p>
 
   <h2>What is Scully?</h2>
 
   <p>
-    Scully is basically <em>a static site generator, or SSG, for Angular</em>. It takes your full-blown Angular
+    Scully is <em>a static site generator, or SSG, for Angular</em>. It takes your full-blown Angular
     application and transforms the stable state of all the publicly available pages into their static HTML snapshot.
     You can deploy these HTML pages to a static webserver, with or without the original Angular application, and your
     application will load instantly. <em>Even without JS enabled</em>, because all the content is available in the
@@ -44,7 +44,7 @@
   <p>
     This has some important consequences and benefits. The most important one is that <em>the content of your page is
     available instantly</em>. After your HTML page has loaded, the application can still bootstrap as the Angular app, giving you
-    the full SPA functionality. But meanwhile the user will not be blocked to read or use the page until the Angular app
+    the full SPA functionality. But meanwhile, the user will not be blocked to read or use the page until the Angular app
     has started up.
   </p>
 
@@ -54,13 +54,13 @@
     Getting started with Scully is easy. The
     <a href="https://github.com/scullyio/scully/blob/master/docs/getting-started.md" target="_blank" rel="noopener">
       documentation on the Github project</a> will get you going with setting up your first project. At the bottom of the
-    article you can find more links and recources about setting up Scully.
+    article, you can find more links and resources about setting up Scully.
   </p>
 
   <h3>Support for plugins</h3>
 
   <p>
-    Scully is able to generate your pages because of a discovery process that finds the available routes of your
+    Scully can generate your pages because of a discovery process that finds the available routes of your
     application by scanning all the routing modules. Some routes are easy to discover, like for example the
     <code>/about</code> route. But other routes, for example dynamic routes like <code>/blog/:slug</code>, need to be
     listed based on known data, coming from for example a DB or API interface.
@@ -102,7 +102,7 @@ exports.config = {
   </p>
 
   <p>
-    And finally the complete list of pages to prerender is generated! Scully keeps track of these list in the
+    And finally, the complete list of pages to prerender is generated! Scully keeps track of these list in the
     <code>/src/assets/scully-routes.json</code> file.
   </p>
 
