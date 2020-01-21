@@ -1,16 +1,18 @@
-import { configValidator } from '@scullyio/scully';
+import { registerPlugin } from '@scullyio/scully';
+import { scullyConfig } from '@scullyio/scully/utils/config';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
 
-export const disableAngularPluginFactory = () => {
 
-  const disableAngularPlugin = async (html, route) => {
-    return Promise.resolve(html);
-  };
-  disableAngularPluginFactory[configValidator] = async options => {
-    return [];
-  };
-  return disableAngularPlugin;
+const disableAngularPlugin = async (html, route) => {
 
+  console.log(scullyConfig);
+  console.log(route);
+  // parse the stats.json
+  // if(existsSync)
+
+  return Promise.resolve(html);
 };
 
-
+const DisableAngularValidator = async () => [];
 export const DisableAngular = 'disableAngular';
+registerPlugin('render', DisableAngular, disableAngularPlugin, DisableAngularValidator);

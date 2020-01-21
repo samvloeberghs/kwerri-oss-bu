@@ -22,6 +22,7 @@
     "build:samvloeberghs:server": "npx webpack --config projects/samvloeberghs-server/webpack.server.config.js --progress --colors",
     "build:ngx-seo": "npx ng build ngx-seo && npm run copy-license-readme:ngx-seo",
     "build:scully-minify-html": "npx ng build scully-minify-html && npm run copy-license-readme:scully-minify-html",
+    "build:scully-disable-angular": "npx ng build scully-disable-angular && npm run copy-license-readme:scully-disable-angular",
     "build:sw-lessons:local": "npx ng build sw-lessons --prod && npm run build:sw-lessons:sw:local && npm run workbox:injectmanifest:sw-lessons",
     "build:sw-lessons:prod": "npx ng build sw-lessons --prod && npm run build:sw-lessons:sw:prod && npm run workbox:injectmanifest:sw-lessons",
     "build:sw-lessons:sw:local": "npx webpack --config projects/sw-lessons-sw/webpack.dev.config.js --progress --colors",

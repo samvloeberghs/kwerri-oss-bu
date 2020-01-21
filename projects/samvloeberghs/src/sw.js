@@ -32,6 +32,12 @@ if (workbox) {
       cacheName: 'posts'
     })
   );
+  routing.registerRoute(
+    /posts\/[\w-]+\/post\.html/,
+    new strategies.NetworkFirst({
+      cacheName: 'posts-html'
+    })
+  );
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

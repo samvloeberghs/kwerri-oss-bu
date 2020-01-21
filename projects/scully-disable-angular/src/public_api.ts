@@ -2,4 +2,4 @@
  * Public API Surface of scully-disable-angular
  */
 
-export { DisableAngular, disableAngularPluginFactory } from './lib/index';
+export { DisableAngular } from './lib/index';

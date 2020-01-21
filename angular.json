@@ -203,6 +203,33 @@
         }
       }
     },
+    "scully-disable-angular": {
+      "root": "projects/scully-disable-angular",
+      "sourceRoot": "projects/scully-disable-angular",
+      "projectType": "library",
+      "prefix": "scully-disable-angular",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/scully-disable-angular/tsconfig.lib.json",
+            "project": "projects/scully-disable-angular/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/scully-disable-angular/tsconfig.lib.json",
+              "projects/scully-disable-angular/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
     "social-share-check": {
       "root": "projects/social-share-check/",
       "sourceRoot": "projects/social-share-check/src",
