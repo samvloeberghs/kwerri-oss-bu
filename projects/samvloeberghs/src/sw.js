@@ -4,13 +4,13 @@ if (workbox) {
 
   // Avoid async imports
   // see https://developers.google.com/web/tools/workbox/modules/workbox-sw#avoid_async_imports
-  const {googleAnalytics, routing, strategies, expiration, precaching, cacheableResponse} = workbox;
+  const {googleAnalytics, routing, strategies, precaching} = workbox;
 
   console.log(`Yay! Workbox is loaded 🎉`);
 
   // Precache & Route setup
   // Keep it here or it will not get picked up
-  // see workbox-config.jss
+  // see workbox-config.js
   // This array gets injected automagically by the workbox cli
   precaching.precacheAndRoute([]);
 
