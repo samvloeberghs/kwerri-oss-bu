@@ -19,8 +19,8 @@ $ yarn add scully-minify-html
 
 ## Usage
 
-Usage is simple. Add the plugin to the `defaultPostRenders` to execute it on all rendered pages 
-or use the `postRenders` on a route configuration to execute it for a specific route:
+Import and add the plugin to the `defaultPostRenderers` to execute it on all rendered pages 
+or use the `postRenderers` on a route configuration to execute it for a specific route:
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');
@@ -48,6 +48,66 @@ Now build your app and then just run the Scully command.
 ```shell script
 npm run build --prod
 npm run scully
+```
+
+### Configuring the `html-minifier` options
+
+The `MinifyHtml` plugin uses [html-minifier](https://www.npmjs.com/package/html-minifier) under the hood, so we can configure the minify options that are being used.
+The available options can be found in the interface [`Options`](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/html-minifier/index.d.ts)
+
+**The default configuration is currently set at:**
+
+```ts
+import { Options } from 'html-minifier';
+
+const defaultMinifyOptions: Options = {
+  caseSensitive: true,
+  removeComments: true,
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  removeRedundantAttributes: true,
+  useShortDoctype: true,
+  removeEmptyAttributes: true,
+  minifyCSS: true,
+  minifyJS: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  // don't remove attribute quotes, not all social media platforms can parse this over-optimization
+  removeAttributeQuotes: false,
+  // don't remove optional tags, like the head, not all social media platforms can parse this over-optimization
+  removeOptionalTags: false,
+};
+```
+
+Configuring the options can be done on the Scully config root level, for the `defaultPostRenderers` or at route config level for the `postRenderers`.
+
+If you don't provide options at the route level, the configuration from the root level will b e used.
+
+```js
+const {RouteTypes} = require('@scullyio/scully');
+const {MinifyHtml} = require('scully-minify-html');
+
+const postRenderers = [MinifyHtml];
+
+const minifyHtmlOptions = {
+  removeComments: false
+};
+
+exports.config = {
+  projectRoot: './src/app',
+  defaultPostRenderers: postRenderers,
+  minifyHtmlOptions,    // for all routes
+  routes: {
+    '/blog/:slug': {
+      type: RouteTypes.contentFolder,
+      slug: {
+        folder: "./blog"
+      },
+      postRenderers: postRenderers,
+      minifyHtmlOptions,    // per route config
+    },
+  }
+};
 ```
 
 ## More information

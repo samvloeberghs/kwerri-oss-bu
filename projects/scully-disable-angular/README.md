@@ -21,8 +21,8 @@ $ yarn add scully-disable-angular
 
 ## Usage
 
-Usage is simple. Add the plugin to the `defaultPostRenders` to execute it on all rendered pages 
-or use the `postRenders` on a route configuration to execute it for a specific route:
+Import and add the plugin to the `defaultPostRenderers` to execute it on all rendered pages 
+or use the `postRenderers` on a route configuration to execute it for a specific route:
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');
@@ -46,7 +46,7 @@ exports.config = {
 ```
 
 Now build your app with the `--stats-json` flag enabled as the plugin needs to know which assets 
-have been build for your app. Than just run the Scully command.
+have been build for your app. Then just run the Scully command.
 
 ```shell script
 npm run build --prod --stats-json
