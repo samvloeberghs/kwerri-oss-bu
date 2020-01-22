@@ -81,7 +81,7 @@ const defaultMinifyOptions: Options = {
 
 Configuring the options can be done on the Scully config root level, for the `defaultPostRenderers` or at route config level for the `postRenderers`.
 
-If you don't provide options at the route level, the configuration from the root level will b e used.
+If you don't provide options at the route level, the configuration from the root level will be used.
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');
