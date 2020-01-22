@@ -24,6 +24,7 @@ export const minifyHtmlPlugin = async (html) => {
   return Promise.resolve(minifiedHtml);
 };
 
+// no validation implemented
 const minifyHtmlPluginValidator = async () => [];
 export const MinifyHtml = 'minifyHtml';
-registerPlugin('render', MinifyHtml, minifyHtmlPlugin, minifyHtmlPluginValidator);
+registerPlugin('render', MinifyHtml, minifyHtmlPlugin);
