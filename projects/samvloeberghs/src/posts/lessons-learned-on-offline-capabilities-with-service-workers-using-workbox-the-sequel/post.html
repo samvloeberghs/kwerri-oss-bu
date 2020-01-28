@@ -164,7 +164,7 @@ wb.register();
     </li>
     <li>
       The application logic sends an event trough the messasging system of Workbox, using <code>postMessage</code>, an
-      event "CLIENTS_CLAIM" instructing the service worker to take control over the active clients.
+      event <code>CLIENTS_CLAIM</code> instructing the service worker to take control over the active clients.
     </li>
     <li>
       The service worker receives this event and acts accordingly, executing <code>clients.claim()</code>.
@@ -455,7 +455,7 @@ export class EnvironmentService {
     </li>
     <li>
       The user express his intent and asks for an update of the application. The application logic sends a message
-      "SKIP_WAITING" to the new service worker, instructing it to advance to the <code>activated</code> state.
+      <code>SKIP_WAITING</code> to the new service worker, instructing it to advance to the <code>activated</code> state.
     </li>
     <li>
       The new service worker becomes activated and updates the application trough the <code>externalactivated</code>
