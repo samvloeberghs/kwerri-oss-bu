@@ -21,7 +21,7 @@ const disableAngularPlugin = async (html) => {
 
   if (!existsSync(statsJsonPath)) {
     const noStatsJsonError = `A ${isEs5Config ? 'stats' : 'stats-es2015'}.json is required for the 'disableAngular' plugin.
-Please run 'npm build' with the '--stats-json' flag`;
+Please run 'ng build' with the '--stats-json' flag`;
     console.error(noStatsJsonError);
     throw new Error(noStatsJsonError);
   }
