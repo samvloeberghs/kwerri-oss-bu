@@ -4,13 +4,13 @@ import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-bro
 // import { PrebootModule } from 'preboot';
 import { Angulartics2Module } from 'angulartics2';
 import { BrowserJsonLdModule } from 'ngx-seo';
+import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { EnvironmentService } from './shared/environment.service';
-import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
 
 export function initApp(environmentService: EnvironmentService) {
   return () => environmentService.isEnvironmentReady().catch(e => console.log('Could not initialize application', e));
@@ -36,7 +36,7 @@ export function isBot(navigator, platformId) {
     SharedModule.forRoot(),
     LazyLoadImageModule.forRoot({
       isBot,
-    }),
+    })
   ],
   providers: [
     {

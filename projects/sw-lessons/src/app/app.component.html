@@ -1,92 +1,133 @@
-<h1>Workbox demo</h1>
-<hr/>
+<mat-toolbar class="header">
+  <button mat-icon-button color="primary" (click)="opened = !opened" class="header__navbutton">
+    <mat-icon aria-hidden="false" aria-label="Open or close navigation">menu</mat-icon>
+  </button>
+  My App
+</mat-toolbar>
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="over"
+               [opened]="opened"
+               class="sidenav">
+    <mat-nav-list class="sidenav__list">
+      <mat-list-item>
+        <mat-icon>house</mat-icon>
+        Home
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>list_alt</mat-icon>
+        News
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>info</mat-icon>
+        About
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>email</mat-icon>
+        Contact
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="content">
+    Main content (sidenav)
+    <br />
+    <button mat-raised-button color="primary">Primary</button>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-<div class="row">
-  <div class="box">
+<mat-bottom-sheet-container>
 
-    <div *ngIf="(newVersionAvailable$ | async)">
-      <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
-              class="new-version-available"
-              (click)="loadNewVersion()">
-        New version available, reload?
-      </button>
-      <ng-template #updateOngoing>
-        Update ongoing!
-      </ng-template>
-    </div>
+</mat-bottom-sheet-container>
 
-    <button (click)="checkForUpdate()">Check for update</button>
+<div *ngIf="false">
+  <h1>Workbox demo</h1>
+  <hr/>
 
-  </div>
-  <div class="box">
+  <div class="row">
+    <div class="box">
 
-    <button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
-    <button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
-    Token: {{currentOAuthToken}}
-    <br/><br/>
-    <button (click)="loadMapTile()" *ngIf="!mapTile">Load Map Tile</button>
-    <button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
-
-  </div>
-  <div class="box">
-
-    <div>
-      Load a country flag:
-      <select (change)="loadFlag($event)">
-        <option value="">none selected</option>
-        <option value="be">BE (be.png)</option>
-        <option value="de">DE (de.png)</option>
-        <option value="fr">FR (fr.png)</option>
-        <option value="nl">NL (nl.png)</option>
-        <option value="lu">LU (lu.png)</option>
-        <option disabled value="">---</option>
-        <option value="usa">USA (usa.png)</option>
-        <option value="uk">UK (uk.png)</option>
-      </select>
-    </div>
-
-    <br/><br/>
-
-    <img [src]="currentFlag" *ngIf="currentFlag"/>
-
-  </div>
-  <div class="box">
-    <div>
-      <button (click)="loadDataWithLieFiCheck()">
-        Load data with Lie-Fi check
-      </button>
-
-      <div *ngIf="(lieFiData$ | async) as lieFiData">
-        <br/><br/>
-        <pre>{{ lieFiData | json}}</pre>
+      <div *ngIf="(newVersionAvailable$ | async)">
+        <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
+                class="new-version-available"
+                (click)="loadNewVersion()">
+          New version available, reload?
+        </button>
+        <ng-template #updateOngoing>
+          Update ongoing!
+        </ng-template>
       </div>
+
+      <button (click)="checkForUpdate()">Check for update</button>
+
     </div>
+    <div class="box">
 
+      <button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
+      <button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
+      Token: {{currentOAuthToken}}
+      <br/><br/>
+      <button (click)="loadMapTile()" *ngIf="!mapTile">Load Map Tile</button>
+      <button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
+
+    </div>
+    <div class="box">
+
+      <div>
+        Load a country flag:
+        <select (change)="loadFlag($event)">
+          <option value="">none selected</option>
+          <option value="be">BE (be.png)</option>
+          <option value="de">DE (de.png)</option>
+          <option value="fr">FR (fr.png)</option>
+          <option value="nl">NL (nl.png)</option>
+          <option value="lu">LU (lu.png)</option>
+          <option disabled value="">---</option>
+          <option value="usa">USA (usa.png)</option>
+          <option value="uk">UK (uk.png)</option>
+        </select>
+      </div>
+
+      <br/><br/>
+
+      <img [src]="currentFlag" *ngIf="currentFlag"/>
+
+    </div>
+    <div class="box">
+      <div>
+        <button (click)="loadDataWithLieFiCheck()">
+          Load data with Lie-Fi check
+        </button>
+
+        <div *ngIf="(lieFiData$ | async) as lieFiData">
+          <br/><br/>
+          <pre>{{ lieFiData | json}}</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="row">
+    <div class="box">
+      <ul>
+        <li>
+          <a routerLink="/">Home</a>
+        </li>
+        <li>
+          <a routerLink="/about">About</a>
+        </li>
+        <li>
+          <a routerLink="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <div class="box">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="box">
+      <img [src]="mapTile" *ngIf="mapTile"/>
+    </div>
   </div>
 </div>
-
-<hr/>
-
-<div class="row">
-  <div class="box">
-    <ul>
-      <li>
-        <a routerLink="/">Home</a>
-      </li>
-      <li>
-        <a routerLink="/about">About</a>
-      </li>
-      <li>
-        <a routerLink="/contact">Contact</a>
-      </li>
-    </ul>
-  </div>
-  <div class="box">
-    <router-outlet></router-outlet>
-  </div>
-  <div class="box">
-    <img [src]="mapTile" *ngIf="mapTile"/>
-  </div>
-</div>
-
 

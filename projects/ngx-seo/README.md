@@ -71,6 +71,7 @@ Using the `setData` method will reset all other data provided before. If you use
 ```ts
 export interface SeoSocialShareData {
   title?: string;
+  keywords?: string;
   description?: string;
   image?: string;
   url?: string;
@@ -99,11 +100,16 @@ with the given description. If you want to unset them leave the parameter undefi
 The following methods are available, setting the listed meta & other tags:
 
 - `setTitle(title?: string)`
+    - `title`
     - `meta[name='twitter:title']`
     - `meta[name='twitter:image:alt']`
     - `meta[property='og:image:alt']`
     - `meta[property='og:title']`
     - `meta[name='title']`
+    
+    
+- `setKeywords(keywords?: string)`
+    - `meta[name='keywords']`
     
 - `setDescription`
     - `meta[name='twitter:description']`
@@ -172,8 +178,6 @@ These are not injected by the provided `MetaService` of Angular but can be set u
 
 - `setCanonicalUrl(url?: string) `
     - `link[rel='canonical']`
-    
- 
 
 ### JSON-LD modules and service
 

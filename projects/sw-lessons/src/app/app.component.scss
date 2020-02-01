@@ -1,27 +1,43 @@
+$gridunit: 8px;
+
 :host {
   display: block;
+  height: 100%;
+}
 
-  &[hidden] {
-    display: none;
+.header {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+
+  &__navbutton {
+    margin-right: $gridunit;
   }
 }
 
-.row {
-  display: flex;
+.container {
+  height: 100%;
 }
 
-.box {
-  flex: 1 1 auto;
-  padding: 50px;
+.sidenav {
+  padding-top: 56px;
 
-  &:not(:last-child) {
-    border-right: 1px solid #000;
+  @media (min-width: 600px) {
+    padding-top: 64px;
+  }
+
+  &__list {
+    padding: 0;
+
+    mat-icon {
+      margin-right: 2*$gridunit;
+    }
   }
 }
 
-.new-version-available {
-  background: green;
-  border: 1px solid darkgreen;
-  color: #fff;
-  margin-bottom: 20px;
+.content {
+  padding: 9*$gridunit 2*$gridunit 2*$gridunit 2*$gridunit;
+  @media (min-width: 600px) {
+    padding-top: 10*$gridunit
+  }
 }

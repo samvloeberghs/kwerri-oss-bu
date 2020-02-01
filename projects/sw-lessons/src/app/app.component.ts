@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { Store, set, del, get } from 'idb-keyval';
-
-import { EnvironmentService } from './environment.service';
+import { Component, OnInit } from '@angular/core';
+import { del, get, set, Store } from 'idb-keyval';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
+import { EnvironmentService } from './environment.service';
+import { NewVersionAvailableComponent } from './components/new-version-available/new-version-available.component';
 
 export interface LieFiData {
   id: number;
@@ -18,11 +19,13 @@ export interface LieFiData {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   public readonly applicationUpdateOngoing$ = this.environmentService.applicationUpdateOngoing$;
   public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$;
   public readonly lieFiData = new BehaviorSubject<LieFiData>(undefined);
+
+  public opened = false;
 
   public currentOAuthToken;
   public mapTile: string;
@@ -31,9 +34,20 @@ export class AppComponent {
 
   constructor(private readonly environmentService: EnvironmentService,
               private readonly angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-              private readonly httpClient: HttpClient) {
+              private readonly httpClient: HttpClient,
+              private readonly matBottomSheet: MatBottomSheet) {
     this.checkOAuthToken();
     this.angulartics2GoogleAnalytics.startTracking();
+  }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.openBottomSheet();
+    }, 5000);
+  }
+
+  openBottomSheet(): void {
+    this.matBottomSheet.open(NewVersionAvailableComponent, {});
   }
 
   public async checkOAuthToken(): Promise<any> {

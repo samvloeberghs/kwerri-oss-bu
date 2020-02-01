@@ -29,6 +29,7 @@ export class SeoSocialShareService {
 
   public setData(data: SeoSocialShareData): void {
     this.setSection(data.section);
+    this.setKeywords(data.keywords);
     this.setTitle(data.title);
     this.setType(data.type);
     this.setDescription(data.description);
@@ -37,6 +38,14 @@ export class SeoSocialShareService {
     this.setPublished(data.published);
     this.setModified(data.modified);
     this.setAuthor(data.author);
+  }
+
+  public setKeywords(keywords: string): void {
+    if (Boolean(keywords)) {
+      this.metaService.updateTag({ name: 'keywords', content: keywords });
+    } else {
+      this.metaService.removeTag(`name='keywords'`);
+    }
   }
 
   public setSection(section?: string): void {
