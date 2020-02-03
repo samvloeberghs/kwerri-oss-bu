@@ -44,7 +44,7 @@ The service `SeoSocialShareService` can be used to set the correct meta tags for
 The service is provided in the `root` module. So the only thing you need to do is inject it where you need it.
 
 ```angular2
-import { SeoSocialShareService } fron 'ngx-seo';
+import { SeoSocialShareService } from 'ngx-seo';
 
 constructor(private readonly seoSocialShareService: SeoSocialShareService) {
   ...
