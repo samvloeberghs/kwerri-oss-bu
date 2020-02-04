@@ -1,5 +1,14 @@
 [
   {
+    "title": "Disabling Angular when statically generating with Scully",
+    "slug": "disabling-angular-when-statically-genering-with-scully",
+    "publishDatetime": "2020-02-05T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/posts/disabling-angular-when-statically-genering-with-scully/angular.png",
+    "imgShare": "/posts/disabling-angular-when-statically-genering-with-scully/angular_share.jpg",
+    "short": "Scully, the Static Site Generator for Angular, comes with a plugin system that allows us to control which pages to prerender of our Angular application and how to prerender them. In this article we will learn how to setup custom plugins for your own specific usecases."
+  },
+  {
     "title": "Custom plugins for Scully - Angular Static Site Generator",
     "slug": "custom-plugins-for-scully-angular-static-site-generator",
     "publishDatetime": "2020-01-20T12:00:00+01:00",
