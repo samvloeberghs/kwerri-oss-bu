@@ -6,7 +6,7 @@
     "author": "Sam Vloeberghs",
     "img": "/posts/disabling-angular-when-statically-genering-with-scully/angular.png",
     "imgShare": "/posts/disabling-angular-when-statically-genering-with-scully/angular_share.jpg",
-    "short": "Scully, the Static Site Generator for Angular, comes with a plugin system that allows us to control which pages to prerender of our Angular application and how to prerender them. In this article we will learn how to setup custom plugins for your own specific usecases."
+    "short": "Scully, the Static Site Generator for Angular, renders your Angular application into static HTML files. Together with the bundled JS assets of the Angular app, those files are served to the browser. The static HTML files give your visitors an instant view on the content of the application.But do you really need to bootstrap Angular again?"
   },
   {
     "title": "Custom plugins for Scully - Angular Static Site Generator",
