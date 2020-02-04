@@ -193,7 +193,10 @@ exports.config = {
 };
 </code></pre>
 
-
+  <p>
+    Running <code>npm run scully</code> will now generated the static version of all the discovered routes and strip
+    out all the relevant <code>&lt;script&gt;</code> tags.
+  </p>
 
   <h2>Typical use cases and examples</h2>
 
@@ -201,10 +204,16 @@ exports.config = {
     <strong>This technique is ofcourse not suitable for all Angular applications</strong>, becomes some rely heavily on
     functionality of the framework to make the application work nicely.
   </p>
-  <p>However, if you are building a public facing website, for
-    example a news website, or personal website / blog, you will most probably use Angular just because you like it
-    and you have experience with it. There are many other proven tools / frameworks available to build such a typical
-    website.
+  <p>
+    However, if you are building a public facing website, for
+    example a news website, or personal website / blog, you will most probably not use very advanced parts of Angular.
+    You will use Angular just because you like it and you have experience with it, because there are many other proven
+    tools / frameworks available to build such a typical website.
+  </p>
+
+  <p>
+    Using Angular to hide/show a part of your application when clicking a button might be overkill. For this we could use
+    plain JavaScript. So it might be worth investigating seperating this logic out of your Angular application.
   </p>
 
   <h2 id="conclusion">Conclusion</h2>
