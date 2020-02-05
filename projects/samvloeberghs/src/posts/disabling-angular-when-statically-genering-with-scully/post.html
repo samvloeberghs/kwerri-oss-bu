@@ -45,31 +45,31 @@
   <h2>Disabling Angular? Wait, what?</h2>
 
   <p>
-    Reading the title of this article might get you confused. We are not actually completely disabling Angular, because
+    Reading the title of this article might confuse you. We are not actually completely disabling Angular, because
     we are still building the application using Angular.
   </p>
   <p>
     We are questioning whether or not we still need Angular in the browser of our visitor. Because when our
     application is built, our pages will get statically prerendered with Scully and delivered AS-IS, with all the
-    available content, to the browser of your visitor.
+    available content, to the browser.
   </p>
   <p>
-    The main goal of the framework, <strong>wiring all components and services together into a nice page,
-    has already happened during our build step</strong>! In this case, the framework becomes more of a build tool then
-    a SPA framework.
+    The main goal of the framework, <strong>wiring all components and services together into a nice page, has already
+    happened during our build step</strong>! In this case, the framework becomes more of a build tool then a SPA
+    framework.
   </p>
 
   <h2>Why disable Angular?</h2>
 
   <p>
     No matter how good you optimize your application, the whole set of static assets of your Angular app is still
-    hundreds of kilobytes. If you don't need them to build the page, there is no point in transferring all these assets
-    to the client of your visitor.
+    hundreds of kilobytes. If you don't need them to build the page, there is no point loading all these assets in
+    the browser.
   </p>
 
   <p>
-    Prerendering the app improves the performance of your application. <strong>By not bootstrapping the page as Angular
-    app we can increase the performance of our application even more!</strong>
+    Prerendering the app improves the performance of your application. <strong>By not bootstrapping the page as an
+    Angular app we can increase the performance of our application even more!</strong>
 
   <h2>Example project</h2>
 
@@ -78,7 +78,7 @@
     simple Angular v9 application with a few static routes, like <code>/about</code>, and dynamic routes like
     <code>/news</code> that lists the available newsitems and <code>/news/:id/:slug</code> that shows the detail of a
     newsitem. The list of newsitems is retrieved via <code>HttpClient</code> from a static resource
-    <code>/assets/news.json</code> and the newsdetail is available at <code>/assets/news/{:id}.json</code>.
+    <code>/assets/news.json</code> and the news detail is available at <code>/assets/news/{:id}.json</code>.
   </p>
 
   <p>
@@ -166,7 +166,7 @@
   <p>
     Disabling Angular can be done by removing the <code>&lt;script&gt;</code> tags that load the static assets to
     bootstrap the Angular application. Based on the <code>assets.json</code> or <code>assets-es2015.json</code> file
-    that gets generated with building the application we can parse the generated HTML and strip out the tags.
+    that gets generated when building the application we can parse the generated HTML and remove the tags.
   </p>
 
   <p>
@@ -194,8 +194,8 @@ exports.config = {
 </code></pre>
 
   <p>
-    Running <code>npm run scully</code> will now generated the static version of all the discovered routes and strip
-    out all the relevant <code>&lt;script&gt;</code> tags.
+    Running <code>npm run scully</code> will now generated the static version of all the discovered routes and remove
+    all the relevant <code>&lt;script&gt;</code> tags.
   </p>
 
   <h2>Typical use cases and examples</h2>
@@ -213,7 +213,7 @@ exports.config = {
 
   <p>
     Using Angular to hide/show a part of your application when clicking a button might be overkill. For this we could use
-    plain JavaScript. So it might be worth investigating seperating this logic out of your Angular application.
+    plain JavaScript. So it might be worth investigating seperating this logic out from your Angular application.
   </p>
 
   <h2 id="conclusion">Conclusion</h2>
@@ -228,7 +228,7 @@ exports.config = {
     This technique is <strong>not suitable for all Angular applications</strong>, because we might need some
     functionality of the
     framework when our application is rendered in the browser. If that is the case, and the functionality is limited,
-    <strong>consider moving this logic into a seperate JavaScript file</strong>.
+    <strong>consider moving this logic into a separate JavaScript file</strong>.
   </p>
 
   <h2>Further reading</h2>
@@ -267,16 +267,14 @@ exports.config = {
     </li>
   </ol>
 
-  <!--
   <h2>Special thanks to</h2>
 
   <ul>
     <li>
-      <a href="https://twitter.com/jefiozie" rel="noopener" target="_blank">Jeffrey Bosch</a>
+      <a href="https://twitter.com/maartentibau" rel="noopener" target="_blank">Maarten Tibau</a>
     </li>
   </ul>
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
-  -->
 
 </section>
