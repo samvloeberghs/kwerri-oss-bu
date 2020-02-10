@@ -49,7 +49,7 @@ Now build your app with the `--stats-json` flag enabled as the plugin needs to k
 have been build for your app. Then just run the Scully command.
 
 ```shell script
-npm run build --prod --stats-json
+npm run build -- --prod --stats-json
 npm run scully
 ```
 
