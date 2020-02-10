@@ -1,65 +1,112 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!--
+   created with Free Online Sitemap Generator www.xml-sitemaps.com
+  -->
   <url>
     <loc>https://samvloeberghs.be/</loc>
+    <lastmod>2020-02-08T12:00:00+00:00</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://samvloeberghs.be/posts</loc>
+    <lastmod>2020-02-05T12:00:00+00:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://samvloeberghs.be/talks-workshops</loc>
+    <lastmod>2020-02-05T12:00:00+00:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://samvloeberghs.be/projects</loc>
+    <lastmod>2020-02-05T12:00:00+00:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://samvloeberghs.be/about</loc>
+    <lastmod>2020-02-05T12:00:00+00:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://samvloeberghs.be/kwerri</loc>
+    <lastmod>2020-02-05T12:00:00+00:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox</loc>
+    <loc>
+      https://samvloeberghs.be/posts/disabling-angular-when-statically-genering-with-scully
+    </loc>
+    <lastmod>2020-02-08T12:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>
+      https://samvloeberghs.be/posts/custom-plugins-for-scully-angular-static-site-generator
+    </loc>
+    <lastmod>2020-01-20T12:00:00+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application</loc>
+    <loc>
+      https://samvloeberghs.be/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box
+    </loc>
+    <lastmod>2020-01-05T12:00:00+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox</loc>
+    <loc>
+      https://samvloeberghs.be/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel
+    </loc>
+    <lastmod>2020-01-14T12:00:00+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/outputting-json-ld-with-angular-universal</loc>
+    <loc>
+      https://samvloeberghs.be/posts/creating-a-simple-memory-cache-for-your-angular-universal-website-or-application
+    </loc>
+    <lastmod>2019-06-14T12:00:00+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal</loc>
+    <loc>
+      https://samvloeberghs.be/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox
+    </loc>
+    <lastmod>2019-06-28T12:00:00+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/selecting-subtitles-in-vimeo-using-javascript</loc>
+    <loc>
+      https://samvloeberghs.be/posts/outputting-json-ld-with-angular-universal
+    </loc>
+    <lastmod>2019-03-12T12:00:00+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/scroll-to-top-on-angular-router-navigation</loc>
+    <loc>
+      https://samvloeberghs.be/posts/better-sharing-on-social-media-platforms-with-angular-universal
+    </loc>
+    <lastmod>2020-02-24T14:11:48+00:00</lastmod>
     <priority>0.64</priority>
   </url>
   <url>
-    <loc>https://samvloeberghs.be/posts/whats-with-the-subjects-in-rxjs5</loc>
+    <loc>
+      https://samvloeberghs.be/posts/selecting-subtitles-in-vimeo-using-javascript
+    </loc>
+    <lastmod>2018-03-01T14:11:48+00:00</lastmod>
     <priority>0.64</priority>
   </url>
-
+  <url>
+    <loc>
+      https://samvloeberghs.be/posts/scroll-to-top-on-angular-router-navigation
+    </loc>
+    <lastmod>2019-07-12T14:11:48+00:00</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>
+      https://samvloeberghs.be/posts/whats-with-the-subjects-in-rxjs5
+    </loc>
+    <lastmod>2016-07-14T14:11:48+00:00</lastmod>
+    <priority>0.64</priority>
+  </url>
 </urlset>
