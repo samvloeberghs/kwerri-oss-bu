@@ -13,7 +13,7 @@ module.exports = {
   resolve: {extensions: ['.js', '.ts']},
   target: 'node',
   output: {
-    path: path.join(__dirname, '..', '..', 'projects', 'sw-lessons', 'src'),
+    path: path.join(__dirname, '..', '..', 'projects', 'samvloeberghs', 'src'),
     filename: 'sw.js'
   },
   module: {

@@ -42,5 +42,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# samvloeberghs
+projects/samvloeberghs/src/sw.js
+
 # sw-lessons
 projects/sw-lessons/src/sw.js
