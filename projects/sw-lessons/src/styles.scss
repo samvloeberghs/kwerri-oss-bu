@@ -1,2 +1,29 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import 'variables';
+@import 'theme';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+a {
+  color: mat-color($swl-app-primary, 400);
+
+  &:hover {
+    color: mat-color($swl-app-primary, 800);
+  }
+}
+
+.mat-bottom-sheet-container {
+  padding: 0 !important;
+}
+
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($swl-app-theme);

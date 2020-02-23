@@ -7,6 +7,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { EnvironmentService } from './environment.service';
 import { NewVersionAvailableComponent } from './components/new-version-available/new-version-available.component';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, shareReplay, tap } from 'rxjs/operators';
 
 export interface LieFiData {
   id: number;
@@ -22,32 +24,43 @@ export interface LieFiData {
 export class AppComponent implements OnInit {
 
   public readonly applicationUpdateOngoing$ = this.environmentService.applicationUpdateOngoing$;
-  public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$;
+  public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$.pipe(
+    tap((newVersionAvailable) => {
+      if (newVersionAvailable) {
+        return this.openBottomSheet();
+      }
+    }),
+    shareReplay(1),
+  );
   public readonly lieFiData = new BehaviorSubject<LieFiData>(undefined);
+  public readonly lieFiData$ = this.lieFiData.asObservable();
 
-  public opened = false;
-
+  public navOpenend = false;
   public currentOAuthToken;
   public mapTile: string;
   public currentFlag: string;
-  public readonly lieFiData$ = this.lieFiData.asObservable();
 
   constructor(private readonly environmentService: EnvironmentService,
               private readonly angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
               private readonly httpClient: HttpClient,
+              private readonly router: Router,
               private readonly matBottomSheet: MatBottomSheet) {
     this.checkOAuthToken();
     this.angulartics2GoogleAnalytics.startTracking();
+    this.router.events.pipe(
+      filter(event => (event instanceof NavigationEnd)),
+    ).subscribe(() => this.navOpenend = false);
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.openBottomSheet();
-    }, 5000);
+
   }
 
   openBottomSheet(): void {
-    this.matBottomSheet.open(NewVersionAvailableComponent, {});
+    this.matBottomSheet.open(NewVersionAvailableComponent, {
+      panelClass: 'fix',
+      hasBackdrop: false,
+    });
   }
 
   public async checkOAuthToken(): Promise<any> {
@@ -93,11 +106,13 @@ export class AppComponent implements OnInit {
     this.mapTile = undefined;
   }
 
-  public loadNewVersion(): void {
+  public loadNewVersion($event): void {
+    $event.preventDefault();
     this.environmentService.update();
   }
 
-  public checkForUpdate(): void {
+  public checkForUpdate($event: Event): void {
+    $event.preventDefault();
     this.environmentService.checkForUpdate();
   }
 

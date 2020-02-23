@@ -1,36 +1,50 @@
 <mat-toolbar class="header">
-  <button mat-icon-button color="primary" (click)="opened = !opened" class="header__navbutton">
-    <mat-icon aria-hidden="false" aria-label="Open or close navigation">menu</mat-icon>
+  <button mat-icon-button color="primary" (click)="navOpenend = !navOpenend" class="header__navbutton">
+    <mat-icon aria-hidden="false"
+              aria-label="Open or close navigation"
+              [matBadge]="(newVersionAvailable$ | async) ? '!' : ''"
+              matBadgeColor="primary">menu
+    </mat-icon>
   </button>
-  My App
+  Workbox demo
 </mat-toolbar>
 <mat-sidenav-container class="container">
   <mat-sidenav mode="over"
-               [opened]="opened"
+               [opened]="navOpenend"
                class="sidenav">
-    <mat-nav-list class="sidenav__list">
-      <mat-list-item>
-        <mat-icon>house</mat-icon>
-        Home
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>list_alt</mat-icon>
-        News
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>info</mat-icon>
-        About
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>email</mat-icon>
-        Contact
-      </mat-list-item>
-    </mat-nav-list>
+    <div class="sidenav__inner">
+      <mat-nav-list class="sidenav__list">
+        <mat-list-item [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <mat-icon>house</mat-icon>
+          Home
+        </mat-list-item>
+        <mat-list-item [routerLink]="['news']" routerLinkActive="active">
+          <mat-icon>list_alt</mat-icon>
+          News
+        </mat-list-item>
+        <mat-list-item [routerLink]="['about']" routerLinkActive="active">
+          <mat-icon>info</mat-icon>
+          About
+        </mat-list-item>
+        <mat-list-item [routerLink]="['contact']" routerLinkActive="active">
+          <mat-icon>email</mat-icon>
+          Contact
+        </mat-list-item>
+      </mat-nav-list>
+      <div class="sidenav__actions">
+        <p>
+          Version 4
+        </p>
+        <button mat-raised-button color="primary" *ngIf="(newVersionAvailable$ | async)"
+                (click)="loadNewVersion($event)">
+          <mat-icon>update</mat-icon>
+          Update
+        </button>
+      </div>
+    </div>
   </mat-sidenav>
-  <mat-sidenav-content class="content">
-    Main content (sidenav)
-    <br />
-    <button mat-raised-button color="primary">Primary</button>
+  <mat-sidenav-content class="content mat-body">
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

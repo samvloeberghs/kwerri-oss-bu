@@ -1,3 +1,7 @@
-Nieuwe versie beschikbaar
-<button mat-flat-button color="primary">Ok, update</button>
-<button mat-flat-button color="accent">Later</button>
+<div>
+  Nieuwe versie beschikbaar
+</div>
+<div class="actions">
+  <button mat-flat-button color="accent" (click)="close($event)">Later</button>
+  <button mat-flat-button color="primary" (click)="update($event)"><mat-icon>update</mat-icon> Ok, update</button>
+</div>

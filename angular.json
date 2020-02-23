@@ -336,6 +336,11 @@
               "projects/sw-lessons/src/favicon.ico",
               "projects/sw-lessons/src/assets"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/sw-lessons/src/scss"
+              ]
+            },
             "styles": [
               "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/sw-lessons/src/styles.scss"
