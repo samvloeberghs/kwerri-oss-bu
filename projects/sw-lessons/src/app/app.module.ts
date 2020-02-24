@@ -6,10 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { EnvironmentService } from './environment.service';
+import { EnvironmentService } from './services/environment.service';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { MaterialModule } from './shared/material.module';
 import { NewVersionAvailableComponent } from './components/new-version-available/new-version-available.component';
+import { WINDOW_PROVIDERS } from './providers/window.provider';
+import { NAVIGATOR_PROVIDERS } from './providers/navigator.provider';
+import { ApplicationOfflineComponent } from './components/application-offline/application-offline.component';
 
 export function initApp(environmentService: EnvironmentService) {
   return () => environmentService.isEnvironmentReady().catch(e => console.log('Could not initialize application', e));
@@ -19,7 +22,8 @@ export function initApp(environmentService: EnvironmentService) {
   declarations: [
     AppComponent,
     NotFoundComponent,
-    NewVersionAvailableComponent
+    NewVersionAvailableComponent,
+    ApplicationOfflineComponent
   ],
   imports: [
     BrowserModule,
@@ -30,16 +34,20 @@ export function initApp(environmentService: EnvironmentService) {
     MaterialModule,
   ],
   providers: [
+    ...WINDOW_PROVIDERS,
+    ...NAVIGATOR_PROVIDERS,
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       deps: [EnvironmentService],
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  entryComponents:[
-    NewVersionAvailableComponent
+  entryComponents: [
+    NewVersionAvailableComponent,
+    ApplicationOfflineComponent
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,0 +1,35 @@
+<div class="title">
+  <h2>Latest news</h2>
+  <button mat-raised-button
+          (click)="loadDataWithLieFiCheck($event)">
+    <mat-icon>refresh</mat-icon>
+    Refresh
+  </button>
+</div>
+<ng-container *ngIf="!dataLoading; else loading">
+  <div *ngIf="(data$ | async) as data; else noData">
+    <p>
+      <strong>Version: </strong><br />
+      {{data.version | date: 'full'}}</p>
+    <mat-list>
+      <mat-list-item
+        mat-ripple
+        class="news__item"
+        *ngFor="let item of data.items">
+        <mat-icon class="news__icon">info</mat-icon>
+        <h3 matLine>{{item.title}}</h3>
+        <p matLine>
+          {{item.short}}
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <ng-template #noData>
+    <p>
+      Error loading news items
+    </p>
+  </ng-template>
+</ng-container>
+<ng-template #loading>
+  <p>Loading news items</p>
+</ng-template>

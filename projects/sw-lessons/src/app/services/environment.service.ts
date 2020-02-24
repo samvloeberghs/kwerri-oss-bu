@@ -1,16 +1,14 @@
 /** @format */
 
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
 
 import { Workbox } from 'workbox-window';
-import { environment } from '../environments/environment';
-
-declare const window: any;
-declare const navigator: any;
-declare const document: any;
+import { environment } from '../../environments/environment';
+import { WINDOW } from '../providers/window.provider';
+import { NAVIGATOR } from '../providers/navigator.provider';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +17,11 @@ export class EnvironmentService {
 
   public readonly newVersionAvailable$: Observable<boolean>;
   public readonly applicationUpdateOngoing$: Observable<boolean>;
+  public readonly applicationOnline$: Observable<boolean>;
 
   public runningStandAlone = false;
 
+  private readonly applicationOnline = new BehaviorSubject(this.navigator.onLine);
   private readonly newVersionAvailable = new BehaviorSubject(false);
   private readonly applicationUpdateOngoing = new BehaviorSubject(false);
   private readonly applicationUpdateRequested = new BehaviorSubject(false);
@@ -38,10 +38,17 @@ export class EnvironmentService {
   private serviceWorkerAvailable = false;
   private visible = true;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    @Inject(WINDOW) private readonly window: Window,
+    @Inject(NAVIGATOR) private readonly navigator: Navigator,
+    @Inject(DOCUMENT) private readonly document: Document
+    ) {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
+    this.applicationOnline$ = this.applicationOnline.asObservable();
 
+    this.listenToApplicationOnline();
     this.registerServiceWorker();
     this.checkRunningStandAlone();
     this.registerVisibileChangeListener();
@@ -205,5 +212,15 @@ export class EnvironmentService {
       });
     }
   }
+
+  private listenToApplicationOnline(): void {
+    const updateOnlineStatus = () => {
+      this.applicationOnline.next(this.navigator.onLine);
+    };
+    this.window.addEventListener('online', updateOnlineStatus);
+    this.window.addEventListener('offline', updateOnlineStatus);
+  }
+
+
 
 }

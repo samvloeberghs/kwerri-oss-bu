@@ -1,0 +1,27 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2*$gridunit;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.news {
+  &__item {
+    background: #eee;
+    margin-bottom: $gridunit *2;
+  }
+
+  &__icon {
+    margin-left: $gridunit*2;
+  }
+}

@@ -9,12 +9,16 @@ const routes: Routes = [
     loadChildren: './pages/home/home.module#HomeModule',
   },
   {
-    path: 'contact',
-    loadChildren: './pages/contact/contact.module#ContactModule',
+    path: 'news',
+    loadChildren: './pages/news/news.module#NewsModule',
   },
   {
     path: 'about',
     loadChildren: './pages/about/about.module#AboutModule',
+  },
+  {
+    path: 'contact',
+    loadChildren: './pages/contact/contact.module#ContactModule',
   },
   {
     path: 'not-found',

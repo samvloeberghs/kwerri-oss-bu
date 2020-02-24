@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { EnvironmentService } from '../../environment.service';
+
+import { EnvironmentService } from '../../services/environment.service';
 
 @Component({
   selector: 'swl-home',

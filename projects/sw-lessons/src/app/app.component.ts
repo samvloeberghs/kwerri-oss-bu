@@ -4,11 +4,13 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-
-import { EnvironmentService } from './environment.service';
-import { NewVersionAvailableComponent } from './components/new-version-available/new-version-available.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, shareReplay, tap } from 'rxjs/operators';
+
+import { EnvironmentService } from './services/environment.service';
+import { NewVersionAvailableComponent } from './components/new-version-available/new-version-available.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ApplicationOfflineComponent } from './components/application-offline/application-offline.component';
 
 export interface LieFiData {
   id: number;
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit {
     }),
     shareReplay(1),
   );
+  public readonly applicationOnline$ = this.environmentService.applicationOnline$;
   public readonly lieFiData = new BehaviorSubject<LieFiData>(undefined);
   public readonly lieFiData$ = this.lieFiData.asObservable();
 
@@ -44,6 +47,7 @@ export class AppComponent implements OnInit {
               private readonly angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
               private readonly httpClient: HttpClient,
               private readonly router: Router,
+              private readonly matDialog: MatDialog,
               private readonly matBottomSheet: MatBottomSheet) {
     this.checkOAuthToken();
     this.angulartics2GoogleAnalytics.startTracking();
@@ -56,11 +60,16 @@ export class AppComponent implements OnInit {
 
   }
 
-  openBottomSheet(): void {
+  public openBottomSheet(): void {
     this.matBottomSheet.open(NewVersionAvailableComponent, {
       panelClass: 'fix',
       hasBackdrop: false,
     });
+  }
+
+  public showApplicationOffline($event: Event): void {
+    $event.preventDefault();
+    this.matDialog.open<any>(ApplicationOfflineComponent);
   }
 
   public async checkOAuthToken(): Promise<any> {
@@ -92,10 +101,6 @@ export class AppComponent implements OnInit {
       return;
     }
     this.currentFlag = `/assets/flags/${$event.target.value}.png`;
-  }
-
-  public loadDataWithLieFiCheck(): void {
-    this.httpClient.get<LieFiData>('/assets/data.json').subscribe(d => this.lieFiData.next(d));
   }
 
   public loadMapTile(): void {

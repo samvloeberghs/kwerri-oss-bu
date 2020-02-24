@@ -1,5 +1,9 @@
 @import 'variables';
 
+:host {
+  display: block;
+}
+
 .about {
   &__workbox {
     margin: 4*$gridunit auto;

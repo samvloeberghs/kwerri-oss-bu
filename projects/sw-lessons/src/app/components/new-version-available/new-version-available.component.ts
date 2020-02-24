@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { EnvironmentService } from '../../environment.service';
+
+import { EnvironmentService } from '../../services/environment.service';
 
 @Component({
   selector: 'swl-new-version-available',
@@ -11,19 +12,19 @@ export class NewVersionAvailableComponent {
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-    public readonly bottomSheetRef: MatBottomSheetRef,
+    public readonly matBottomSheetRef: MatBottomSheetRef,
     private readonly environmentService: EnvironmentService) {
 
   }
 
   public close($event: Event): void {
     $event.preventDefault();
-    this.bottomSheetRef.dismiss();
+    this.matBottomSheetRef.dismiss();
   }
 
   public update($event: Event): void {
     $event.preventDefault();
-    this.bottomSheetRef.dismiss(true);
+    this.matBottomSheetRef.dismiss(true);
     this.environmentService.update();
   }
 }

@@ -9,6 +9,8 @@ import {
 } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRippleModule } from '@angular/material/core';
 
 const modules = [
   MatToolbarModule,
@@ -16,8 +18,10 @@ const modules = [
   MatIconModule,
   MatButtonModule,
   MatBottomSheetModule,
+  MatDialogModule,
   MatListModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatRippleModule
 ];
 
 const providers = [

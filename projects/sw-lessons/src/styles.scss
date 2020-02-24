@@ -8,6 +8,11 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+}
+
+p {
+  margin: 0 0 $gridunit*2 0;
 }
 
 a {
@@ -18,10 +23,18 @@ a {
   }
 }
 
-.mat-bottom-sheet-container {
+mat-bottom-sheet-container {
   padding: 0 !important;
 }
 
+[mat-dialog-actions] {
+  justify-content: flex-end;
+
+  mat-icon + span {
+    text-transform: uppercase;
+    margin-left: $gridunit;
+  }
+}
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

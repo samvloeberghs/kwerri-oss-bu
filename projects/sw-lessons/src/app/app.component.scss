@@ -9,9 +9,19 @@
   position: sticky;
   z-index: 3;
   top: 0;
+  justify-content: space-between;
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
 
   &__navbutton {
     margin-right: $gridunit;
+  }
+
+  &__offlinebutton {
+    margin-left: $gridunit;
   }
 }
 
@@ -63,7 +73,7 @@
 }
 
 .content {
-  padding: 0 3*$gridunit;
+  padding: 3*$gridunit;
   @media (min-width: 600px) {
     //padding-top: 10*$gridunit
   }
