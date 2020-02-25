@@ -1,13 +1,17 @@
 @import 'variables';
+@import 'theme';
 
 :host {
   display: block;
 }
 
 .title {
+  background: mat-color($mat-gray, 50);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
   margin-bottom: 2*$gridunit;
 
   h2 {

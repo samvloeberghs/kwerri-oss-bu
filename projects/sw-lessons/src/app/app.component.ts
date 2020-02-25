@@ -11,6 +11,7 @@ import { EnvironmentService } from './services/environment.service';
 import { NewVersionAvailableComponent } from './components/new-version-available/new-version-available.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationOfflineComponent } from './components/application-offline/application-offline.component';
+import { InstallApplicationComponent } from './components/install-application/install-application.component';
 
 export interface LieFiData {
   id: number;
@@ -29,12 +30,20 @@ export class AppComponent implements OnInit {
   public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$.pipe(
     tap((newVersionAvailable) => {
       if (newVersionAvailable) {
-        return this.openBottomSheet();
+        return this.openNewVersionAvailableBottomSheet();
       }
     }),
     shareReplay(1),
   );
   public readonly applicationOnline$ = this.environmentService.applicationOnline$;
+  public readonly applicationInstallable$ = this.environmentService.applicationInstallable$.pipe(
+    tap((applicationInstallable) => {
+      if (applicationInstallable) {
+        return this.openInstallApplicationBottomSheet();
+      }
+    }),
+    shareReplay(1),
+  );
   public readonly lieFiData = new BehaviorSubject<LieFiData>(undefined);
   public readonly lieFiData$ = this.lieFiData.asObservable();
 
@@ -60,9 +69,14 @@ export class AppComponent implements OnInit {
 
   }
 
-  public openBottomSheet(): void {
+  public openNewVersionAvailableBottomSheet(): void {
     this.matBottomSheet.open(NewVersionAvailableComponent, {
-      panelClass: 'fix',
+      hasBackdrop: false,
+    });
+  }
+
+  public openInstallApplicationBottomSheet(): void {
+    this.matBottomSheet.open(InstallApplicationComponent, {
       hasBackdrop: false,
     });
   }
@@ -109,6 +123,11 @@ export class AppComponent implements OnInit {
 
   public unloadMapTile(): void {
     this.mapTile = undefined;
+  }
+
+  public install($event): void {
+    $event.preventDefault();
+    this.environmentService.promptInstall();
   }
 
   public loadNewVersion($event): void {

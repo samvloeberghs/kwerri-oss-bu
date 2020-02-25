@@ -5,7 +5,7 @@
             class="header__navbutton">
       <mat-icon aria-hidden="false"
                 aria-label="Open or close navigation"
-                [matBadge]="(newVersionAvailable$ | async) ? '!' : ''"
+                [matBadge]="((newVersionAvailable$ | async) || (applicationInstallable$ | async)) ? '!' : ''"
                 matBadgeColor="primary">menu
       </mat-icon>
     </button>
@@ -48,6 +48,11 @@
       <div class="sidenav__actions">
         <p>
         </p>
+        <button mat-raised-button color="primary"  *ngIf="(applicationInstallable$ | async)"
+                (click)="install($event)">
+          <mat-icon>add_to_home_screen</mat-icon>
+          Install
+        </button>
         <button mat-raised-button color="primary" *ngIf="(newVersionAvailable$ | async)"
                 (click)="loadNewVersion($event)">
           <mat-icon>update</mat-icon>

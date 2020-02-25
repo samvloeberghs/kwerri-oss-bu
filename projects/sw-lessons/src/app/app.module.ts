@@ -13,6 +13,7 @@ import { NewVersionAvailableComponent } from './components/new-version-available
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { NAVIGATOR_PROVIDERS } from './providers/navigator.provider';
 import { ApplicationOfflineComponent } from './components/application-offline/application-offline.component';
+import { InstallApplicationComponent } from './components/install-application/install-application.component';
 
 export function initApp(environmentService: EnvironmentService) {
   return () => environmentService.isEnvironmentReady().catch(e => console.log('Could not initialize application', e));
@@ -23,7 +24,8 @@ export function initApp(environmentService: EnvironmentService) {
     AppComponent,
     NotFoundComponent,
     NewVersionAvailableComponent,
-    ApplicationOfflineComponent
+    ApplicationOfflineComponent,
+    InstallApplicationComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ export function initApp(environmentService: EnvironmentService) {
   ],
   entryComponents: [
     NewVersionAvailableComponent,
-    ApplicationOfflineComponent
+    ApplicationOfflineComponent,
+    InstallApplicationComponent
   ],
   bootstrap: [AppComponent],
 })

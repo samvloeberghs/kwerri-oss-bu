@@ -3,12 +3,16 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
-import { filter, first } from 'rxjs/operators';
+import { filter, first, tap } from 'rxjs/operators';
 
 import { Workbox } from 'workbox-window';
 import { environment } from '../../environments/environment';
 import { WINDOW } from '../providers/window.provider';
 import { NAVIGATOR } from '../providers/navigator.provider';
+
+export interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +22,7 @@ export class EnvironmentService {
   public readonly newVersionAvailable$: Observable<boolean>;
   public readonly applicationUpdateOngoing$: Observable<boolean>;
   public readonly applicationOnline$: Observable<boolean>;
-
+  public readonly applicationInstallable$: Observable<boolean>;
   public runningStandAlone = false;
 
   private readonly applicationOnline = new BehaviorSubject(this.navigator.onLine);
@@ -26,6 +30,8 @@ export class EnvironmentService {
   private readonly applicationUpdateOngoing = new BehaviorSubject(false);
   private readonly applicationUpdateRequested = new BehaviorSubject(false);
   private readonly serviceWorkerReady = new BehaviorSubject(false);
+  private readonly applicationInstallable = new BehaviorSubject(false);
+
   private readonly sw = {
     file: '/sw.js',
     registerOptions: {},
@@ -33,6 +39,7 @@ export class EnvironmentService {
     // updateInterval = 1 * 60 * 1000; // 1m for testing
   };
 
+  private promptEvent: BeforeInstallPromptEvent;
   private swRegistration: ServiceWorkerRegistration;
   // serviceWorker only available in production ( bundled assets )
   private serviceWorkerAvailable = false;
@@ -42,11 +49,21 @@ export class EnvironmentService {
     @Inject(PLATFORM_ID) private readonly platformId: Object,
     @Inject(WINDOW) private readonly window: Window,
     @Inject(NAVIGATOR) private readonly navigator: Navigator,
-    @Inject(DOCUMENT) private readonly document: Document
-    ) {
+    @Inject(DOCUMENT) private readonly document: Document,
+  ) {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
     this.applicationOnline$ = this.applicationOnline.asObservable();
+    this.applicationInstallable$ = this.applicationInstallable.asObservable();
+
+    fromEvent(this.window, 'beforeinstallprompt')
+      .pipe(
+        tap((event: BeforeInstallPromptEvent) => {
+          event.preventDefault();
+          this.promptEvent = event;
+          this.applicationInstallable.next(true);
+        }),
+      );
 
     this.listenToApplicationOnline();
     this.registerServiceWorker();
@@ -83,6 +100,13 @@ export class EnvironmentService {
     } else {
       console.log('sw functionality currently not available');
     }
+  }
+
+  public promptInstall(): Promise<void> {
+    if (!this.promptEvent) {
+      return;
+    }
+    return this.promptEvent.prompt().then(() => this.applicationInstallable.next(false));
   }
 
   private async registerServiceWorker(): Promise<any> {
@@ -220,7 +244,6 @@ export class EnvironmentService {
     this.window.addEventListener('online', updateOnlineStatus);
     this.window.addEventListener('offline', updateOnlineStatus);
   }
-
 
 
 }
