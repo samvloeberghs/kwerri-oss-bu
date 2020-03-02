@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { EnvironmentService } from '../../services/environment.service';
@@ -7,6 +7,7 @@ import { EnvironmentService } from '../../services/environment.service';
   selector: 'swl-install-application',
   styleUrls: ['./install-application.components.scss'],
   templateUrl: './install-application.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InstallApplicationComponent {
 

@@ -2,8 +2,8 @@
 
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
-import { filter, first, tap } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
+import { filter, first, map, startWith, tap } from 'rxjs/operators';
 
 import { Workbox } from 'workbox-window';
 import { environment } from '../../environments/environment';
@@ -21,11 +21,16 @@ export class EnvironmentService {
 
   public readonly newVersionAvailable$: Observable<boolean>;
   public readonly applicationUpdateOngoing$: Observable<boolean>;
-  public readonly applicationOnline$: Observable<boolean>;
+  public readonly applicationOnline$: Observable<boolean> = merge(
+    fromEvent(this.window, 'offline'),
+    fromEvent(this.window, 'online'),
+  ).pipe(
+    map(() => this.navigator.onLine),
+    startWith(true),
+  );
   public readonly applicationInstallable$: Observable<boolean>;
   public runningStandAlone = false;
 
-  private readonly applicationOnline = new BehaviorSubject(this.navigator.onLine);
   private readonly newVersionAvailable = new BehaviorSubject(false);
   private readonly applicationUpdateOngoing = new BehaviorSubject(false);
   private readonly applicationUpdateRequested = new BehaviorSubject(false);
@@ -53,19 +58,11 @@ export class EnvironmentService {
   ) {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
-    this.applicationOnline$ = this.applicationOnline.asObservable();
-    this.applicationInstallable$ = this.applicationInstallable.asObservable();
+    this.applicationInstallable$ = this.applicationInstallable.asObservable().pipe(
+      tap(console.log)
+    );
 
-    fromEvent(this.window, 'beforeinstallprompt')
-      .pipe(
-        tap((event: BeforeInstallPromptEvent) => {
-          event.preventDefault();
-          this.promptEvent = event;
-          this.applicationInstallable.next(true);
-        }),
-      );
-
-    this.listenToApplicationOnline();
+    this.checkInstallPrompt();
     this.registerServiceWorker();
     this.checkRunningStandAlone();
     this.registerVisibileChangeListener();
@@ -112,7 +109,7 @@ export class EnvironmentService {
   private async registerServiceWorker(): Promise<any> {
     // only do this in the browser
     if (isPlatformBrowser(this.platformId)) {
-      this.serviceWorkerAvailable = 'serviceWorker' in navigator && environment.production;
+      this.serviceWorkerAvailable = 'serviceWorker' in this.navigator && environment.production;
     }
 
     // Check that service workers are available
@@ -209,7 +206,7 @@ export class EnvironmentService {
         this.checkForUpdate();
       }, this.sw.updateInterval);
 
-      if (navigator.serviceWorker.controller) {
+      if (this.navigator.serviceWorker.controller) {
         this.serviceWorkerReady.next(true);
       }
     } catch (e) {
@@ -220,7 +217,15 @@ export class EnvironmentService {
   private checkRunningStandAlone(): void {
     // only do this in the browser
     if (isPlatformBrowser(this.platformId) && 'matchMedia' in window) {
-      this.runningStandAlone = window.matchMedia('(display-mode: standalone)').matches;
+      if ((this.navigator as any).standalone) {
+        console.log('Launched: Installed (iOS)');
+        this.runningStandAlone = true;
+      } else if (this.window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('Launched: Installed');
+        this.runningStandAlone = true;
+      } else {
+        console.log('Launched: Browser Tab');
+      }
     }
   }
 
@@ -238,12 +243,23 @@ export class EnvironmentService {
   }
 
   private listenToApplicationOnline(): void {
-    const updateOnlineStatus = () => {
-      this.applicationOnline.next(this.navigator.onLine);
-    };
-    this.window.addEventListener('online', updateOnlineStatus);
-    this.window.addEventListener('offline', updateOnlineStatus);
+    merge(
+      fromEvent(this.window, 'offline'),
+      fromEvent(this.window, 'online'),
+    ).pipe(
+      map(() => this.navigator.onLine),
+    );
   }
 
-
+  private checkInstallPrompt(): void {
+    fromEvent(this.window, 'beforeinstallprompt')
+      .pipe(
+        tap(console.log),
+        tap((event: BeforeInstallPromptEvent) => {
+          event.preventDefault();
+          this.promptEvent = event;
+          this.applicationInstallable.next(true);
+        }),
+      );
+  }
 }

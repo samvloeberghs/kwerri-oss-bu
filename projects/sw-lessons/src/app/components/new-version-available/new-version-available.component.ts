@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { EnvironmentService } from '../../services/environment.service';
@@ -7,6 +7,7 @@ import { EnvironmentService } from '../../services/environment.service';
   selector: 'swl-new-version-available',
   styleUrls: ['./new-version-available.components.scss'],
   templateUrl: './new-version-available.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewVersionAvailableComponent {
 

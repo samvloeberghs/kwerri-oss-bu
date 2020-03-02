@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'swl-application-offline',
   styleUrls: ['./application-offline.components.scss'],
   templateUrl: './application-offline.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplicationOfflineComponent {
 
