@@ -58,9 +58,7 @@ export class EnvironmentService {
   ) {
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationUpdateOngoing$ = this.applicationUpdateOngoing.asObservable();
-    this.applicationInstallable$ = this.applicationInstallable.asObservable().pipe(
-      tap(console.log)
-    );
+    this.applicationInstallable$ = this.applicationInstallable.asObservable();
 
     this.checkInstallPrompt();
     this.registerServiceWorker();
@@ -252,14 +250,13 @@ export class EnvironmentService {
   }
 
   private checkInstallPrompt(): void {
-    fromEvent(this.window, 'beforeinstallprompt')
+    fromEvent(window, 'beforeinstallprompt')
       .pipe(
-        tap(console.log),
         tap((event: BeforeInstallPromptEvent) => {
           event.preventDefault();
           this.promptEvent = event;
           this.applicationInstallable.next(true);
         }),
-      );
+      ).subscribe();
   }
 }

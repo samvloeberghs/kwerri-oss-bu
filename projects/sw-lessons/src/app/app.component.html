@@ -70,6 +70,7 @@
 
 </mat-bottom-sheet-container>
 
+<!--
 <div *ngIf="false">
   <h1>Workbox demo</h1>
   <hr/>
@@ -80,7 +81,7 @@
       <div *ngIf="(newVersionAvailable$ | async)">
         <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
                 class="new-version-available"
-                (click)="loadNewVersion()">
+                (click)="loadNewVersion($event)">
           New version available, reload?
         </button>
         <ng-template #updateOngoing>
@@ -162,4 +163,5 @@
     </div>
   </div>
 </div>
+-->
 
