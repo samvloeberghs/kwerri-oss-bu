@@ -14,9 +14,11 @@ cleanupOutdatedCaches();
 // see workbox-config.js
 // This array gets injected automagically by the workbox cli
 const assetsToCache = self.__WB_MANIFEST;
-// To customize the assets afterwards:
-// assetsToCache = [...assetsToCache, ??
 precacheAndRoute(assetsToCache);
+// To customize the assets afterwards:
+// const assetsToCache = self.__WWWWWWBBBBB__MANIFEST;
+// assetsToCache = [...assetsToCache, ??]
+// precacheAndRoute(assetsToCache);
 
 // default page handler for offline usage, where the browser does not how to handle deep links
 // it's a SPA, so each path that is a navigation should default to index.html
