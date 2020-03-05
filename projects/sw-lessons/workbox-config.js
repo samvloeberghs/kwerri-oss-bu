@@ -9,7 +9,7 @@ module.exports = {
     '**/assets/flags/*.png',
     '**/assets/liefiflags/*.png',
     '**/map.png',
-    '**/assets/data.json',
+    '**/assets/news.json',
     // Ignore Angular's ES5 bundles
     // With this, we eagerly load the es2015
     // bundles and we only load/cache the es5 bundles when requested

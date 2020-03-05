@@ -167,7 +167,7 @@ registerRoute(/assets\/flags\/(?![_])(.*)/, args => {
 const lieFiDataHandler = new NetworkFirst({
   networkTimeoutSeconds: 5,
 });
-registerRoute(/assets\/data\.json/, lieFiDataHandler);
+registerRoute(/assets\/news\.json/, lieFiDataHandler);
 
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {

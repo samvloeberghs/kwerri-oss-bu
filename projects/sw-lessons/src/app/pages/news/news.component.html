@@ -9,8 +9,8 @@
 <ng-container *ngIf="!dataLoading; else loading">
   <div *ngIf="(data$ | async) as data; else noData">
     <p>
-      <strong>Version: </strong><br />
-      {{data.version | date: 'full'}}</p>
+      Version: <strong>{{data.version | date: 'mediumTime'}}</strong>
+    </p>
     <mat-list>
       <mat-list-item
         mat-ripple
