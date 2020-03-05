@@ -1,0 +1,12 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.secure-map {
+  &__map {
+    display: block;
+    width: 100%;
+  }
+}

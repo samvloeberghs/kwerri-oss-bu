@@ -1,0 +1,39 @@
+<div class="title">
+  <h2>Secure Map</h2>
+  <button *ngIf="!currentOAuthToken; else noCurrentOAuthToken"
+          mat-raised-button
+          color="primary"
+          (click)="login($event)">
+    <mat-icon>lock</mat-icon>
+    <span>Login</span>
+  </button>
+  <ng-template #noCurrentOAuthToken>
+    <button mat-raised-button
+            (click)="logout($event)">
+      <mat-icon>lock_open</mat-icon>
+      <span>Logout</span>
+    </button>
+  </ng-template>
+</div>
+
+<p *ngIf="!currentOAuthToken; else viewMap">
+  <strong>Hi anonymous!</strong> Please login to view the map?
+</p>
+<ng-template #viewMap>
+  <p>
+    <strong>Hi, authenticated user!</strong> You can now load the map!
+  </p>
+</ng-template>
+
+<img class="secure-map__map"
+     *ngIf="showMap; else reloadMapButton"
+     src="/assets/map.png"/>
+
+<ng-template #reloadMapButton>
+  <button mat-raised-button
+          color="accent"
+          (click)="reloadMap($event)">
+    <mat-icon>refresh</mat-icon>
+    <span>Reload map</span>
+  </button>
+</ng-template>

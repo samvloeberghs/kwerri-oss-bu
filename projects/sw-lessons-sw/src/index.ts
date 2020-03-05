@@ -113,11 +113,16 @@ registerRoute(
   /map\.png/,
   async ({ event, url }) => {
     // get the eventual token
-    const customStore = new Store('swl-db', 'swl-db-store');
-    const oAuthToken = await get<string>('token', customStore);
+    let oAuthToken;
+    try {
+      const customStore = new Store('swl-db', 'swl-db-store');
+      oAuthToken = await get<string>('token', customStore);
+    } catch (e) {
+      console.log('could not get oAuthToken in SW', oAuthToken);
+    }
 
     // if token available, set it as the Authorization header
-    if (!!oAuthToken) {
+    if (Boolean(oAuthToken)) {
       const modifiedHeaders = new Headers(event.request.headers);
       modifiedHeaders.set('Authorization', oAuthToken);
       const overwrite = {

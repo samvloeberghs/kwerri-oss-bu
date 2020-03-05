@@ -10,7 +10,7 @@
       </mat-icon>
     </button>
     <h1>Workbox demo</h1>
-    <img src="/assets/logo.svg" alt="Logo" height="20" width="20" />
+    <img src="/assets/logo.svg" alt="Logo" height="20" width="20"/>
   </div>
   <div *ngIf="!(applicationOnline$ | async)">
     <button mat-icon-button color="warn"
@@ -37,6 +37,10 @@
           <mat-icon>list_alt</mat-icon>
           News
         </mat-list-item>
+        <mat-list-item [routerLink]="['secure-map']" routerLinkActive="active">
+          <mat-icon>map</mat-icon>
+          Secure Map
+        </mat-list-item>
         <mat-list-item [routerLink]="['about']" routerLinkActive="active">
           <mat-icon>info</mat-icon>
           About
@@ -49,15 +53,15 @@
       <div class="sidenav__actions">
         <p>
         </p>
-        <button mat-raised-button color="primary"  *ngIf="(applicationInstallable$ | async)"
+        <button mat-raised-button color="primary" *ngIf="(applicationInstallable$ | async)"
                 (click)="install($event)">
           <mat-icon>add_to_home_screen</mat-icon>
-          Install
+          <span>Install</span>
         </button>
         <button mat-raised-button color="primary" *ngIf="(newVersionAvailable$ | async)"
                 (click)="loadNewVersion($event)">
           <mat-icon>update</mat-icon>
-          Update
+          <span>Update</span>
         </button>
       </div>
     </div>

@@ -23,17 +23,31 @@ a {
   }
 }
 
+.title {
+  background: mat-color($mat-gray, 50);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  margin-bottom: 2*$gridunit;
+
+  h2 {
+    margin: 0;
+  }
+}
+
 mat-bottom-sheet-container {
   padding: 0 !important;
 }
 
 [mat-dialog-actions] {
   justify-content: flex-end;
+}
 
-  mat-icon + span {
-    text-transform: uppercase;
-    margin-left: $gridunit;
-  }
+mat-icon + span {
+  text-transform: uppercase;
+  margin-left: $gridunit;
 }
 
 // Include theme styles for core and each component used in your app.

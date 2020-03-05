@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: './pages/about/about.module#AboutModule',
   },
   {
+    path: 'secure-map',
+    loadChildren: './pages/secure-map/secure-map.module#SecureMapModule',
+  },
+  {
     path: 'contact',
     loadChildren: './pages/contact/contact.module#ContactModule',
   },
