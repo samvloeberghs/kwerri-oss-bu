@@ -1,10 +1,21 @@
 <h2>Home</h2>
 
 <p>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempor ultricies tellus, ut tempus velit egestas sit
-  amet. Etiam diam ante, blandit vel egestas quis, sodales sit amet ante. Nam ullamcorper ut sem non porta. Curabitur
-  feugiat feugiat justo, eu vulputate risus sollicitudin id. Vivamus viverra ligula lorem, sit amet faucibus erat
-  pellentesque vitae. Etiam odio urna, consequat non justo nec, tempor vulputate orci. In lacinia urna eu augue luctus
-  tincidunt at ut sapien. Mauris rhoncus eget diam a lobortis. Phasellus eu ipsum faucibus, convallis libero in,
-  lobortis enim. Nunc facilisis aliquam sem eu bibendum.
+  Checking for a new version of the application can be done using different approaches:
 </p>
+
+<ol>
+  <li>Closing and re-opening the app</li>
+  <li>By means of user-intent ( button click )</li>
+  <li>On visibility change</li>
+  <li>Periodically, every (x) seconds</li>
+</ol>
+
+<p>
+  <button mat-raised-button
+          (click)="checkForUpdate($event)">
+    <mat-icon>refresh</mat-icon>
+    <span>Check for update</span>
+  </button>
+</p>
+

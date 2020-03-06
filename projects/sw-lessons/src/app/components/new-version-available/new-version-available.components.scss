@@ -1,0 +1,15 @@
+@import 'variables';
+
+:host {
+  padding: $gridunit $gridunit*2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actions {
+  min-width: 185px;
+  button {
+    margin-left: $gridunit;
+  }
+}

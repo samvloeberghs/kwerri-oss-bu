@@ -1,0 +1,17 @@
+@import 'variables';
+@import 'theme';
+
+:host {
+  display: block;
+}
+
+.news {
+  &__item {
+    background: #eee;
+    margin-bottom: $gridunit *2;
+  }
+
+  &__icon {
+    margin-left: $gridunit*2;
+  }
+}

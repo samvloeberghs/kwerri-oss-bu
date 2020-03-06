@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# v1 - 2011-08-13
+# This is another comment.
+index.html
+cache.html
+style.css
+image1.png
+
+# Use from network if available
+NETWORK:
+network.html
+
+# Fallback file offline
+FALLBACK:
+/ offline.html

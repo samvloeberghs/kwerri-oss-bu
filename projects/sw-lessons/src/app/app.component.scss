@@ -1,4 +1,4 @@
-$gridunit: 8px;
+@import 'variables';
 
 :host {
   display: block;
@@ -9,21 +9,46 @@ $gridunit: 8px;
   position: sticky;
   z-index: 3;
   top: 0;
+  justify-content: space-between;
+
+  &__left {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-left: $gridunit*2;
+    }
+  }
 
   &__navbutton {
     margin-right: $gridunit;
   }
+
+  &__offlinebutton {
+    margin-left: $gridunit;
+  }
 }
 
 .container {
-  height: 100%;
+  height: calc(100% - 56px);
+
+  @media (min-width: 600px) {
+    height: calc(100% - 64px);
+  }
 }
 
 .sidenav {
-  padding-top: 56px;
+  // padding-top: 56px;
 
   @media (min-width: 600px) {
-    padding-top: 64px;
+    // padding-top: 64px;
+  }
+
+  &__inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   &__list {
@@ -32,12 +57,32 @@ $gridunit: 8px;
     mat-icon {
       margin-right: 2*$gridunit;
     }
+
+    .active {
+      background: #ddd;
+    }
+  }
+
+  &__actions {
+    padding: $gridunit;
+
+    p {
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: $gridunit;
+      }
+    }
   }
 }
 
 .content {
-  padding: 9*$gridunit 2*$gridunit 2*$gridunit 2*$gridunit;
+  padding: 3*$gridunit;
   @media (min-width: 600px) {
-    padding-top: 10*$gridunit
+    //padding-top: 10*$gridunit
   }
 }
