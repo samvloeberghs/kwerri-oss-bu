@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#NewsModule',
+    loadChildren: './pages/about/about.module#AboutModule',
   },
   {
     path: 'talks-workshops',
