@@ -239,7 +239,7 @@ export class EnvironmentService {
       });
     }
   }
-  
+
   private checkInstallPrompt(): void {
     fromEvent(window, 'beforeinstallprompt')
       .pipe(
