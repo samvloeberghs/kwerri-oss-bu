@@ -358,19 +358,19 @@ exports.config = {
        src="/posts/custom-plugins-for-scully-angular-static-site-generator/minified_html.gif"
        alt=""/>
 
-  <h2>Using the <code>scully-minify-html</code> plugin</h2>
+  <h2>Using the <code>scully-plugin-minify-html</code> plugin</h2>
 
   <p>
     Because it is a plugin and we can share code via npm it would be silly to rewrite the <code>minifyHtml</code>
     plugin, except for learning purposes ofcourse. Installing it is as easy as running
-    <code><a href="http://npmjs.com/package/scully-minify-html" target="_blank" rel="noopener">
-      npm i -s scully-minify-html</a></code> in your Angular project. This will install the plugin for you. The only
+    <code><a href="http://npmjs.com/package/scully-plugin-minify-html" target="_blank" rel="noopener">
+      npm i -s scully-plugin-minify-html</a></code> in your Angular project. This will install the plugin for you. The only
     thing left is to configure it in your <code>scully.&lt;your-project-name&gt;.config.js</code> file as follows:
   </p>
 
   <h4 class="codetitle">scully.&lt;your-project-name&gt;.config.js</h4>
   <pre data-line="2,7,11,16"><code class="language-js line-numbers">const {RouteTypes} = require('@scullyio/scully');
-const {MinifyHtml} = require('scully-minify-html');
+const {MinifyHtml} = require('scully-plugin-minify-html');
 
 // custom plugins in ./plugins/*.js
 const {News} = require('./plugins/newsPlugin');
@@ -442,7 +442,7 @@ exports.config = {
       </a>
     </li>
     <li>
-      <a href="https://www.npmjs.com/package/scully-disable-angular" target="_blank" rel="noopener">
+      <a href="https://www.npmjs.com/package/scully-plugin-disable-angular" target="_blank" rel="noopener">
         Disable Angular after prerender
       </a>
     </li>

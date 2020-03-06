@@ -1,0 +1,104 @@
+[
+  {
+    "title": "Disabling Angular when statically generating with Scully",
+    "slug": "disabling-angular-when-statically-genering-with-scully",
+    "publishDatetime": "2020-02-05T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts//angular_share.jpg",
+    "short": "Scully, the Static Site Generator for Angular, renders your Angular application into static HTML files. Together with the bundled JS assets of the Angular app, those files are served to the browser. The static HTML files give your visitors an instant view on the content of the application.But do you really need to bootstrap Angular again?"
+  },
+  {
+    "title": "Custom plugins for Scully - Angular Static Site Generator",
+    "slug": "custom-plugins-for-scully-angular-static-site-generator",
+    "publishDatetime": "2020-01-20T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "short": "Scully, the Static Site Generator for Angular, comes with a plugin system that allows us to control which pages to prerender of our Angular application and how to prerender them. In this article we will learn how to setup custom plugins for your own specific usecases."
+  },
+  {
+    "title": "Angular v9 & Universal: SSR and prerendering out of the box!",
+    "slug": "angular-v9-universal-ssr-and-prerendering-out-of-the-box",
+    "publishDatetime": "2020-01-05T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "short": "This article and guide is intented to help anybody using Angular v9 getting started with Server-side-rendering (SSR) and prerendering their application."
+  },
+  {
+    "title": "Lessons learned on offline capabilities with service workers using Workbox - The sequel",
+    "slug": "lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel",
+    "publishDatetime": "2019-06-28T12:00:00+01:00",
+    "updateDatetime": "2020-01-14T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/workbox.png",
+    "imgShare": "/assets/share/posts/workbox_share.jpg",
+    "short": "This is a follow-up on my previous article about lessons learned on offline capabilities using Workbox. This article highlights some more findings and explores better/other solutions for the problems described earlier."
+  },
+  {
+    "title": "Creating a simple memory cache for your Angular Universal website or application",
+    "slug": "creating-a-simple-memory-cache-for-your-angular-universal-website-or-application",
+    "publishDatetime": "2019-06-14T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "short": "Setting up a caching system for your Angular Universal website can give you an extra performance gain. Read more about how we can hook into the Universal rendering process and set up a simple memory cache."
+  },
+  {
+    "title": "Lessons learned on offline capabilities with service workers using Workbox",
+    "slug": "lessons-learned-on-offline-capabilities-with-service-workers-using-workbox",
+    "publishDatetime": "2019-05-31T12:00:00+01:00",
+    "updateDatetime": "2019-06-28T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/workbox.png",
+    "imgShare": "/assets/share/posts/workbox_share.jpg",
+    "short": "This post is targeted to webdevelopers that are creating offline-capable applications and more specifically offline-capable applications that can be categorized as SPAs or Single Page Applications. We will explore some ideas, common implementations and pitfalls using Workbox."
+  },
+  {
+    "title": "Outputting JSON-LD with Angular Universal",
+    "slug": "outputting-json-ld-with-angular-universal",
+    "publishDatetime": "2019-03-12T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "short": "JSON-LD is a lightweight Linked Data format. It is easy for humans AND machines to read and write. In this new Angular Universal article we learn how to output JSON-LD. We will re-use and explain some techniques that the TransferState key-value cache service uses to transfer server-state to the application on the client side."
+  },
+  {
+    "title": "Better sharing on social media platforms with Angular Universal",
+    "slug": "better-sharing-on-social-media-platforms-with-angular-universal",
+    "publishDatetime": "2019-02-24T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "short": "This article and guide on better sharing on social media platforms with Angular Universal is targeted to developers that have a good understanding of Angular and might already have an Angular Universal implementation running.  We are going to describe some high-level ideas and concepts, different tools and Angular services that will enable better social sharing on for example Facebook, Twitter and LinkedIn."
+  },
+  {
+    "title": "Selecting subtitles in Vimeo using JavaScript",
+    "slug": "selecting-subtitles-in-vimeo-using-javascript",
+    "publishDatetime": "2018-03-01T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/vimeo.png",
+    "imgShare": "/assets/share/posts/vimeo_share.jpg",
+    "short": "Implementing 3th party functionality it not always clear. In the case of Vimeo, the iframe embed does not provide as many options and is not as extended as the JavaScript Player API. <span>Keep reading to find out how you can easily set Vimeo subtitles on runtime.</span>"
+  },
+  {
+    "title": "Scroll to top on Angular Router navigation",
+    "slug": "scroll-to-top-on-angular-router-navigation",
+    "publishDatetime": "2016-11-19T12:00:00+01:00",
+    "updateDatetime": "2019-07-12T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/angular.png",
+    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "short": "When I was creating this blog and optimising it for mobile I experienced some default but not so user-friendly behaviour when navigating from one route to the other with Angular v2+. <span>Keep reading to find out how we you add this little tweak to optimise your user experience!</span>"
+  },
+  {
+    "title": "What's with the Subjects in RxJS 5",
+    "slug": "whats-with-the-subjects-in-rxjs5",
+    "publishDatetime": "2016-07-14T09:08:25+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/rxjs.png",
+    "imgShare": "/assets/share/posts/rxjs_share.jpg",
+    "short": "RxJS is a great library, it is used more and more in different places & frameworks across the web. Soon it will dominate the asynchronous part of web apps, so that’s why it’s important to know how subjects work. <span>Keep reading to find out how we can leverage Subjects in modern web applications!</span>"
+  }
+]

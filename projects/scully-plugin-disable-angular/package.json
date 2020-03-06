@@ -1,0 +1,25 @@
+{
+  "name": "scully-plugin-disable-angular",
+  "version": "2.2.0",
+  "peerDependencies": {
+    "@scullyio/scully": "latest"
+  },
+  "maintainers": [
+    "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samvloeberghs/kwerri-oss/tree/master/projects/scully-plugin-disable-angular"
+  },
+  "keywords": [
+    "angular",
+    "scully",
+    "seo",
+    "ssg"
+  ],
+  "contributors": [
+    "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"
+  ],
+  "author": "Sam Vloeberghs",
+  "license": "MIT"
+}

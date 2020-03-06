@@ -171,13 +171,13 @@
 
   <p>
     Not sure how to get started? There is a community plugin available for Scully that will do the work for you. Install
-    the plugin using <code><a href="http://npmjs.com/package/scully-disable-angular" target="_blank" rel="noopener">npm i
-    -S scully-disable-angular</a></code> and add the plugin to your Scully configuration file:
+    the plugin using <code><a href="http://npmjs.com/package/scully-plugin-disable-angular" target="_blank" rel="noopener">npm i
+    -S scully-plugin-disable-angular</a></code> and add the plugin to your Scully configuration file:
   </p>
 
   <h4 class="codetitle">scully.&lt;your-project-name&gt;.config.js</h4>
-  <pre data-line="2,4,8"><code class="language-js line-numbers">const {MinifyHtml} = require('scully-minify-html');
-const {DisableAngular} = require('scully-disable-angular');
+  <pre data-line="2,4,8"><code class="language-js line-numbers">const {MinifyHtml} = require('scully-plugin-minify-html');
+const {DisableAngular} = require('scully-plugin-disable-angular');
 
 const postRenderers = [DisableAngular, MinifyHtml];
 
@@ -256,12 +256,12 @@ exports.config = {
       </a>
     </li>
     <li>
-      <a href="https://www.npmjs.com/package/scully-disable-angular" target="_blank" rel="noopener">
+      <a href="https://www.npmjs.com/package/scully-plugin-disable-angular" target="_blank" rel="noopener">
         Disable Angular after prerender - Scully plugin
       </a>
     </li>
     <li>
-      <a href="https://www.npmjs.com/package/scully-minify-html" target="_blank" rel="noopener">
+      <a href="https://www.npmjs.com/package/scully-plugin-minify-html" target="_blank" rel="noopener">
         Minify the HTML of your prerendered Angular application - Scully plugin
       </a>
     </li>

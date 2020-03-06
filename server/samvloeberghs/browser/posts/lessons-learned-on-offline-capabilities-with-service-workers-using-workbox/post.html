@@ -1,0 +1,565 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2>Target audience</h2>
+
+  <p>
+    This post is targeted to webdevelopers that are creating <em>offline-capable applications</em> and more specifically
+    offline-capable applications that can be categorized as SPAs or Single Page Applications. I will share some of my
+    lessons learned, not just to share them, but also to maybe <em>get feedback from interested readers</em> that might
+    have found other ways or used other methods to solve the problems described.
+  </p>
+
+  <h2>What will we discuss in this post?</h2>
+
+  <ol>
+    <li>Serve the <code>index.html</code> for all deeplinks (while offline)</li>
+    <li>Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></li>
+    <li>Be careful with what you cache in the browser</li>
+    <li>Avoid using global state in the service worker</li>
+  </ol>
+
+  <p>
+    All the example code used in this post, just as this complete website, is
+    <a href="https://github.com/samvloeberghs/kwerri-oss" target="_blank" rel="noopener">available on Github here</a> as
+    an example project for you to test and try-out.
+  </p>
+
+  <h2>Serve the <code>index.html</code> for all deeplinks (while offline)</h2>
+
+  <p>
+    While developing SPA applications we often, if not always, leverage the power of routing. <strong>When we go offline
+    we need to make sure that all routes keep working</strong>. An example:
+  </p>
+
+  <ol>
+    <li>
+      The entry point of a visitor of your application was the <code>/about</code> page. The server knows that for every
+      hit on your website, it has to return the <code>index.html</code> file.
+    </li>
+    <li>
+      After a while, this user returns to your website, but he enters directly via the <code>/contact</code> page with a
+      refresh or via some link on any other website.
+    </li>
+    <li>
+      For some reason your application is now offline, or the user has lost connectivity during this navigation.
+      Your service worker kicks in, tries to lookup the <code>/about</code> page in the cache, but has no hit, because
+      the only static file cached is the <code>index.html</code> file.
+    </li>
+    <li>
+      Your service worker somehow needs to know which file to service for these type of requests
+    </li>
+  </ol>
+
+  <p>
+    Using Workbox this can easily be done by checking if the request was of <code>mode</code>
+    "navigate" and if so, serve the single <code>index.html</code> file. This <code>index.html</code> file should
+    already be cached with workbox as a static asset so we request it from the <code>precache</code>.
+  </p>
+
+  <h4 class="codetitle">sw.js</h4>
+  <pre><code class="language-js line-numbers">// default page handler for offline usage,
+// where the browser does not how to handle deep links
+// it's a SPA, so each path that is a navigation should default to index.html
+workbox.routing.registerRoute(
+  ({ event }) => event.request.mode === 'navigate',
+  async () => {
+    const defaultBase = '/index.html';
+    return caches
+      .match(workbox.precaching.getCacheKeyForURL(defaultBase))
+      .then(response => {
+          return response || fetch(defaultBase);
+      })
+      .catch(err => {
+        return fetch(defaultBase);
+      });
+  }
+);</code></pre>
+
+  <p>
+    This logic gives you <em>quicker offline and online usages</em>, because even when your user is
+    online the service worker will use the cached <code>index.html</code>, when for example opening a new tab with a
+    different page of your application.
+  </p>
+
+  <h3>Shortcut available</h3>
+
+  <p>
+    Workbox gives you a shortcut and extra options for this behaviour, like whitelisting and blacklisting by exposing
+    the <code>registerNavigationRoute</code> handler on the <code>routing</code> module.
+  </p>
+
+  <h4 class="codetitle">sw.js</h4>
+  <pre><code class="language-js line-numbers">workbox.routing.registerNavigationRoute(
+  // Assuming '/single-page-app.html' has been precached,
+  // look up its corresponding cache key.
+  workbox.precaching.getCacheKeyForURL('/single-page-app.html'), {
+    whitelist: [
+      new RegExp('/blog/')
+    ],
+    blacklist: [
+      new RegExp('/blog/restricted/'),
+    ]
+  }
+);
+</code></pre>
+
+  <p class="alert alert-warning">
+    Please also keep in mind that this reflects the behavior of the server in case of a SPA setup. <strong>For all requests
+    not matching a static resource like an image, or a dynamic resource like an API, the server should return the <code>index.html</code> file</strong>!
+  </p>
+
+  <h2>Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></h2>
+
+  <p>
+    Using <code>skipWaiting()</code> or <code>clients.claim()</code> should not be done blindly and without thought.
+    Unfortunately there are many articles on the internet that just instruct you to do it without much more information.
+    The fact that you have to be careful about this is also clearly mentioned in "<a
+    href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
+    target="_blank" rel="noopener">Service Worker Lifecycle</a>", an article by Jake Archibald.
+  </p>
+
+  <p class="alert alert-quote">
+    <em>Note:</em> I see a lot of people including <code>clients.claim()</code> as boilerplate, but I rarely do so
+    myself. It only
+    really matters on the very first load, and due to progressive enhancement the page is usually working happily
+    without service worker anyway.
+  </p>
+
+  <h3>What could possibly go wrong?</h3>
+
+  <p>
+    There are several scenarios where just calling <code>skipWaiting()</code> or <code>clients.claim()</code> blindly in
+    your service worker <em>could be the cause of unexpected and harmful side effects</em>.
+  </p>
+
+  <p>
+    One possible scenario is that the code functionality in your application could not match anymore with
+    the logic in your service worker. So it might impose a breaking change. <strong>Let's consider a short step-by-step
+    example</strong>:
+  </p>
+
+  <ol>
+    <li>The browser has your application code, including the code that registers your service worker and the service
+      worker,
+      cached
+    </li>
+    <li>When loading the application, this cached content is served and loads your new service worker with updated
+      functionality, updates the precached content and finally skips the waiting process and claims the clients
+      available
+    </li>
+    <li>
+      Your user now has the old application loaded in his browser, but using the new service worker functionality,
+      which is potentially problematic!
+    </li>
+  </ol>
+
+  <p>
+    So it's important to always <em>make sure that the loaded version of the logic of your application is working nicely
+    together with the loaded version of the logic of your service worker</em>.
+  </p>
+
+  <h3>Service worker active during first-time usage of your application</h3>
+
+  <p>
+    Not calling <code>skipWaiting()</code> or <code>clients.claim()</code> could be problematic for your usecase,
+    especially if you want your service worker to be active from the very
+    first time you load your application. Let's take a basic example to explain this situation:
+  </p>
+
+  <ol>
+    <li>
+      Your application imports a 3rd party library that sends requests to a server.
+      The URLs these requests have to be sent to are configurable, but the headers used for these requests aren't.
+      You may want to add an <code>Authorization</code> header to each of these requests made.
+    </li>
+    <li>
+      One of the possible strategies to use could be to setup a service worker that acts as a proxy and adds this header
+      to all relevant requests.
+    </li>
+    <li>
+      This functionality has to work from the very first time, but you might think this is not possible without
+      <code>skipWaiting()</code> and/or <code>clients.claim()</code>.
+    </li>
+  </ol>
+
+  <p>
+    The only way I found so far is by checking if your page already has a service worker that is activated, or is in the
+    process of changing his state to activated, but no new version of the service worker is waiting to be activated. In
+    that case we can assume there was no previous service worker available. Now we can automatically reload the page as
+    soon as the service worker activated.
+  </p>
+
+  <h4 class="codetitle">service-worker-registration.ts</h4>
+  <pre><code class="language-ts line-numbers">// Check that service workers are available
+if ('serviceWorker' in navigator) {
+
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(registration => {
+
+        if (navigator.serviceWorker.controller) {
+          // let the application know our service worker is ready
+          window['serviceWorkerReady'] = true;
+          window.dispatchEvent(new CustomEvent('service-worker-ready'));
+        }
+
+        // A wild service worker has appeared in reg.installing and maybe in waiting!
+        const newWorker = registration.installing;
+        const waitingWoker = registration.waiting;
+
+        if (newWorker) {
+          if (newWorker.state === 'activated' && !waitingWoker) {
+            // reload to avoid skipWaiting and clients.claim()
+            window.location.reload();
+          }
+          newWorker.addEventListener('statechange', (e) => {
+            // newWorker.state has changed
+            if (newWorker.state === 'activated' && !waitingWoker) {
+              // reload to avoid skipWaiting and clients.claim()
+              window.location.reload();
+            }
+          });
+        }
+
+      })
+      .catch(err => {
+        console.log('service worker could not be registered', err);
+      });
+
+  });
+
+}</code></pre>
+
+  <p>
+    The drawback is that the first time-use might show a flicker. This side-effect can be minimized by delaying the
+    bootstrapping of your application until you know that a service worker is active and show a loading / splash screen
+    instead. This is anyway already a requirement, as explained before.
+  </p>
+
+  <p class="alert alert-warning striketrough">
+    <strong>Please let me know if you have other suggestions!</strong> I'm curious for other methods because of the
+    refresh I'm not very happy about..
+  </p>
+
+  <p class="alert alert-info">
+    <strong>Update June 2019</strong>: I've written a follow-up article that clears out my bad feeling about the
+    previous implementation and mistakes I made. Be sure to <a
+    href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel">check it out here</a>.
+  </p>
+
+  <h2>Be careful with what you cache in the browser</h2>
+
+  <p>
+    When building your application and thinking about its offline strategies you should definitely consider what you are
+    gonna cache offline. Why? <strong>Because not all browser and devices have the same capabilities in terms of
+    storage</strong>. The following table shows what the available quota is per browser and per origin.
+  </p>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Browser</th>
+      <th>Limit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Chrome</td>
+      <td>&lt;6% of free space</td>
+    </tr>
+    <tr>
+      <td>Firefox</td>
+      <td>&lt;10% of free space</td>
+    </tr>
+    <tr>
+      <td>Safari</td>
+      <td>&lt;50MB</td>
+    </tr>
+    <tr>
+      <td>IE10</td>
+      <td>&lt;250MB</td>
+    </tr>
+    <tr>
+      <td>Edge</td>
+      <td>
+        <a
+          href="https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/dev-guide/storage/IndexedDB/">
+          Dependent on volume size
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p class="copy">
+    <small>
+      All credits for this overview go to the authors of the article <a
+      href="https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/offline-for-pwa"
+      rel="noopener" target="_blank">
+      Offline Storage for Progressive Web Apps</a>
+    </small>
+  </p>
+
+  <p>
+    This will most probably always be enough space for applications running in a browser on a desktop or laptop. But if
+    you're building a content-heavy application on a tablet or phone with limited storage, this might quickly become a
+    problem..
+  </p>
+  <p>
+    Imagine a tablet with 32GB of space, while there is only 3GB left as available space, because of for example
+    pictures, music and captured videos.
+    This means that for your application, on this tablet there is only 6% available of 3GB, which is ~184 MB.
+  </p>
+  <p>
+    While 184 MB might still seem like a great enough amount of space, you have to consider the possibility it might not
+    be enough,
+    especially if you are caching large files or assets from other domains (CORS) or opaque responses. Dealing with
+    opaque requests can be tricky as highlighted in the article <a
+    href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/"
+    target="_blank" rel="noopener">
+    When 7 KB Equals 7 MB
+  </a> by <a href="https://twitter.com/_gerardo" target="_blank" rel="noopener">Gerardo Rodriguez</a>
+  </p>
+
+  <p>
+    In general, we want to avoid hitting a <code>DOMException: Quota exceeded</code> as this might potentially break our
+    complete service-worker functionality or offline capabilities.
+  </p>
+  <p>
+    Workbox allows us to cleanup our caches automatically using various methods. We can <em>invalidate caches for a
+    specific route handler after an amount of time</em> and we can <em>gracefully purge our cache on quota errors</em>.
+  </p>
+
+  <h4 class="codetitle">sw.js</h4>
+  <pre><code class="language-js line-numbers">// Cache the underlying font files with a cache-first strategy for 1 year.
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.gstatic\.com/,
+  new strategies.CacheFirst({
+    cacheName: 'google-fonts-webfonts',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200]
+      }),
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 30,
+        purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
+      })
+    ]
+  })
+);</code></pre>
+
+  <h2>Avoid using global state in the service worker</h2>
+
+  <p>
+    I've learned this one the hard way, by debugging and debugging and debugging till I got crazy and started searching
+    the internet. Let me first explain my usecase, which is in fact the origin of the <code>Authorization</code> header
+    example above.
+  </p>
+
+  <ol>
+    <li>The application that we are developing includes 3rd party libraries like <code><a href="https://openlayers.org/"
+                                                                                          target="_blank"
+                                                                                          rel="noopener">openlayers</a></code>
+      to give us very nice dynamic map functionalities.
+    </li>
+    <li>
+      The URLs this library uses to load the map-tiles is configurable, but the headers aren't. We needed to be able to
+      add an <code>Authorization</code> header on the requests made to these URLs and using a service-worker for this
+      seemed reasonable.
+    </li>
+    <li>
+      As soon as we log in, we pass the token to the service worker, using the <code>BroadcastChannel</code> API and
+      we store it in a global variable <code>let oAuthToken</code>.
+    </li>
+    <li>
+      Every time our service worker sees a request for the map-tiles, we proxy the requests and add the token as a
+      header to the request so our server/backend can successfully authorize the request.
+    </li>
+  </ol>
+
+  <h3>Now what was going wrong?</h3>
+
+  <p>
+    It seems that service workers are potentially stopped and restarted multiple times in their lifetime because of
+    <a
+      href="https://stackoverflow.com/questions/38835273/when-does-code-in-a-service-worker-outside-of-an-event-handler-run/38835274#38835274"
+      target="_blank" rel="noopener">several optimizations like battery saving algorithms</a>. <strong>Stopping and
+    restarting destroys and
+    reinitializes the global scope of our service worker</strong>! So our global variable holding the token was gone,
+    resulting in requests that did
+    not authorize properly.
+  </p>
+
+  <h3>So how to correctly share the <code>OAuthToken</code> with the service worker?</h3>
+
+  <p>
+    The only way to successfully share the <code>OAuthToken</code> from our application logic with our service worker
+    logic is by using the <code>IndexedDB</code> API. The library I use to simplify IndexedDB access in my service
+    worker is <code><a
+    href="https://github.com/jakearchibald/idb-keyval" target="_blank" rel="noopener">idb-keyval</a></code>.
+    If you need more advanced logic you can checkout <code><a href="https://github.com/jakearchibald/idb"
+                                                              target="_blank" rel="noopener">idb</a></code>.
+  </p>
+
+  <p>
+    In our example below, we assume that somehow our application has saved a token in the IndexedDB.
+    Using workbox we register a <code>RegExp</code> for any route we want to authenticate using our token. Let's go trough the example, step by step:
+  </p>
+
+  <ol>
+    <li>
+      We register a route, in this case to trap all the requests going to <code>map.png</code>
+    </li>
+    <li>
+      In the capture function of the route registration, the first parameter, a check is done to see if we have a token available in the IndexedDB.
+    </li>
+    <li>
+      If a token is available, we modify the request in the handler, the second parameter, and add the token as an <code>Authorization</code> header.
+    </li>
+    <li>
+      If no token is available, we return a replacement resource, the <code>not_authorized.png</code> image, which has
+      been cached already in our precaching setup.
+    </li>
+  </ol>
+
+  <pre><code class="language-js line-numbers">// OAuth header interceptor
+workbox.routing.registerRoute(
+  ({ url }) => {
+    return /map\.png/.test(url);
+  },
+  async ({ event, url }) => {
+
+    // get the eventual token
+    const customStore = new Store('swl-db', 'swl-db-store');
+    const oAuthToken = await get<string>('token', customStore);
+
+    // if token available, set it as the Authorization header
+    if (!!oAuthToken) {
+      const modifiedHeaders = new Headers(event.request.headers);
+      modifiedHeaders.set('Authorization', oAuthToken);
+      const overwrite = {
+        headers: modifiedHeaders
+      };
+      const modifiedRequest = new Request(url.toString(), overwrite);
+      return fetch(modifiedRequest);
+    }
+
+    const defaultNotAuthedBase = '/assets/not_authorized.png';
+    return caches
+      .match(workbox.precaching.getCacheKeyForURL(defaultNotAuthedBase))
+      .then(response => {
+        return response || fetch(defaultNotAuthedBase);
+      })
+      .catch(err => {
+        return fetch(defaultNotAuthedBase);
+      });
+
+  }
+);
+</code></pre>
+
+  <p class="alert alert-info">
+    A possible extension for this functionality would be to check if the status code of the response coming from the
+    server is as expected, for example a <code>200 OK</code>. If not a valid or expected response code, return the cached <code>not_authorized.png</code> image.
+  </p>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    When developing SPAs with offline capabilities, we need to make sure that our service worker is acting the same way
+    as our server. <strong>For routing requests or navigations, the service worker should always return the <code>index.html</code>
+    to keep deeplinking working when offline</strong>.
+  </p>
+  <p>
+    Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code>, but think about the possible side
+    effects it could introduce. Instead, <strong>let the user decide when to upgrade the functionality</strong> or let a
+    new version be
+    applied automatically on a sub-sequent load of your application.
+  </p>
+  <p>
+    Be careful with what you cache offline and which devices your application will be used upon. <strong>The available
+    space for
+    your application depends on the free space of the device and the browser where the application is loaded.</strong>
+  </p>
+  <p>
+    Don't depend on global variables or state in your service worker as <strong>service workers are potentially
+    destroyed and bootstrapped several times during their lifetime</strong>.
+    Use IndexedDB to share state from your application with your service worker.
+  </p>
+
+  <h2>Further reading</h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="https://medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c"
+         target="_blank" rel="noopener">
+        Service Worker Caching Strategies Based on Request Types
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/tools/workbox/"
+         target="_blank" rel="noopener">
+        Workbox documentation
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle"
+         target="_blank" rel="noopener">
+        The Service Worker Lifecycle
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/popeindustries/sw-tips"
+         target="_blank" rel="noopener">
+        Service workers tips
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/offline-for-pwa"
+         target="_blank" rel="noopener">
+        Offline storage for Progressive Web Apps
+      </a>
+    </li>
+    <li>
+      <a href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/"
+         target="_blank" rel="noopener">
+        When 7 KB Equals 7 MB
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://stackoverflow.com/questions/38835273/when-does-code-in-a-service-worker-outside-of-an-event-handler-run/38835274#38835274"
+        target="_blank" rel="noopener">
+        When does code in a service worker outside of an event handler run?
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading"
+        target="_blank" rel="noopener">
+        High-performance service worker loading
+      </a>
+    </li>
+
+  </ol>
+
+  <h2>Special thanks to</h2>
+
+  <ul>
+    <li>
+      <a href="https://twitter.com/jvandemo" rel="noopener" target="_blank">
+        Jurgen Van De Moere
+      </a>
+    </li>
+  </ul>
+
+  <p>
+    for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so
+    please let me know!
+  </p>
+
+</section>

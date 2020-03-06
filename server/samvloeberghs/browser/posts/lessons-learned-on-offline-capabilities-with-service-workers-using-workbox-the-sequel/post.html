@@ -1,0 +1,621 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2>Target audience</h2>
+
+  <p>
+    This is a follow-up on my
+    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous article about
+      lessons learned on offline capabilities using Workbox</a>. This article highlights some more findings and explores
+    better/other solutions for the problems described earlier.
+  </p>
+
+  <h2>What will we discuss in this post?</h2>
+
+  <ol>
+    <li>Better detection for a first-time install of a service worker</li>
+    <li>Updating the application while it's in use</li>
+  </ol>
+
+  <p>
+    All the example code used in this post, just as this complete website, is
+    <a href="https://github.com/samvloeberghs/kwerri-oss" target="_blank" rel="noopener">available on Github here</a> as
+    an example project for you to test and try-out.
+  </p>
+
+  <h2>Better detection for a first-time install of a service worker</h2>
+
+  <p>
+    In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous post
+    about service workers and Workbox</a> I used a somewhat shady technique with a refresh to activate the service
+    worker functionality on the first load of the application. <em>This is completely unnecessary</em>
+    and the same outcome can be achieved using other techniques.
+  </p>
+
+  <p>
+    If we consider the code to register the service worker from the previous post, the only thing we have to change is
+    <em>send an event to the service worker to claim the clients</em>, instead of reloading the page. This is
+    demonstrated on line 19 and 25 in the following code. The logic to detect a first service worker remained unchanged.
+  </p>
+
+  <h4 class="codetitle">service-worker-registration.ts</h4>
+  <pre data-line="19,25"><code class="language-ts line-numbers">// Check that service workers are available
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+      if (navigator.serviceWorker.controller) {
+        // let the application know our service worker is ready
+        window['serviceWorkerReady'] = true;
+        window.dispatchEvent(new CustomEvent('service-worker-ready'));
+      }
+
+      // A wild service worker has appeared in reg.installing and maybe in waiting!
+      const newWorker = registration.installing;
+      const waitingWoker = registration.waiting;
+
+      if (newWorker) {
+        if (newWorker.state === 'activated' && !waitingWoker) {
+          // - no more window.location.reload();
+          newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
+        }
+        newWorker.addEventListener('statechange', () => {
+          // newWorker.state has changed
+          if (newWorker.state === 'activated' && !waitingWoker) {
+            // - no more window.location.reload();
+            newWorker.postMessage({ type: 'CLIENTS_CLAIM' });
+          }
+        });
+      }
+    })
+    .catch(err => {
+      console.log('service worker could not be registered', err);
+    });
+  });
+}
+</code></pre>
+
+  <p class="alert alert-warning">
+    Please don't use the above code in your application, as it's a bad implementation! A better implementation using
+    Workbox is discussed below.
+  </p>
+
+  <p>
+    For this to work we need to make our service worker react to messages and claim the clients for this installation
+    of the service worker. We do this by registering an event listener on the <code>message</code> event:
+  </p>
+
+  <h4 class="codetitle">service-worker.js</h4>
+  <pre data-line="8"><code class="language-js line-numbers">// ... other sw functionality
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  if (event.data && event.data.type === 'CLIENTS_CLAIM') {
+    self.clients.claim();
+  }
+});
+</code></pre>
+
+  <p>
+    If a service worker is installed, but not controlling the page yet, an event that matches the type
+    <code>CLIENTS_CLAIM</code> will claim the clients and activate the service worker for those clients.
+  </p>
+
+  <h3>Using Workbox Window to solve the same problem</h3>
+
+  <p>
+    With Workbox Window we can listen for the <code>activated</code> event on the service worker registration.
+    This events holds a property <code>isUpdate</code> that indicates if a previous version was controlling the page.
+    If not, we can safely assume this is a first time install.
+  </p>
+
+  <h4 class="codetitle">service-worker-registration-workbox-window.ts</h4>
+  <pre data-line="8,14"><code class="language-ts line-numbers">import { Workbox } from 'workbox-window';
+
+const wb = new Workbox('/service-worker.js', {});
+
+wb.addEventListener('activated', async event => {
+  // `event.isUpdate` will be true if another version of the service
+  // worker was controlling the page when this version was registered.
+  if (!event.isUpdate) {
+    // If your service worker is configured to precache assets, those
+    // assets should all be available now.
+    // So send a message telling the service worker to claim the clients
+    // This is the first install, so the functionality of the app
+    // should meet the functionality of the service worker!
+    wb.messageSW({ type: 'CLIENTS_CLAIM' });
+  }
+});
+
+wb.register();
+</code></pre>
+
+  <p>
+    Similar to our previous example, without Workbox Window, our service worker needs to be listening to messages and
+    act accordingly on the message of type <code>CLIENTS_CLAIM</code>. <code>wb.messageSW</code> is a Workbox wrapper
+    function that provides a message and reply mechanism using a <code>MessageChannel</code> but basically just sends a
+    message to the service worker using <code>postMessage</code>.
+  </p>
+
+  <h3>Visual representation</h3>
+
+  <img class="extraspace zoomin"
+     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_1.gif"
+     alt=""/>
+
+  <p>
+    The animated GIF shown above highlights the steps our code takes in registering a service worker for the first time.
+    Let's go over all the steps shown in the animation:
+  </p>
+
+  <ol>
+
+    <li>
+      Our application creates a new <code>Workbox</code> instance that registers the service worker.
+    </li>
+    <li>
+      The service worker installs and proceeds trough the waiting process to the activated process. At this point
+      the service worker is not yet controlling the application (or client).
+    </li>
+    <li>
+      Through the workbox event system we receive the <code>activated</code> event. We check based on this event if the
+      activation is an update or not. In this case it's not.
+    </li>
+    <li>
+      The application logic sends an event trough the messasging system of Workbox, using <code>postMessage</code>, an
+      event <code>CLIENTS_CLAIM</code> instructing the service worker to take control over the active clients.
+    </li>
+    <li>
+      The service worker receives this event and acts accordingly, executing <code>clients.claim()</code>.
+    </li>
+
+  </ol>
+
+  <h2>Updating the application while it's in use</h2>
+
+  <p>
+    With PWA's installed on the homescreen and opened as native-like applications it's possible that those
+    <em>applications are running for a long time</em>. Updating a new version of the application and installing a new
+    service worker could potentially be extended or postponed for a long time, until the user closes and reopens the
+    application, or refreshes the application.
+  </p>
+
+  <p>
+    It's even <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior" rel="noopener"
+                            target="_blank">possible to disable the refresh by pulling down the application
+    completely</a>. This could be done if the functionality requires it. In case of for example a full screen map,
+    pinching, zooming and other gestures could lead to an unexpected refresh.
+  </p>
+  <p>
+    In those cases the only way of updating seems to be closing and reopening the application. <strong>Fortunately it's
+    not</strong>. There are several ways of doing an in-application update. By means of <em>user-intent</em>, when the
+    <em>application becomes visible</em> again or by <em>setting up an interval</em>. Let's explore these 3 options.
+  </p>
+
+  <h3>Update application by user-intent</h3>
+
+  <p>
+    The simplest way of asking for an update to the application is by <em>letting the user click a button</em>. So we are gonna
+    take this example to show how to update the application while running it. The other options and examples are just
+    defining a different approach or intent to update.
+  </p>
+
+  <p>
+    To be able to update our application while running it we need to make sure that we <em>keep track of the original
+    service worker registration</em>. Checking for a new version and performing an update is then as simple as just
+    calling <code>swRegistration.update()</code>. Please consider the following <code>ServiceWorkerService</code>:
+  </p>
+
+  <h4 class="codetitle">app-update-user-intent.ts</h4>
+  <pre data-line="9,18,28"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { Workbox } from 'workbox-window';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceWorkerService {
+
+  private swRegistration: ServiceWorkerRegistration;
+
+  constructor() {
+    this.registerServiceWorker();
+  }
+
+  public async checkForUpdate() {
+    try {
+      console.log('updating sw');
+      return await this.swRegistration.update();
+    } catch (err) {
+      console.log('sw.js could not be updated', err);
+    }
+  }
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    try {
+      this.swRegistration = await wb.register();
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+}</code></pre>
+
+  <p>
+    This Angular example service, <em>which can be easily ported to any framework</em>, registers the service worker as soon
+    as the service gets instantiated. The <code>register</code> method call on the Workbox instance gives us a native
+    <code>ServiceWorkerRegistration</code> that we save in the <code>serviceWorkerRegistration</code> property.
+  </p>
+
+  <p>
+    Now any button in the application can be coupled to check for an update of the application by calling the
+    <code>checkForUpdate</code> method. This method uses the previously saved <code>swRegistration</code> and calls
+    <code>update</code> on it.
+  </p>
+
+  <p>
+    The <code>update</code> method tries to update the service worker by fetching the registration's URL. In case there
+    is a <em>byte-by-byte difference</em> to the current service worker, the new service worker will ge installed. After
+    its potential new resources have been cached and the logic has been loaded it will eventually go in a waiting state.
+  </p>
+
+  <h3>Handling the new but waiting service worker</h3>
+
+  <p>
+    Whenever our application gets a hold of a new but waiting service worker, we can safely assume that our application
+    can be updated. So we show a message to the user that an action, like refreshing the page, can be invoked to load
+    the new functionality. By using this approach we <em>keep the responsibility with the user</em> to load the new version.
+  </p>
+
+  <p class="alert alert-warning">
+    Immediately activating the new service worker, by using <code>skipWaiting()</code> and/or <code>clients.claim()</code>
+    for all the clients when it becomes waiting can potentially break your application. The functionality from the new
+    service worker could not be compatible with the currently loaded old version of your application.
+    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">Read more about this consideration in my previous blogpost</a>.
+  </p>
+
+  <p>
+    Before we dive further into the code and details for this example, <em>we will go trough the most simple use-case
+    that describes the desired functionality</em>:
+  </p>
+
+  <ol>
+    <li>
+      The user already visited our application before, so there is an active service worker for our application in
+      the browser.
+    </li>
+    <li>
+      During usage of the application, we deploy a new version. The user clicks a button to check and finds
+      the new version of our application. The new service worker installs and goes into waiting state.
+    </li>
+    <li>
+      Our application is notified of this new version and shows the user an update button to express his further intent.
+      Meanwhile the new service worker stays in waiting state.
+    </li>
+    <li>
+      When the user clicks the update button, our new service worker is informed and skips the waiting phase.
+      As soon as the new service worker finishes his caching work and install process it becomes activated.
+    </li>
+    <li>
+      The application gets notified and refreshes to load the complete new version of the application. If we wouldn't
+      reload we might have the situation that the functionality of our new service worker is not compatible with
+      our currently loaded application.
+    </li>
+  </ol>
+
+  <h3>Listening for a new service worker</h3>
+
+  <p>
+    Listening for a new waiting service worker using Workbox when we try an update from within the application is a
+    little bit unexpected and different from handling a new waiting service worker after a refresh. For these situations
+    Workbox dispatches lifecycle events like <code>externalinstalling</code> when updates are arriving from "external"
+    service workers. Any version which is not the current Workbox instance or service worker registration can be
+    considered as external.
+  </p>
+
+  <h4 class="codetitle">app-update-external.ts</h4>
+  <pre data-line="43, 48-51, 56, 61, 65"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
+import { Workbox } from 'workbox-window';
+
+declare const window: any;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EnvironmentService {
+
+  public newVersionAvailable$: Observable<boolean>;
+
+  private readonly newVersionAvailable = new BehaviorSubject(false);
+  private readonly applicationUpdateRequested = new BehaviorSubject(false);
+  // check every 4h if a new version is available
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000;
+
+  private swRegistration: ServiceWorkerRegistration;
+
+  constructor() {
+    this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
+    this.registerServiceWorker();
+  }
+
+  public update() {
+    this.applicationUpdateRequested.next(true);
+  }
+
+  public async checkForUpdate() {
+    // ...
+  }
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    // ...
+
+    // we use this waiting listener to handle the update we do
+    // based on an interval, user intent or visibility change
+    // in this case another service worker became waiting
+    wb.addEventListener('externalwaiting', event => {
+      // inform any functionality that is interested in this update
+      this.newVersionAvailable.next(true);
+
+      // listen to application update requests
+      this.applicationUpdateRequested.pipe(
+        filter((applicationUpdateRequested) => applicationUpdateRequested),
+        first(),
+      ).subscribe(_ => {
+        // Send a message telling the service worker to skip waiting and
+        // become active. We use event.sw.postMessage, and not wb.messageSw,
+        // because we want to message the waiting SW and not the currently
+        // active service worker
+        event.sw.postMessage({ type: 'SKIP_WAITING' });
+      });
+    });
+
+    // the other service worker became actived!
+    wb.addEventListener('externalactivated', () => {
+      // If your service worker is configured to precache assets, those
+      // assets should all be available now.
+      // This activation was on request of the user, so let's finally reload the page
+      window.location.reload();
+    });
+
+    try {
+      this.swRegistration = await wb.register();
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+}
+</code></pre>
+
+  <p>
+    Let's map our use case written out above onto the code:
+  </p>
+
+  <ol>
+    <li>
+      We assume an active service worker is available while running a <code>checkForUpdate</code> (line 31) and a new
+      version of the application is found and installing.
+    </li>
+    <li>
+      Our event listener for <code>externalwaiting</code> (line 43) receives a new event and updates the application that
+      a new version is available. This value is exposed as an Observable in the application, so we can show a
+      notification.
+    </li>
+    <li>
+      The event listener subscribes and starts listening to the user intent to update the application to the new
+      version (line 48-51). When the user gives his go, an event <code>SKIP_WAITING</code> is sent to the service
+      worker, instructing it to become activated (line 56).
+    </li>
+    <li>
+        The event listener <code>externalactivated</code> receives a new event, indicating that the new service worker
+        became activated (line 61). Now we can reload to activate the complete new application (line 65)!
+    </li>
+  </ol>
+
+  <p class="alert alert-info">
+    The full code for handling all these use cases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
+  </p>
+
+  <h3>Visual representation</h3>
+
+  <img class="extraspace zoomin"
+     src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_3.gif"
+     alt=""/>
+
+  <p>
+    The animated GIF shown above highlights the steps our code takes when the application is responsible for checking
+    for a new version of the application on the server. As mentioned this can be <em>by user-intent</em>, when the
+    <em>application becomes visible again</em> or by <em>setting up an interval</em>. Let's go trough the animation
+    step-by-step:
+  </p>
+
+  <ol>
+    <li>
+      Our application creates a new <code>Workbox</code> instance that registers the service worker.
+      The application logic checks if there is already a service worker controlling the page. In this situation, this is
+      the case so we let our application logic know.
+    </li>
+    <li>
+      By means of user-intent, visibilitychange or the interval our application performs a check, checking the server
+      for a potential new version of the service worker and application.
+    </li>
+    <li>
+      The new service worker installs and goes into the <code>waiting</code> state.
+    </li>
+    <li>
+      Our Workbox instance picks up this change via the <code>externalwaiting</code> event listener and updates the
+      application, letting it know there is a new version available. This allows the application to show an update
+      button to the user, giving him the option to load the new version of the application.
+    </li>
+    <li>
+      The user express his intent and asks for an update of the application. The application logic sends a message
+      <code>SKIP_WAITING</code> to the new service worker, instructing it to advance to the <code>activated</code> state.
+    </li>
+    <li>
+      The new service worker becomes activated and updates the application trough the <code>externalactivated</code>
+      event, fired by the Workbox instance.
+    </li>
+    <li>
+      This last step finally instructs our application to do a programmatic reload, activating the newly cached version
+      of our application.
+    </li>
+  </ol>
+
+  <h3>Update application when it becomes visible again</h3>
+
+  <p>
+    Another strategy to try and update your application can be <em>based on the visibility of your application</em>. As
+    soon as your functionality is loaded, we can start listening to the <code>visibilitychange</code> event on the
+    <code>document</code> as shown in the highlighted code below.
+  </p>
+
+  <h4 class="codetitle">app-update-visible.ts</h4>
+  <pre data-line="14,19-23"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { Workbox } from 'workbox-window';
+import { fromEvent } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceWorkerService {
+
+  // ...
+
+  constructor() {
+    this.registerServiceWorker();
+    this.registerVisibileChangeListener();
+  }
+
+  // ...
+
+  private registerVisibileChangeListener() {
+    fromEvent(document, 'visibilitychange').subscribe(() => {
+      this.checkForUpdate();
+    });
+  }
+
+}
+</code></pre>
+
+  <p>
+    Now every time your application gets hidden, for example when opening a new tab in your browser or opening a new
+    application on your smartphone, and you choose to make the tab visible again, or you reopen the application, the
+    app will try to update the service worker.
+  </p>
+
+  <h3>Update application by setting up an interval</h3>
+
+  <p>
+    One more other strategy is <em>requesting an update on an interval</em>, for example every 4 hours. This way the
+    user will be presented with the update possibility automatically if a new version has been deployed recently.
+    The extra logic / code for this is a simple 3-liner as highlighted below:
+  </p>
+
+  <h4 class="codetitle">app-update-interval.ts</h4>
+  <pre data-line="10, 20-22"><code class="language-ts line-numbers">import { Injectable } from '@angular/core';
+import { Workbox } from 'workbox-window';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ServiceWorkerService {
+
+  // check every 4h if a new version is available
+  private readonly swUpdateInterval = 4 * 60 * 60 * 1000
+
+  // ...
+
+  private async registerServiceWorker() {
+    const wb = new Workbox('/sw.js', {});
+
+    try {
+      this.swRegistration = await wb.register();
+
+      setInterval(async () => {
+        this.checkForUpdate();
+      }, this.swUpdateInterval);
+    } catch (e) {
+      console.log('error registering service worker', e);
+    }
+  }
+
+}
+</code></pre>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    Today we learned a better way of controlling the application with our service worker on the very first load. Instead
+    of refreshing we use the <code>clients.claim()</code> method, but in a way that we won't potentially break our
+    application.
+  </p>
+
+  <p>
+    Furthermore, we have explored a few ideas on how to update our application from within the application. This is
+    particularly useful if our applications are long-living and we want to make sure our users get the latest
+    functionalities.
+  </p>
+
+  <p>
+    Workbox and service workers in general still have many unknown capabilities that I'm learning about. But while we
+    keep developing we explore new ideas and ways of optimizing our code. I think I will be writing more about service
+    workers in the future :)
+  </p>
+
+  <h2>Further reading</h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="https://developers.google.com/web/tools/workbox/modules/workbox-window"
+         target="_blank" rel="noopener">
+        Workbox Window documentation
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading"
+        target="_blank" rel="noopener">
+        High-performance service worker loading
+      </a>
+    </li>
+    <li>
+      <a href="https://developers.google.com/web/updates/2017/11/overscroll-behavior"
+         target="_blank" rel="noopener">
+        Take control of your scroll: customizing pull-to-refresh and overflow effects
+      </a>
+    </li>
+    <li>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/update"
+         target="_blank" rel="noopener">
+        ServiceWorkerRegistration documentation
+      </a>
+    </li>
+  </ol>
+
+  <h2>Special thanks to</h2>
+
+  <ul>
+    <li>
+      <a href="https://twitter.com/sh33dafi" rel="noopener" target="_blank">
+        Yannick Houbrix
+      </a>
+    </li>
+    <li>
+      <a href="https://twitter.com/dennisjaamann" rel="noopener" target="_blank">
+        Dennis Jaamann
+      </a>
+    </li>
+  </ul>
+
+  <p>
+    for reviewing this post and providing valuable and much-appreciated feedback! I'm open for any other feedback so
+    please let me know!
+  </p>
+
+</section>
