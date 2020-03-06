@@ -239,16 +239,7 @@ export class EnvironmentService {
       });
     }
   }
-
-  private listenToApplicationOnline(): void {
-    merge(
-      fromEvent(this.window, 'offline'),
-      fromEvent(this.window, 'online'),
-    ).pipe(
-      map(() => this.navigator.onLine),
-    );
-  }
-
+  
   private checkInstallPrompt(): void {
     fromEvent(window, 'beforeinstallprompt')
       .pipe(

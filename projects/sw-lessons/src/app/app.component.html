@@ -71,102 +71,22 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<mat-bottom-sheet-container>
-
-</mat-bottom-sheet-container>
+<mat-bottom-sheet-container></mat-bottom-sheet-container>
 
 <!--
-<div *ngIf="false">
-  <h1>Workbox demo</h1>
-  <hr/>
-
-  <div class="row">
-    <div class="box">
-
-      <div *ngIf="(newVersionAvailable$ | async)">
-        <button *ngIf="!(applicationUpdateOngoing$ | async) else updateOngoing"
-                class="new-version-available"
-                (click)="loadNewVersion($event)">
-          New version available, reload?
-        </button>
-        <ng-template #updateOngoing>
-          Update ongoing!
-        </ng-template>
-      </div>
-
-      <button (click)="checkForUpdate()">Check for update</button>
-
-    </div>
-    <div class="box">
-
-      <button (click)="setOAuthToken()" *ngIf="!currentOAuthToken">Set OAuthToken</button>
-      <button (click)="unsetOAuthToken()" *ngIf="currentOAuthToken">Unset OAuthToken</button>
-      Token: {{currentOAuthToken}}
-      <br/><br/>
-      <button (click)="loadMapTile()" *ngIf="!mapTile">Load Map Tile</button>
-      <button (click)="unloadMapTile()" *ngIf="mapTile">Unload Map Tile</button>
-
-    </div>
-    <div class="box">
-
-      <div>
-        Load a country flag:
-        <select (change)="loadFlag($event)">
-          <option value="">none selected</option>
-          <option value="be">BE (be.png)</option>
-          <option value="de">DE (de.png)</option>
-          <option value="fr">FR (fr.png)</option>
-          <option value="nl">NL (nl.png)</option>
-          <option value="lu">LU (lu.png)</option>
-          <option disabled value="">---</option>
-          <option value="usa">USA (usa.png)</option>
-          <option value="uk">UK (uk.png)</option>
-        </select>
-      </div>
-
-      <br/><br/>
-
-      <img [src]="currentFlag" *ngIf="currentFlag"/>
-
-    </div>
-    <div class="box">
-      <div>
-        <button (click)="loadDataWithLieFiCheck()">
-          Load data with Lie-Fi check
-        </button>
-
-        <div *ngIf="(lieFiData$ | async) as lieFiData">
-          <br/><br/>
-          <pre>{{ lieFiData | json}}</pre>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <hr/>
-
-  <div class="row">
-    <div class="box">
-      <ul>
-        <li>
-          <a routerLink="/">Home</a>
-        </li>
-        <li>
-          <a routerLink="/about">About</a>
-        </li>
-        <li>
-          <a routerLink="/contact">Contact</a>
-        </li>
-      </ul>
-    </div>
-    <div class="box">
-      <router-outlet></router-outlet>
-    </div>
-    <div class="box">
-      <img [src]="mapTile" *ngIf="mapTile"/>
-    </div>
-  </div>
+<div>
+  Load a country flag:
+  <select (change)="loadFlag($event)">
+    <option value="">none selected</option>
+    <option value="be">BE (be.png)</option>
+    <option value="de">DE (de.png)</option>
+    <option value="fr">FR (fr.png)</option>
+    <option value="nl">NL (nl.png)</option>
+    <option value="lu">LU (lu.png)</option>
+    <option disabled value="">---</option>
+    <option value="usa">USA (usa.png)</option>
+    <option value="uk">UK (uk.png)</option>
+  </select>
 </div>
 -->
 
