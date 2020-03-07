@@ -1,5 +1,12 @@
 # scully-disable-angular
 
+---
+!! **PLUGIN RENAMED**
+
+This plugin has been renamed and republished to `scully-plugin-disable-angular`, find the new version here:
+https://www.npmjs.com/package/scully-plugin-disable-angular
+---
+
 This `postRenderer` plugin for [Scully](http://scully.io/) removes the static assets that bootstrap the Angular application.
 
 If you are only using Angular to build a static / informational website with little extra functionality 

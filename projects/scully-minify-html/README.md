@@ -1,5 +1,12 @@
 # scully-minify-html
 
+---
+!! **PLUGIN RENAMED**
+
+This plugin has been renamed and republished to `scully-plugin-minify-html`, find the new version here:
+https://www.npmjs.com/package/scully-plugin-minify-html
+---
+
 This `postRenderer` plugin for [Scully](http://scully.io/) will minify the HTML of your prerendered pages. 
 Removing unnecessary code will decrease the size of your files.
 
