@@ -34,10 +34,10 @@
     "copy-license-readme:scully-plugin-disable-angular": "npx ncp ./LICENSE ./dist/scully-plugin-disable-angular/LICENSE && npx ncp ./projects/scully-plugin-disable-angular/README.md ./dist/scully-plugin-disable-angular",
     "npm:pack:ngx-seo": "cd dist/ngx-seo && npm pack",
     "package:ngx-seo": "npm run build:ngx-seo && npm run npm:pack:ngx-seo",
-    "npm:pack:scully-plugin-minify-html": "cd dist/scully-plugin-minify-html && npm pack",
     "package:scully-plugin-minify-html": "npm run build:scully-plugin-minify-html && npm run npm:pack:scully-plugin-minify-html",
-    "npm:pack:scully-plugin-disable-angular": "cd dist/scully-plugin-disable-angular && npm pack",
     "package:scully-plugin-disable-angular": "npm run build:scully-plugin-disable-angular && npm run npm:pack:scully-plugin-disable-angular",
+    "npm:pack:scully-plugin-minify-html": "cd dist/scully-plugin-minify-html && npm pack",
+    "npm:pack:scully-plugin-disable-angular": "cd dist/scully-plugin-disable-angular && npm pack",
     "workbox:injectmanifest:samvloeberghs": "npx workbox injectManifest ./projects/samvloeberghs/workbox-config.js",
     "workbox:injectmanifest:sw-lessons": "npx workbox injectManifest projects/sw-lessons/workbox-config.js"
   },

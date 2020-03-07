@@ -1,6 +1,6 @@
 {
   "name": "scully-plugin-minify-html",
-  "version": "1.4.2",
+  "version": "2.0.0",
   "peerDependencies": {
     "html-minifier": "^4.0.0",
     "@scullyio/scully": "latest"
