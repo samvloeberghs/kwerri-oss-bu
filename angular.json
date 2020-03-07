@@ -176,25 +176,25 @@
         }
       }
     },
-    "scully-minify-html": {
-      "root": "projects/scully-minify-html",
-      "sourceRoot": "projects/scully-minify-html",
+    "scully-plugin-minify-html": {
+      "root": "projects/scully-plugin-minify-html",
+      "sourceRoot": "projects/scully-plugin-minify-html",
       "projectType": "library",
-      "prefix": "scully-minify-html",
+      "prefix": "scully-plugin-minify-html",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/scully-minify-html/tsconfig.lib.json",
-            "project": "projects/scully-minify-html/ng-package.json"
+            "tsConfig": "projects/scully-plugin-minify-html/tsconfig.lib.json",
+            "project": "projects/scully-plugin-minify-html/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/scully-minify-html/tsconfig.lib.json",
-              "projects/scully-minify-html/tsconfig.spec.json"
+              "projects/scully-plugin-minify-html/tsconfig.lib.json",
+              "projects/scully-plugin-minify-html/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -203,25 +203,25 @@
         }
       }
     },
-    "scully-disable-angular": {
-      "root": "projects/scully-disable-angular",
-      "sourceRoot": "projects/scully-disable-angular",
+    "scully-plugin-disable-angular": {
+      "root": "projects/scully-plugin-disable-angular",
+      "sourceRoot": "projects/scully-plugin-disable-angular",
       "projectType": "library",
-      "prefix": "scully-disable-angular",
+      "prefix": "scully-plugin-disable-angular",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/scully-disable-angular/tsconfig.lib.json",
-            "project": "projects/scully-disable-angular/ng-package.json"
+            "tsConfig": "projects/scully-plugin-disable-angular/tsconfig.lib.json",
+            "project": "projects/scully-plugin-disable-angular/ng-package.json"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/scully-disable-angular/tsconfig.lib.json",
-              "projects/scully-disable-angular/tsconfig.spec.json"
+              "projects/scully-plugin-disable-angular/tsconfig.lib.json",
+              "projects/scully-plugin-disable-angular/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

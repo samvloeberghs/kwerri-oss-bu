@@ -1,4 +1,4 @@
-# scully-minify-html
+# scully-plugin-minify-html
 
 ---
 !! **PLUGIN RENAMED**
@@ -17,11 +17,11 @@ This will speed up your loading times and mobile scores even more!
 To install this library with `npm` run
 
 ```
-$ npm install scully-minify-html --save-dev
+$ npm install scully-plugin-minify-html --save-dev
 ```
 or with `yarn`
 ```
-$ yarn add scully-minify-html
+$ yarn add scully-plugin-minify-html
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ or use the `postRenderers` on a route configuration to execute it for a specific
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');
-const {MinifyHtml} = require('scully-minify-html');
+const {MinifyHtml} = require('scully-plugin-minify-html');
 
 const postRenderers = [MinifyHtml];
 
@@ -92,7 +92,7 @@ If you don't provide options at the route level, the configuration from the root
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');
-const {MinifyHtml} = require('scully-minify-html');
+const {MinifyHtml} = require('scully-plugin-minify-html');
 
 const postRenderers = [MinifyHtml];
 

@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/scully-minify-html",
+  "dest": "../../dist/scully-plugin-minify-html",
   "lib": {
     "entryFile": "src/public_api.ts"
   }

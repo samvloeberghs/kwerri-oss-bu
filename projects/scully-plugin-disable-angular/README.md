@@ -1,4 +1,4 @@
-# scully-disable-angular
+# scully-plugin-disable-angular
 
 ---
 !! **PLUGIN RENAMED**
@@ -19,11 +19,11 @@ Disabling Angular on the frontend will speed up your loading times and mobile sc
 To install this library with `npm` run
 
 ```
-$ npm install scully-disable-angular --save-dev
+$ npm install scully-plugin-disable-angular --save-dev
 ```
 or with `yarn`
 ```
-$ yarn add scully-disable-angular
+$ yarn add scully-plugin-disable-angular
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ or use the `postRenderers` on a route configuration to execute it for a specific
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');
-const {DisableAngular} = require('scully-disable-angular');
+const {DisableAngular} = require('scully-plugin-disable-angular');
 
 const postRenderers = [DisableAngular];
 

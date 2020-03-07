@@ -26,10 +26,10 @@ Please run 'ng build' with the '--stats-json' flag`;
     throw new Error(noStatsJsonError);
   }
 
-  const scullyDisableAngularStatsJsonPath = join(scullyConfig.distFolder, 'scully-disable-angular-stats.json');
+  const scullyDisableAngularStatsJsonPath = join(scullyConfig.distFolder, 'scully-plugin-disable-angular-stats.json');
   let scullyDisableAngularStatsJson = [];
   if (!existsSync(scullyDisableAngularStatsJsonPath)) {
-    const errorCreatingScullyDisableAngularStatsJsonError = 'The scully-disable-angular-stats.json could not be created';
+    const errorCreatingScullyDisableAngularStatsJsonError = 'The scully-plugin-disable-angular-stats.json could not be created';
     try {
       scullyDisableAngularStatsJson = JSON.parse(readFileSync(statsJsonPath, { encoding: 'utf8' }).toString()).assets;
       writeFileSync(scullyDisableAngularStatsJsonPath, JSON.stringify(scullyDisableAngularStatsJson));
