@@ -24,6 +24,9 @@ or with `yarn`
 $ yarn add scully-plugin-minify-html
 ```
 
+This package depends on the [`html-minifier`](https://www.npmjs.com/package/html-minifier) package.
+It will be installed automatically when installing this package. 
+
 ## Usage
 
 Import and add the plugin to the `defaultPostRenderers` to execute it on all rendered pages 
