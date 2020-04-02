@@ -1,11 +1,20 @@
 [
   {
+    "title": "Scully or Angular Universal, what is the difference?",
+    "slug": "scully-or-angular-universal-what-is-the-difference",
+    "publishDatetime": "2020-04-10T12:00:00+01:00",
+    "author": "Sam Vloeberghs",
+    "img": "/assets/share/posts/scully.png",
+    "imgShare": "/assets/share/posts/scully_share.png",
+    "short": ""
+  },
+  {
     "title": "Disabling Angular when statically generating with Scully",
     "slug": "disabling-angular-when-statically-genering-with-scully",
     "publishDatetime": "2020-02-05T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/assets/share/posts/angular.png",
-    "imgShare": "/assets/share/posts//angular_share.jpg",
+    "img": "/assets/share/posts/scully.png",
+    "imgShare": "/assets/share/posts/scully_share.png",
     "short": "Scully, the Static Site Generator for Angular, renders your Angular application into static HTML files. Together with the bundled JS assets of the Angular app, those files are served to the browser. The static HTML files give your visitors an instant view on the content of the application.But do you really need to bootstrap Angular again?"
   },
   {
@@ -13,8 +22,8 @@
     "slug": "custom-plugins-for-scully-angular-static-site-generator",
     "publishDatetime": "2020-01-20T12:00:00+01:00",
     "author": "Sam Vloeberghs",
-    "img": "/assets/share/posts/angular.png",
-    "imgShare": "/assets/share/posts/angular_share.jpg",
+    "img": "/assets/share/posts/scully.png",
+    "imgShare": "/assets/share/posts/scully_share.png",
     "short": "Scully, the Static Site Generator for Angular, comes with a plugin system that allows us to control which pages to prerender of our Angular application and how to prerender them. In this article we will learn how to setup custom plugins for your own specific usecases."
   },
   {
