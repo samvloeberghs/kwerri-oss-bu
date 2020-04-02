@@ -6,23 +6,23 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './pages/home/home.module#HomeModule',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'news',
-    loadChildren: './pages/news/news.module#NewsModule',
+    loadChildren: () => import('./pages/news/news.module').then(m => m.NewsModule),
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#AboutModule',
+    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
   },
   {
     path: 'secure-map',
-    loadChildren: './pages/secure-map/secure-map.module#SecureMapModule',
+    loadChildren: () => import('./pages/secure-map/secure-map.module').then(m => m.SecureMapModule),
   },
   {
     path: 'contact',
-    loadChildren: './pages/contact/contact.module#ContactModule',
+    loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule),
   },
   {
     path: 'not-found',

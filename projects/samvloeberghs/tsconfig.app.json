@@ -6,7 +6,11 @@
       "node"
     ]
   },
-  "exclude": [
-    "**/*.spec.ts"
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "projects/samvloeberghs/src/**/*.d.ts"
   ]
 }

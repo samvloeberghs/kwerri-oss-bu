@@ -2,29 +2,25 @@
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
-import { renderModuleFactory } from '@angular/platform-server';
-import { enableProdMode } from '@angular/core';
 import * as express from 'express';
 import { join } from 'path';
 import { readFileSync } from 'fs';
-
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../../dist/samvloeberghs/server/main');
-const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
-import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
 const spdy = require('spdy');
 const compression = require('compression');
 import { MemoryCacheStore, getCachePath, FileCacheStore } from './cache';
 import { type } from './cache.config';
 import { Request, Response } from 'express';
-import { RenderOptions } from '@nguniversal/express-engine';
 
 const minify = require('html-minifier').minify;
 const minifyOptions = require('./options').htmlMinifyOptions;
 
-// Faster server renders w/ Prod mode (dev mode never needed)
-enableProdMode();
+const {
+  AppServerModule,
+  REQUEST,
+  RESPONSE,
+  ngExpressEngine,
+} = require('../../../dist/samvloeberghs/server/main');
 
 // Express server
 const app = express();
@@ -42,24 +38,29 @@ if (!PROD) {
 // Our index.html we'll use as our template
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
-app.engine('html', (_, options: RenderOptions, callback) => {
-  renderModuleFactory(AppServerModuleNgFactory, {
-    document: template,
-    url: options.req.url,
-    extraProviders: [
-      provideModuleMap(LAZY_MODULE_MAP),
+app.engine('html', (_, options, callback) => {
+  const renderOptions: any /* RenderOptions */ = options;
+  /* -RenderOptions
+      req: Request;
+      res?: Response;
+      url?: string;
+      document?: string;
+      bootstrap: Type<{}> | NgModuleFactory<{}>;
+      providers?: StaticProvider[];
+  */
+  return ngExpressEngine({
+    bootstrap: AppServerModule,
+    providers: [
       {
         provide: REQUEST,
-        useValue: options.req,
+        useValue: renderOptions.req,
       },
       {
         provide: RESPONSE,
-        useValue: options.req.res,
+        useValue: renderOptions.req.res,
       },
     ],
-  }).then(html => {
-    callback(null, html);
-  });
+  })(_, renderOptions, callback);
 });
 
 app.set('view engine', 'html');

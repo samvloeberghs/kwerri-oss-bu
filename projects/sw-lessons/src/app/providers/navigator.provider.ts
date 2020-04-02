@@ -3,7 +3,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { ClassProvider, FactoryProvider, InjectionToken, PLATFORM_ID } from '@angular/core';
+import { ClassProvider, FactoryProvider, InjectionToken, PLATFORM_ID, Injectable } from '@angular/core';
 
 /* Create a new injection token for injecting the navigator. */
 export const NAVIGATOR = new InjectionToken('NavigatorToken');
@@ -16,6 +16,7 @@ export abstract class NavigatorRef {
 }
 
 /* Define class that implements the abstract class and returns the native navigator object. */
+@Injectable()
 export class BrowserNavigatorRef extends NavigatorRef {
     constructor() {
         super();

@@ -4,6 +4,9 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'production',
+  optimization: {
+    minimize: false
+  },
   entry: {
     index: path.join(__dirname, 'src', 'index.ts'),
   },

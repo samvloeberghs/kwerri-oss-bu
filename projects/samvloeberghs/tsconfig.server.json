@@ -7,10 +7,13 @@
       "node"
     ]
   },
-  "exclude": [
-    "**/*.spec.ts"
-  ],
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"
-  }
+  },
+  "files": [
+    "src/main.server.ts"
+  ],
+  "include": [
+    "projects/samvloeberghs/src/**/*.d.ts"
+  ]
 }

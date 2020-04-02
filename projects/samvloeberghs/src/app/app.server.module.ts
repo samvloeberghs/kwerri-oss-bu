@@ -1,6 +1,5 @@
 import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
 import { NgModule } from '@angular/core';
-import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
 import { ServerJsonLdModule } from 'ngx-seo';
 
 import { AppComponent } from './app.component';
@@ -10,7 +9,6 @@ import { AppModule } from './app.module';
   imports: [
     AppModule,
     ServerModule,
-    ModuleMapLoaderModule, // <-- *Important* to have lazy-loaded routes work,
     ServerTransferStateModule,
     ServerJsonLdModule,
   ],
