@@ -19,8 +19,8 @@
   <a routerLink="/" id="mobilemenu" target="navigation" title="Open mobile navigation"
      [class.opened]="mobileNavToggled"
      (click)="toggleMobileNav($event, true)">
-    <span class="close" *ngIf="mobileNavToggled">Close navigation></span>
-    <span class="open" *ngIf="!mobileNavToggled">Open navigation></span>
+    <span class="close" *ngIf="mobileNavToggled">Close navigation</span>
+    <span class="open" *ngIf="!mobileNavToggled">Open navigation</span>
   </a>
 
   <a id="scrolltocontent" href="{{currentUrl$ | async}}#content">
