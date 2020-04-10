@@ -1,5 +1,4 @@
-import { registerPlugin } from '@scullyio/scully';
-import { scullyConfig } from '@scullyio/scully/utils/config';
+import { registerPlugin, scullyConfig } from '@scullyio/scully';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 

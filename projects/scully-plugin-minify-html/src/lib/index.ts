@@ -1,5 +1,4 @@
-import { registerPlugin, HandledRoute, ScullyConfig } from '@scullyio/scully';
-import { scullyConfig } from '@scullyio/scully/utils/config';
+import { registerPlugin, HandledRoute, ScullyConfig, scullyConfig } from '@scullyio/scully';
 import { minify, Options } from 'html-minifier';
 
 const defaultMinifyOptions: Options = {
