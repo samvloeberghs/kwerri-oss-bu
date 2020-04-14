@@ -26,40 +26,101 @@
   <h2>Target audience</h2>
 
   <p>
-    You might already be at the stage where you figured out that you need the full HTML of your generated pages
-    delivered to the client by the server, and not just the static assets that bootstrap your Angular application in the
-    browser, in order to reach the desired performance and capabilities like proper SEO and social network shareable
-    Angular routes.
+    You might already be at the stage where you figured out that you need the full HTML of your Angular pages
+    <strong>delivered to the client by the server</strong>, and not just the static assets that bootstrap your Angular
+    application in the browser, in order to reach the desired <strong>performance and capabilities like proper SEO and
+    social network shareable Angular routes</strong>.
   </p>
 
   <p>
-    To achieve this we currently have two different options. Implementing Universal techniques into our Angular
+    To achieve this we currently have two notable options. Implementing Universal techniques into our Angular
     application, or using Scully, the static site generator for Angular. Both will give us the same result; a performant
     Angular application. <strong>But what is the difference? When to use Universal, or when to use Scully? Let's try to
     find out!</strong>
   </p>
 
-  <h2>How does Universal work?</h2>
+  <h2>How does Angular Universal work?</h2>
+
+  <h3>The full textual version</h3>
 
   <p>
-    Reading the title of this article might confuse you. We are not actually completely disabling Angular, because
-    we are still building the application using Angular.
+    In the most typical situation Angular gets bootstrapped in the browser. Universal provides developers an alternative
+    to bootstrap Angular in a NodeJS runtime, server-side render the give Angular route and return the full HTML to the
+    browser.
   </p>
 
-  <h4>Key consideration points for Universal</h4>
+  <p>
+    For this to work, the server needs to know when the Angular application is stable. Angular is capable of knowing this by the
+    implementation of the <code>isStable</code> observable on the
+    <code><a href="https://angular.io/api/core/ApplicationRef" target="_blank" rel="noopener">ApplicationRef</a></code>
+    service. The <code>isStable</code> observable is based on the <code>onStable</code> observable of Zone.js. Zone.js
+    basically hooks in on the event loop and keeps track of all the micro / macro tasks that are pending.
+  </p>
+  <p>
+    Typical examples of these pending tasks are HTTP calls, like the fetch promise, for showing dynamic data on a page.
+    As soon as there are no more tasks pending, the <code>onStable</code> of Zone.js observable informs the observer of
+    the <code>isStable</code> observable in Angular to emit a <code>true</code> value.
+  </p>
+  <p>
+    The <code>@angular/platform-server</code> module exports <a href="https://github.com/angular/angular/blob/master/packages/platform-server/src/utils.ts"
+                      target="_blank" rel="noopener">several functions to bootstrap the Angular application at a
+    specific route</a> on the server. After bootstrapping the Angular application, the function starts listening on the
+    <code>isStable</code> observable. When this emits a true value, the server knows that the page is
+    rendered, can be serialized to HTML and returned as the response for the initial request.
+  </p>
+
+  <h3>The simplified visual version</h3>
+
+  <h3></h3>
+
+  <h3>Key consideration points for Universal</h3>
 
   <ul>
-    <li>(DOUBT) dynamic server required, static webserver insufficient</li>
+    <li>
+      Universal requires a strict discipline in coding. You can't access the <code>document</code>,
+      <code>window</code> and <code>navigator</code> objects for example, as they do not exist on the server.
+      This means you will have to code for the platform the code will be potentially running on. For example, accessing
+      cookies in the browser can be done via the
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie"
+               rel="noopener" target="_blank">document</a></code> object. On the server we need to read out the
+      same cookies from the NodeJS <code><a href="https://nodejs.org/api/http.html#http_request_getheader_name"
+                                            rel="noopener" target="_blank">request</a></code>.
+    </li>
+    <li>
+      Many 3rd party libraries access the DOM, or any of the other objects mentioned before. So when using them
+      with a Universal setup, you might expect to be coding around them. To do this, you can make use of the
+      <code><a href="https://angular.io/api/common/isPlatformServer"
+               rel="noopener" target="_blank">isPlatformServer(platformId: Object)</a></code> or
+      <code><a href="https://angular.io/api/common/isPlatformBrowser"
+               rel="noopener" target="_blank">isPlatformBrowser(platformId: Object)</a></code>
+      functions.
+    </li>
+    <li>
+      Using <code>isPlatformBrowser</code> or <code>isPlatformServer</code> is one way of solving the issue.
+      Another approach is by using dependency injection. As you most probably will have a <code>AppModule</code> for
+      the browser and a <code>AppServerModule</code> for the server, you can use one service that defines the interface
+      for reading out cookies, with a class that reads out the cookies from the NodeJs <code>request</code> on the server and
+      another class that reads out the cookies from the <code>document</code> object. By providing them with
+      <code><a href="https://angular.io/guide/dependency-injection-providers" rel="noopener"
+               target="_blank">useClass</a></code>, you switch one out for the other, depending on the platform
+    </li>
+    <li>
+      Using Universal gives you
+    </li>
   </ul>
 
   <h2>How does Scully work</h2>
 
+  <h3>The full textual version</h3>
+
   <p>
     Reading the title of this article might confuse you. We are not actually completely disabling Angular, because
     we are still building the application using Angular.
   </p>
 
-  <h4>Key consideration points for Scully</h4>
+  <h3>The simplified visual version</h3>
+
+  <h3>Key consideration points for Scully</h3>
 
   <ul>
     <li>(PRO) Generated using a real browser (Chromium), so more support for 3rd party libraries, out of the Angular
@@ -83,21 +144,15 @@
   </p>
   <ul>
     <li>
-      If you have an existing project with a relatively big codebase, and you feel that adding Universal
-      might be a lot of work, take a few hours to implement Scully. You might already receive the value you need!
+      If you have an existing project with a relatively big codebase using several 3rd party dependencies, and you feel
+      that adding Universal might be a lot of work, take a few hours to implement Scully. You might already receive the
+      value you need!
     </li>
     <li>
       If you start from scratch, and you expect not to rely heavily on 3rd party libraries out of the Angular ecosystem
       think about starting with Angular Universal.
     </li>
   </ul>
-
-  <p>
-    This technique is <strong>not suitable for all Angular applications</strong>, because we might need some
-    functionality of the
-    framework when our application is rendered in the browser. If that is the case, and the functionality is limited,
-    <strong>consider moving this logic into a separate JavaScript file</strong>.
-  </p>
 
   <h2>Further reading</h2>
 
