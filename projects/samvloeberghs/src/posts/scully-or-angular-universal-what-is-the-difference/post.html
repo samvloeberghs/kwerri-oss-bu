@@ -33,10 +33,11 @@
   </p>
 
   <p>
-    To achieve this we currently have two notable options. Implementing Universal techniques into our Angular
-    application, or using Scully, the static site generator for Angular. Both will give us the same result; a performant
-    Angular application. <strong>But what is the difference? When to use Universal, or when to use Scully? Let's try to
-    find out!</strong>
+    To achieve this we currently have two notable options. Implementing
+    <a href="https://angular.io/guide/universal" target="_blank" rel="noopener">Universal</a> techniques into our
+    Angular application, or using <a href="https://scully.io/" target="_blank" rel="noopener">Scully, the static site
+    generator for Angular</a>. Both will give us the same result; a performant Angular application. <strong>But what is
+    the difference? When to use Universal, or when to use Scully? Let's try to find out!</strong>
   </p>
 
   <h2>How does Angular Universal work?</h2>
@@ -45,25 +46,26 @@
 
   <p>
     In the most typical situation Angular gets bootstrapped in the browser. Universal provides developers an alternative
-    to bootstrap Angular in a NodeJS runtime, server-side render the give Angular route and return the full HTML to the
-    browser.
+    to bootstrap Angular in a NodeJS runtime, server-side render the given Angular route and return the full HTML to the
+    browser. In this case, Angular Universal is <strong>used at run-time</strong>.
   </p>
 
   <p>
-    For this to work, the server needs to know when the Angular application is stable. Angular is capable of knowing this by the
-    implementation of the <code>isStable</code> observable on the
+    For this to work, the server needs to know when the Angular application is stable. Angular is capable of knowing
+    this by the implementation of the <code>isStable</code> observable on the
     <code><a href="https://angular.io/api/core/ApplicationRef" target="_blank" rel="noopener">ApplicationRef</a></code>
     service. The <code>isStable</code> observable is based on the <code>onStable</code> observable of Zone.js. Zone.js
     basically hooks in on the event loop and keeps track of all the micro / macro tasks that are pending.
   </p>
   <p>
     Typical examples of these pending tasks are HTTP calls, like the fetch promise, for showing dynamic data on a page.
-    As soon as there are no more tasks pending, the <code>onStable</code> of Zone.js observable informs the observer of
+    As soon as there are no more tasks pending, the <code>onStable</code> observable of Zone.js informs the observer of
     the <code>isStable</code> observable in Angular to emit a <code>true</code> value.
   </p>
   <p>
-    The <code>@angular/platform-server</code> module exports <a href="https://github.com/angular/angular/blob/master/packages/platform-server/src/utils.ts"
-                      target="_blank" rel="noopener">several functions to bootstrap the Angular application at a
+    The <code>@angular/platform-server</code> module exports <a
+    href="https://github.com/angular/angular/blob/master/packages/platform-server/src/utils.ts"
+    target="_blank" rel="noopener">several functions to bootstrap the Angular application at a
     specific route</a> on the server. After bootstrapping the Angular application, the function starts listening on the
     <code>isStable</code> observable. When this emits a true value, the server knows that the page is
     rendered, can be serialized to HTML and returned as the response for the initial request.
@@ -71,9 +73,37 @@
 
   <h3>The simplified visual version</h3>
 
-  <h3></h3>
+  <img class="extraspace zoomin"
+       src="/posts/scully-or-angular-universal-what-is-the-difference/universal_1.gif"
+       alt=""/>
 
-  <h3>Key consideration points for Universal</h3>
+  <p>
+    The animated image shown above is a <strong>simplified visualisation of the process of server-side generating pages
+    at runtime with Universal</strong>. Let's break down the different steps:
+  </p>
+
+  <ol>
+    <li>The browser makes a request to the server for page <code>/news/1/slug</code>.</li>
+    <li>Our Node.js server identifies this requests as a navigation request and passes the request to the Angular
+      Universal application.
+    </li>
+    <li>
+      The Angular app builds up the components and pages like it would normally do in the browser. Meanwhile Zone.js and
+      Angular keep track of the stability of the application.
+    </li>
+    <li>
+      Async operations, like HTTP calls and timeouts are what make the application unstable.
+    </li>
+    <li>
+      As soon as all operations are done and the zone becomes stable our Angular app is informed and becomes stable.
+    </li>
+    <li>We can now generate, or serialize, the HTML</li>
+    <li>
+      Our Angular Universal setup returns the full HTML to the Node.js server which returns it to the client.
+    </li>
+  </ol>
+
+  <h3>Key points of consideration for Universal</h3>
 
   <ul>
     <li>
@@ -88,7 +118,7 @@
     </li>
     <li>
       Many 3rd party libraries access the DOM, or any of the other objects mentioned before. So when using them
-      with a Universal setup, you might expect to be coding around them. To do this, you can make use of the
+      with a Universal setup, you can expect to be coding around them. To do this, you can make use of the
       <code><a href="https://angular.io/api/common/isPlatformServer"
                rel="noopener" target="_blank">isPlatformServer(platformId: Object)</a></code> or
       <code><a href="https://angular.io/api/common/isPlatformBrowser"
@@ -99,13 +129,22 @@
       Using <code>isPlatformBrowser</code> or <code>isPlatformServer</code> is one way of solving the issue.
       Another approach is by using dependency injection. As you most probably will have a <code>AppModule</code> for
       the browser and a <code>AppServerModule</code> for the server, you can use one service that defines the interface
-      for reading out cookies, with a class that reads out the cookies from the NodeJs <code>request</code> on the server and
+      for reading out cookies, with a class that reads out the cookies from the NodeJs <code>request</code> on the
+      server and
       another class that reads out the cookies from the <code>document</code> object. By providing them with
       <code><a href="https://angular.io/guide/dependency-injection-providers" rel="noopener"
                target="_blank">useClass</a></code>, you switch one out for the other, depending on the platform
+      (Node.js or browser context).
     </li>
     <li>
-      Using Universal gives you
+      Because of the Node.js server we can setup more advanced infrastructures, like adding caching layers and updating
+      our cached pages on the fly at runtime.
+    </li>
+    <li>
+      Universal runs in a Node.js context, meaning you can also use Universal to prerender your pages to static HTML as
+      a build-step. In this case you don't need Node.js as a server, but only as a build tool. Your build tool will have
+      to be clever enough to render all the required pages. In this case, Angular Universal is <strong>used at
+      build-time</strong>.
     </li>
   </ul>
 
@@ -114,29 +153,84 @@
   <h3>The full textual version</h3>
 
   <p>
-    Reading the title of this article might confuse you. We are not actually completely disabling Angular, because
-    we are still building the application using Angular.
+    Scully is almost completely seperated from your Angular app and can be configured via an external JavaScript
+    config file. This config file, named <code>scully.your-project-name.config.js</code> and located at the root of
+    your project, allows us to provide options and extra's like <strong>configuring plugins and specific ways of
+    handling different routes</strong>.
+  </p>
+  <p>
+    The only direct couple to the Angular app is the injection of the <code>ScullyLibModule</code> module.
+    This module is automatically injected in the app's root module when you run the schematic
+    <code>ng add @scullyio/init</code>. The module provides one important service, the <code>IdleMonitorService</code>,
+    which handles the logic to inform the Scully process about the stability of the application. This concept is no
+    different from the stability concept used at Angular Universal applications, it's just slightly different
+    implemented.
+  </p>
+
+  <p>
+    The <code>IdleMonitorService</code> provides multiple ways of monitoring the state of the application. This means
+    the service knows when the application is stable, or in this case <strong>idle</strong>. In the case of this Angular
+    implementation, the service is hooking into the routing events. As soon as the router sends the event
+    <code>NavigationEnd</code> the service checks for the stability of Zone.js. As soon as the zone is stable, the
+    <code>AngularReady</code> event is triggered on the <code>window</code>.
+  </p>
+  <p>
+    The Scully generator process, that is rendering the pages via puppeteer, listens for this <code>AngularReady</code> event.
+    As soons as it receives it, the process knows the page is stable and can be serialized to a static HTML version.
+    Whenever there is something wrong, the process tries generating the page again for one time and then fails.
+  </p>
+  <p>
+    Scully also allows some configuration to manually handle the <code>AngularReady</code> events to gain more control over the
+    stability or idle process. It is also possible to use configurations without Zone.js, but that also implies that we have less control
+    over the concept of stability. We have to use timeouts and waits to be sure that the page becomes stable.
   </p>
 
   <h3>The simplified visual version</h3>
 
-  <h3>Key consideration points for Scully</h3>
+  <p>
+    The animated image shown above is a <strong>simplified visualisation of the process of server-side generating pages
+    at runtime with Universal</strong>. Let's break down the different steps:
+  </p>
+
+  <h3>Key points of consideration for Scully</h3>
 
   <ul>
-    <li>(PRO) Generated using a real browser (Chromium), so more support for 3rd party libraries, out of the Angular
-      ecosystem
+    <li>
+      Static pages are generated using a <em>real browser</em>
+      (<a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener">Chromium/Puppeteer</a>). This
+      means we have more support for 3rd party libraries, out of the Angular ecosystem. Those libraries can make use of
+      the <code>document</code>, <code>window</code> and <code>navigator</code> objects and there is no need to code
+      around them, like we have to do when using Angular Universal.
     </li>
-    <li>(PRO) Intention / planned features to work with other frameworks, like React, Vue, ..</li>
-    <li>No dynamic webserver required, static webserver sufficient</li>
-    <li>(DOUBT) Extra build step / setup required</li>
-    <li>(CON) Extra build step, no foolproof wait for stable app</li>
+    <li>
+      As page generation happens at build time, there is no dynamic webserver required.
+      A static webserver is sufficient for serving all the pages and static assets. Having the pages generated at build
+      time will <strong>dramatically increase your build time but extremly optimize your runtime</strong>.
+    </li>
+    <li>
+      Scully requires an extra build step and setup in the CI/CD process. After each page or data update the pages
+      need to be regenerated. For a limited amount of pages this might be ok, but we need more efficient algorithms to
+      take care of regenerating (tens of) thousands of pages.
+    </li>
+    <li>
+      A plugin system allows you to hook into the routing and rendering process. This way we can write our own plugins
+      for route discovery and manipulation of the rendered code. An example is to <a
+      href="/posts/custom-plugins-for-scully-angular-static-site-generator">minify the generated HTML</a> or even
+      <a href="/posts/disabling-angular-when-statically-genering-with-scully">disable Angular on the browser
+        completely</a>.
+    </li>
+    <li>
+      The creators behind Scully have the intention and planned features to have it work with other frameworks,
+      like React, Vue, ...
+    </li>
   </ul>
 
   <h2 id="conclusion">Conclusion</h2>
 
   <p>
-    Both Scully and Universal have their own use cases, plus they related tackle problems differently. So the logical
-    choice to make totally depends on your project, its dependencies and how strict you want to write Angular code.
+    Both Scully and Universal have their own use cases, plus they tackle related problems differently. So the logical
+    choice to make totally depends on your project, the size of it, its dependencies and how strict you want to write
+    Angular code and use 3rd party libraries that you can't always control.
   </p>
 
   <p>
@@ -144,15 +238,27 @@
   </p>
   <ul>
     <li>
-      If you have an existing project with a relatively big codebase using several 3rd party dependencies, and you feel
-      that adding Universal might be a lot of work, take a few hours to implement Scully. You might already receive the
-      value you need!
+      If you have an existing project with a relatively big codebase, perhaps using several 3rd party dependencies, and
+      you feel that adding Universal might be a lot of work, take a few hours to implement Scully. You might already
+      receive the value you need!
     </li>
     <li>
       If you start from scratch, and you expect not to rely heavily on 3rd party libraries out of the Angular ecosystem
-      think about starting with Angular Universal.
+      think about starting with Angular Universal. Your code will be more strict from the start and will
+      retain higher quality while you progress in development.
+    </li>
+    <li>
+      Another important point is the number of pages. Regenerating (tens of) thousands of pages on each build/deploy
+      might be overkill and take a long time. In this case you can consider Universal with a potential strategy to let
+      the first request cache the static version of your page for subsequent loads. There are different straties for
+      <strong><a href="https://www.section.io/blog/what-is-cache-warming/" target="_blank">warming up the cache</a></strong>.
     </li>
   </ul>
+
+  <p>
+    As a good software architect/engineer/develop you need to check your own use case and project-specific needs. I
+    hope you can use my observations and lessons learned to come to your own conclusion about what you need! :)
+  </p>
 
   <h2>Further reading</h2>
 
@@ -186,6 +292,11 @@
     <li>
       <a href="https://www.npmjs.com/package/scully-plugin-minify-html" target="_blank" rel="noopener">
         Minify the HTML of your prerendered Angular application - Scully plugin
+      </a>
+    </li>
+    <li>
+      <a href="https://www.section.io/blog/what-is-cache-warming/" target="_blank" rel="noopener">
+        What is Cache Warming?
       </a>
     </li>
   </ol>

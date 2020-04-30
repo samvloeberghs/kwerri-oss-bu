@@ -2,11 +2,11 @@
   {
     "title": "Scully or Angular Universal, what is the difference?",
     "slug": "scully-or-angular-universal-what-is-the-difference",
-    "publishDatetime": "2020-04-10T12:00:00+01:00",
+    "publishDatetime": "2020-05-01T12:00:00+01:00",
     "author": "Sam Vloeberghs",
     "img": "/assets/share/posts/scully.png",
     "imgShare": "/assets/share/posts/scully_share.png",
-    "short": ""
+    "short": "To achieve high-perfomance, seo-friendly and social network shareable Angular routes we currently have two notable options. Implementing Universal techniques into our Angular application, or using Scully, the static site generator for Angular. Both will give us the same result; a performant Angular application. But what is the difference? When to use Universal, or when to use Scully? Let's try to find out!"
   },
   {
     "title": "Disabling Angular when statically generating with Scully",
