@@ -45,7 +45,7 @@
   <h3>The full textual version</h3>
 
   <p>
-    In the most typical situation Angular gets bootstrapped in the browser. Universal provides developers an alternative
+    In the most typical situation, Angular gets bootstrapped in the browser. Universal provides developers an alternative
     to bootstrap Angular in a Node.js runtime, server-side render the given Angular route and return the full HTML to the
     browser. In this case, Angular Universal is <strong>used at run-time</strong>.
   </p>
@@ -69,7 +69,7 @@
     target="_blank" rel="noopener">several functions to bootstrap the Angular application at a
     specific route</a> on the server. After bootstrapping the Angular application, the function starts listening on the
     <code>isStable</code> observable. When this emits a true value, the server knows that the page is
-    rendered, can be serialized to HTML and returned as the response for the initial request.
+    rendered, can be serialized to HTML, and returned as the response for the initial request.
   </p>
 
   <h3>The simplified visual version</h3>
@@ -85,7 +85,7 @@
 
   <ol>
     <li>The browser makes a request to the server for page <code>/news/1/slug</code>.</li>
-    <li>Our Node.js server identifies this requests as a navigation request and passes the request to the Angular
+    <li>Our Node.js server identifies these requests as a navigation request and passes the request to the Angular
       Universal application.
     </li>
     <li>
@@ -108,8 +108,8 @@
 
   <ul>
     <li>
-      Universal requires a strict discipline in coding. You can't access the <code>document</code>,
-      <code>window</code> and <code>navigator</code> objects for example, as they do not exist on the server.
+      Universal requires strict discipline in coding. You can't access the <code>document</code>,
+      <code>window</code>, and <code>navigator</code> objects for example, as they do not exist on the server.
       This means you will have to code for the platform the code will be potentially running on. For example, accessing
       cookies in the browser can be done via the
       <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie"
@@ -143,7 +143,7 @@
     </li>
     <li>
       Universal runs in a Node.js context, meaning you can also use Universal to prerender your pages to static HTML as
-      a build-step. In this case you don't need Node.js as a server, but only as a build tool. Your build tool will have
+      a build-step. In this case, you don't need Node.js as a server, but only as a build tool. Your build tool will have
       to be clever enough to render all the required pages. In this case, Angular Universal is <strong>used at
       build-time</strong>.
     </li>
@@ -154,7 +154,7 @@
   <h3>The full textual version</h3>
 
   <p>
-    Scully is almost completely seperated from your Angular application and can be configured via an external JavaScript
+    Scully is almost completely separated from your Angular application and can be configured via an external JavaScript
     config file. This config file, named <code>scully.your-project-name.config.js</code> and located at the root of
     your project, allows us to provide options and extra's like <strong>configuring plugins and specific ways of
     handling different routes</strong>.
@@ -178,21 +178,21 @@
   <p>
     When running Scully the generator first collects all the routes that need to be prerendered. This is done by a
     combination of <a href="https://github.com/guess-js" target="_blank" rel="noopener">smart analysis of the code</a>,
-    configuration and use of plugins that use data to build a list of potentially dynamic routes. All those routes are
+    configuration, and use of plugins that use data to build a list of potentially dynamic routes. All those routes are
     loaded in an instance of
     <a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener">Chromium/Puppeteer</a>, which is a
     <a href="https://en.wikipedia.org/wiki/Headless_browser" target="_blank">headless browser</a>.
   </p>
   <p>
-    For each route the process listens to the <code>AngularReady</code> event. As soons as it is received, the process
+    For each route, the process listens to the <code>AngularReady</code> event. As soon as it is received, the process
     knows the page is stable and can be serialized to a static HTML version. Whenever there is something wrong, the
-    process tries generating the page again one more time before failing.
+    process tries to generate the page again one more time before failing.
   </p>
   <p>
     Scully also allows some configuration to manually handle the <code>AngularReady</code> events to gain more control
     over the stability or idle process. It is also possible to use configurations without zone.js, but that also
     implies that we have less control over the concept of stability. We have to use timeouts and waits or hook into
-    the request mechanism of the headless browser, in this case Puppeteer, to be sure that the page evolved into a
+    the request mechanism of the headless browser, in this case, Puppeteer, to be sure that the page evolved into a
     stable state.
   </p>
 
@@ -209,11 +209,11 @@
 
   <ol>
     <li>
-      Before running Scully you need a production build of your application. In the most typical case this is done
+      Before running Scully you need a production build of your application. In the most typical case, this is done
       using the <code>--prod</code> flag.
     </li>
     <li>
-      Next we can start up Scully by running <code>npm run scully</code>. This <code>package.json</code> script is
+      Next, we can start up Scully by running <code>npm run scully</code>. This <code>package.json</code> script is
       automatically injected with the <code>ng add @scullyio/init</code> schematic.
     </li>
     <li>
@@ -231,14 +231,14 @@
       all the pages.
     </li>
     <li>
-      Next Scully start visiting all the routes that it discovered and saved in the list of routes. <strong>The next
+      Next Scully starts visiting all the routes that it discovered and saved in the list of routes. <strong>The next
       steps are executed for all those routes</strong>.
     </li>
     <li>
       Scully instructs Puppeteer to load a specific page.
     </li>
     <li>
-      The Angular app bootstraps in the (headless) browser and the navigation to the specific route is done.
+      The Angular app bootstraps in the (headless) browser and the navigation to the specific route are done.
     </li>
     <li>
       After the first navigation, by checking the router events, Scully monitors the stability of the application and
@@ -257,17 +257,17 @@
       Static pages are generated using a <em>real browser</em>
       (<a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener">Chromium/Puppeteer</a>). This
       means we have more support for 3rd party libraries, out of the Angular ecosystem. Those libraries can make use of
-      the <code>document</code>, <code>window</code> and <code>navigator</code> objects and there is no need to code
-      around them, like we have to do when using Angular Universal.
+      the <code>document</code>, <code>window</code>, and <code>navigator</code> objects and there is no need to code
+      around them like we have to do when using Angular Universal.
     </li>
     <li>
       As page generation happens at build time, there is no dynamic webserver required.
       A static webserver is sufficient for serving all the pages and static assets. Having the pages generated at build
-      time will <strong>dramatically increase your build time but extremly optimize your runtime</strong>.
+      time will <strong>dramatically increase your build time but extremely optimize your runtime</strong>.
     </li>
     <li>
       Scully requires an extra build step and setup in the CI/CD process. After each page or data update the pages
-      need to be regenerated. For a limited amount of pages this might be ok, but we need more efficient algorithms to
+      need to be regenerated. For a limited amount of pages, this might be ok, but we need more efficient algorithms to
       take care of regenerating (tens of) thousands of pages.
     </li>
     <li>
@@ -287,7 +287,7 @@
 
   <p>
     Both Scully and Universal have their own use cases, plus they tackle related problems differently. So the logical
-    choice to make totally depends on your project, the size of it, its dependencies and how strict you want to write
+    choice to make totally depends on your project, the size of it, its dependencies, and how strict you want to write
     Angular code and use 3rd party libraries that you can't always control.
   </p>
 
@@ -308,7 +308,7 @@
     <li>
       Another important point is the number of pages. Regenerating (tens of) thousands of pages on each build/deploy
       might be overkill and take a long time. In this case you can consider Universal with a potential strategy to let
-      the first request cache the static version of your page for subsequent loads. There are different straties for
+      the first request cache the static version of your page for subsequent loads. There are different strategies for
       <strong><a href="https://www.section.io/blog/what-is-cache-warming/" target="_blank">warming up the cache</a></strong>.
     </li>
   </ul>
