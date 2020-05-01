@@ -51,7 +51,7 @@
     In the most typical situation, Angular gets bootstrapped in the browser. Universal provides developers an alternative
     to bootstrap Angular in a Node.js runtime, server-side render the given Angular route and return the full HTML to the
     browser. We have two options. In this first case, Angular Universal is <strong>used at run-time</strong>. When using
-    an npm script that calls a node script, we can prerender our pages with Universal <strong>at build time</strong>.
+    an npm script that calls a node script, we can prerender our pages with Universal <strong>at build-time</strong>.
   </p>
 
   <p>
@@ -72,7 +72,7 @@
     href="https://github.com/angular/angular/blob/master/packages/platform-server/src/utils.ts"
     target="_blank" rel="noopener">several functions to bootstrap the Angular application at a
     specific route</a> in the Node.js process. After bootstrapping the Angular application, the function starts
-    listening on the<code>isStable</code> observable. When this emits a true value, the script knows that the page is
+    listening on the <code>isStable</code> observable. When this emits a true value, the script knows that the page is
     rendered, and can be serialized to static HTML.
   </p>
 
@@ -191,7 +191,7 @@
     the service knows when the application is stable, or in this case <strong>idle</strong>. For this, the service is
     hooking into the routing events. When the router sends the event <code>NavigationEnd</code> the service checks for
     any pending macrotask in the zone, like for example ongoing http calls. As soon as the service believes the app is
-    stable, the <code>AngularReady</code> event is triggered on the<code>window</code>.
+    stable, the <code>AngularReady</code> event is triggered on the <code>window</code>.
   </p>
   <p>
     When running Scully the generator first collects all the routes that need to be prerendered. This is done by a
@@ -241,7 +241,7 @@
       that provides this data also needs to be running and accessible by the process.
     </li>
     <li>
-      The application needs to be running to be able to prerender it. Scully starts a static webserver server for your
+      The application needs to be running to be able to prerender it. Scully starts a static webserver for your
       production build.
     </li>
     <li>
@@ -256,7 +256,7 @@
       Scully instructs Puppeteer to load a specific page.
     </li>
     <li>
-      The Angular app bootstraps in the (headless) browser and the navigation to the specific route are done.
+      The Angular app bootstraps in the (headless) browser and the navigation to the specific route is executed.
     </li>
     <li>
       After the first navigation, by checking the router events, Scully monitors the stability of the application and
@@ -282,7 +282,7 @@
       Page generation happens at build time, as compared to Angular Universal, and there is no dynamic webserver
       required. A static webserver is sufficient for serving all the pages and static assets. Having the pages generated
       at build time will <strong>dramatically increase your build time but extremely optimize your runtime</strong>. You
-      can't use Scully in a performant way at run-time, so for for example server-side rendering; the pages would take
+      can't use Scully in a performant way at run-time, for example server-side rendering; the pages would take
       to long to render and load on the server.
     </li>
     <li>
@@ -314,7 +314,7 @@
   <h2 id="conclusion">Conclusion</h2>
 
   <p>
-    Both Scully and Universal have their own use cases, plus they tackle related problems differently. So the logical
+    Both Scully and Universal have their own use cases, and they tackle related problems differently. So the logical
     choice to make totally depends on your project, the size of it, its dependencies, and how strict you want to write
     Angular code and use 3rd party libraries that you can't always control.
   </p>
@@ -325,11 +325,11 @@
   <ul>
     <li>
       If you have an existing project with a relatively big codebase, perhaps using several 3rd party dependencies, and
-      you feel that adding Universal might be a lot of work, take a few hours to implement Scully. You might already
+      you feel that adding Universal might be a lot of work, take a few hours/days to implement Scully. You might already
       receive the value you need!
     </li>
     <li>
-      If you start from scratch, and you expect not to rely heavily on 3rd party libraries out of the Angular ecosystem
+      If you start from scratch, and you don't expect to rely heavily on 3rd party libraries out of the Angular ecosystem
       think about starting with Angular Universal. Your code will be more strict from the start and will
       retain higher quality while you progress in development.
     </li>
@@ -342,8 +342,8 @@
   </ul>
 
   <p>
-    As a good software architect / engineer / developer you need to check your own use case and project-specific needs. I
-    hope you can use my observations and lessons learned to come to your own conclusion about what you need! :)
+    As a good software architect / engineer / developer you need to check your own use case and project-specific needs.
+    I hope you can use my observations and lessons learned to come to your own conclusion about what you need! :)
   </p>
 
   <h2>Further reading</h2>
