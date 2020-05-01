@@ -21,6 +21,9 @@
     <li>
       Scully or Angular Universal, what is the difference?
     </li>
+    <li>
+      <strong>WIP</strong>: Scully or Angular Universal, comparing benchmarks
+    </li>
   </ol>
 
   <h2>Target audience</h2>
@@ -47,11 +50,12 @@
   <p>
     In the most typical situation, Angular gets bootstrapped in the browser. Universal provides developers an alternative
     to bootstrap Angular in a Node.js runtime, server-side render the given Angular route and return the full HTML to the
-    browser. In this case, Angular Universal is <strong>used at run-time</strong>.
+    browser. We have two options. In this first case, Angular Universal is <strong>used at run-time</strong>. When using
+    an npm script that calls a node script, we can prerender our pages with Universal <strong>at build time</strong>.
   </p>
 
   <p>
-    For this to work, the server needs to know when the Angular application is stable. Angular is capable of knowing
+    For this to work, Node.js needs to know when the Angular application is stable. Angular is capable of knowing
     this by the implementation of the <code>isStable</code> observable on the
     <code><a href="https://angular.io/api/core/ApplicationRef" target="_blank" rel="noopener">ApplicationRef</a></code>
     service. The <code>isStable</code> observable is based on the <code>onStable</code> observable of zone.js. Zone.js
@@ -67,9 +71,9 @@
     The <code>@angular/platform-server</code> module exports <a
     href="https://github.com/angular/angular/blob/master/packages/platform-server/src/utils.ts"
     target="_blank" rel="noopener">several functions to bootstrap the Angular application at a
-    specific route</a> on the server. After bootstrapping the Angular application, the function starts listening on the
-    <code>isStable</code> observable. When this emits a true value, the server knows that the page is
-    rendered, can be serialized to HTML, and returned as the response for the initial request.
+    specific route</a> in the Node.js process. After bootstrapping the Angular application, the function starts
+    listening on the<code>isStable</code> observable. When this emits a true value, the script knows that the page is
+    rendered, and can be serialized to static HTML.
   </p>
 
   <h3>The simplified visual version</h3>
@@ -80,7 +84,7 @@
 
   <p>
     The animated image shown above is a <strong>simplified visualisation of the process of server-side generating pages
-    at runtime with Universal</strong>. Let's break down the different steps:
+    at run-time with Universal</strong>. Let's break down the different steps:
   </p>
 
   <ol>
@@ -118,13 +122,15 @@
                                             rel="noopener" target="_blank">request</a></code>.
     </li>
     <li>
-      Many 3rd party libraries access the DOM, or any of the other objects mentioned before. So when using them
-      with a Universal setup, you can expect to be coding around them. To do this, you can make use of the
+      Many 3rd party libraries access the DOM, or any of the other objects mentioned before. Some of them include
+      intervals or timeouts that are not easy to discover. So when using them with a Universal setup, you can expect to
+      be coding around them. To do this, you can make use of the
       <code><a href="https://angular.io/api/common/isPlatformServer"
                rel="noopener" target="_blank">isPlatformServer(platformId: Object)</a></code> or
       <code><a href="https://angular.io/api/common/isPlatformBrowser"
                rel="noopener" target="_blank">isPlatformBrowser(platformId: Object)</a></code>
-      functions.
+      functions. If you don't know what you are doing, this process might be very frustrating and difficult to debug. So
+      proceed with caution and get informed.
     </li>
     <li>
       Using <code>isPlatformBrowser</code> or <code>isPlatformServer</code> is one way of solving the issue.
@@ -139,15 +145,27 @@
     </li>
     <li>
       Because of the Node.js server we can setup more advanced infrastructures, like adding caching layers and updating
-      our cached pages on the fly at runtime.
+      our cached pages on the fly at run-time.
     </li>
     <li>
       Universal runs in a Node.js context, meaning you can also use Universal to prerender your pages to static HTML as
       a build-step. In this case, you don't need Node.js as a server, but only as a build tool. Your build tool will have
       to be clever enough to render all the required pages. In this case, Angular Universal is <strong>used at
-      build-time</strong>.
+      build time</strong>.
+    </li>
+    <li>
+      If you use Universal at build time, prerendering pages will take much less time than prerendering them with Scully.
+      The cost of implementing Scully might be significantly lower though.
     </li>
   </ul>
+
+  <p class="alert alert-warning">
+    <em>Important</em>: You need to <strong>be careful with long-running tasks</strong> like <code>setTimeout</code>,
+    intervals and observables that never complete. This will prevent the application from evolving to a stable state in
+    an acceptable amount of time and potentially never become stable. If you do need for example an interval, use one of the
+    described techniques (dependency injection or the <code>isPlatformBrowser</code> function) to only run those in the
+    browser context.
+  </p>
 
   <h2>How does Scully work</h2>
 
@@ -172,14 +190,14 @@
     The <code>IdleMonitorService</code> provides multiple ways of monitoring the state of the application. This means
     the service knows when the application is stable, or in this case <strong>idle</strong>. For this, the service is
     hooking into the routing events. When the router sends the event <code>NavigationEnd</code> the service checks for
-    the stability of zone.js. As soon as the zone is stable, the <code>AngularReady</code> event is triggered on the
-    <code>window</code>.
+    any pending macrotask in the zone, like for example ongoing http calls. As soon as the service believes the app is
+    stable, the <code>AngularReady</code> event is triggered on the<code>window</code>.
   </p>
   <p>
     When running Scully the generator first collects all the routes that need to be prerendered. This is done by a
     combination of <a href="https://github.com/guess-js" target="_blank" rel="noopener">smart analysis of the code</a>,
-    configuration, and use of plugins that use data to build a list of potentially dynamic routes. All those routes are
-    loaded in an instance of
+    configuration, and use of plugins that use data to build a potentially very large list of dynamic routes. All those
+    routes are loaded in parallel via a pool of instances of
     <a href="https://github.com/puppeteer/puppeteer" target="_blank" rel="noopener">Chromium/Puppeteer</a>, which is a
     <a href="https://en.wikipedia.org/wiki/Headless_browser" target="_blank">headless browser</a>.
   </p>
@@ -227,8 +245,8 @@
       production build.
     </li>
     <li>
-      Scully starts an instance of Puppeteer. This shared instance of the (headless) browser will be used to generate
-      all the pages.
+      Scully starts a pool of instances of Puppeteer. These shared instances of the (headless) browser will be used to
+      generate all the pages in parallel.
     </li>
     <li>
       Next Scully starts visiting all the routes that it discovered and saved in the list of routes. <strong>The next
@@ -261,9 +279,15 @@
       around them like we have to do when using Angular Universal.
     </li>
     <li>
-      As page generation happens at build time, there is no dynamic webserver required.
-      A static webserver is sufficient for serving all the pages and static assets. Having the pages generated at build
-      time will <strong>dramatically increase your build time but extremely optimize your runtime</strong>.
+      Page generation happens at build time, as compared to Angular Universal, and there is no dynamic webserver
+      required. A static webserver is sufficient for serving all the pages and static assets. Having the pages generated
+      at build time will <strong>dramatically increase your build time but extremely optimize your runtime</strong>. You
+      can't use Scully in a performant way at run-time, so for for example server-side rendering; the pages would take
+      to long to render and load on the server.
+    </li>
+    <li>
+      If you need server-side-rendering for applications that have highly volatile content, you should not consider
+      Scully at this point in time. As mentioned before, regenerating those pages at run-time will just take too long.
     </li>
     <li>
       Scully requires an extra build step and setup in the CI/CD process. After each page or data update the pages
@@ -271,15 +295,19 @@
       take care of regenerating (tens of) thousands of pages.
     </li>
     <li>
-      A plugin system allows you to hook into the routing and rendering process. This way we can write our own plugins
+      The plugin system allows you to hook into the routing and rendering process. This way we can write our own plugins
       for route discovery and manipulation of the rendered code. An example is to <a
       href="/posts/custom-plugins-for-scully-angular-static-site-generator">minify the generated HTML</a> or even
       <a href="/posts/disabling-angular-when-statically-genering-with-scully">disable Angular on the browser
         completely</a>.
     </li>
     <li>
+      Prerendering pages with Scully will take more time than prerendering them with Angular Universal. The cost of
+      implementing Universal might be significantly higher though.
+    </li>
+    <li>
       The creators behind Scully have the intention and planned features to have it work with other frameworks,
-      like React, Vue, ...
+      like React, Vue, AngularJS, ..
     </li>
   </ul>
 
@@ -364,6 +392,9 @@
   <ul>
     <li>
       <a href="https://twitter.com/antoinepairet" rel="noopener" target="_blank">Antoine Pairet</a>
+    </li>
+    <li>
+      <a href="https://twitter.com/aaronfrost" rel="noopener" target="_blank">Aaron Frost</a>
     </li>
   </ul>
 
