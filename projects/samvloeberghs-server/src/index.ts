@@ -81,12 +81,17 @@ app.use(compression({
 }));
 
 
-// Server static files from /browser
-app.get('/posts/*.*', express.static(join(DIST_FOLDER, 'browser/posts'), {
-  cacheControl: false
-}));
-app.get('/*.*', express.static(join(DIST_FOLDER, 'browser'), {
-  maxAge: '31536000000', // THIS IS IN MS, 12h
+// Server static files
+app.use(express.static(join(DIST_FOLDER, 'browser'), {
+  setHeaders: (res, path) => {
+    if (path.includes('posts/')) {
+      // All of the project's HTML files end in .html
+      res.setHeader('Cache-Control', 'no-cache');
+    } else {
+      // If the RegExp matched, then we have a versioned URL.
+      res.setHeader('Cache-Control', 'max-age=31536000'); // THIS IS IN SEC, 12h
+    }
+  },
 }));
 
 // Decide the caching strategy
