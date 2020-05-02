@@ -32,12 +32,14 @@ registerRoute(
   /posts\/data\.json/,
   new NetworkFirst({
     cacheName: 'posts',
+    networkTimeoutSeconds: 10
   }),
 );
 registerRoute(
   /posts\/[\w-]+\/post\.html/,
   new NetworkFirst({
     cacheName: 'posts-html',
+    networkTimeoutSeconds: 10
   }),
 );
 
