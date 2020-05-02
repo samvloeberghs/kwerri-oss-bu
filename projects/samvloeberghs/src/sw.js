@@ -120,9 +120,11 @@ var defaultNavigationRoute = new workbox_routing__WEBPACK_IMPORTED_MODULE_2__["N
 Object(workbox_routing__WEBPACK_IMPORTED_MODULE_2__["registerRoute"])(defaultNavigationRoute);
 Object(workbox_routing__WEBPACK_IMPORTED_MODULE_2__["registerRoute"])(/posts\/data\.json/, new workbox_strategies__WEBPACK_IMPORTED_MODULE_3__["NetworkFirst"]({
     cacheName: 'posts',
+    networkTimeoutSeconds: 10
 }));
 Object(workbox_routing__WEBPACK_IMPORTED_MODULE_2__["registerRoute"])(/posts\/[\w-]+\/post\.html/, new workbox_strategies__WEBPACK_IMPORTED_MODULE_3__["NetworkFirst"]({
     cacheName: 'posts-html',
+    networkTimeoutSeconds: 10
 }));
 self.addEventListener('message', function (event) {
     if (event.data && event.data.type === 'SKIP_WAITING') {
