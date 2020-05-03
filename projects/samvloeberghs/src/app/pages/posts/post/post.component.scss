@@ -1,3 +1,4 @@
+@import 'variables';
 @import 'hl';
 
 // can't use host here because of viewEncapsulation none
@@ -6,7 +7,7 @@ sv-post {
   margin-bottom: 20px;
 
   h1 {
-    @media (max-width: 920px) {
+    @media (max-width: $mobile-max-bp) {
       font-size: 1.4em !important;
     }
   }
@@ -28,6 +29,8 @@ sv-post {
     }
     line-height: 24px !important;
     margin-bottom: 10px !important;
+    border-bottom: 1px solid #f6f6f6;
+    padding-bottom: 10px;
   }
 
   img.introimage {
@@ -36,6 +39,96 @@ sv-post {
     margin-right: 15px;
     margin-bottom: 15px;
     max-height: 54px;
+  }
+
+  .post-wrapper {
+    display: flex;
+    position: relative;
+  }
+
+  .toc {
+    min-width: 200px;
+    width: 200px;
+    position: sticky;
+    align-self: flex-start;
+    border-left: 5px solid #f6f6f6;
+    padding-top: 6px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    margin-left: 25px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    top: 9px;
+
+    display: none;
+    @media (min-width: $fullscreen-bp) {
+      display: block;
+    }
+
+    @media (min-width: $fullscreen-bp-max) {
+      min-width: 250px;
+      width: 250px;
+    }
+
+    & > ol {
+      font-size: 1.3em;
+      margin: 0 0 0 5px;
+      padding: 0 0 0 10px;
+      list-style: none;
+
+      ol {
+        list-style: none;
+        margin: {
+          left: 0;
+          top: 5px;
+          bottom: 5px;
+        }
+        font-size: 1em;
+        padding: 0 0 0 15px;
+
+        li {
+          margin-bottom: 5px;
+        }
+      }
+
+      & li {
+        line-height: 1.6;
+
+        &.h3 {
+          margin-left: 15px;
+        }
+
+        &.h4 {
+          margin-left: 30px;
+        }
+
+        &.h5 {
+          margin-left: 45px;
+        }
+
+        $linkcolor: #20527f;
+        $linkbordercolor: #20527f;
+        a {
+          color: lighten($linkcolor, 5%);
+          border-bottom: 1px dotted lighten($linkbordercolor, 5%);
+        }
+
+        &.active {
+          a {
+            color: darken($linkcolor, 20%);
+            border-bottom: 1px dotted darken($linkbordercolor, 20%);
+          }
+
+          &:before {
+            content: "→";
+            display: inline-block;
+            margin-left: -20px;
+            width: 20px;
+            font-weight: normal;
+          }
+        }
+      }
+    }
   }
 
 }

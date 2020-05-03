@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
 import { HighlightService } from '../../../shared/highlight.service';
 import { ZoomImage } from '../image-zoom/image-zoom.component';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'sv-post',
@@ -32,6 +33,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly jsonLdService: JsonLdService,
     private readonly highlightService: HighlightService,
     private readonly elementRef: ElementRef,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
   }
 
@@ -82,11 +84,15 @@ export class PostComponent implements OnInit, AfterViewChecked {
       .subscribe(
         content => {
           this.post.content = this.sanitizer.bypassSecurityTrustHtml(content);
+          this.post.toc = this.parseContentToc(content);
+          setTimeout(() => {
+            this.startCheckingScrollForToc(this.post.slug);
+          }, 0);
         },
         error => {
           this.error = error;
           this.router.navigateByUrl('/not-found', {
-            skipLocationChange: true
+            skipLocationChange: true,
           });
         },
       );
@@ -114,6 +120,54 @@ export class PostComponent implements OnInit, AfterViewChecked {
           title: $event.target.title,
         };
       });
+    }
+  }
+
+  private parseContentToc(content) {
+
+    const headingLevel = (tag: string): number | null => {
+      const match = tag.match(/(?!h)[123456]/g);
+      return match && match.length ? Number(match[0]) : null;
+    };
+
+    const el = document.createElement('div');
+    el.innerHTML = content;
+
+    const selector = 'h2, h3, h4, h5';
+    const headings: NodeListOf<HTMLElement> = el.querySelectorAll(selector);
+    const toc = [];
+    for (let i = 0; i < headings.length; i++) {
+      const level = headingLevel(headings[0].tagName);
+      toc.push({
+        title: headings[i].title ? headings[i].title : headings[i].textContent,
+        link: headings[i].id,
+        active: i === 0,
+        level: headings[i].tagName.toLowerCase(),
+      });
+    }
+    return toc;
+  }
+
+  private startCheckingScrollForToc(route) {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const id = entry.target.getAttribute('id');
+          console.log(entry.intersectionRatio);
+          if (entry.intersectionRatio > 0) {
+            const previousElements = document.querySelectorAll(`.toc li a`);
+            previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
+            const el = document.querySelector(`.toc li a[href="/posts/${route}#${id}"]`);
+            el.parentElement.classList.add('active');
+          }
+        });
+      });
+
+      // Track all sections that have an `id` applied
+      document.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach((section) => {
+        observer.observe(section);
+      });
+
     }
   }
 

@@ -1,6 +1,6 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>Scully - a Static Site Generator for Angular series</h2>
+  <h2 id="introduction" title="Introduction">Scully - a Static Site Generator for Angular series</h2>
 
   <p>
     This article is part of <em>a growing series about Scully - a Static Site Generator for Angular</em>.
@@ -26,7 +26,7 @@
     </li>
   </ol>
 
-  <h2>Target audience</h2>
+  <h2 id="target-audience">Target audience</h2>
 
   <p>
     In order to reach the desired <strong>performance and capabilities like proper SEO and social network shareable
@@ -43,9 +43,9 @@
     <strong>But what is the difference? When to use Universal, or when to use Scully? Let's try to find out!</strong>
   </p>
 
-  <h2>How does Angular Universal work?</h2>
+  <h2 id="how-does-angular-universal-work">How does Angular Universal work?</h2>
 
-  <h3>The full textual version</h3>
+  <h3 id="universal-the-full-textual-version">The full textual version</h3>
 
   <p>
     In the most typical situation, Angular gets bootstrapped in the browser. Universal provides developers an alternative
@@ -76,7 +76,7 @@
     rendered, and can be serialized to static HTML.
   </p>
 
-  <h3>The simplified visual version</h3>
+  <h3 id="universal-the-simplified-visual-version">The simplified visual version</h3>
 
   <img class="extraspace zoomin"
        src="/posts/scully-or-angular-universal-what-is-the-difference/universal_1.gif"
@@ -108,7 +108,7 @@
     </li>
   </ol>
 
-  <h3>Key points of consideration for Universal</h3>
+  <h3 id="universal-key-points-of-consideration">Key points of consideration for Universal</h3>
 
   <ul>
     <li>
@@ -144,7 +144,7 @@
       (Node.js or browser context).
     </li>
     <li>
-      Because of the Node.js server we can setup more advanced infrastructures, like adding caching layers and updating
+      Because of the Node.js server we can set up more advanced infrastructures, like adding caching layers and updating
       our cached pages on the fly at run-time.
     </li>
     <li>
@@ -167,9 +167,9 @@
     browser context.
   </p>
 
-  <h2>How does Scully work</h2>
+  <h2 id="how-does-scully-work">How does Scully work</h2>
 
-  <h3>The full textual version</h3>
+  <h3 id="scully-the-full-textual-version">The full textual version</h3>
 
   <p>
     Scully is almost completely separated from your Angular application and can be configured via an external JavaScript
@@ -182,10 +182,8 @@
     This module is automatically injected in the app's root module when you run the schematic
     <code>ng add @scullyio/init</code>. The module provides one important service, the <code>IdleMonitorService</code>,
     which handles the logic to inform the Scully process about the stability of the application. This concept is no
-    different from the stability concept used at Angular Universal applications, it's just slightly different
-    implemented.
+    different from the stability concept used at Angular Universal applications, it's just implemented slightly different.
   </p>
-
   <p>
     The <code>IdleMonitorService</code> provides multiple ways of monitoring the state of the application. This means
     the service knows when the application is stable, or in this case <strong>idle</strong>. For this, the service is
@@ -214,7 +212,7 @@
     stable state.
   </p>
 
-  <h3>The simplified visual version</h3>
+  <h3 id="scully-the-simplified-visual-version">The simplified visual version</h3>
 
   <img class="extraspace zoomin"
        src="/posts/scully-or-angular-universal-what-is-the-difference/scully_1.gif"
@@ -268,7 +266,7 @@
     </li>
   </ol>
 
-  <h3>Key points of consideration for Scully</h3>
+  <h3 id="scully-key-points-of-consideration">Key points of consideration for Scully</h3>
 
   <ul>
     <li>
@@ -346,7 +344,7 @@
     I hope you can use my observations and lessons learned to come to your own conclusion about what you need! :)
   </p>
 
-  <h2>Further reading</h2>
+  <h2 id="further-reading">Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -387,7 +385,7 @@
     </li>
   </ol>
 
-  <h2>Special thanks to</h2>
+  <h2 id="special-thanks-to">Special thanks to</h2>
 
   <ul>
     <li>

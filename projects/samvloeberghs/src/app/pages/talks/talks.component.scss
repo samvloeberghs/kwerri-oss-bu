@@ -1,3 +1,5 @@
+@import 'variables';
+w
 :host {
   display: block;
 }
@@ -24,12 +26,12 @@ ul {
 
 table.speaker-info {
 
-  @media (max-width: 920px) {
+  @media (max-width: $mobile-max-bp) {
     width: 100%;
   }
 
   th {
-    @media (min-width: 920px) {
+    @media (min-width: $mobile-max-bp) {
       min-width: 225px;
     }
   }

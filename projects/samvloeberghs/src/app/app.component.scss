@@ -5,11 +5,15 @@
 sv-app {
   display: block !important;
 
-  @media (min-width: 921px) {
+  @media (min-width: $tablet-bp) {
     margin-top: 9px;
   }
 
-  max-width: 1280px;
+  max-width: $fullscreen-bp-max;
+  @media (max-width: $fullscreen-bp-max) {
+    max-width: $tablet-bp-max;
+  }
+
   margin: {
     right: auto;
     left: auto;
@@ -24,7 +28,7 @@ aside {
   padding: {
     right: 50px;
   }
-  @media (min-width: 921px) {
+  @media (min-width: $tablet-bp) {
     border-right: 1px solid;
     border-image: linear-gradient(
         to bottom,
@@ -106,22 +110,22 @@ aside {
 
   nav {
 
-    @media (min-width: 921px) {
+    @media (min-width: $tablet-bp) {
       margin-bottom: 50px;
     }
 
     ol {
-      margin: 0;
+      margin: 0 0 0 5px;
       padding: 0;
 
       li {
         padding: 0 0 0 10px;
         margin: 0 0 15px 15px;
+        font-size: 1.5em;
 
         a {
           color: #444;
           text-decoration: none;
-          font-size: 1.5em;
           border-bottom: 1px dotted #666;
 
           &:hover {
@@ -135,7 +139,7 @@ aside {
             font-weight: bold;
           }
 
-          @media (max-width: 920px) {
+          @media (max-width: $mobile-max-bp) {
             padding: 10px 0;
             font-size: 1.2em;
             letter-spacing: 2px;
@@ -228,7 +232,7 @@ aside {
     }
   }
 
-  @media (max-width: 920px) {
+  @media (max-width: $mobile-max-bp) {
     display: block;
     margin-top: 9px;
     padding-top: 11px;
@@ -395,7 +399,7 @@ aside {
 
   }
 
-  @media (min-width: 921px) {
+  @media (min-width: $tablet-bp) {
 
     position: fixed;
     width: 280px;
@@ -459,7 +463,7 @@ aside {
 
   }
 
-  @media (max-height: 650px) and  (max-width: 920px) {
+  @media (max-height: 650px) and  (max-width: $mobile-max-bp) {
     p {
       font-size: 1.4em;
       line-height: 1.4em;

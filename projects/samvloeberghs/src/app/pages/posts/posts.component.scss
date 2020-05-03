@@ -1,3 +1,5 @@
+@import 'variables';
+
 :host {
   display: block;
 }
@@ -24,12 +26,12 @@ article {
     display: block;
     margin: 0 auto;
 
-    @media (min-width: 921px) {
+    @media (min-width: $tablet-bp) {
       float: left;
       width: 120px;
     }
 
-    @media (min-width: 1281px) {
+    @media (min-width: $fullscreen-bp) {
       float: left;
       width: 225px;
       display: block;
@@ -56,13 +58,13 @@ article {
     text-align: justify;
     border: none;
 
-    @media (min-width: 921px) {
+    @media (min-width: $tablet-bp) {
       margin-left: 150px;
       margin-top: 0;
       text-align: left;
     }
 
-    @media (min-width: 1281px) {
+    @media (min-width: $fullscreen-bp) {
       margin-left: 275px;
 
     }

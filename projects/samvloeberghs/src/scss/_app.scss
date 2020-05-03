@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'variables';
 
 * {
   margin: 0;
@@ -86,7 +87,7 @@ ol, ul, p {
 
 .content {
 
-  @media (min-width: 921px) {
+  @media (min-width: $tablet-bp) {
     display: block;
     padding-top: 50px;
     padding-bottom: 50px;
@@ -221,7 +222,7 @@ ol, ul, p {
     img {
       display: block;
       width: 100%;
-      @media (min-width: 920px) {
+      @media (min-width: $mobile-max-bp) {
         box-shadow: 10px 10px 5px #ddd;
         border: 1px solid #fff;
       }
@@ -230,7 +231,7 @@ ol, ul, p {
     p {
       margin-top: 10px;
       font-size: 1em;
-      @media (min-width: 920px) {
+      @media (min-width: $mobile-max-bp) {
         margin-top: 20px;
       }
 
@@ -242,7 +243,7 @@ ol, ul, p {
       }
     }
 
-    @media (min-width: 1281px) {
+    @media (min-width: $fullscreen-bp) {
       max-width: 500px;
       width: 40%;
       &.right {
@@ -268,7 +269,7 @@ ol, ul, p {
         border-bottom: 1px solid #ddd;
         letter-spacing: 2px;
 
-        @media (max-width: 920px) {
+        @media (max-width: $mobile-max-bp) {
           margin: 0 -20px;
           padding: 5px 20px;
         }
@@ -301,7 +302,7 @@ ol, ul, p {
       margin-bottom: 25px;
       background: #f6f6f6;
       font-size: 1.2em;
-      @media (max-width: 920px) {
+      @media (max-width: $mobile-max-bp) {
         margin: 0 -20px 25px -20px;
         code {
           overflow: scroll;
@@ -346,7 +347,7 @@ ol, ul, p {
 
   }
 
-  @media (max-width: 920px) {
+  @media (max-width: $mobile-max-bp) {
 
     padding: 104px 0 20px 0;
     margin: 0 20px;
@@ -404,7 +405,7 @@ ol, ul, p {
   background: #f6f6f6;
   // box-shadow: 0 1px 10px 0 rgba(221, 221, 221, 0.5);
 
-  @media (max-width: 920px) {
+  @media (max-width: $mobile-max-bp) {
     font-size: 1.2em;
   }
 }
