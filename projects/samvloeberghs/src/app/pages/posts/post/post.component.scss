@@ -60,9 +60,14 @@ sv-post {
     width: 200px;
     position: sticky;
     align-self: flex-start;
-    border-left: 5px solid #f6f6f6;
+    border-left: 1px solid;
+    border-image: linear-gradient(
+        to bottom,
+        #eee,
+        rgba(0, 0, 0, 0)
+    ) 1 100%;
     padding-top: 6px;
-    padding-left: 15px;
+    padding-left: 25px;
     padding-bottom: 15px;
     margin-left: 25px;
     margin-bottom: 25px;
