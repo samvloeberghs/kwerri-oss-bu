@@ -48,6 +48,11 @@ sv-post {
 
   .post-content {
     width: 100%;
+    max-width: 580px;
+
+    @media (min-width: $fullscreen-bp-max) {
+      max-width: 650px;
+    }
   }
 
   .toc {
