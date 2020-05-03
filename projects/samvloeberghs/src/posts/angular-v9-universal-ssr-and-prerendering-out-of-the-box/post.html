@@ -1,6 +1,6 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>Angular Universal - Advanced techniques series</h2>
+  <h2 id="introduction" title="Introduction">Angular Universal - Advanced techniques series</h2>
 
   <p>
     This article is part of <em>a growing series around advanced techniques in Angular with Universal</em>. If you get excited
@@ -29,7 +29,7 @@
     </li>
   </ol>
 
-  <h2>Target audience</h2>
+  <h2 id="target-audience">Target audience</h2>
 
   <p>
     This article and guide is intented to help anybody using Angular v9 getting started with server-side-rendering (SSR)
@@ -37,7 +37,7 @@
     updated apps using Angular v9.</strong> Getting the same result for Angular v2-v8 requires more and custom setup.
   </p>
 
-  <h2>Example project</h2>
+  <h2 id="example-project">Example project</h2>
 
   <p>
     For the example project we are using a bare minimum angular-cli generated project with routing enabled. A home
@@ -75,7 +75,7 @@
        src="/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/example_app.gif"
        alt=""/>
 
-  <h2>Adding Server-side-rendering (SSR) to your application</h2>
+  <h2 id="adding-ssr-to-your-application">Adding Server-side-rendering (SSR) to your application</h2>
 
   <p>
     Normally your Angular app is only rendered as soon as your browser loads it. In this case, the only responsibility
@@ -90,7 +90,7 @@
     the initial load from the server, without JavaScript required.
   </p>
 
-  <h3>Getting started</h3>
+  <h3 id="getting-started">Getting started</h3>
 
   <p>
     To get started all you need to do is add the <code>@nguniversal/express-engine</code> package using the angular-cli:
@@ -159,7 +159,7 @@
   "..": ".."
 }</code></pre>
 
-  <h2>The <code>server</code> run option</h2>
+  <h2 id="server-run-option">The <code>server</code> run option</h2>
 
   <p>
     A server is required to run the Angular build on your system, or the back-end, therefore the <code>server.ts</code>
@@ -176,7 +176,7 @@
 
   <pre><code class="language-bash line-numbers">npm run build:ssr</code></pre>
 
-  <h2>The <code>serve-ssr</code> run option</h2>
+  <h2 id="serve-ssr-run-option">The <code>serve-ssr</code> run option</h2>
 
   <p>
     While developing your application you'll probably just run <code>ng serve</code>. This command will setup a
@@ -199,7 +199,7 @@
        src="/posts/angular-v9-universal-ssr-and-prerendering-out-of-the-box/example_ssr.gif"
        alt=""/>
 
-  <h2>The <code>prerender</code> run option</h2>
+  <h2 id="prerender-run-option">The <code>prerender</code> run option</h2>
 
   <p>
     A final addition is the possibility to prerender the routes of your application. For this to work the prerender
@@ -214,7 +214,7 @@
 
   <pre><code class="language-bash line-numbers">npm run prerender</code></pre>
 
-  <h3>Rendering more (dynamic) routes</h3>
+  <h3 id="rendering-more-dynamic-routes">Rendering more (dynamic) routes</h3>
 
   <p>
     As shown in the <code>angular.json</code> config file at line 41, it is possible to list other known routes of the
@@ -294,7 +294,7 @@ axios.get(newsDataPath).then(res => {
     of routes is up to you.
   </p>
 
-  <h2>Further reading</h2>
+  <h2 id="further-reading">Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -309,16 +309,4 @@ axios.get(newsDataPath).then(res => {
     </li>
   </ol>
 
-  <!--
-  <h2>Special thanks to</h2>
-
-  <ul>
-    <li>
-      <a href="" rel="noopener" target="_blank"></a>
-    </li>
-
-  </ul>
-
-  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
-  -->
 </section>

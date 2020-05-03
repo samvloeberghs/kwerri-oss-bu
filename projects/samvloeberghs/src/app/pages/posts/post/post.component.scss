@@ -46,6 +46,10 @@ sv-post {
     position: relative;
   }
 
+  .post-content {
+    width: 100%;
+  }
+
   .toc {
     min-width: 200px;
     width: 200px;
@@ -108,6 +112,7 @@ sv-post {
 
         $linkcolor: #20527f;
         $linkbordercolor: #20527f;
+
         a {
           color: lighten($linkcolor, 5%);
           border-bottom: 1px dotted lighten($linkbordercolor, 5%);

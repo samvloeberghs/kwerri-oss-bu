@@ -137,7 +137,9 @@ export class PostComponent implements OnInit, AfterViewChecked {
     const headings: NodeListOf<HTMLElement> = el.querySelectorAll(selector);
     const toc = [];
     for (let i = 0; i < headings.length; i++) {
-      const level = headingLevel(headings[0].tagName);
+      if (!headings[i].id || headings[i].classList.contains('codetitle')) {
+        continue;
+      }
       toc.push({
         title: headings[i].title ? headings[i].title : headings[i].textContent,
         link: headings[i].id,
@@ -153,7 +155,6 @@ export class PostComponent implements OnInit, AfterViewChecked {
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           const id = entry.target.getAttribute('id');
-          console.log(entry.intersectionRatio);
           if (entry.intersectionRatio > 0) {
             const previousElements = document.querySelectorAll(`.toc li a`);
             previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
