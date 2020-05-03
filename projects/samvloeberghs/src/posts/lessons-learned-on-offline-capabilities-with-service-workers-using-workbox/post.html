@@ -1,6 +1,6 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>Target audience</h2>
+  <h2 id="target-audience">Target audience</h2>
 
   <p>
     This post is targeted to webdevelopers that are creating <em>offline-capable applications</em> and more specifically
@@ -9,7 +9,7 @@
     have found other ways or used other methods to solve the problems described.
   </p>
 
-  <h2>What will we discuss in this post?</h2>
+  <h2 id="what-will-we-discuss-in-this-post">What will we discuss in this post?</h2>
 
   <ol>
     <li>Serve the <code>index.html</code> for all deeplinks (while offline)</li>
@@ -24,7 +24,7 @@
     an example project for you to test and try-out.
   </p>
 
-  <h2>Serve the <code>index.html</code> for all deeplinks (while offline)</h2>
+  <h2 id="serve-the-index-html-for-all-deeplinks-while-offline">Serve the <code>index.html</code> for all deeplinks (while offline)</h2>
 
   <p>
     While developing SPA applications we often, if not always, leverage the power of routing. <strong>When we go offline
@@ -81,7 +81,7 @@ workbox.routing.registerRoute(
     different page of your application.
   </p>
 
-  <h3>Shortcut available</h3>
+  <h3 id="shortcut-available">Shortcut available</h3>
 
   <p>
     Workbox gives you a shortcut and extra options for this behaviour, like whitelisting and blacklisting by exposing
@@ -108,7 +108,7 @@ workbox.routing.registerRoute(
     not matching a static resource like an image, or a dynamic resource like an API, the server should return the <code>index.html</code> file</strong>!
   </p>
 
-  <h2>Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></h2>
+  <h2 id="dont-just-blindly-use-skip-waiting-or-clients-claim">Don't just blindly use <code>skipWaiting()</code> or <code>clients.claim()</code></h2>
 
   <p>
     Using <code>skipWaiting()</code> or <code>clients.claim()</code> should not be done blindly and without thought.
@@ -125,7 +125,7 @@ workbox.routing.registerRoute(
     without service worker anyway.
   </p>
 
-  <h3>What could possibly go wrong?</h3>
+  <h3 id="what-could-possibly-go-wrong">What could possibly go wrong?</h3>
 
   <p>
     There are several scenarios where just calling <code>skipWaiting()</code> or <code>clients.claim()</code> blindly in
@@ -158,7 +158,7 @@ workbox.routing.registerRoute(
     together with the loaded version of the logic of your service worker</em>.
   </p>
 
-  <h3>Service worker active during first-time usage of your application</h3>
+  <h3 id="service-worker-active-during-first-time-usage-of-your-app">Service worker active during first-time usage of your application</h3>
 
   <p>
     Not calling <code>skipWaiting()</code> or <code>clients.claim()</code> could be problematic for your use case,
@@ -250,7 +250,7 @@ if ('serviceWorker' in navigator) {
     href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel">check it out here</a>.
   </p>
 
-  <h2>Be careful with what you cache in the browser</h2>
+  <h2 id="be-careful-with-what-you-cache-in-the-browser">Be careful with what you cache in the browser</h2>
 
   <p>
     When building your application and thinking about its offline strategies you should definitely consider what you are
@@ -352,7 +352,7 @@ workbox.routing.registerRoute(
   })
 );</code></pre>
 
-  <h2>Avoid using global state in the service worker</h2>
+  <h2 id="avoid-using-global-state-in-the-service-worker">Avoid using global state in the service worker</h2>
 
   <p>
     I've learned this one the hard way, by debugging and debugging and debugging till I got crazy and started searching
@@ -381,7 +381,7 @@ workbox.routing.registerRoute(
     </li>
   </ol>
 
-  <h3>Now what was going wrong?</h3>
+  <h3 id="what-was-going-wrong">Now what was going wrong?</h3>
 
   <p>
     It seems that service workers are potentially stopped and restarted multiple times in their lifetime because of
@@ -394,7 +394,7 @@ workbox.routing.registerRoute(
     not authorize properly.
   </p>
 
-  <h3>So how to correctly share the <code>OAuthToken</code> with the service worker?</h3>
+  <h3 id="so-how-to-correctly-share-the-token">So how to correctly share the <code>OAuthToken</code> with the service worker?</h3>
 
   <p>
     The only way to successfully share the <code>OAuthToken</code> from our application logic with our service worker
@@ -467,7 +467,7 @@ workbox.routing.registerRoute(
     server is as expected, for example a <code>200 OK</code>. If not a valid or expected response code, return the cached <code>not_authorized.png</code> image.
   </p>
 
-  <h2>Conclusion</h2>
+  <h2 id="conclusion">Conclusion</h2>
 
   <p>
     When developing SPAs with offline capabilities, we need to make sure that our service worker is acting the same way
@@ -491,7 +491,7 @@ workbox.routing.registerRoute(
     Use IndexedDB to share state from your application with your service worker.
   </p>
 
-  <h2>Further reading</h2>
+  <h2 id="further-reading">Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -547,7 +547,7 @@ workbox.routing.registerRoute(
 
   </ol>
 
-  <h2>Special thanks to</h2>
+  <h2 id="special-thanks">Special thanks to</h2>
 
   <ul>
     <li>

@@ -1,6 +1,6 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>Scully - a Static Site Generator for Angular series</h2>
+  <h2 id="introduction" title="Introduction">Scully - a Static Site Generator for Angular series</h2>
 
   <p>
     This article is part of <em>a growing series about Scully - a Static Site Generator for Angular</em>.
@@ -26,7 +26,7 @@
     </li>
   </ol>
 
-  <h2>Target audience</h2>
+  <h2 id="target-audience">Target audience</h2>
 
   <p>
     <a href="https://github.com/scullyio/scully" target="_blank" rel="noopener">Scully, the Static Site Generator for
@@ -36,7 +36,7 @@
     reading.
   </p>
 
-  <h2>What is Scully?</h2>
+  <h2 id="what-is-scully">What is Scully?</h2>
 
   <p>
     Scully is <em>a static site generator, or SSG, for Angular</em>. It takes your full-blown Angular
@@ -53,7 +53,7 @@
     has started up.
   </p>
 
-  <h3>Getting started with Scully</h3>
+  <h3 id="getting-started-with-scully">Getting started with Scully</h3>
 
   <p>
     Getting started with Scully is easy. The
@@ -62,7 +62,7 @@
     article you can find more links and resources about setting up Scully.
   </p>
 
-  <h3>Support for plugins</h3>
+  <h3 id="support-for-plugins">Support for plugins</h3>
 
   <p>
     Scully can generate your pages because of a discovery process that finds the available routes of your
@@ -126,7 +126,7 @@ exports.config = {
     explain the details and decide which plugins we need to build.
   </p>
 
-  <h2>Example project</h2>
+  <h2 id="example-project">Example project</h2>
 
   <p>
     The example project is a simple Angular v9 application with a few static routes, like <code>/about</code>, and dynamic
@@ -156,7 +156,7 @@ exports.config = {
   {"route":"/news/99/newsitem-99"}
 ]</code></pre>
 
-  <h2>Custom router plugin</h2>
+  <h2 id="custom-router-plugin">Custom router plugin</h2>
 
   <p>
     To be able to generate the list of pages for our news module, that has detail pages in the form of
@@ -212,7 +212,7 @@ exports.NewsPlugin = NewsPlugin;
     </li>
   </ol>
 
-  <h3>Configuring the new plugin</h3>
+  <h3 id="configuring-the-new-router-plugin">Configuring the new router plugin</h3>
 
   <p>
     Configuring the new router plugin is easy! In our Scully configuration object, we define our route at line 8-11 and
@@ -252,7 +252,7 @@ exports.config = {
     {"route":"/news/99/newsitem-99"}
 ]</code></pre>
 
-  <h2>Custom renderer plugin</h2>
+  <h2 id="custom-renderer-plugin">Custom renderer plugin</h2>
 
   <p>
     Custom renderer plugins can be used to perform some sort of modification on the generated HTML as
@@ -319,7 +319,7 @@ registerPlugin('render', MinifyHtml, minifyHtmlPlugin, minifyHtmlPluginValidator
     </li>
   </ol>
 
-  <h3>Configuring the new plugin</h3>
+  <h3 id="configuring-the-new-renderer-plugin">Configuring the new renderer plugin</h3>
 
   <p>
     Configuring the new renderer plugin is, again, easy! In our Scully configuration object, we can define a list of
@@ -363,7 +363,7 @@ exports.config = {
        src="/posts/custom-plugins-for-scully-angular-static-site-generator/minified_html.gif"
        alt=""/>
 
-  <h2>Using the <code>scully-plugin-minify-html</code> plugin</h2>
+  <h2 id="using-the-scully-plugin-minify-html-plugin">Using the <code>scully-plugin-minify-html</code> plugin</h2>
 
   <p>
     Because it is a plugin and we can share code via npm it would be silly to rewrite the <code>minifyHtml</code>
@@ -423,7 +423,7 @@ exports.config = {
     Keep in mind that <em>Scully is still in full development so expect things to change.</em>
   </p>
 
-  <h2>Further reading</h2>
+  <h2 id="further-reading">Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -453,7 +453,7 @@ exports.config = {
     </li>
   </ol>
 
-  <h2>Special thanks to</h2>
+  <h2 id="special-thanks">Special thanks to</h2>
 
   <ul>
     <li>

@@ -1,6 +1,6 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>Target audience</h2>
+  <h2 id="target-audience">Target audience</h2>
 
   <p>
     This is a follow-up on my
@@ -9,7 +9,7 @@
     better/other solutions for the problems described earlier.
   </p>
 
-  <h2>What will we discuss in this post?</h2>
+  <h2 id="what-will-we-discuss-in-this-post">What will we discuss in this post?</h2>
 
   <ol>
     <li>Better detection for a first-time install of a service worker</li>
@@ -22,7 +22,7 @@
     an example project for you to test and try-out.
   </p>
 
-  <h2>Better detection for a first-time install of a service worker</h2>
+  <h2 id="better-detection-for-a-first-time-install-of-a-service-worker">Better detection for a first-time install of a service worker</h2>
 
   <p>
     In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous post
@@ -102,7 +102,7 @@ self.addEventListener('message', event => {
     <code>CLIENTS_CLAIM</code> will claim the clients and activate the service worker for those clients.
   </p>
 
-  <h3>Using Workbox Window to solve the same problem</h3>
+  <h3 id="using-workbox-window-to-solve-the-same-problem">Using Workbox Window to solve the same problem</h3>
 
   <p>
     With Workbox Window we can listen for the <code>activated</code> event on the service worker registration.
@@ -138,7 +138,7 @@ wb.register();
     message to the service worker using <code>postMessage</code>.
   </p>
 
-  <h3>Visual representation</h3>
+  <h3 id="visual-representation-one">Visual representation</h3>
 
   <img class="extraspace zoomin"
      src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_1.gif"
@@ -172,7 +172,7 @@ wb.register();
 
   </ol>
 
-  <h2>Updating the application while it's in use</h2>
+  <h2 id="updating-the-application-while-it-s-in-use">Updating the application while it's in use</h2>
 
   <p>
     With PWA's installed on the homescreen and opened as native-like applications it's possible that those
@@ -193,7 +193,7 @@ wb.register();
     <em>application becomes visible</em> again or by <em>setting up an interval</em>. Let's explore these 3 options.
   </p>
 
-  <h3>Update application by user-intent</h3>
+  <h3 id="update-application-by-user-intent">Update application by user-intent</h3>
 
   <p>
     The simplest way of asking for an update to the application is by <em>letting the user click a button</em>. So we are gonna
@@ -261,7 +261,7 @@ export class ServiceWorkerService {
     its potential new resources have been cached and the logic has been loaded it will eventually go in a waiting state.
   </p>
 
-  <h3>Handling the new but waiting service worker</h3>
+  <h3 id="handling-the-new-but-waiting-service-worker">Handling the new but waiting service worker</h3>
 
   <p>
     Whenever our application gets a hold of a new but waiting service worker, we can safely assume that our application
@@ -305,7 +305,7 @@ export class ServiceWorkerService {
     </li>
   </ol>
 
-  <h3>Listening for a new service worker</h3>
+  <h3 id="listening-for-a-new-service-worker">Listening for a new service worker</h3>
 
   <p>
     Listening for a new waiting service worker using Workbox when we try an update from within the application is a
@@ -422,7 +422,7 @@ export class EnvironmentService {
     The full code for handling all these use cases combined, including the following strategies, is <a href="https://github.com/samvloeberghs/kwerri-oss/blob/master/projects/sw-lessons/src/app/environment.service.ts" target="_blank" rel="noopener">a big pile of code which you can find here</a>.
   </p>
 
-  <h3>Visual representation</h3>
+  <h3 id="visual-representation-two">Visual representation</h3>
 
   <img class="extraspace zoomin"
      src="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel/workbox_3.gif"
@@ -467,7 +467,7 @@ export class EnvironmentService {
     </li>
   </ol>
 
-  <h3>Update application when it becomes visible again</h3>
+  <h3 id="update-application-when-it-becomes-visible-again">Update application when it becomes visible again</h3>
 
   <p>
     Another strategy to try and update your application can be <em>based on the visibility of your application</em>. As
@@ -509,7 +509,7 @@ export class ServiceWorkerService {
     app will try to update the service worker.
   </p>
 
-  <h3>Update application by setting up an interval</h3>
+  <h3 id="update-application-by-setting-up-an-interval">Update application by setting up an interval</h3>
 
   <p>
     One more other strategy is <em>requesting an update on an interval</em>, for example every 4 hours. This way the
@@ -548,7 +548,7 @@ export class ServiceWorkerService {
 }
 </code></pre>
 
-  <h2>Conclusion</h2>
+  <h2 id="conclusion">Conclusion</h2>
 
   <p>
     Today we learned a better way of controlling the application with our service worker on the very first load. Instead
@@ -568,7 +568,7 @@ export class ServiceWorkerService {
     workers in the future :)
   </p>
 
-  <h2>Further reading</h2>
+  <h2 id="further-reading">Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -598,7 +598,7 @@ export class ServiceWorkerService {
     </li>
   </ol>
 
-  <h2>Special thanks to</h2>
+  <h2 id="special-thanks-to">Special thanks to</h2>
 
   <ul>
     <li>

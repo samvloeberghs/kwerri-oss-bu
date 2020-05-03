@@ -1,6 +1,6 @@
 <section class="entry-content post-body" itemprop="articleBody">
 
-  <h2>Scully - a Static Site Generator for Angular series</h2>
+  <h2 id="introduction" title="Introduction">Scully - a Static Site Generator for Angular series</h2>
 
   <p>
     This article is part of <em>a growing series about Scully - a Static Site Generator for Angular</em>.
@@ -26,7 +26,7 @@
     </li>
   </ol>
 
-  <h2>Target audience</h2>
+  <h2 id="target-audience">Target audience</h2>
 
   <p>
     <a href="https://github.com/scullyio/scully" target="_blank" rel="noopener">Scully, the Static Site Generator for
@@ -47,7 +47,7 @@
       Scully</a>.
   </p>
 
-  <h2>Disabling Angular? Wait, what?</h2>
+  <h2 id="disabling-angular-wait-what">Disabling Angular? Wait, what?</h2>
 
   <p>
     Reading the title of this article might confuse you. We are not actually completely disabling Angular, because
@@ -64,7 +64,7 @@
     framework.
   </p>
 
-  <h2>Why disable Angular?</h2>
+  <h2 id="why-disable-angular">Why disable Angular?</h2>
 
   <p>
     No matter how good you optimize your application, the whole set of static assets of your Angular app is still
@@ -76,7 +76,7 @@
     Prerendering the app improves the performance of your application. <strong>By not bootstrapping the page as an
     Angular app we can increase the performance of our application even more!</strong>
 
-  <h2>Example project</h2>
+  <h2 id="example-project">Example project</h2>
 
   <p>
     To show to what extent we can improve the performance, we use an example application. The example project is a
@@ -116,7 +116,7 @@
     <li>Simulated Slow 4G, 4x CPU Slowdown</li>
   </ol>
 
-  <h3>CSR version</h3>
+  <h3 id="csr-version">CSR version</h3>
 
   <p>
     In this version we are loading the Angular application on the newsdetail page the typical way. The server returns
@@ -132,7 +132,7 @@
     As you can see the performance score for this version is unacceptable low at 69. We can definitely do better.
   </p>
 
-  <h3>Post-built prerendered version</h3>
+  <h3 id="post-build-prerendered-version">Post-built prerendered version</h3>
 
   <p>
     In this version the same newsdetail page is prerendered with Scully and returned by the server together with all
@@ -149,7 +149,7 @@
     websites and applications. But still, we can do better..
   </p>
 
-  <h3>Post-built prerendered version, without Angular static assets</h3>
+  <h3 id="post-build-prerendered-version-without-ng-static-assets">Post-built prerendered version, without Angular static assets</h3>
 
   <p>
     In this version the same newsdetail page is prerendered with Scully and returned by the server, but now <strong>
@@ -166,7 +166,7 @@
     you should end up above 90 anyway!
   </p>
 
-  <h2>How to disable Angular?</h2>
+  <h2 id="how-to-disable-angular">How to disable Angular?</h2>
 
   <p>
     Disabling Angular can be done by removing the <code>&lt;script&gt;</code> tags that load the static assets to
@@ -203,7 +203,7 @@ exports.config = {
     all the relevant <code>&lt;script&gt;</code> tags.
   </p>
 
-  <h2>Typical use cases and examples</h2>
+  <h2 id="typical-use-cases-and-examples">Typical use cases and examples</h2>
 
   <p>
     <strong>This technique is ofcourse not suitable for all Angular applications</strong>, becomes some rely heavily on
@@ -236,7 +236,7 @@ exports.config = {
     <strong>consider moving this logic into a separate JavaScript file</strong>.
   </p>
 
-  <h2>Further reading</h2>
+  <h2 id="further-reading">Further reading</h2>
 
   <ol class="further-reading">
     <li>
@@ -272,7 +272,7 @@ exports.config = {
     </li>
   </ol>
 
-  <h2>Special thanks to</h2>
+  <h2 id="special-thanks">Special thanks to</h2>
 
   <ul>
     <li>
