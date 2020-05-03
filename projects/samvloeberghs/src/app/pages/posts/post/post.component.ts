@@ -3,13 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
 import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-seo';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
 import { HighlightService } from '../../../shared/highlight.service';
 import { ZoomImage } from '../image-zoom/image-zoom.component';
-import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'sv-post',
@@ -33,7 +33,8 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly jsonLdService: JsonLdService,
     private readonly highlightService: HighlightService,
     private readonly elementRef: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    @Inject(DOCUMENT) private readonly document: Document
   ) {
   }
 
@@ -125,12 +126,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
 
   private parseContentToc(content) {
 
-    const headingLevel = (tag: string): number | null => {
-      const match = tag.match(/(?!h)[123456]/g);
-      return match && match.length ? Number(match[0]) : null;
-    };
-
-    const el = document.createElement('div');
+    const el = this.document.createElement('div');
     el.innerHTML = content;
 
     const selector = 'h2, h3, h4, h5';
@@ -156,16 +152,16 @@ export class PostComponent implements OnInit, AfterViewChecked {
         entries.forEach(entry => {
           const id = entry.target.getAttribute('id');
           if (entry.intersectionRatio > 0) {
-            const previousElements = document.querySelectorAll(`.toc li a`);
+            const previousElements = this.document.querySelectorAll(`.toc li a`);
             previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
-            const el = document.querySelector(`.toc li a[href="/posts/${route}#${id}"]`);
+            const el = this.document.querySelector(`.toc li a[href="/posts/${route}#${id}"]`);
             el.parentElement.classList.add('active');
           }
         });
       });
 
       // Track all sections that have an `id` applied
-      document.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach((section) => {
+      this.document.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach((section) => {
         observer.observe(section);
       });
 

@@ -22,7 +22,7 @@
       </p>
       <div [innerHtml]="post.content" highlight-js-content=".highlighted"></div>
     </div>
-    <div class="toc">
+    <div class="toc" *ngIf="post.toc">
       <h3>Contents</h3>
       <ol>
         <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: post.toc }"></ng-container>
