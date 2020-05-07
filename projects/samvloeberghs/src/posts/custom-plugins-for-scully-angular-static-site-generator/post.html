@@ -169,7 +169,7 @@ exports.config = {
   <pre data-line="6,8,15,20-21"><code class="language-js line-numbers">const {registerPlugin, routeSplit} = require('@scullyio/scully');
 const {httpGetJson} = require('@scullyio/scully/utils/httpGetJson');
 
-const NewsPlugin = 'news';
+const News = 'news';
 
 const newsPlugin = async(route, config) => {
   const list = await httpGetJson(config.url);
@@ -185,8 +185,8 @@ const newsPlugin = async(route, config) => {
 
 const newsPluginValidator =  async conf => [];
 
-registerPlugin('router', 'news', newsPlugin, newsPluginValidator);
-exports.NewsPlugin = NewsPlugin;
+registerPlugin('router', News, newsPlugin, newsPluginValidator);
+exports.News = News;
 </code></pre>
 
   <ol>
@@ -207,7 +207,7 @@ exports.NewsPlugin = NewsPlugin;
     </li>
     <li>
       Finally, we register the plugin to make it available for Scully. The first parameter defines the type of plugin,
-      the second parameter marks the name of the plugin. We also export the NewsPlugin as a type. The last parameter
+      the second parameter marks the name of the plugin. We also export the <code>News<code> as a type. The last parameter
       is a validator function, but we will not cover this topic in this blogpost.
     </li>
   </ol>
@@ -216,7 +216,7 @@ exports.NewsPlugin = NewsPlugin;
 
   <p>
     Configuring the new router plugin is easy! In our Scully configuration object, we define our route at line 8-11 and
-    we give it the type of our newsPlugin. The only configuration we needed for our custom plugin was the
+    we give it the type of our News plugin. The only configuration we needed for our custom plugin was the
     <code>url</code> to fetch the JSON data from, and we are done!
   </p>
 
