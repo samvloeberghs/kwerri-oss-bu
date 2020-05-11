@@ -17,6 +17,9 @@ const defaultMinifyOptions: Options = {
   removeAttributeQuotes: false,
   // don't remove optional tags, like the head, not all social media platforms can parse this over-optimization
   removeOptionalTags: false,
+  ignoreCustomFragments: [
+    /\/\*\* ___SCULLY_STATE_(START|END)___ \*\//
+  ]
 };
 
 export interface MinifyHtmlHandledRoute extends HandledRoute {
@@ -33,6 +36,10 @@ export const minifyHtmlPlugin = async (html, route: MinifyHtmlHandledRoute) => {
     localMinifyOptions = {
       ...defaultMinifyOptions,
       ...route.minifyHtmlOptions,
+      ignoreCustomComments: [
+        ...route.minifyHtmlOptions.ignoreCustomComments,
+        ...defaultMinifyOptions.ignoreCustomComments
+      ]
     };
   } else if ((scullyConfig as MinifyHtmlScullyConfig).minifyHtmlOptions) {
     localMinifyOptions = {
