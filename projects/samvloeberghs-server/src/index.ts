@@ -83,6 +83,7 @@ app.use(compression({
 
 // Server static files
 app.use(express.static(join(DIST_FOLDER, 'browser'), {
+  index: false,
   setHeaders: (res, path) => {
     if (path.includes('posts/')) {
       // All of the project's HTML files end in .html
@@ -128,15 +129,16 @@ const ngApp = (req: Request, res: Response, next: Function) => {
       // console.log('entry served from cache: ', cachePath);
       res.send(entry);
     } else {
-
       // NO CACHE ENTRY
+      // console.log('no cache entry');
+
       // LET'S RENDER
       res.render('index', config, (err, html) => {
 
         // SOMETHING HAS FAILED
         // just log the error and return the original template for CSR
         if (err) {
-          console.log(err);
+          // console.log(err);
           res.send(template);
         }
 
