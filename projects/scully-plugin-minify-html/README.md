@@ -79,6 +79,16 @@ const defaultMinifyOptions: Options = {
   removeAttributeQuotes: false,
   // don't remove optional tags, like the head, not all social media platforms can parse this over-optimization
   removeOptionalTags: false,
+  // scully specific HTML comments
+  // this will always be added in the final minifyOptions config
+  ignoreCustomComments: [
+    /scullyContent-(begin|end)/
+  ],
+  // scully specific data injection
+  // this will always be added in the final minifyOptions config
+  ignoreCustomFragments: [
+    /\/\*\* ___SCULLY_STATE_(START|END)___ \*\//
+  ]
 };
 ```
 
