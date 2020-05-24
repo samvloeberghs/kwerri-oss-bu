@@ -1,0 +1,213 @@
+<section class="entry-content post-body" itemprop="articleBody">
+
+  <h2 id="introduction" title="Introduction">Scully - a Static Site Generator for Angular series</h2>
+
+  <p>
+    This article is part of <em>a growing series about Scully - a Static Site Generator for Angular</em>.
+    If you get excited about this article be sure to check the others!
+  </p>
+
+  <ol>
+    <li>
+      <a href="posts/custom-plugins-for-scully-angular-static-site-generator">
+        Custom plugins for Scully - Angular Static Site Generator
+      </a>
+    </li>
+    <li>
+      <a href="posts/disabling-angular-when-statically-genering-with-scully">
+        Disabling Angular when statically generating with Scully
+      </a>
+    </li>
+    <li>
+      <a href="posts/scully-or-angular-universal-what-is-the-difference">
+        Scully or Angular Universal, what is the difference?
+      </a>
+    </li>
+    <li>
+      Scully and Angular Universal, comparing benchmarks
+    </li>
+  </ol>
+
+  <h2 id="target-audience">Target audience</h2>
+
+  <p>
+    This post is a follow-up on my previous post about
+    <a href="posts/scully-or-angular-universal-what-is-the-difference" target="_blank">the differences between Angular
+      Universal and Scully</a>. In that post I mentioned that Universal can be much faster in the (pre)rendering process
+    compared to Scully. <strong>This difference is mainly significant and noticable in the order of thousands of pages
+    and more as we will show.</strong>
+  </p>
+  <p>
+    When building and maintaining a large website, for example a business directory, <strong>where rerenders are often
+    necessary, this can become very important</strong>. Let's see how both technologies behave on the same application
+  </p>
+
+  <p class="alert alert-warning">
+    <strong>Important:</strong> This post is not intented to break down or bash any of the 2 technologies. I love both
+    of them very much and I believe they both have their use case! But as a good software engineer you should always try
+    to make the best and informed decisions about technology choices, especially if you can base those decisions
+    on simple benchmarks!
+  </p>
+
+  <h2 id="example-application">Example application</h2>
+
+  <p>
+    The example application used for the benchmarks is a simple Angular application, in an Nx monorepo, that has a home
+    route, a news overview route and news detail route. The news functionality is loaded via a lazy-loaded angular
+    module. You can <a href="https://github.com/samvloeberghs/scully-universal" target="_blank" rel="noopener">find the
+    repository here to play with the setup and try your own scenarios</a>.
+  </p>
+
+  <img class="extraspace zoomin"
+       src="/posts/scully-and-angular-universal-comparing-benchmarks/scully-universal-example-app.gif"
+       alt="Scully - Universal - Example app"/>
+
+  <p class="alert alert-info">
+    Due to the different implementation details of Universal and Scully the application was build twice, but with the
+    same structural setup, markup and styles. This means the code is not completely identical, the difference is the
+    injection of the <code>ScullyLibModule</code> in the Scully application. This difference should not have a
+    significant influence on the test results.
+  </p>
+
+  <h2 id="benchmarking-details">Benchmarking details</h2>
+
+  <h3 id="test-cases">Test cases</h3>
+
+  <p>
+    Scully and Universal will prerender all the pages that are available on the application. These pages include the
+    <a href="https://www.npmjs.com/package/guess-parser" target="_blank" rel="noopener">auto-discovered pages</a> and
+    the list of pages that is generated based on the available news data.
+  </p>
+
+  <p>
+    The HTML render-output will be minified using
+    <code><a href="https://www.npmjs.com/package/html-minifier" target="_blank" rel="noopener">html-mifier</a></code>.
+    The dynamic data, that is loaded on the news overview and detail pages, is inlined in the HTML.
+  </p>
+
+  <p>
+    We will monitor the time it takes for rendering 100, 1 000 and 10 000 news detail pages with Scully and Universal.
+    Each testcase will be done 3times to take the average of the result.
+  </p>
+
+  <h3 id="system-environment">System environment</h3>
+
+  <p>
+    The benchmarks were executed on my own device, and after a reboot. For reference, here are the system details:
+  </p>
+  <ul>
+    <li>MBPro 15inch 2018, 2.9Ghz 6core Intel Core i9</li>
+    <li>RAM: 32 GB 2400 Mhz DDR4</li>
+    <li>Graphics: Radeon Pro 560x 4GB & Intel UHD Graphics 640 1536 MB</li>
+  </ul>
+
+  <h3 id="monitoring-tools-measuring-metrics">Monitoring tools and measuring metrics</h3>
+
+  <ul>
+    <li>
+      The execution time is monitored with
+      <a href="https://www.npmjs.com/package/gnomon" target="_blank" rel="noopener">gnomon</a>
+    </li>
+    <li>
+      The payload is measured with Chrome Devtools > Network
+    </li>
+  </ul>
+
+  <h3 id="running-the-tests">Running the tests</h3>
+
+  <h4>Universal</h4>
+
+  <p>
+    We have to serve the application (line 1) while the prerender process is ongoing to be able to load the data for the news
+    overview and detail pages. In a separate terminal (line 3) we group the prerendering and minification process and pipe it
+    to the <code>gnomon</code> command to measure the execution time.
+  </p>
+
+  <pre data-line="1, 3"><code class="language-bash line-numbers">npx nx serve playground-universal
+# parallel terminal
+( npm run prerender:playground:universal && npm run minify:playground:universal ) | npx gnomon
+</code></pre>
+
+  <h4>Scully</h4>
+
+  <p>
+    The same is true for Scully, the data needs to be available so we serve the application in a separate terminal
+    (line 1). In the other terminal (line 3) we first do a clean <code>--prod</code> build of the application as the
+    Universal process also starts with a clean build. We pass the option <code>--scanRoutes</code> to start with and
+    force a clean route discovery process. The final configuration option defines the location of the config file for
+    Scully.
+  </p>
+
+  <pre data-line="1, 3"><code class="language-bash line-numbers">npx nx serve playground-scully
+# parallel terminal
+( npx nx build playground-scully --prod && npx scully --scanRoutes --configFile .scully/scully.scully.config.js ) | npx gnomon
+</code></pre>
+
+  <p class="alert alert-info">
+    For testing the different amount of pages we need to modify <code>news-100(0)(0).json</code> in the <code>scully.scully.config.js</code>, the
+    <code>overview.component.ts</code> and <code>generate-routes.ts</code> file.
+  </p>
+
+  <h2 id="benchmarking-results">Benchmarking results</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+  </table>
+
+  <p>
+
+  </p>
+
+  <h2 id="conclusion">Conclusion</h2>
+
+  <p>
+
+  </p>
+
+  <h2 id="further-reading">Further reading</h2>
+
+  <ol class="further-reading">
+    <li>
+      <a href="https://github.com/scullyio" target="_blank" rel="noopener">
+        Scully - Github organization
+      </a>
+    </li>
+    <li>
+      <a href="https://angular.io/guide/universal" target="_blank" rel="noopener">
+        Server-side rendering (SSR) with Angular Universal
+      </a>
+    </li>
+    <li>
+      <a href="https://www.npmjs.com/package/scully-plugin-minify-html" target="_blank" rel="noopener">
+        Minify the HTML of your prerendered Angular application - Scully plugin
+      </a>
+    </li>
+    <li>
+      <a href="https://www.npmjs.com/package/guess-parser" target="_blank" rel="noopener">
+        Guess parser
+      </a>
+    </li>
+  </ol>
+
+  <h2 id="special-thanks-to">Special thanks to</h2>
+
+  <ul>
+    <li>
+      <a href="https://twitter.com/antoinepairet" rel="noopener" target="_blank">Antoine Pairet</a>
+    </li>
+    <li>
+      <a href="https://twitter.com/aaronfrost" rel="noopener" target="_blank">Aaron Frost</a>
+    </li>
+  </ul>
+
+  <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
+
+</section>
