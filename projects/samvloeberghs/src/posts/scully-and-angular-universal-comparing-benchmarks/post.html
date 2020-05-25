@@ -39,7 +39,9 @@
   </p>
   <p>
     When building and maintaining a large website, for example a business directory, <strong>where rerenders are often
-    necessary, this can become very important</strong>. Let's see how both technologies behave on the same application
+    necessary, this can become very important</strong>. If it takes an hour or more to prerender all the pages the data
+    might have changed again before the process ended.. So let's see how both technologies behave on the same application
+    and come up with the actual metrics!
   </p>
 
   <p class="alert alert-warning">
@@ -64,7 +66,7 @@
 
   <p class="alert alert-info">
     Due to the different implementation details of Universal and Scully the application was build twice, but with the
-    same structural setup, markup and styles. This means the code is not completely identical, the difference is the
+    same structural setup, markup and styles. This means the code is not completely identical; the difference is the
     injection of the <code>ScullyLibModule</code> in the Scully application. This difference should not have a
     significant influence on the test results.
   </p>
@@ -86,8 +88,8 @@
   </p>
 
   <p>
-    We will monitor the time it takes for rendering 100, 1 000 and 10 000 news detail pages with Scully and Universal.
-    Each testcase will be done 3times to take the average of the result.
+    We will monitor the time it takes for rendering 100, 1000 (one thousand) and 10000 (ten thousand) news detail pages with Scully and Universal.
+    Each testcase will be done 3 times and the average of those will be used as the final result.
   </p>
 
   <h3 id="system-environment">System environment</h3>
