@@ -146,4 +146,12 @@ sv-post {
     }
   }
 
+  .benchmark-results {
+    width: 100%;
+
+    ol li {
+      margin-bottom: 0!important;
+    }
+  }
+
 }

@@ -203,11 +203,15 @@ ol, ul, p {
     th, td {
       text-align: left;
       vertical-align: top;
-      padding: 5px 15px 5px 0px;
+      padding: 5px 15px 5px 0;
       line-height: 1.5;
     }
 
-    td p {
+    th span {
+      font-weight: normal;
+    }
+
+    td p, td ol, td ul {
       font-size: 1em;
     }
   }
@@ -414,7 +418,7 @@ ol, ul, p {
 .alert {
   padding: 15px 15px 15px 85px;
   margin-bottom: 20px;
-  border: 1px solid rgba(0,0,0,0);
+  border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 4px;
 
   @media (min-width: 420px) {

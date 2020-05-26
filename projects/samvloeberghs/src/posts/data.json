@@ -6,7 +6,7 @@
     "author": "Sam Vloeberghs",
     "img": "/assets/share/posts/scully.png",
     "imgShare": "/assets/share/posts/scully_share.png",
-    "short": ""
+    "short": "In my previous post about the differences between Universal and Scully I mentioned that Universal can be much faster in the (pre)rendering process compared to Scully. This difference is mainly significant and noticeable in the order of thousands of pages and more as we will show."
   },
   {
     "title": "Scully or Angular Universal, what is the difference?",
