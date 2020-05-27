@@ -360,7 +360,10 @@
   <p>
     Scully is still in alpha, nearing their first beta release and there will probably follow more internal
     optimizations. However, Scully, using Puppeteer, will never be able to perform as optimal and fast as Universal.
-    </p>
+  </p>
+
+  <h3 id="limiting-the-to-render-list-of-pages">Limit the to-render list of pages</h3>
+
   <p>
     If your application has a lot of pages you definitely need strategies that will only rerender specific pages when
     your content changes. These algorithms can be build in
@@ -368,6 +371,35 @@
       plugin</a>. You could for example query a service that will only give back the changed identifiers since a given
     datetime. That way your list of to render routes will be limited to the updated pages.
   </p>
+
+  <p>
+    Another but related technique to the strategy described above is the use of the <code>--baseFilter</code> option. If
+    this option is specified only the routes that start with this prefix are taken into account. This way you can
+    prerender only a part of your application routing tree.
+  </p>
+
+  <h3 id="disable-specific-resource-types">Disable specific resource types</h3>
+
+  <p>
+    Using the option <code>--ignoreResourceTypes</code> we can block specific request to
+    <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/puppeteer/v2/index.d.ts#L939">resources</a>
+    from happening in Puppeteer when our pages get rendered. This will slightly decrease the prerendering execution time
+    and <strong>potentially dramatically decrease the amounts of data that is loaded</strong> during prerendering. The
+    following configuration will block all image, other media, font and stylesheet resources from being loaded.
+  </p>
+
+  <h4 class="codetitle">scully.&lt;your-project-name&gt;.config.js</h4>
+  <pre><code class="language-js line-numbers">exports.config = {
+    projectRoot: "./apps/&lt;your-project-name&gt;/src",
+    projectName: "&lt;your-project-name&gt;",
+    outDir: './dist/apps/&lt;your-project-name&gt;-static',
+    ignoreResourceTypes: [
+      'image',
+      'media',
+      'font',
+      'stylesheet'
+    ]
+};</code></pre>
 
   <h2 id="conclusion">Conclusion</h2>
 
