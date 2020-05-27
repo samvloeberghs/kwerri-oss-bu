@@ -67,8 +67,8 @@
 
   <p class="alert alert-info">
     Due to the different implementation details of Universal and Scully the application was build twice, but with the
-    same structural setup, markup and styles. This means the code is not completely identical; the difference is the
-    injection of the <code>ScullyLibModule</code> in the Scully application. This difference should not have a
+    same structural setup, markup and styles. This means the code is not completely identical; the only difference is
+    the injection of the <code>ScullyLibModule</code> in the Scully application. This difference should not have a
     significant influence on the test results.
   </p>
 
@@ -84,14 +84,14 @@
 
   <p>
     The HTML render-output will be minified using
-    <code><a href="https://www.npmjs.com/package/html-minifier" target="_blank" rel="noopener">html-mifier</a></code>.
+    <code><a href="https://www.npmjs.com/package/html-minifier" target="_blank" rel="noopener">html-minifier</a></code>.
     The dynamic data, that is loaded on the news overview and detail pages, is inlined in the HTML.
   </p>
 
   <p>
-    We will monitor the time it takes for rendering 100, 1 000 (one thousand) and 10 000 (ten thousand) news detail pages
-    with Scully and Universal.
-    Each testcase will be done 3 times and the average of those will be used as the final result.
+    We will monitor the time it takes for rendering 100, 1,000 (one thousand) and 10,000 (ten thousand) news detail
+    pages with Scully and Universal. Each testcase will be done 3 times and the average of those will be used as the
+    final result.
   </p>
 
   <h3 id="system-environment">System environment</h3>
@@ -123,10 +123,8 @@
 
   <p>
     We have to serve the application (line 1) while the prerender process is ongoing to be able to load the data for the
-    news
-    overview and detail pages. In a separate terminal (line 3) we group the prerendering and minification process and
-    pipe it
-    to the <code>gnomon</code> command to measure the execution time.
+    news overview and detail pages. In a separate terminal (line 3) we group the prerendering and minification process
+    and pipe it to the <code>gnomon</code> command to measure the execution time.
   </p>
 
   <pre><code class="language-bash line-numbers">npx nx serve universal
@@ -174,7 +172,7 @@
     <tbody>
     <tr>
       <th>
-        100 newsitems<br />
+        100 newsitems<br/>
         <span>(103 pages)</span>
       </th>
       <td>
@@ -183,7 +181,7 @@
           <li>23.1978s</li>
           <li>22.9150s</li>
         </ol>
-        <strong>AVG:</strong> 22.4795s
+        <strong>AVG:</strong> 22.48s
       </td>
       <td>
         <ol>
@@ -191,21 +189,22 @@
           <li>18.6448s</li>
           <li>19.3353s</li>
         </ol>
-        <strong>AVG:</strong> 19.4195s
+        <strong>AVG:</strong> 19.42s
       </td>
     </tr>
     <tr>
       <th>
-        1 000 newsitems<br />
-        <span>(1 003 pages)</span>
+        1,000 newsitems<br/>
+        <span>(1,003 pages)</span>
       </th>
       <td>
         <ol>
-          <li>1m 20.2675s</li>
-          <li>1m 21.8941s</li>
-          <li>1m 23.0996s</li>
+          <li>80.2675s</li>
+          <li>81.8941s</li>
+          <li>83.0996s</li>
         </ol>
-        <strong>AVG:</strong> 1m 21.7537s
+        <strong>AVG:</strong> 81.75s<br/>
+        = 1min 21.75s
       </td>
       <td>
         <ol>
@@ -213,21 +212,22 @@
           <li>24.4074s</li>
           <li>24.8957s</li>
         </ol>
-        <strong>AVG:</strong> 24.2991s
+        <strong>AVG:</strong> 24.30s
       </td>
     </tr>
     <tr>
       <th>
-        10 000 newsitems<br />
-        <span>(10 003 pages)</span>
+        10,000 newsitems<br/>
+        <span>(10,003 pages)</span>
       </th>
       <td>
         <ol>
-          <li>9m 18.8358s</li>
-          <li>9m 30.9914s</li>
-          <li>9m 30.1917s</li>
+          <li>738.8358s</li>
+          <li>750.9914s</li>
+          <li>750.1917s</li>
         </ol>
-        <strong>AVG:</strong> 9m 26.6730s
+        <strong>AVG:</strong> 746.67s<br/>
+        = 9min 26.67s
       </td>
       <td>
         <ol>
@@ -235,16 +235,20 @@
           <li>55.0127s</li>
           <li>56.8955s</li>
         </ol>
-        <strong>AVG:</strong> 55.6778ss
+        <strong>AVG:</strong> 55.68s
       </td>
     </tr>
     </tbody>
   </table>
 
+  <img class="extraspace zoomin"
+       src="/posts/scully-and-angular-universal-comparing-benchmarks/comparing-graph.png"
+       alt="Scully - Universal - Comparing Graph"/>
+
   <h3 id="asset-html-sizes">Asset and HTML page sizes</h3>
 
   <p>
-    This second table shows an overview of the sizes of the generated <code>index.html</code> files and the total of
+    The second table shows an overview of the sizes of the generated <code>index.html</code> files and the total of
     assets loaded when requesting a specific page that bootstraps the Angular application on pageload.
   </p>
 
@@ -323,8 +327,8 @@
 
   <ul>
     <li>
-      Execution time will be influenced by other processed running. If you can run the process on a clean and isolated
-      node. This will give the most stable results.
+      Execution time will be influenced by other processes running. If you can run the process on a clean and isolated
+      node it will give the most stable results.
     </li>
     <li>
       The HTML minification process for the Univeral prerendering process can be considered as sub-optimal.
@@ -341,38 +345,54 @@
 
   <ul>
     <li>
-      Universal is notably faster, in the order of 100 pages the differences is neglectable. For around 1 000 pages the
-      execution time for Scully triples, compared to Universal. For 10 000 of pages Universal is even a factor ~20 faster.
+      Universal is notably faster, but in the order of 100 pages the differences are neglectable. For around 1,000 pages
+      the
+      execution time for Scully triples compared to Universal. For 10,000 of pages Universal is a factor ~10 faster.
     </li>
     <li>
       Using Scully adds around 10kb to the total asset size of the Angular application. 10kb is not little, but with
-      around 1/30 of the total asset size I do no consider this significant.
+      around 1/30 of the total asset size of a very basic application I do no consider this to be significant.
     </li>
   </ul>
+
+  <h2 id="how-to-optimize-scully">How to optimize Scully</h2>
+
+  <p>
+    Scully is still in alpha, nearing their first beta release and there will probably follow more internal
+    optimizations. However, Scully, using Puppeteer, will never be able to perform as optimal and fast as Universal.
+    </p>
+  <p>
+    If your application has a lot of pages you definitely need strategies that will only rerender specific pages when
+    your content changes. These algorithms can be build in
+    <a href="posts/custom-plugins-for-scully-angular-static-site-generator" target="_blank">your own custom router
+      plugin</a>. You could for example query a service that will only give back the changed identifiers since a given
+    datetime. That way your list of to render routes will be limited to the updated pages.
+  </p>
 
   <h2 id="conclusion">Conclusion</h2>
 
   <p>
-    <strong>Please don't take my writings for granted on this</strong>. The example application is far from a real-world
-    application, but the concepts and benchmarking process explained can easily be applied on your own use-case. Adding
-    3rd party libraries or loading a content-heavy and/or functionality-heavy page might yield other results. If you are
-    willing to share your benchmarking results I would be very happy! :)
+    <strong>Please don't take my writings for granted on this and don't use these metrics for your project</strong>. The
+    example application is far from a real-world application, but the concepts and benchmarking process explained can
+    easily be applied on your own use-case. <strong>Adding 3rd party libraries or loading a content-heavy and/or
+    functionality-heavy page might yield completely different results</strong>. If you are willing to share your
+    benchmarking results I would be very happy! :)
   </p>
 
   <p>
     One thing is for sure though.. If you implement Universal, the prerendering process time will dramaticaly decrease
     (<em>read: be faster</em>) if you are generating pages in amounts of 1000+. If your content is highly volatile but
-    you want
-    to keep benefiting from prerendering, consider implementing Universal or apply smart rerendering strategies for your
-    application.
+    you want to keep benefiting from prerendering, consider implementing Universal or at least <strong>apply smart
+    rerendering strategies</strong> for your Scully powered application when data changes.
   </p>
 
   <p>
-    Just because these tests showed that Scully becomes slow in a higher order of amounts of pages doesn't mean it's
-    bad at what it does. Scully solves other problems and also allows for smarter rerendering strategies which will
-    surely follow! The Scully team is working hard to make it even better. If you want more advice, check my other
-    blogpost on <a href="posts/scully-or-angular-universal-what-is-the-difference" target="_blank">the differences
-    between Scully and Universal</a>.
+    <strong>Just because these tests showed that Scully becomes slow in a higher order of amounts of pages, in this particular
+      example application, doesn't mean it's bad at what it does</strong>. Scully solves other problems and also allows for smarter
+    rerendering strategies which will surely follow! The Scully team is working hard to make it even better. If you want
+    more advice, check my other blogpost on
+    <a href="posts/scully-or-angular-universal-what-is-the-difference" target="_blank">the differences between Scully
+      and Universal</a>.
   </p>
 
   <h2 id="further-reading">Further reading</h2>
@@ -402,6 +422,7 @@
 
   <h2 id="special-thanks-to">Special thanks to</h2>
 
+  <!--
   <ul>
     <li>
       <a href="https://twitter.com/antoinepairet" rel="noopener" target="_blank">Antoine Pairet</a>
@@ -410,6 +431,7 @@
       <a href="https://twitter.com/aaronfrost" rel="noopener" target="_blank">Aaron Frost</a>
     </li>
   </ul>
+  -->
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
 
