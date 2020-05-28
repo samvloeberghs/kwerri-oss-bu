@@ -331,13 +331,13 @@
       node it will give the most stable results.
     </li>
     <li>
-      The HTML minification process for the Univeral prerendering process can be considered as sub-optimal.
-      There is currently no easy way to directly hook into the process. So we need a separate post-process that will do
-      a read and write operation for minifying each HTML file.
+      <strong>The HTML minification process for the Univeral prerendering process can be considered as sub-optimal.
+      </strong> There is currently no easy way to directly hook into the process. So we need a separate post-process
+      that will do a read and write operation for minifying each HTML file.
     </li>
     <li>
-      Both technologies allow for more smart rerendering of the prerendered pages. You can build smart systems that will
-      only prerender a part of your application, or even only one specific page, after data changes.
+      Both technologies allow for more <strong>smart rerendering</strong> of the prerendered pages. You can build smart
+      systems that will only prerender a part of your application, or even only one specific page, after data changes.
     </li>
   </ul>
 
@@ -350,8 +350,9 @@
       execution time for Scully triples compared to Universal. For 10,000 of pages Universal is a factor ~10 faster.
     </li>
     <li>
-      Using Scully adds around 10kb to the total asset size of the Angular application. 10kb is not little, but with
-      around 1/30 of the total asset size of a very basic application I do no consider this to be significant.
+      Using <strong>Scully adds around 10kb to the total asset size</strong> of the Angular application. 10kb is not
+      little, but with around 1/30 of the total asset size of a very basic application I do no consider this to be
+      significant.
     </li>
   </ul>
 
@@ -360,6 +361,7 @@
   <p>
     Scully is still in alpha, nearing their first beta release and there will probably follow more internal
     optimizations. However, Scully, using Puppeteer, will never be able to perform as optimal and fast as Universal.
+    Let's explore <strong>other ways and techniques to optimize Scully</strong>.
   </p>
 
   <h3 id="limiting-the-to-render-list-of-pages">Limit the to-render list of pages</h3>
@@ -369,13 +371,13 @@
     your content changes. These algorithms can be build in
     <a href="posts/custom-plugins-for-scully-angular-static-site-generator" target="_blank">your own custom router
       plugin</a>. You could for example query a service that will only give back the changed identifiers since a given
-    datetime. That way your list of to render routes will be limited to the updated pages.
+    datetime. That way <strong>your list of to render routes will be limited to the updated pages</strong>.
   </p>
 
   <p>
     Another but related technique to the strategy described above is the use of the <code>--baseFilter</code> option. If
     this option is specified only the routes that start with this prefix are taken into account. This way you can
-    prerender only a part of your application routing tree.
+    <strong>prerender only a part of your application routing-tree</strong>.
   </p>
 
   <h3 id="disable-specific-resource-types">Disable specific resource types</h3>
@@ -419,12 +421,17 @@
   </p>
 
   <p>
-    <strong>Just because these tests showed that Scully becomes slow in a higher order of amounts of pages, in this particular
-      example application, doesn't mean it's bad at what it does</strong>. Scully solves other problems and also allows for smarter
-    rerendering strategies which will surely follow! The Scully team is working hard to make it even better. If you want
-    more advice, check my other blogpost on
-    <a href="posts/scully-or-angular-universal-what-is-the-difference" target="_blank">the differences between Scully
-      and Universal</a>.
+    <strong>Just because these tests showed that Scully becomes slow in a higher order of amounts of pages, in this
+      particular example application, doesn't mean it's bad at what it does</strong>. Scully solves other problems and
+    the time/money you might invest on adding Universal support might be more than extra build and render time Scully
+    introduces.
+  </p>
+
+  <p>
+    The Scully team is working hard to keep improving. If you want more advice on the Scully vs Angular Universal
+    debate, check my other blogpost on <a href="posts/scully-or-angular-universal-what-is-the-difference"
+                                          target="_blank">
+    the differences between Scully and Universal</a>.
   </p>
 
   <h2 id="further-reading">Further reading</h2>
