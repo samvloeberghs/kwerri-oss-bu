@@ -1,5 +1,11 @@
-import { registerPlugin, HandledRoute, ScullyConfig, scullyConfig } from '@scullyio/scully';
+import { registerPlugin, getPluginConfig } from '@scullyio/scully';
 import { minify, Options } from 'html-minifier';
+
+export const MinifyHtml = 'minifyHtml';
+
+export interface MinifyHtmlOptions {
+  minifyOptions: Options;
+}
 
 const defaultMinifyOptions: Options = {
   caseSensitive: true,
@@ -29,35 +35,28 @@ const defaultMinifyOptions: Options = {
   ],
 };
 
-export interface MinifyHtmlHandledRoute extends HandledRoute {
-  minifyHtmlOptions: Options;
-}
-
-export interface MinifyHtmlScullyConfig extends ScullyConfig {
-  minifyHtmlOptions: Options;
-}
-
-export const minifyHtmlPlugin = (html, route: MinifyHtmlHandledRoute) => {
+export const minifyHtmlPlugin = (html: string) => {
   let localMinifyOptions = defaultMinifyOptions;
-  if (route.minifyHtmlOptions) {
+  const customMinifyOptions = getPluginConfig<MinifyHtmlOptions>(MinifyHtml, 'render');
+
+  if (customMinifyOptions && customMinifyOptions.minifyOptions) {
     localMinifyOptions = {
       ...defaultMinifyOptions,
-      ...route.minifyHtmlOptions,
+      ...customMinifyOptions.minifyOptions,
       ignoreCustomComments: [
-        ...route.minifyHtmlOptions.ignoreCustomComments,
         ...defaultMinifyOptions.ignoreCustomComments,
+        ...(customMinifyOptions.minifyOptions.ignoreCustomComments ? customMinifyOptions.minifyOptions.ignoreCustomComments : []),
+      ],
+      ignoreCustomFragments: [
+        ...defaultMinifyOptions.ignoreCustomFragments,
+        ...(customMinifyOptions.minifyOptions.ignoreCustomFragments ? customMinifyOptions.minifyOptions.ignoreCustomFragments : []),
       ],
     };
-  } else if ((scullyConfig as MinifyHtmlScullyConfig).minifyHtmlOptions) {
-    localMinifyOptions = {
-      ...defaultMinifyOptions,
-      ...(scullyConfig as MinifyHtmlScullyConfig).minifyHtmlOptions,
-    };
   }
+
   return minify(html, localMinifyOptions);
 };
 
 // no validation implemented
 const minifyHtmlPluginValidator = async () => [];
-export const MinifyHtml = 'minifyHtml';
 registerPlugin('render', MinifyHtml, minifyHtmlPlugin);

@@ -97,27 +97,30 @@ Configuring the options can be done on the Scully config root level, for the `de
 If you don't provide options at the route level, the configuration from the root level will be used.
 
 ```js
-const {RouteTypes} = require('@scullyio/scully');
-const {MinifyHtml} = require('scully-plugin-minify-html');
+const {RouteTypes, setPluginConfig} = require('@scullyio/scully');
+const {MinifyHtml, MinifyHtmlOptions} = require('scully-plugin-minify-html');
 
 const postRenderers = [MinifyHtml];
 
-const minifyHtmlOptions = {
-  removeComments: false
+const minifyHtmlOptions: MinifyHtmlOptions = {
+  minifyOptions: {
+    removeComments: false
+  }
 };
+setPluginConfig(MinifyHtml, 'render', minifyHtmlOptions);
+// or 
+// setPluginConfig(MinifyHtml, minifyHtmlOptions); 
 
 exports.config = {
   projectRoot: './src/app',
   defaultPostRenderers: postRenderers,
-  minifyHtmlOptions,    // for all routes
   routes: {
     '/blog/:slug': {
       type: RouteTypes.contentFolder,
       slug: {
         folder: "./blog"
       },
-      postRenderers: postRenderers,
-      minifyHtmlOptions,    // per route config
+      postRenderers: postRenderers
     },
   }
 };

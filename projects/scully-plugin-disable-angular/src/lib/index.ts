@@ -1,15 +1,22 @@
-import { registerPlugin, scullyConfig } from '@scullyio/scully';
+import { getPluginConfig, registerPlugin, scullyConfig } from '@scullyio/scully';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+
+export const DisableAngular = 'disableAngular';
+
+export interface DisableAngularOptions {
+  removeState: boolean;
+}
 
 const escapeRegExp = (string): string => {
   // $& means the whole matched string
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-const disableAngularPlugin = async (html) => {
+const disableAngularPlugin = (html: string) => {
   const tsConfigPath = 'tsconfig.json';
   const tsConfig = JSON.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
+  const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
 
   let isEs5Config = false;
   let statsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
@@ -56,10 +63,14 @@ Please run 'ng build' with the '--stats-json' flag`;
     const regex = new RegExp(`<script( charset="?utf-8"?)? src="?${escapeRegExp(entry)}"?( type="?module"?)?( nomodule(="")?)?( defer(="")?)?><\/script>`, 'gmi');
     html = html.replace(regex, '');
   });
-  return Promise.resolve(html);
+
+  if (disableAngularOptions.removeState) {
+    const regex = new RegExp('<script id="ScullyIO-transfer-state">([\\S\\s]*?)<\\/script>');
+    html = html.replace(regex, '');
+  }
+  return html;
 };
 
 // no validation implemented
 const disableAngularPluginValidator = async () => [];
-export const DisableAngular = 'disableAngular';
 registerPlugin('render', DisableAngular, disableAngularPlugin);

@@ -182,9 +182,9 @@ const newsPlugin = async(route, config) => {
   return handledRoutes;
 };
 
+// no validation implemented
 const newsPluginValidator =  async conf => [];
-
-registerPlugin('router', News, newsPlugin, newsPluginValidator);
+registerPlugin('router', News, newsPlugin);
 exports.News = News;
 </code></pre>
 
@@ -288,14 +288,14 @@ const defaultMinifyOptions: Options = {
     removeOptionalTags: false,
 };
 
-export const minifyHtmlPlugin = async (html, route) => {
-    const minifiedHtml = minify(html, defaultMinifyOptions);
-    return Promise.resolve(minifiedHtml);
+export const minifyHtmlPlugin = (html, route) => {
+    return minify(html, defaultMinifyOptions);
 };
 
+// no validation implemented
 const minifyHtmlPluginValidator = async () => [];
 export const MinifyHtml = 'minifyHtml';
-registerPlugin('render', MinifyHtml, minifyHtmlPlugin, minifyHtmlPluginValidator);
+registerPlugin('render', MinifyHtml, minifyHtmlPlugin);
 </code></pre>
 
   <ol>

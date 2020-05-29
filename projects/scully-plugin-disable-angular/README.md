@@ -53,6 +53,37 @@ npm run build -- --prod --stats-json
 npm run scully
 ```
 
+## Clearing dynamic state
+
+When disabling Angular in your prerendered pages there is no point in keeping
+the dynamic state serialized in your HTML. By providing the option `removeState` 
+to the configuration the plugin will remove this state from the HTML.
+
+```js
+const {RouteTypes, setPluginConfig} = require('@scullyio/scully');
+const {DisableAngular} = require('scully-plugin-disable-angular');
+
+const postRenderers = [DisableAngular];
+
+setPluginConfig(DisableAngular, 'render', {
+  removeState: true
+});
+
+exports.config = {
+  projectRoot: './src/app',
+  defaultPostRenderers: postRenderers,  // for all routes
+  routes: {
+    '/blog/:slug': {
+      type: RouteTypes.contentFolder,
+      slug: {
+        folder: "./blog"
+      },
+      postRenderers: postRenderers      // per route config
+    },
+  }
+};
+```
+
 ## More information
 
 I've written a [blogpost about custom plugins for Scully](https://samvloeberghs.be/posts/custom-plugins-for-scully-angular-static-site-generator).
