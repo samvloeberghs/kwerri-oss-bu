@@ -20,13 +20,13 @@ const defaultMinifyOptions: Options = {
   // scully specific HTML comments
   // this will always be added in the final minifyOptions config
   ignoreCustomComments: [
-    /scullyContent-(begin|end)/
+    /scullyContent-(begin|end)/,
   ],
   // scully specific data injection
   // this will always be added in the final minifyOptions config
   ignoreCustomFragments: [
-    /\/\*\* ___SCULLY_STATE_(START|END)___ \*\//
-  ]
+    /\/\*\* ___SCULLY_STATE_(START|END)___ \*\//,
+  ],
 };
 
 export interface MinifyHtmlHandledRoute extends HandledRoute {
@@ -37,7 +37,7 @@ export interface MinifyHtmlScullyConfig extends ScullyConfig {
   minifyHtmlOptions: Options;
 }
 
-export const minifyHtmlPlugin = async (html, route: MinifyHtmlHandledRoute) => {
+export const minifyHtmlPlugin = (html, route: MinifyHtmlHandledRoute) => {
   let localMinifyOptions = defaultMinifyOptions;
   if (route.minifyHtmlOptions) {
     localMinifyOptions = {
@@ -45,8 +45,8 @@ export const minifyHtmlPlugin = async (html, route: MinifyHtmlHandledRoute) => {
       ...route.minifyHtmlOptions,
       ignoreCustomComments: [
         ...route.minifyHtmlOptions.ignoreCustomComments,
-        ...defaultMinifyOptions.ignoreCustomComments
-      ]
+        ...defaultMinifyOptions.ignoreCustomComments,
+      ],
     };
   } else if ((scullyConfig as MinifyHtmlScullyConfig).minifyHtmlOptions) {
     localMinifyOptions = {
@@ -54,8 +54,7 @@ export const minifyHtmlPlugin = async (html, route: MinifyHtmlHandledRoute) => {
       ...(scullyConfig as MinifyHtmlScullyConfig).minifyHtmlOptions,
     };
   }
-  const minifiedHtml = minify(html, localMinifyOptions);
-  return Promise.resolve(minifiedHtml);
+  return minify(html, localMinifyOptions);
 };
 
 // no validation implemented
