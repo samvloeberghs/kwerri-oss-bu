@@ -40,14 +40,13 @@
   <p>
     When building and maintaining a large website, for example a business directory, <strong>where rerenders are often
     necessary, this can become very important</strong>. If it takes an hour or more to prerender all the pages the data
-    might have changed again before the process ended.. So let's see how both technologies behave on the same
-    application
-    and come up with the actual metrics!
+    might have changed again before the process ended. So let's see how both technologies behave on the same
+    application and come up with the actual metrics!
   </p>
 
   <p class="alert alert-warning">
     <strong>Important:</strong> This post is not intented to break down or bash any of the 2 technologies. I love both
-    of them very much and I believe they both have their use case! But as a good software engineer you should always try
+    of them very much and I believe they both have their use case! As a good software engineer you should always try
     to make the best and informed decisions about technology choices, especially if you can base those decisions
     on simple benchmarks!
   </p>
@@ -79,7 +78,9 @@
   <p>
     Scully and Universal will prerender all the pages that are available on the application. These pages include the
     <a href="https://www.npmjs.com/package/guess-parser" target="_blank" rel="noopener">auto-discovered pages</a> and
-    the list of pages that is generated based on the available news data.
+    the list of pages that is generated based on the available news data. For Scully, the list of dynamic pages is
+    created using <a href="http://localhost:4200/posts/custom-plugins-for-scully-angular-static-site-generator#custom-router-plugin" target="_blank">
+    a custom routerPlugin</a>. For Universal we used a node script. The result is the same.
   </p>
 
   <p>
@@ -148,9 +149,9 @@
 </code></pre>
 
   <p class="alert alert-info">
-    For testing the different amount of pages we need to modify <code>news-100(0)(0).json</code> in the <code>scully.scully.config.js</code>,
-    the
-    <code>overview.component.ts</code> and <code>generate-routes.ts</code> file.
+    For testing the different amount of pages we need to modify the reference to <code>news-100(0)(0).json</code> in
+    the <code>scully.scully.config.js</code>, the <code>overview.component.ts</code> and <code>generate-routes.ts</code>
+    files.
   </p>
 
   <h2 id="benchmark-results">Benchmark results</h2>
@@ -338,6 +339,7 @@
     <li>
       Both technologies allow for more <strong>smart rerendering</strong> of the prerendered pages. You can build smart
       systems that will only prerender a part of your application, or even only one specific page, after data changes.
+      You will always need an initial prerendering of all pages.
     </li>
   </ul>
 
@@ -345,9 +347,9 @@
 
   <ul>
     <li>
-      Universal is notably faster, but in the order of 100 pages the differences are neglectable. For around 1,000 pages
-      the
-      execution time for Scully triples compared to Universal. For 10,000 of pages Universal is a factor ~10 faster.
+      <strong>Universal is notably faster</strong>, but in the order of 100 pages the differences are neglectable.
+      For around 1,000 pages the execution time for Scully triples compared to Universal. For 10,000 of pages Universal
+      is a factor ~10 faster.
     </li>
     <li>
       Using <strong>Scully adds around 10kb to the total asset size</strong> of the Angular application. 10kb is not
@@ -382,10 +384,16 @@
 
   <h3 id="disable-specific-resource-types">Disable specific resource types</h3>
 
+  <p class="alert alert-warning">
+    <strong>Important:</strong> This feature is still <a href="https://github.com/scullyio/scully/pull/589"
+                                                         rel="noopener" target="_blank">
+    a work in progress</a>, but could get merged soon.
+  </p>
+
   <p>
     Using the option <code>--ignoreResourceTypes</code> we can block specific request to
     <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/puppeteer/v2/index.d.ts#L939">resources</a>
-    from happening in Puppeteer when our pages get rendered. This will only slightly decrease the prerendering execution
+    from happening in Puppeteer when our pages get rendered. This might only slightly decrease the prerendering execution
     time but <strong>potentially dramatically decrease the amounts of data that is loaded</strong> during prerendering.
     The following configuration will block all image, other media, font and stylesheet resources from being loaded.
   </p>
@@ -423,15 +431,15 @@
   <p>
     <strong>Just because these tests showed that Scully becomes slow in a higher order of amounts of pages, in this
       particular example application, doesn't mean it's bad at what it does</strong>. Scully solves other problems and
-    the time/money you might invest on adding Universal support might be more than extra build and render time Scully
-    introduces.
+    the time/money you might invest on adding Universal support might be more then the extra build and render time
+    Scully introduces.
   </p>
 
   <p>
-    The Scully team is working hard to keep improving. If you want more advice on the Scully vs Angular Universal
-    debate, check my other blogpost on <a href="posts/scully-or-angular-universal-what-is-the-difference"
-                                          target="_blank">
-    the differences between Scully and Universal</a>.
+    <strong>Choose wisely and consider all aspects!</strong> The Scully team is working hard to keep improving. If you
+    want more advice on the Scully vs Angular Universal debate, check my other blogpost on
+    <a href="posts/scully-or-angular-universal-what-is-the-difference" target="_blank">the differences between Scully
+      and Universal</a>. Thanks for reading!
   </p>
 
   <h2 id="further-reading">Further reading</h2>
@@ -461,16 +469,17 @@
 
   <h2 id="special-thanks-to">Special thanks to</h2>
 
-  <!--
   <ul>
     <li>
-      <a href="https://twitter.com/antoinepairet" rel="noopener" target="_blank">Antoine Pairet</a>
+      <a href="https://twitter.com/sanderelias" rel="noopener" target="_blank">Sander Elias</a>
     </li>
     <li>
       <a href="https://twitter.com/aaronfrost" rel="noopener" target="_blank">Aaron Frost</a>
     </li>
+    <li>
+      <a href="https://twitter.com/leonelngande" rel="noopener" target="_blank">Leonel Elimpe</a>
+    </li>
   </ul>
-  -->
 
   <p>for reviewing this post and providing valuable and much-appreciated feedback!</p>
 
