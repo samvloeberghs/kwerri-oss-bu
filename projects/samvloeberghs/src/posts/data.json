@@ -2,7 +2,7 @@
   {
     "title": "Scully and Angular Universal, comparing benchmarks",
     "slug": "scully-and-angular-universal-comparing-benchmarks",
-    "publishDatetime": "2020-06-01T12:00:00+01:00",
+    "publishDatetime": "2020-05-31T12:00:00+01:00",
     "author": "Sam Vloeberghs",
     "img": "/assets/share/posts/scully.png",
     "imgShare": "/assets/share/posts/scully_share.png",
@@ -22,6 +22,7 @@
     "title": "Disabling Angular when statically generating with Scully",
     "slug": "disabling-angular-when-statically-genering-with-scully",
     "publishDatetime": "2020-02-05T12:00:00+01:00",
+    "updateDatetime": "2020-05-31T12:00:00+01:00",
     "author": "Sam Vloeberghs",
     "img": "/assets/share/posts/scully.png",
     "imgShare": "/assets/share/posts/scully_share.png",

@@ -205,6 +205,37 @@ exports.config = {
     all the relevant <code>&lt;script&gt;</code> tags.
   </p>
 
+  <h3 id="remove-the-dynamic-state">Optional: remove the dynamic state</h3>
+
+  <p class="alert alert-info">
+    <strong>Update:</strong> Recently I added a new option <code>removeState</code> to the <code>DisableAngular</code>
+    Scully plugin.
+  </p>
+
+  <p>
+    When generating dynamic pages with Scully the data that was used to generate the pages is included in the HTML.
+    This allows Scully to fetch the data from there when navigating around the pages in the bootstrapped Angular
+    application.
+  </p>
+  <p>
+    However, when disabling Angular this has no use, as all navigations around the app are new navigation requests in
+    the browser. Removing the dynamic state completely further optimizes our pages (decrease the total HTML size).
+  </p>
+
+  <h4 class="codetitle">scully.&lt;your-project-name&gt;.config.js</h4>
+  <pre data-line="4-6"><code class="language-js line-numbers">const { setPluginConfig } = require('@scullyio/scully');
+const {DisableAngular} = require('scully-plugin-disable-angular');
+
+setPluginConfig(DisableAngular, {
+  removeState: true
+});
+const postRenderers = [DisableAngular];
+
+exports.config = {
+  projectRoot: './src',
+  defaultPostRenderers: postRenderers,
+};</code></pre>
+
   <h2 id="typical-use-cases-and-examples">Typical use cases and examples</h2>
 
   <p>
@@ -219,8 +250,8 @@ exports.config = {
   </p>
 
   <p>
-    Using Angular to hide/show a part of your application when clicking a button might be overkill. For this we could use
-    plain JavaScript. So it might be worth investigating seperating this logic out from your Angular application.
+    Using Angular to hide/show a part of your application when clicking a button might be overkill. For this we could
+    use plain JavaScript. So it might be worth investigating seperating this logic out from your Angular application.
   </p>
 
   <h2 id="conclusion">Conclusion</h2>
