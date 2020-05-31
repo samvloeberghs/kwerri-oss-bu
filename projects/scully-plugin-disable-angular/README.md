@@ -1,6 +1,7 @@
 # scully-plugin-disable-angular
 
-This `postRenderer` plugin for [Scully](http://scully.io/) removes the static assets that bootstrap the Angular application.
+This `postRenderer` plugin for [Scully](http://scully.io/) removes the static assets that bootstrap the Angular 
+application. Optionally you can also remove the dynamic transfer state from the HTML.
 
 If you are only using Angular to build a static / informational website with little extra functionality 
 it could be overkill to still use Angular on the frontend.
@@ -23,6 +24,12 @@ $ yarn add scully-plugin-disable-angular
 
 Import and add the plugin to the `defaultPostRenderers` to execute it on all rendered pages 
 or use the `postRenderers` on a route configuration to execute it for a specific route:
+
+**Important:** the current implementation of Scully is that if you provide a `postRenderers` option 
+on a route level, it will ignore the configuration of the `defaultPostRenderers` option at
+the root level of the config.
+
+For more information, check out: https://github.com/scullyio/scully/issues/595
 
 ```js
 const {RouteTypes} = require('@scullyio/scully');

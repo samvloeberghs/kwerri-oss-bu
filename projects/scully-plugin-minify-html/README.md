@@ -1,8 +1,8 @@
 # scully-plugin-minify-html
 
 This `postRenderer` plugin for [Scully](http://scully.io/) will minify the HTML of your prerendered pages. 
-Removing unnecessary code will decrease the size of your files.
 
+Removing unnecessary code will decrease the size of your files.
 This will speed up your loading times and mobile scores even more!
 
 ## Installation
@@ -23,11 +23,17 @@ It will be installed automatically when installing this package.
 ## Usage
 
 Import and add the plugin to the `defaultPostRenderers` to execute it on all rendered pages 
-or use the `postRenderers` on a route configuration to execute it for a specific route:
+or use the `postRenderers` on a route configuration to execute it for a specific route. 
+
+**Important:** the current implementation of Scully is that if you provide a `postRenderers` option 
+on a route level, it will ignore the configuration of the `defaultPostRenderers` option at
+the root level of the config.
+
+For more information, check out: https://github.com/scullyio/scully/issues/595
 
 ```js
-const {RouteTypes} = require('@scullyio/scully');
-const {MinifyHtml} = require('scully-plugin-minify-html');
+const { RouteTypes } = require('@scullyio/scully');
+const { MinifyHtml } = require('scully-plugin-minify-html');
 
 const postRenderers = [MinifyHtml];
 
@@ -92,13 +98,12 @@ const defaultMinifyOptions: Options = {
 };
 ```
 
-Configuring the options can be done on the Scully config root level, for the `defaultPostRenderers` or at route config level for the `postRenderers`.
-
-If you don't provide options at the route level, the configuration from the root level will be used.
+Configuring the options can be done via the `setPluginConfig` function.
+You can specifiy a subset of the minification options that will override the default configuration.
 
 ```js
-const {RouteTypes, setPluginConfig} = require('@scullyio/scully');
-const {MinifyHtml, MinifyHtmlOptions} = require('scully-plugin-minify-html');
+const { RouteTypes, setPluginConfig } = require('@scullyio/scully');
+const { MinifyHtml, MinifyHtmlOptions } = require('scully-plugin-minify-html');
 
 const postRenderers = [MinifyHtml];
 
