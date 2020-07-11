@@ -16,7 +16,7 @@ module.exports = {
     nodeExternals()
   ],
   output: {
-    path: path.join(__dirname, '..', '..', 'dist', 'samvloeberghs-server/'),
+    path: path.join(__dirname, '..', '..', 'dist', 'old-samvloeberghs-server/'),
     filename: '[name].js'
   },
   module: {

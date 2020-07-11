@@ -1,9 +1,9 @@
-import { AfterViewChecked, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, switchMap } from 'rxjs/operators';
 import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-seo';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
 import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
@@ -33,8 +33,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly jsonLdService: JsonLdService,
     private readonly highlightService: HighlightService,
     private readonly elementRef: ElementRef,
-    @Inject(PLATFORM_ID) private readonly platformId: Object,
-    @Inject(DOCUMENT) private readonly document: Document
+    @Inject(DOCUMENT) private readonly document: Document,
   ) {
   }
 
@@ -125,7 +124,6 @@ export class PostComponent implements OnInit, AfterViewChecked {
   }
 
   private parseContentToc(content) {
-
     const el = this.document.createElement('div');
     el.innerHTML = content;
 
@@ -147,25 +145,22 @@ export class PostComponent implements OnInit, AfterViewChecked {
   }
 
   private startCheckingScrollForToc(route) {
-    if (isPlatformBrowser(this.platformId)) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          const id = entry.target.getAttribute('id');
-          if (entry.intersectionRatio > 0) {
-            const previousElements = this.document.querySelectorAll(`.toc li a`);
-            previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
-            const el = this.document.querySelector(`.toc li a[href="/posts/${route}#${id}"]`);
-            el.parentElement.classList.add('active');
-          }
-        });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        if (entry.intersectionRatio > 0) {
+          const previousElements = this.document.querySelectorAll(`.toc li a`);
+          previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
+          const el = this.document.querySelector(`.toc li a[href="/posts/${route}#${id}"]`);
+          el.parentElement.classList.add('active');
+        }
       });
+    });
 
-      // Track all sections that have an `id` applied
-      this.document.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach((section) => {
-        observer.observe(section);
-      });
-
-    }
+    // Track all sections that have an `id` applied
+    this.document.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach((section) => {
+      observer.observe(section);
+    });
   }
 
 }

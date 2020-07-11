@@ -1,7 +1,6 @@
 /** @format */
 
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
 import { Workbox } from 'workbox-window';
@@ -33,7 +32,7 @@ export class EnvironmentService {
 
     // Check that we are in a browsers and service workers are available
     // Only register service worker when in production
-    if (isPlatformBrowser(this.platformId) && 'serviceWorker' in navigator && environment.production) {
+    if ('serviceWorker' in navigator && environment.production) {
       this.registerServiceWorker();
     } else {
       this.serviceWorkerReady.next(true);

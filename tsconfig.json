@@ -24,6 +24,18 @@
       ],
       "ngx-seo/*": [
         "dist/ngx-seo/*"
+      ],
+      "scully-plugin-disable-angular": [
+        "dist/scully-plugin-disable-angular"
+      ],
+      "scully-plugin-disable-angular/*": [
+        "dist/scully-plugin-disable-angular/*"
+      ],
+      "scully-plugin-minify-html": [
+        "dist/scully-plugin-minify-html"
+      ],
+      "scully-plugin-minify-html/*": [
+        "dist/scully-plugin-minify-html/*"
       ]
     }
   }

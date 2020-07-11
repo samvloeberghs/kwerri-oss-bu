@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/samvloeberghs/browser",
+            "outputPath": "dist/samvloeberghs",
             "index": "projects/samvloeberghs/src/index.html",
             "main": "projects/samvloeberghs/src/main.ts",
             "polyfills": "projects/samvloeberghs/src/polyfills.ts",
@@ -123,39 +123,6 @@
             "exclude": [
               "**/node_modules/**"
             ]
-          }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/samvloeberghs/server",
-            "main": "projects/samvloeberghs/src/main.server.ts",
-            "tsConfig": "projects/samvloeberghs/tsconfig.server.json",
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/samvloeberghs/src/scss"
-              ]
-            }
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/samvloeberghs/src/environments/environment.ts",
-                  "with": "projects/samvloeberghs/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true
-            },
-            "local": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/samvloeberghs/src/environments/environment.ts",
-                  "with": "projects/samvloeberghs/src/environments/environment.local.ts"
-                }
-              ],
-              "optimization": true
-            }
           }
         }
       }

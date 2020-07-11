@@ -1,10 +1,10 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { CommonModule, isPlatformServer } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
-// import { PrebootModule } from 'preboot';
 import { Angulartics2Module } from 'angulartics2';
 import { BrowserJsonLdModule } from 'ngx-seo';
 import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +17,7 @@ export function initApp(environmentService: EnvironmentService) {
 }
 
 export function isBot(navigator, platformId) {
-  return isPlatformServer(platformId) ? true : intersectionObserverPreset.isBot(navigator, platformId);
+  return intersectionObserverPreset.isBot(navigator, platformId);
 }
 
 @NgModule({
@@ -26,9 +26,8 @@ export function isBot(navigator, platformId) {
     NotFoundComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'sv' }),
-    // PrebootModule.withConfig({ appRoot: 'sv-app' }),
-    BrowserTransferStateModule,
+    BrowserModule,
+    // old: BrowserModule.withServerTransition({ appId: 'sv' }),
     BrowserJsonLdModule,
     CommonModule,
     AppRoutingModule,
@@ -36,7 +35,8 @@ export function isBot(navigator, platformId) {
     SharedModule.forRoot(),
     LazyLoadImageModule.forRoot({
       isBot,
-    })
+    }),
+    ScullyLibModule
   ],
   providers: [
     {
