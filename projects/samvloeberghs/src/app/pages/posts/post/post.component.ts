@@ -33,7 +33,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly jsonLdService: JsonLdService,
     private readonly highlightService: HighlightService,
     private readonly elementRef: ElementRef,
-    @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(DOCUMENT) private readonly document: Document
   ) {
   }
 

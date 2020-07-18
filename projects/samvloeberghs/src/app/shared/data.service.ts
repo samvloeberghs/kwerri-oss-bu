@@ -15,11 +15,11 @@ export class DataService {
   }
 
   getData(file: string): Observable<any> {
-    return this.http.get(`${environment.url}${file}`);
+    return this.http.get(`${file}`);
   }
 
   getDataText(file: string): Observable<any> {
-    return this.http.get(`${environment.url}${file}`, {responseType: 'text'});
+    return this.http.get(`${file}`, {responseType: 'text'});
   }
 
 }

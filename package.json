@@ -32,7 +32,7 @@
     "npm:pack:scully-plugin-disable-angular": "cd dist/scully-plugin-disable-angular && npm pack",
     "workbox:injectmanifest:samvloeberghs": "npx workbox injectManifest ./projects/samvloeberghs/workbox-config.js",
     "workbox:injectmanifest:sw-lessons": "npx workbox injectManifest projects/sw-lessons/workbox-config.js",
-    "scully": "scully --scanRoutes --configFile .scully/scully.samvloeberghs.config.ts",
+    "scully": "rm -rf dist/samvloeberghs-static && scully --404=index --scanRoutes --configFile .scully/scully.samvloeberghs.config.ts",
     "scully:serve": "scully serve",
     "serve:dist:samvloeberghs": "npx ws --port 4200 -d dist/samvloeberghs",
     "serve:dist:samvloeberghs:static": "npx ws --port 4201 -d dist/samvloeberghs-static",

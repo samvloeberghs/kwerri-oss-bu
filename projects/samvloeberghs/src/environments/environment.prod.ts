@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:4200',
+  url: 'https://samvloeberghs.be',
   facebookAppId: '663623713804818',
   twitterSiteCreator: '@samvloeberghs',
   seo: {

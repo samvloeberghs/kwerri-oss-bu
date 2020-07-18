@@ -91,6 +91,20 @@ exports.config = {
 };
 ```
 
+<!--
+// NOT APPLICABLE AT THIS POINT!!
+## Keep JS files
+
+Since you don't need the JS the files are removed.
+If you want to keep them for some reason, just enable the option `keepJsFiles`:
+
+```ts
+setPluginConfig(DisableAngular, 'render', {
+  keepJsFiles: true
+});
+```
+-->
+
 ## More information
 
 I've written a [blogpost about custom plugins for Scully](https://samvloeberghs.be/posts/custom-plugins-for-scully-angular-static-site-generator).

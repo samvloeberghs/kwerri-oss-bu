@@ -1,5 +1,5 @@
 import { getPluginConfig, registerPlugin, scullyConfig } from '@scullyio/scully';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, unlinkSync } from 'fs';
 import { join } from 'path';
 
 export const DisableAngular = 'disableAngular';
@@ -14,10 +14,16 @@ const escapeRegExp = (string): string => {
 };
 
 const disableAngularPlugin = (html: string) => {
-  const tsConfigPath = join(scullyConfig.projectRoot, 'tsconfig.app.json');
-  const tsConfig = JSON.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
   const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
-
+  const tsConfigPath = join(scullyConfig.projectRoot, 'tsconfig.app.json');
+  let tsConfig;
+  try {
+    tsConfig = JSON.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
+  } catch (e) {
+    console.log(`Error reading tsConfig at path ${tsConfigPath}`);
+    console.error(e);
+    throw new Error(e);
+  }
   let isEs5Config = false;
   let statsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
   const target = tsConfig.compilerOptions.target ?? 'es2015';
@@ -69,6 +75,7 @@ Please run 'ng build' with the '--stats-json' flag`;
     const regex = new RegExp('<script id="ScullyIO-transfer-state">([\\S\\s]*?)<\\/script>');
     html = html.replace(regex, '');
   }
+
   return html;
 };
 
