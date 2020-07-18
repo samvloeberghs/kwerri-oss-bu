@@ -1,11 +1,14 @@
-import { ScullyConfig } from '@scullyio/scully';
+import { ScullyConfig, setPluginConfig } from '@scullyio/scully';
 const { MinifyHtml } = require('../dist/scully-plugin-minify-html');
 const { DisableAngular } = require('../dist/scully-plugin-disable-angular');
 
 const { Posts } = require('./plugins/samvloeberghs-posts');
 
+setPluginConfig(DisableAngular, {
+  removeState: true
+});
+
 export const config: ScullyConfig = {
-  projectRoot: './projects/samvloeberghs/src',
   projectName: 'samvloeberghs',
   distFolder: './dist/samvloeberghs',
   outDir: './dist/samvloeberghs-static',

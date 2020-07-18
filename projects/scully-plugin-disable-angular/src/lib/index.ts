@@ -14,13 +14,14 @@ const escapeRegExp = (string): string => {
 };
 
 const disableAngularPlugin = (html: string) => {
-  const tsConfigPath = 'tsconfig.json';
+  const tsConfigPath = join(scullyConfig.projectRoot, 'tsconfig.app.json');
   const tsConfig = JSON.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
   const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
 
   let isEs5Config = false;
   let statsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
-  if (tsConfig.compilerOptions.target === 'es5') {
+  const target = tsConfig.compilerOptions.target ?? 'es2015';
+  if (target === 'es5') {
     isEs5Config = true;
     statsJsonPath = join(scullyConfig.distFolder, 'stats.json');
   }
@@ -48,16 +49,16 @@ Please run 'ng build' with the '--stats-json' flag`;
     scullyDisableAngularStatsJson = JSON.parse(readFileSync(scullyDisableAngularStatsJsonPath, { encoding: 'utf8' }).toString());
   }
 
-  let assetsList = scullyDisableAngularStatsJson.filter(entry => {
-    return entry['name'].includes('.js') && (
-      entry['name'].includes('-es5') || entry['name'].includes('-es2015')
-    );
-  }).map(entry => entry['name']);
-  assetsList = [...assetsList, ...assetsList.map(asset => {
-    return asset.includes('-es5') ?
-      asset.replace('-es5', '-es2015') :
-      asset.replace('-es2015', '-es5');
-  })];
+  let assetsList = scullyDisableAngularStatsJson
+    .map(entry => entry['name'])
+    .filter(entry => entry.includes('.js'));
+  if (!isEs5Config) {
+    assetsList = [...assetsList, ...assetsList.map(asset => {
+      return asset.includes('-es5') ?
+        asset.replace('-es5', '-es2015') :
+        asset.replace('-es2015', '-es5');
+    })];
+  }
 
   console.log(assetsList);
 

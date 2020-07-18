@@ -191,6 +191,23 @@ export class SeoSocialShareService {
     }
   }
 
+  public setLanguageAlternativeUrl(lang: string, url?: string) {
+    // first remove potential previous url
+    const selector = `link[rel='alternate'][hreflang='${lang}']`;
+    const languageAlternativeElement = this.document.head.querySelector(selector);
+    if (languageAlternativeElement) {
+      this.document.head.removeChild(languageAlternativeElement);
+    }
+
+    if (url && url.length) {
+      const link: HTMLLinkElement = this.document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('hreflang', lang);
+      link.setAttribute('href', url);
+      this.document.head.appendChild(link);
+    }
+  }
+
   public setCanonicalUrl(url?: string) {
     // first remove potential previous url
     const selector = `link[rel='canonical']`;
@@ -202,8 +219,8 @@ export class SeoSocialShareService {
     if (url && url.length) {
       const link: HTMLLinkElement = this.document.createElement('link');
       link.setAttribute('rel', 'canonical');
-      this.document.head.appendChild(link);
       link.setAttribute('href', url);
+      this.document.head.appendChild(link);
     }
   }
 

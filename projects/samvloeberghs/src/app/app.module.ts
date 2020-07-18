@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { Angulartics2Module } from 'angulartics2';
-import { BrowserJsonLdModule } from 'ngx-seo';
+import { JsonLdModule } from 'ngx-seo';
 import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
 import { ScullyLibModule } from '@scullyio/ng-lib';
 
@@ -28,7 +28,7 @@ export function isBot(navigator, platformId) {
   imports: [
     BrowserModule,
     // old: BrowserModule.withServerTransition({ appId: 'sv' }),
-    BrowserJsonLdModule,
+    JsonLdModule,
     CommonModule,
     AppRoutingModule,
     Angulartics2Module.forRoot(),

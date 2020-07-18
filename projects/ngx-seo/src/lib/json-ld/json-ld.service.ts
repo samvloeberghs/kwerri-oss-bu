@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 export interface JsonLd {
@@ -11,8 +11,8 @@ export class JsonLdService {
   private jsonLd: JsonLd | JsonLd[];
 
   constructor(
-    @Optional() @Inject(PLATFORM_ID) private readonly platformId: Object,
-    @Optional() @Inject(DOCUMENT) private readonly doc: any,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    @Inject(DOCUMENT) private readonly doc: any,
   ) {
   }
 

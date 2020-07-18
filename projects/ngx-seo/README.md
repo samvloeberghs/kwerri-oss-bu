@@ -43,11 +43,11 @@ The library contains multiple services. The `SeoSocialShareService` and the `Jso
 The service `SeoSocialShareService` can be used to set the correct meta tags for enabling social-media sharing previews and adding vital information for SEO purposes.
 The service is provided in the `root` module. So the only thing you need to do is inject it where you need it.
 
-```angular2
+```ts
 import { SeoSocialShareService } from 'ngx-seo';
 
 constructor(private readonly seoSocialShareService: SeoSocialShareService) {
-  ...
+  // ...
 }
 ``` 
 
@@ -55,12 +55,12 @@ constructor(private readonly seoSocialShareService: SeoSocialShareService) {
 
 After that you can use the provided interface `SeoSocialShareData` and the `setData` method to pass in your data.
 
-```angular2
+```ts
 const seoData: SeoSocialShareData = {
     title: ''
     description: ''
     image: '',
-    ...
+    // ...
 };
 this.seoSocialShareService.setData(seoData);
 ```
@@ -106,7 +106,6 @@ The following methods are available, setting the listed meta & other tags:
     - `meta[property='og:image:alt']`
     - `meta[property='og:title']`
     - `meta[name='title']`
-    
     
 - `setKeywords(keywords?: string)`
     - `meta[name='keywords']`
@@ -157,7 +156,7 @@ The following methods are available, setting the listed meta & other tags:
 If you want to set, update or remove other meta tags, you can use the `setMetaTag` and `setMetaTags` methods.
 These methods accept a value of type `NgxSeoMetaTag`:
 
-```angular2
+```ts
 export enum NgxSeoMetaTagAttr {
   name = 'name',
   property = 'property'
@@ -173,11 +172,13 @@ export interface NgxSeoMetaTag {
 
 #### Setting other, not `<meta>` tags
 
-Some other tags in the `<head>`, like for example the `canonical link` can be relevant to SEO as well. 
+Some other tags in the `<head>`, like for example the `canonical link` or `alternative language link` can be relevant to SEO as well. 
 These are not injected by the provided `MetaService` of Angular but can be set using the `SeoSocialShareService`.
 
 - `setCanonicalUrl(url?: string) `
     - `link[rel='canonical']`
+- `setLanguageAlternativeUrl(lang: string, url?: string`
+    - `link[rel='alternative'][hreflang='givenLang']`
 
 ### JSON-LD modules and service
 
@@ -186,7 +187,7 @@ The `JsonLdService` is a little bit more tricky compared to the `SeoSocialShareS
 We are starting from a typical Universal setup, where you have an `app.module.ts`, that is the root module for your browser bundle. 
 In this module you have to import the `BrowserJsonLdModule`.
 
-```angular2
+```ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
@@ -203,7 +204,7 @@ import { AppComponent } from './app.component';
     BrowserTransferStateModule,
     BrowserJsonLdModule,           // <--
     CommonModule,
-    ...
+    // ...
   ],
   exports: [
     AppComponent,
@@ -217,7 +218,7 @@ export class AppModule {
 In the server module, `app.server.module.ts`, where you typically import the `app.module.ts`, you have to import the `ServerJsonLdModule`.
 This will tell the server to inject the static version of your JSON-ld data object into the static HTML.
 
-```angular2
+```ts
 import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
 import { NgModule } from '@angular/core';
 import { ServerJsonLdModule } from 'ngx-seo';
@@ -231,7 +232,7 @@ import { AppModule } from './app.module';
     ServerModule,
     ServerTransferStateModule,
     ServerJsonLdModule,   // <--
-    ...
+    // ...
   ],
   bootstrap: [AppComponent],
 })
@@ -241,13 +242,15 @@ export class OldAppServerModule {
 
 Now, just as the `SeoSocialShareService`, you can inject the `JsonLdService`, to set your data. For more details about the structure of the JSON-LD data, please see below.
 
-```angular2
-constructor(private readonly jsonLdService: JsonLdService) {
-  const jsonLdObject = this.jsonLdService.getObject('Website', {
-    name: '',
-    url: '',
-  };
-  this.jsonLdService.setData(jsonLdObject);
+```ts
+export class YourService {}
+  constructor(private readonly jsonLdService: JsonLdService) {
+    const jsonLdObject = this.jsonLdService.getObject('Website', {
+      name: '',
+      url: '',
+    };
+    this.jsonLdService.setData(jsonLdObject);
+  }
 }
 ```
 
@@ -255,7 +258,7 @@ constructor(private readonly jsonLdService: JsonLdService) {
 
 It is possible to provide one or more JSON-LD objects. Just create multiple objects and pass them as an array to the service:
 
-```angular2
+```ts
 const jsonLdObjectOne = this.jsonLdService.getObject('Website', { .. });
 const jsonLdObjectTwo = this.jsonLdService.getObject('Person', { .. });
 this.jsonLdService.setData([jsonLdObjectOne, jsonLdObjectTwo]);

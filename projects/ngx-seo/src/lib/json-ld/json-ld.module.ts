@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { JsonLdService } from './json-ld.service';
 
 @NgModule({
@@ -6,5 +7,5 @@ import { JsonLdService } from './json-ld.service';
     JsonLdService,
   ],
 })
-export class BrowserJsonLdModule {
+export class JsonLdModule {
 }
