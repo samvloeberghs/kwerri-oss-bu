@@ -32,7 +32,7 @@ export class EnvironmentService {
 
     // Check that we are in a browsers and service workers are available
     // Only register service worker when in production
-    if ('serviceWorker' in navigator && environment.production) {
+    if (false && 'serviceWorker' in navigator && environment.production) {
       this.registerServiceWorker();
     } else {
       this.serviceWorkerReady.next(true);

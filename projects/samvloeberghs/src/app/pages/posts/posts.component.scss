@@ -1,10 +1,10 @@
 @import 'variables';
 
-:host {
+sv-posts {
   display: block;
 }
 
-article {
+.posts__post {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #f6f6f6;
@@ -21,7 +21,7 @@ article {
     margin: 0;
   }
 
-  a.img {
+  &-image {
     width: 65%;
     display: block;
     margin: 0 auto;
@@ -50,7 +50,7 @@ article {
     }
   }
 
-  a.excerpt {
+  &-excerpt {
     display: block;
     text-decoration: none;
     color: #000;

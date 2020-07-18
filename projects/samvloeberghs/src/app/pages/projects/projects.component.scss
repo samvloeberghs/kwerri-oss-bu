@@ -1,75 +1,77 @@
 @import 'variables';
 
-:host {
+
+sv-projects{
   display: block;
 }
 
-article {
-  margin-bottom: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f6f6f6;
+.projects{
+  &__project{
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f6f6f6;
 
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
 
-  &:last-child {
-    padding-bottom: 0;
-    border: none;
-    margin: 0;
-  }
+    &:last-child {
+      padding-bottom: 0;
+      border: none;
+      margin: 0;
+    }
 
-  & > a {
-    display: block;
-    width: 60%;
-    margin: 0 auto 20px auto;
+    & > a {
+      display: block;
+      width: 60%;
+      margin: 0 auto 20px auto;
+
+      @media (min-width: $tablet-bp) {
+        float: left;
+        display: block;
+        max-width: 120px;
+        margin-right: 30px;
+      }
+
+      @media (min-width: $fullscreen-bp) {
+        float: left;
+        display: block;
+        max-width: 200px;
+        margin-right: 40px;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+      }
+
+      :hover img {
+        animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+
+    }
 
     @media (min-width: $tablet-bp) {
-      float: left;
-      display: block;
-      max-width: 120px;
-      margin-right: 30px;
+      & > div {
+        margin-left: 240px;
+      }
+    }
+
+    @media (min-width: $tablet-bp) {
+      & > div {
+        margin-left: 150px;
+      }
     }
 
     @media (min-width: $fullscreen-bp) {
-      float: left;
-      display: block;
-      max-width: 200px;
-      margin-right: 40px;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-    }
-
-    :hover img {
-      animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-      transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-      perspective: 1000px;
-    }
-
-  }
-
-  @media (min-width: $tablet-bp) {
-    & > div {
-      margin-left: 240px;
+      & > div {
+        margin-left: 240px;
+      }
     }
   }
-
-  @media (min-width: $tablet-bp) {
-    & > div {
-      margin-left: 150px;
-    }
-  }
-
-  @media (min-width: $fullscreen-bp) {
-    & > div {
-      margin-left: 240px;
-    }
-  }
-
 }

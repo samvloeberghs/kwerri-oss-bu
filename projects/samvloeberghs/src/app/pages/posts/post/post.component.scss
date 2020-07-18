@@ -5,6 +5,9 @@
 sv-post {
   display: block;
   margin-bottom: 20px;
+}
+
+.post {
 
   h1 {
     @media (max-width: $mobile-max-bp) {
@@ -22,7 +25,7 @@ sv-post {
     }
   }
 
-  .posted {
+  &__posted {
     font: {
       size: 14px !important;
       style: italic;
@@ -33,7 +36,7 @@ sv-post {
     padding-bottom: 10px;
   }
 
-  img.introimage {
+  &__introimage {
     float: left;
     display: block;
     margin-right: 15px;
@@ -41,12 +44,12 @@ sv-post {
     max-height: 54px;
   }
 
-  .post-wrapper {
+  &__wrapper {
     display: flex;
     position: relative;
   }
 
-  .post-content {
+  &__content {
     width: 100%;
     max-width: 580px;
 
@@ -55,7 +58,7 @@ sv-post {
     }
   }
 
-  .toc {
+  &__toc {
     min-width: 200px;
     width: 200px;
     position: sticky;
@@ -146,7 +149,7 @@ sv-post {
     }
   }
 
-  .benchmark-results {
+  &__benchmark-results {
     width: 100%;
 
     ol li {

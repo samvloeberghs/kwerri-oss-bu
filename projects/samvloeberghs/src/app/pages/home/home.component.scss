@@ -1,119 +1,58 @@
-:host {
+sv-home {
   display: block;
 }
 
-img {
-  width: 100%;
-  display: block;
-}
-
-ol {
-  list-style: none;
-  counter-reset: my-awesome-counter 1;
-  margin-bottom: 20px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid #f6f6f6;
-
-  li {
-    counter-increment: my-awesome-counter;
-    box-sizing: border-box;
-    position: relative;
-    margin-bottom: 10px;
-
-    &:last-child {
-      margin: {
-        bottom: 0;
-      }
-    }
-
-    &::before {
-      content: counter(my-awesome-counter) "";
-      color: #888;
-      font-weight: bold;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      font-size: 2.5em;
-    }
-
-    a {
-      background: #f6f6f6;
-      display: block;
-      padding: 10px 40px 10px 10px;
-      border: 1px solid #eee;
-      border-radius: 3px;
-      width: 100%;
-      box-sizing: border-box;
-
-      &:hover {
-        background: #e6e6e6;
-        border: 1px solid #ddd;
-      }
-
-      text-decoration: none;
-      color: #222;
-      font-size: 1.3em;
-
-      span {
-        display: block;
-        font-size: 1.2em;
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
-
-    }
-  }
-}
-
-.lastpost {
-  color: #222;
-  font-weight: 400;
-  text-decoration: none;
-  background: #f6f6f6;
-  padding: 10px 20px;
-  margin: {
-    bottom: 40px;
-  }
-  display: flex;
-
-
-  @media (max-width: 480px) {
+.home {
+  &__lastpost {
+    color: #222;
+    font-weight: 400;
+    text-decoration: none;
+    background: #f6f6f6;
+    padding: 10px 20px;
     margin: {
-      bottom: 30px;
+      bottom: 40px;
     }
-  }
+    display: flex;
 
-  img {
-    display: block;
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    margin: {
-      right: 10px;
-    }
-  }
-
-  span {
-    line-height: 30px;
-    font-size: 20px;
-  }
-
-  .last {
-    font-weight: bold;
-    min-width: 120px;
-    padding: {
-      right: 10px;
-    }
 
     @media (max-width: 480px) {
-      display: none;
+      margin: {
+        bottom: 30px;
+      }
+    }
+
+    &-image {
+      display: block;
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      margin: {
+        right: 10px;
+      }
+    }
+
+    &-latest {
+      font-weight: bold;
+      min-width: 120px;
+      padding: {
+        right: 10px;
+      }
+      line-height: 30px;
+      font-size: 20px;
+
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
+
+    &-post {
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 30px;
+      font-size: 20px;
     }
   }
 
-  .post {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }

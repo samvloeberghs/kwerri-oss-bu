@@ -1,51 +1,50 @@
 @import 'variables';
-w
-:host {
+
+sv-talks {
   display: block;
 }
 
-ul {
-
-  font-size: 1.5em;
-  padding: 0;
-  margin: {
-    bottom: 20px;
-  }
-
-  li {
+.talks {
+  &__list {
+    font-size: 1.5em;
+    padding: 0;
     margin: {
-      bottom: 15px;
+      bottom: 20px;
     }
 
-    &.canceled {
-      text-decoration: line-through;
-    }
-  }
+    li {
+      margin: {
+        bottom: 15px;
+      }
 
-}
-
-table.speaker-info {
-
-  @media (max-width: $mobile-max-bp) {
-    width: 100%;
-  }
-
-  th {
-    @media (min-width: $mobile-max-bp) {
-      min-width: 225px;
+      &.canceled {
+        text-decoration: line-through;
+      }
     }
   }
 
-  th, td {
-    display: block;
-    word-break: break-word;
-    padding: {
-      left: 0;
+  &__speaker-info {
+    @media (max-width: $mobile-max-bp) {
+      width: 100%;
     }
-  }
 
-  td {
-    font-style: italic;
+    th {
+      @media (min-width: $mobile-max-bp) {
+        min-width: 225px;
+      }
+    }
+
+    th, td {
+      display: block;
+      word-break: break-word;
+      padding: {
+        left: 0;
+      }
+    }
+
+    td {
+      font-style: italic;
+    }
   }
 }
 

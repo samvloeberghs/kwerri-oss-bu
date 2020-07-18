@@ -1,8 +1,10 @@
-:host {
+sv-not-found {
   display: block;
 }
 
-img {
-  width: 100%;
-  display: block;
+.not-found {
+  &__image {
+    width: 100%;
+    display: block;
+  }
 }

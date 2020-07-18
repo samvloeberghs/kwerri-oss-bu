@@ -60,8 +60,6 @@ Please run 'ng build' with the '--stats-json' flag`;
     })];
   }
 
-  console.log(assetsList);
-
   assetsList.forEach(entry => {
     const regex = new RegExp(`<script( charset="?utf-8"?)? src="?${escapeRegExp(entry)}"?( type="?module"?)?( nomodule(="")?)?( defer(="")?)?><\/script>`, 'gmi');
     html = html.replace(regex, '');

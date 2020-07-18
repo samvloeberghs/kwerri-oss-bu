@@ -14,12 +14,12 @@ import { EnvironmentService } from './shared/environment.service';
 export class AppComponent {
 
   public readonly today = new Date();
-  public readonly currentUrl$ = this.routehelper.currentUrl$;
+  public readonly currentUrl$ = this.routeHelper.currentUrl$;
   public readonly newVersionAvailable$ = this.environmentService.newVersionAvailable$;
   public mobileNavToggled = false;
 
   constructor(
-    private readonly routehelper: RouteHelper,
+    private readonly routeHelper: RouteHelper,
     private readonly seoSocialShareService: SeoSocialShareService,
     private readonly environmentService: EnvironmentService,
   ) {
@@ -46,7 +46,7 @@ export class AppComponent {
 
   @HostListener('document:keydown', ['$event'])
   private onKeydownHandler(event: KeyboardEvent) {
-    this.routehelper.keyboardNavigate(event.key);
+    this.routeHelper.keyboardNavigate(event.key);
   }
 
 }

@@ -1,4 +1,4 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, ViewEncapsulation } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { fromEvent } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -11,6 +11,8 @@ if (environment.production) {
 }
 
 fromEvent(document, 'DOMContentLoaded').pipe(first()).subscribe(() => {
-  platformBrowserDynamic().bootstrapModule(AppModule)
+  platformBrowserDynamic().bootstrapModule(AppModule, {
+    defaultEncapsulation: ViewEncapsulation.None,
+  })
     .catch(err => console.error(err));
 });

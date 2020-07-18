@@ -13,46 +13,11 @@
 <a *ngIf="(lastPost$ | async) as post"
    [routerLink]="['/posts', post.slug]"
    [title]="post.title"
-   class="lastpost">
-  <span class="last">Latest post: </span>
-  <img [src]="post.img" [alt]="post.title"/>
-  <span class="post">{{post.title}}</span>
+   class="home__lastpost">
+  <span class="home__lastpost-latest">Latest post: </span>
+  <img class="home__lastpost-image"[src]="post.img" [alt]="post.title"/>
+  <span class="home__lastpost-post">{{post.title}}</span>
 </a>
-
-<!--
-<ol>
-  <li>
-    <a routerLink="/posts" routerLinkActive="active">
-      <span>Posts</span>
-      I try to write down my experience, if it's worth reading!
-    </a>
-  </li>
-  <li>
-    <a routerLink="/talks-workshops" routerLinkActive="active">
-      <span>Talks &amp; workshops</span>
-      I like to talk and organise, giving others a stage!
-    </a>
-  </li>
-  <li>
-    <a routerLink="/projects" routerLinkActive="active">
-      <span>Projects</span>
-      Sometimes I'm busy, on cool projects!
-    </a>
-  </li>
-  <li>
-    <a routerLink="/about" routerLinkActive="active">
-      <span>About me</span>
-      Who am I? Just another developer!
-    </a>
-  </li>
-  <li>
-    <a routerLink="/kwerri" routerLinkActive="active">
-      <span>Kwerri</span>
-      I operate under Kwerri, my freelancing company!
-    </a>
-  </li>
-</ol>
--->
 
 <p>
   <strong>Dear recruiters & HR professionals</strong>, please <a href="https://be.linkedin.com/in/samvloeberghs"
