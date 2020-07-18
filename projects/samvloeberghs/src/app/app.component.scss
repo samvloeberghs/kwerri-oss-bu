@@ -208,17 +208,14 @@ sv-app {
     z-index: 1;
     padding-right: 50px;
 
-    @media (min-width: $tablet-bp) {
-      border-right: 1px solid;
-      border-image: linear-gradient(
-          to bottom,
-          #eee,
-          rgba(0, 0, 0, 0)
-      ) 1 100%;
-      border-left: 0;
-      margin-bottom: 50px;
-      overflow: auto;
-      max-height: calc(100% - 50px);
+    &--open {
+      @media (max-width: $mobile-max-bp) {
+        height: 100%;
+
+        .app__mobilenavcontainer {
+          display: block;
+        }
+      }
     }
 
     h1 {
@@ -305,16 +302,6 @@ sv-app {
       }
     }
 
-    &--open {
-      @media (max-width: $mobile-max-bp) {
-        height: 100%;
-
-        .app__mobilenavcontainer {
-          display: block;
-        }
-      }
-    }
-
     @media (max-width: $mobile-max-bp) {
       display: block;
       margin-top: 9px;
@@ -335,7 +322,18 @@ sv-app {
       width: 280px;
       margin-left: 50px;
       padding-top: 50px;
+      border-right: 1px solid;
+      border-image: linear-gradient(
+          to bottom,
+          #eee,
+          rgba(0, 0, 0, 0)
+      ) 1 100%;
+      border-left: 0;
+      margin-bottom: 50px;
+      overflow: auto;
+      max-height: calc(100% - 50px);
     }
+
 
   }
 

@@ -46,11 +46,10 @@ function cleanupJsPlugin() {
     ];
     assetsList.forEach(entry => {
       const filePath = join(scullyConfig.outDir, entry);
-      console.log(filePath);
       try {
         unlinkSync(filePath);
       } catch (e) {
-
+        console.log(`Could not unlink ${filePath}`)
       }
     });
   } catch (e) {
