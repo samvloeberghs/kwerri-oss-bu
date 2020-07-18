@@ -103,7 +103,7 @@ workbox.routing.registerRoute(
 );
 </code></pre>
 
-  <p class="alert alert-warning">
+  <p class="alert alert--warning">
     Please also keep in mind that this reflects the behavior of the server in case of a SPA setup. <strong>For all requests
     not matching a static resource like an image, or a dynamic resource like an API, the server should return the <code>index.html</code> file</strong>!
   </p>
@@ -118,7 +118,7 @@ workbox.routing.registerRoute(
     target="_blank" rel="noopener">Service Worker Lifecycle</a>", an article by Jake Archibald.
   </p>
 
-  <p class="alert alert-quote">
+  <p class="alert alert--quote">
     <em>Note:</em> I see a lot of people including <code>clients.claim()</code> as boilerplate, but I rarely do so
     myself. It only
     really matters on the very first load, and due to progressive enhancement the page is usually working happily
@@ -239,12 +239,12 @@ if ('serviceWorker' in navigator) {
     instead. This is anyway already a requirement, as explained before.
   </p>
 
-  <p class="alert alert-warning striketrough">
+  <p class="alert alert--warning striketrough">
     <strong>Please let me know if you have other suggestions!</strong> I'm curious for other methods because of the
     refresh I'm not very happy about..
   </p>
 
-  <p class="alert alert-info">
+  <p class="alert alert--info">
     <strong>Update June 2019</strong>: I've written a follow-up article that clears out my bad feeling about the
     previous implementation and mistakes I made. Be sure to <a
     href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox-the-sequel">check it out here</a>.
@@ -462,7 +462,7 @@ workbox.routing.registerRoute(
 );
 </code></pre>
 
-  <p class="alert alert-info">
+  <p class="alert alert--info">
     A possible extension for this functionality would be to check if the status code of the response coming from the
     server is as expected, for example a <code>200 OK</code>. If not a valid or expected response code, return the cached <code>not_authorized.png</code> image.
   </p>
@@ -493,7 +493,7 @@ workbox.routing.registerRoute(
 
   <h2 id="further-reading">Further reading</h2>
 
-  <ol class="further-reading">
+  <ol class="post__further-reading">
     <li>
       <a href="https://medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c"
          target="_blank" rel="noopener">

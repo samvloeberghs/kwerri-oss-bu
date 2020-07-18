@@ -149,9 +149,9 @@ export class PostComponent implements OnInit, AfterViewChecked {
       entries.forEach(entry => {
         const id = entry.target.getAttribute('id');
         if (entry.intersectionRatio > 0) {
-          const previousElements = this.document.querySelectorAll(`.toc li a`);
+          const previousElements = this.document.querySelectorAll(`.post__toc li a`);
           previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
-          const el = this.document.querySelector(`.toc li a[href="/posts/${route}#${id}"]`);
+          const el = this.document.querySelector(`.post__toc li a[href="/posts/${route}#${id}"]`);
           el.parentElement.classList.add('active');
         }
       });

@@ -44,7 +44,7 @@
     application and come up with the actual metrics!
   </p>
 
-  <p class="alert alert-warning">
+  <p class="alert alert--warning">
     <strong>Important:</strong> This post is not intented to break down or bash any of the 2 technologies. I love both
     of them very much and I believe they both have their use case! As a good software engineer you should always try
     to make the best and informed decisions about technology choices, especially if you can base those decisions
@@ -64,7 +64,7 @@
        src="/posts/scully-and-angular-universal-comparing-benchmarks/scully-universal-example-app.gif"
        alt="Scully - Universal - Example app"/>
 
-  <p class="alert alert-info">
+  <p class="alert alert--info">
     Due to the different implementation details of Universal and Scully the application was build twice, but with the
     same structural setup, markup and styles. This means the code is not completely identical; the only difference is
     the injection of the <code>ScullyLibModule</code> in the Scully application. This difference should not have a
@@ -148,7 +148,7 @@
 ( npx nx build scully --prod && npx scully --scanRoutes --configFile .scully/scully.scully.config.js ) | npx gnomon
 </code></pre>
 
-  <p class="alert alert-info">
+  <p class="alert alert--info">
     To avoid setting up an API server for this test, I have used <code>news-100.json</code> to represent 100 entries in
     JSON data, <code>news-1000.json</code> for 1,000 entries and <code>news-10000.json</code> for 10,000 entries. For
     testing the different amount of pages we need to modify the reference to <code>news-100.json</code> in the
@@ -386,7 +386,7 @@
 
   <h3 id="disable-specific-resource-types">Disable specific resource types</h3>
 
-  <p class="alert alert-warning">
+  <p class="alert alert--warning">
     <strong>Important:</strong> This feature is still <a href="https://github.com/scullyio/scully/pull/589"
                                                          rel="noopener" target="_blank">
     a work in progress</a>, but could get merged soon.
@@ -446,7 +446,7 @@
 
   <h2 id="further-reading">Further reading</h2>
 
-  <ol class="further-reading">
+  <ol class="post__further-reading">
     <li>
       <a href="https://github.com/scullyio" target="_blank" rel="noopener">
         Scully - Github organization

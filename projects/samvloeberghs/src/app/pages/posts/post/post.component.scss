@@ -58,6 +58,10 @@ sv-post {
     }
   }
 
+  &__further-reading {
+    list-style: lower-roman;
+  }
+
   &__toc {
     min-width: 200px;
     width: 200px;
