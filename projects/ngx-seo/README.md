@@ -1,9 +1,10 @@
 # ngx-seo
 
-`ngx-seo` is a library to help generate and inject proper JSON-LD objects, Meta and other tags in the head that allow for social sharing into server-side generated Angular applications using Universal.
+`ngx-seo` is a library to help generate and inject proper JSON-LD objects, Meta and other tags in the head that allow for social sharing into server-side generated, or prerendered Angular applications using [Universal](https://angular.io/guide/universal) or [Scully](https://scully.io/).
 
 **Important:**
-In general you should only use these services when you are using Angular Universal. 
+In general you should only use these services when you are using a technique to generate static (initial) versions of your applications' pages (with for example Angular Universal or Scully).
+
 Generating meta tags and JSON-LD on the frontend is basically useless as not all crawlers are able to generate and render JS heavy applications.
 The only exception is the 2-round indexing mechanism that Google Search / Index leverages.  
 
@@ -182,10 +183,7 @@ These are not injected by the provided `MetaService` of Angular but can be set u
 
 ### JSON-LD modules and service
 
-The `JsonLdService` is a little bit more tricky compared to the `SeoSocialShareService`. For this to work properly you need to take advantage of some DI magic.
-
-We are starting from a typical Universal setup, where you have an `app.module.ts`, that is the root module for your browser bundle. 
-In this module you have to import the `BrowserJsonLdModule`.
+All you need to do to start using the `JsonLdService` is inject the JsonLdModule in the root module of your application.
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -202,7 +200,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule.withServerTransition({appId: 'your-app'}),
     BrowserTransferStateModule,
-    BrowserJsonLdModule,           // <--
+    JsonLdModule,           // <--
     CommonModule,
     // ...
   ],
@@ -212,31 +210,6 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent],
 })
 export class AppModule {
-}
-```
-
-In the server module, `app.server.module.ts`, where you typically import the `app.module.ts`, you have to import the `ServerJsonLdModule`.
-This will tell the server to inject the static version of your JSON-ld data object into the static HTML.
-
-```ts
-import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
-import { NgModule } from '@angular/core';
-import { ServerJsonLdModule } from 'ngx-seo';
-
-import { AppComponent } from './app.component';
-import { AppModule } from './app.module';
-
-@NgModule({
-  imports: [
-    AppModule,
-    ServerModule,
-    ServerTransferStateModule,
-    ServerJsonLdModule,   // <--
-    // ...
-  ],
-  bootstrap: [AppComponent],
-})
-export class OldAppServerModule {
 }
 ```
 
