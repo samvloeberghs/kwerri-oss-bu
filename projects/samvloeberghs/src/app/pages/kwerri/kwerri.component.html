@@ -91,11 +91,13 @@
 <h2 id="legal-general-conditions">Legal & general conditions</h2>
 
 <p>
-  <a href="#" (click)="toggleGeneralConditionsShown($event)">Show the general conditions (nl) / Toon de algemene
+  <a href="#"
+     class="kwerri__algemene-voorwaarden-toggle"
+     (click)="toggleGeneralConditionsShown($event)">Show the general conditions (nl) / Toon de algemene
     voorwaarden</a>
 </p>
 
-<section id="kwerri__algemene-voorwaarden" class="clearfix" *ngIf="generalConditionsShown">
+<section class="kwerri__algemene-voorwaarden-doc clearfix" [hidden]="!generalConditionsShown">
 
   <h1> Algemene voorwaarden van KWERRI BV </h1>
 

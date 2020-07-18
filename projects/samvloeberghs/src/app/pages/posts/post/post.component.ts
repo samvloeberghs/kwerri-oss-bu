@@ -9,7 +9,6 @@ import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
 import { HighlightService } from '../../../shared/highlight.service';
-import { ZoomImage } from '../image-zoom/image-zoom.component';
 
 // TODO(sv): fix this type
 declare const window: any;
@@ -25,7 +24,6 @@ export class PostComponent implements OnInit, AfterViewChecked {
   public post: Post;
   public error: any;
   public highlighted = false;
-  public currentZoomImage: ZoomImage;
 
   constructor(
     private readonly router: Router,
@@ -89,7 +87,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
           this.post.content = this.sanitizer.bypassSecurityTrustHtml(content);
           this.post.toc = this.parseContentToc(content);
           setTimeout(() => {
-            this.startCheckingScrollForToc(this.post.slug);
+            this.startCheckingScrollForToc(`/posts/${this.post.slug}`);
           }, 0);
         },
         error => {
@@ -105,24 +103,6 @@ export class PostComponent implements OnInit, AfterViewChecked {
     if (this.post && this.post.content && !this.highlighted) {
       this.highlightService.highlightAll();
       this.highlighted = true;
-      this.initImageZoom();
-    }
-  }
-
-  public closeImageZoom() {
-    this.currentZoomImage = null;
-  }
-
-  private initImageZoom() {
-    const htmlElements = this.elementRef.nativeElement.querySelectorAll('img.zoomin');
-
-    for (let i = 0; i < htmlElements.length; i++) {
-      htmlElements[i].addEventListener('click', ($event) => {
-        this.currentZoomImage = {
-          src: $event.target.src,
-          title: $event.target.title,
-        };
-      });
     }
   }
 

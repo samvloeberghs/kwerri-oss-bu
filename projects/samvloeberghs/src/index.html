@@ -68,14 +68,15 @@
   function setTocObserver(doc, route) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        const id = entry.target.getAttribute('id');
+        var id = entry.target.getAttribute('id');
         if (entry.intersectionRatio > 0) {
-          const previousElements = document.querySelectorAll(`.post__toc li a`);
+          var previousElements = document.querySelectorAll(`.post__toc li a`);
           console.log(previousElements);
           previousElements.forEach(function (previousElement) {
             previousElement.parentElement.classList.remove('active');
           });
-          const el = this.document.querySelector('.post__toc li a[href="/posts/' + route + '#' + id + '"]');
+          var elSel = '.post__toc li a[href="' + route + '#' + id + '"]';
+          var el = this.document.querySelector(elSel);
           el.parentElement.classList.add('active');
         }
       });
@@ -88,8 +89,9 @@
 
   (function () {
     if (window.ScullyIO === "generated") {
-      const mobileNavHamburger = document.querySelector('.app__mobilemenu');
-      const aside = document.querySelector('.app__aside');
+      // *: mobilenav
+      var mobileNavHamburger = document.querySelector('.app__mobilemenu');
+      var aside = document.querySelector('.app__aside');
       mobileNavHamburger.addEventListener('click', function (event) {
         event.preventDefault();
         if (aside.classList.contains('app__aside--open')) { // aside open
@@ -100,7 +102,21 @@
           mobileNavHamburger.classList.add('app__mobilemenu--open');
         }
       });
-      window.setTocObserver(document, document.location.pathname);
+
+      // /posts/*: toc
+      if (document.querySelector('.post__toc')) {
+        window.setTocObserver(document, document.location.pathname);
+      }
+
+      // /kwerri: general conditions
+      var generalConditionsToggle = document.querySelector('.kwerri__algemene-voorwaarden-toggle');
+      if (generalConditionsToggle) {
+        var generalConditionsDoc = document.querySelector('.kwerri__algemene-voorwaarden-doc');
+        generalConditionsToggle.addEventListener('click', function (event) {
+          event.preventDefault();
+          generalConditionsDoc.hidden = !generalConditionsDoc.hidden
+        });
+      }
     }
   })();
 </script>
