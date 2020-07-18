@@ -3,7 +3,7 @@
 
     <a routerLink="/" class="app__picture" title="To homepage"
        [class.app__picture--new-version-available]="newVersionAvailable$ | async">
-      <img src="/assets/samv.jpg" alt="Sam Vloeberghs"
+      <img src="/assets/samv.jpg" alt="Sam Vloeberghs" />
     </a>
 
     <a class="app__new-version-available-msg" (click)="update($event)" *ngIf="newVersionAvailable$ | async">
@@ -16,10 +16,10 @@
     </h1>
 
     <a routerLink="/" class="app__mobilemenu" target="navigation" title="Open mobile navigation"
-       [class.mobilemenu--opened]="mobileNavToggled"
+       [class.app__mobilemenu--open]="mobileNavToggled"
        (click)="toggleMobileNav($event, true)">
-      <span class="app__mobilemenu-close" *ngIf="mobileNavToggled">Close navigation</span>
-      <span class="app__mobilemenu-open" *ngIf="!mobileNavToggled">Open navigation</span>
+      <span class="app__mobilemenu-close">Close navigation</span>
+      <span class="app__mobilemenu-open">Open navigation</span>
     </a>
 
     <a class="app__scrolltocontent" href="{{currentUrl$ | async}}#content">

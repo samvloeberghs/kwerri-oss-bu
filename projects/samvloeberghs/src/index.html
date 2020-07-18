@@ -64,6 +64,46 @@
     }
   </style>
 </noscript>
+<script>
+  function setTocObserver(doc, route) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        const id = entry.target.getAttribute('id');
+        if (entry.intersectionRatio > 0) {
+          const previousElements = document.querySelectorAll(`.post__toc li a`);
+          console.log(previousElements);
+          previousElements.forEach(function (previousElement) {
+            previousElement.parentElement.classList.remove('active');
+          });
+          const el = this.document.querySelector('.post__toc li a[href="/posts/' + route + '#' + id + '"]');
+          el.parentElement.classList.add('active');
+        }
+      });
+    });
+    // Track all sections that have an `id` applied
+    doc.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach(function (section) {
+      observer.observe(section);
+    });
+  }
+
+  (function () {
+    if (window.ScullyIO === "generated") {
+      const mobileNavHamburger = document.querySelector('.app__mobilemenu');
+      const aside = document.querySelector('.app__aside');
+      mobileNavHamburger.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (aside.classList.contains('app__aside--open')) { // aside open
+          aside.classList.remove('app__aside--open');
+          mobileNavHamburger.classList.remove('app__mobilemenu--open');
+        } else { // aside closed
+          aside.classList.add('app__aside--open');
+          mobileNavHamburger.classList.add('app__mobilemenu--open');
+        }
+      });
+      window.setTocObserver(document, document.location.pathname);
+    }
+  })();
+</script>
 </body>
 </html>
 

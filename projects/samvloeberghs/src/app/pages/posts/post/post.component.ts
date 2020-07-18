@@ -11,6 +11,9 @@ import { environment } from '../../../../environments/environment';
 import { HighlightService } from '../../../shared/highlight.service';
 import { ZoomImage } from '../image-zoom/image-zoom.component';
 
+// TODO(sv): fix this type
+declare const window: any;
+
 @Component({
   selector: 'sv-post',
   templateUrl: './post.component.html',
@@ -145,22 +148,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
   }
 
   private startCheckingScrollForToc(route) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const id = entry.target.getAttribute('id');
-        if (entry.intersectionRatio > 0) {
-          const previousElements = this.document.querySelectorAll(`.post__toc li a`);
-          previousElements.forEach(previousElement => previousElement.parentElement.classList.remove('active'));
-          const el = this.document.querySelector(`.post__toc li a[href="/posts/${route}#${id}"]`);
-          el.parentElement.classList.add('active');
-        }
-      });
-    });
-
-    // Track all sections that have an `id` applied
-    this.document.querySelectorAll('h2[id], h3[id], h4[id], h5[id]').forEach((section) => {
-      observer.observe(section);
-    });
+    window.setTocObserver(this.document, route);
   }
 
 }
