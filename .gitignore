@@ -49,3 +49,6 @@ projects/samvloeberghs/src/sw.js
 
 # sw-lessons
 projects/sw-lessons/src/sw.js
+
+# Local Netlify folder
+.netlify
