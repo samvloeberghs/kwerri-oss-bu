@@ -65,13 +65,15 @@
   </style>
 </noscript>
 <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
   function setTocObserver(doc, route) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         var id = entry.target.getAttribute('id');
         if (entry.intersectionRatio > 0) {
           var previousElements = document.querySelectorAll(`.post__toc li a`);
-          console.log(previousElements);
           previousElements.forEach(function (previousElement) {
             previousElement.parentElement.classList.remove('active');
           });

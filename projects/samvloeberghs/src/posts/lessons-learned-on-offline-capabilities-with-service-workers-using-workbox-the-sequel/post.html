@@ -4,7 +4,7 @@
 
   <p>
     This is a follow-up on my
-    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous article about
+    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/">previous article about
       lessons learned on offline capabilities using Workbox</a>. This article highlights some more findings and explores
     better/other solutions for the problems described earlier.
   </p>
@@ -25,7 +25,7 @@
   <h2 id="better-detection-for-a-first-time-install-of-a-service-worker">Better detection for a first-time install of a service worker</h2>
 
   <p>
-    In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">previous post
+    In my <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/">previous post
     about service workers and Workbox</a> I used a somewhat shady technique with a refresh to activate the service
     worker functionality on the first load of the application. <em>This is completely unnecessary</em>
     and the same outcome can be achieved using other techniques.
@@ -273,7 +273,7 @@ export class ServiceWorkerService {
     Immediately activating the new service worker, by using <code>skipWaiting()</code> and/or <code>clients.claim()</code>
     for all the clients when it becomes waiting can potentially break your application. The functionality from the new
     service worker could not be compatible with the currently loaded old version of your application.
-    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox">Read more about this consideration in my previous blogpost</a>.
+    <a href="/posts/lessons-learned-on-offline-capabilities-with-service-workers-using-workbox/">Read more about this consideration in my previous blogpost</a>.
   </p>
 
   <p>

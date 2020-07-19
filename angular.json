@@ -28,7 +28,8 @@
               "projects/samvloeberghs/src/assets",
               "projects/samvloeberghs/src/manifest.json",
               "projects/samvloeberghs/src/posts",
-              "projects/samvloeberghs/src/sitemap.xml"
+              "projects/samvloeberghs/src/sitemap.xml",
+              "projects/samvloeberghs/src/sw.js",
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

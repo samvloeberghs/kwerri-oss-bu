@@ -9,6 +9,7 @@ import { Post } from './post.model';
 import { DataService } from '../../../shared/data.service';
 import { environment } from '../../../../environments/environment';
 import { HighlightService } from '../../../shared/highlight.service';
+import { fixExternalUrl } from '../../../utils';
 
 // TODO(sv): fix this type
 declare const window: any;
@@ -52,7 +53,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
             this.post = post;
             const jsonLd = this.jsonLdService.getObject('BlogPosting', {
               name: `${post.title} - Posts - ${environment.seo.title}`,
-              url: environment.url + this.router.routerState.snapshot.url,
+              url: environment.url + fixExternalUrl(this.router.routerState.snapshot.url),
               author: this.jsonLdService.getObject('Person', {
                 name: 'Sam Vloeberghs',
               }, undefined),
@@ -71,7 +72,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
               title: `${post.title} - Posts - ${environment.seo.title}`,
               description: post.short,
               image: `${environment.url}${post.imgShare}`,
-              url: environment.url + this.router.routerState.snapshot.url,
+              url: environment.url + fixExternalUrl(this.router.routerState.snapshot.url),
               type: 'article',
               author: post.author,
               published: post.publishDatetime,

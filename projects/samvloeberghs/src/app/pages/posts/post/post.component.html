@@ -30,7 +30,7 @@
 
       <ng-template #recursiveListTmpl let-list>
         <li *ngFor="let item of list" [class.active]="item.active" class="{{item.level}}">
-          <a href="/posts/{{post.slug}}#{{item.link}}">{{ item.title }}</a>
+          <a href="/posts/{{post.slug}}/#{{item.link}}">{{ item.title }}</a>
           <ol *ngIf="item.children && item.children.length > 0">
             <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ $implicit: item.children }"></ng-container>
           </ol>

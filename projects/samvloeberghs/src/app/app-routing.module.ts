@@ -1,7 +1,18 @@
-import { NgModule } from '@angular/core';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Injectable, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { fixExternalUrl } from './utils';
+
+@Injectable()
+export class CustomLocationStrategy extends PathLocationStrategy {
+  prepareExternalUrl(internal: string): string {
+    let externalUrl = super.prepareExternalUrl(internal);
+    externalUrl = fixExternalUrl(externalUrl);
+    return externalUrl;
+  }
+}
 
 const routes: Routes = [
   {
@@ -45,6 +56,12 @@ const routes: Routes = [
     anchorScrolling: 'enabled'
   })],
   exports: [RouterModule],
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: CustomLocationStrategy,
+    },
+  ],
 })
 export class AppRoutingModule {
 }

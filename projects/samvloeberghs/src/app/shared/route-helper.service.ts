@@ -6,6 +6,7 @@ import { JsonLdService, SeoSocialShareData, SeoSocialShareService } from 'ngx-se
 
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { fixExternalUrl } from '../utils';
 
 // inject in root
 @Injectable({
@@ -54,7 +55,7 @@ export class RouteHelper {
       if (seo) {
         const jsonLd = this.jsonLdService.getObject('Website', {
           name: seo.title,
-          url: environment.url + this.router.routerState.snapshot.url,
+          url: environment.url + fixExternalUrl(this.router.routerState.snapshot.url),
         });
         this.jsonLdService.setData(jsonLd);
         const seoData: SeoSocialShareData = {
@@ -62,9 +63,10 @@ export class RouteHelper {
           description: seo.description,
           image: environment.url + seo.shareImg,
           author: environment.seo.author,
-          url: environment.url + this.router.routerState.snapshot.url,
+          url: environment.url + fixExternalUrl(this.router.routerState.snapshot.url),
           type: 'website',
         };
+        console.log(seoData);
         this.seoSocialShareService.setData(seoData);
       } else {
         const jsonLd = this.jsonLdService.getObject('Website', {
