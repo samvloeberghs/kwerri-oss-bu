@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { DataService } from '../../shared/data.service';
   selector: 'sv-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PostsComponent {
 

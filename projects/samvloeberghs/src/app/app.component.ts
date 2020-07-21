@@ -8,8 +8,8 @@ import { EnvironmentService } from './shared/environment.service';
 @Component({
   selector: 'sv-app',
   templateUrl: './app.component.html',
-  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
 
