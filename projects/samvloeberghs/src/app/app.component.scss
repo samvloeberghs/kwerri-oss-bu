@@ -293,15 +293,13 @@ sv-app {
       }
 
       @media (max-width: $mobile-max-bp) {
-        p {
-          line-height: 1.5em;
-          font-size: 1.9em;
-          padding-top: 20px;
-          border-top: 1px solid #eee;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #eee;
-          letter-spacing: 0;
-        }
+        line-height: 1.5em;
+        font-size: 1.9em;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        letter-spacing: 0;
       }
     }
 
@@ -424,7 +422,7 @@ sv-app {
   &__nav {
 
     ol {
-      margin: 0 0 0 5px;
+      margin: 0 0 0 15px;
       padding: 0;
 
       li {

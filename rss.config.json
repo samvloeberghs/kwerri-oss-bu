@@ -1,0 +1,17 @@
+{
+  "title": "Sam Vloeberghs - Freelance Webdeveloper & Software Engineer",
+  "description": "Sam is a freelance software architect and Internet entrepreneur, currently focusing on frontend technologies. Co-organiser of NG-BE and Angular Belgium meetup.",
+  "id": "https://samvloeberghs.be",
+  "link": " https://samvloeberghs.be",
+  "language": "en",
+  "image": "https://samvloeberghs.be/assets/share/home.png",
+  "favicon": "https://samvloeberghs.be/assets/icons/favicon-32x32.png",
+  "copyright": "Sam Vloeberghs",
+  "generator": "Custom",
+  "feedLinks": {
+    "json": "https://samvloeberghs.be/feed.json",
+    "atom": "https://samvloeberghs.be/feed.atom"
+  },
+  "outDir": "./dist/samvloeberghs-static",
+  "categories": ["Angular", "Workbox", "HTML5", "GDE", "Google Developers Expert"]
+}
