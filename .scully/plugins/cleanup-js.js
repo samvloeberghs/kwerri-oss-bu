@@ -2,6 +2,7 @@ const {
   scullyConfig,
   registerPlugin
 } = require('@scullyio/scully');
+const JSON5 = require('json5');
 
 const {
   readFileSync,
@@ -16,7 +17,7 @@ function cleanupJsPlugin() {
   const tsConfigPath = join(scullyConfig.projectRoot, 'tsconfig.app.json');
   let tsConfig;
   try {
-    tsConfig = JSON.parse(readFileSync(tsConfigPath, {encoding: 'utf8'}).toString());
+    tsConfig = JSON5.parse(readFileSync(tsConfigPath, {encoding: 'utf8'}).toString());
   } catch (e) {
     console.log(`Error reading tsConfig at path ${tsConfigPath}`);
     console.error(e);
@@ -28,7 +29,7 @@ function cleanupJsPlugin() {
     isEs5Config = true;
   }
   try {
-    let assetsList = JSON.parse(readFileSync(scullyDisableAngularStatsJsonPath, {encoding: 'utf8'}).toString());
+    let assetsList = JSON5.parse(readFileSync(scullyDisableAngularStatsJsonPath, {encoding: 'utf8'}).toString());
     assetsList = assetsList
       .map(entry => entry['name'])
       .filter(entry => entry.includes('.js'));
@@ -49,7 +50,7 @@ function cleanupJsPlugin() {
       try {
         unlinkSync(filePath);
       } catch (e) {
-        console.log(`Could not unlink ${filePath}`)
+        // console.log(`Could not unlink ${filePath}`)
       }
     });
   } catch (e) {

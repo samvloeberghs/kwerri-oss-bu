@@ -1,6 +1,8 @@
 import { getPluginConfig, registerPlugin, scullyConfig } from '@scullyio/scully';
-import { existsSync, readFileSync, writeFileSync, unlinkSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+
+const JSON5 = require('json5');
 
 export const DisableAngular = 'disableAngular';
 
@@ -15,28 +17,44 @@ const escapeRegExp = (string): string => {
 
 const disableAngularPlugin = (html: string) => {
   const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
+  // First try reading the tsconfig from the src of the application ( src/ or projects/<app>/
+  // This is the case with ng v9 and ng v10 and multiple apps generated in /projects
+  // The default app for a ng v10 angular cli app is in src, and it uses the roots tsconfig.app.json
   const tsConfigPath = join(scullyConfig.projectRoot, 'tsconfig.app.json');
   let tsConfig;
   try {
-    tsConfig = JSON.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
+    tsConfig = JSON5.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
   } catch (e) {
-    console.log(`Error reading tsConfig at path ${tsConfigPath}`);
-    console.error(e);
-    throw new Error(e);
-  }
-  let isEs5Config = false;
-  let statsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
-  const target = tsConfig.compilerOptions.target ?? 'es2015';
-  if (target === 'es5') {
-    isEs5Config = true;
-    statsJsonPath = join(scullyConfig.distFolder, 'stats.json');
+    // try reading from the root
+    const rootTsConfigPath = 'tsconfig.app.json';
+    try {
+      tsConfig = JSON5.parse(readFileSync(rootTsConfigPath, { encoding: 'utf8' }).toString());
+    } catch (e) {
+      console.log(`Error reading tsConfig at specific project path: ${tsConfigPath} and root path: ${rootTsConfigPath}`);
+      console.error(e);
+      throw new Error(e);
+    }
   }
 
-  if (!existsSync(statsJsonPath)) {
-    const noStatsJsonError = `A ${isEs5Config ? 'stats' : 'stats-es2015'}.json is required for the 'disableAngular' plugin.
+  let isEs5Config = false;
+  const es2015StatsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
+  const es5StatsJsonPath = join(scullyConfig.distFolder, 'stats.json');
+  const es2015AssetsPathExists = existsSync(es2015StatsJsonPath);
+  const es5AssetsPathExists = existsSync(es5StatsJsonPath);
+
+  if (!es2015AssetsPathExists && !es5AssetsPathExists) {
+    const noStatsJsonError = `A stats(-es2015).json is required for the 'disableAngular' plugin.
 Please run 'ng build' with the '--stats-json' flag`;
     console.error(noStatsJsonError);
     throw new Error(noStatsJsonError);
+  }
+
+  // es2015
+  let statsJsonPath = es2015StatsJsonPath;
+  // es5
+  if (es5AssetsPathExists) {
+    isEs5Config = true;
+    statsJsonPath = es5StatsJsonPath;
   }
 
   const scullyDisableAngularStatsJsonPath = join(scullyConfig.distFolder, 'scully-plugin-disable-angular-stats.json');
@@ -44,15 +62,15 @@ Please run 'ng build' with the '--stats-json' flag`;
   if (!existsSync(scullyDisableAngularStatsJsonPath)) {
     const errorCreatingScullyDisableAngularStatsJsonError = 'The scully-plugin-disable-angular-stats.json could not be created';
     try {
-      scullyDisableAngularStatsJson = JSON.parse(readFileSync(statsJsonPath, { encoding: 'utf8' }).toString()).assets;
-      writeFileSync(scullyDisableAngularStatsJsonPath, JSON.stringify(scullyDisableAngularStatsJson));
+      scullyDisableAngularStatsJson = JSON5.parse(readFileSync(statsJsonPath, { encoding: 'utf8' }).toString()).assets;
+      writeFileSync(scullyDisableAngularStatsJsonPath, JSON5.stringify(scullyDisableAngularStatsJson));
     } catch (e) {
       console.error(e);
       console.error(errorCreatingScullyDisableAngularStatsJsonError);
       throw new Error(errorCreatingScullyDisableAngularStatsJsonError);
     }
   } else {
-    scullyDisableAngularStatsJson = JSON.parse(readFileSync(scullyDisableAngularStatsJsonPath, { encoding: 'utf8' }).toString());
+    scullyDisableAngularStatsJson = JSON5.parse(readFileSync(scullyDisableAngularStatsJsonPath, { encoding: 'utf8' }).toString());
   }
 
   let assetsList = scullyDisableAngularStatsJson
