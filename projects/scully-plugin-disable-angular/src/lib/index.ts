@@ -17,30 +17,12 @@ const escapeRegExp = (string): string => {
 
 const disableAngularPlugin = (html: string) => {
   const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
-  // First try reading the tsconfig from the src of the application ( src/ or projects/<app>/
-  // This is the case with ng v9 and ng v10 and multiple apps generated in /projects
-  // The default app for a ng v10 angular cli app is in src, and it uses the roots tsconfig.app.json
-  const tsConfigPath = join(scullyConfig.projectRoot, 'tsconfig.app.json');
-  let tsConfig;
-  try {
-    tsConfig = JSON5.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
-  } catch (e) {
-    // try reading from the root
-    const rootTsConfigPath = 'tsconfig.app.json';
-    try {
-      tsConfig = JSON5.parse(readFileSync(rootTsConfigPath, { encoding: 'utf8' }).toString());
-    } catch (e) {
-      console.log(`Error reading tsConfig at specific project path: ${tsConfigPath} and root path: ${rootTsConfigPath}`);
-      console.error(e);
-      throw new Error(e);
-    }
-  }
-
-  let isEs5Config = false;
   const es2015StatsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
   const es5StatsJsonPath = join(scullyConfig.distFolder, 'stats.json');
   const es2015AssetsPathExists = existsSync(es2015StatsJsonPath);
   const es5AssetsPathExists = existsSync(es5StatsJsonPath);
+
+  let isEs5Config = false;
 
   if (!es2015AssetsPathExists && !es5AssetsPathExists) {
     const noStatsJsonError = `A stats(-es2015).json is required for the 'disableAngular' plugin.

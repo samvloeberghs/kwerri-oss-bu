@@ -66,7 +66,6 @@ export class RouteHelper {
           url: environment.url + fixExternalUrl(this.router.routerState.snapshot.url),
           type: 'website',
         };
-        console.log(seoData);
         this.seoSocialShareService.setData(seoData);
       } else {
         const jsonLd = this.jsonLdService.getObject('Website', {

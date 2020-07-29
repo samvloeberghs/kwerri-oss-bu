@@ -56,7 +56,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setTitle(title: string = '') {
+  public setTitle(title: string = ''): void {
     this.titleService.setTitle(title);
     if (title && title.length) {
       this.metaService.updateTag({ name: 'twitter:title', content: title });
@@ -73,7 +73,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setType(type?: string) {
+  public setType(type?: string): void {
     if (type && type.length) {
       this.metaService.updateTag({ property: 'og:type', content: type });
     } else {
@@ -81,7 +81,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setDescription(description?: string) {
+  public setDescription(description?: string): void {
     if (description && description.length) {
       this.metaService.updateTag({ name: 'twitter:description', content: description });
       this.metaService.updateTag({ property: 'og:description', content: description });
@@ -93,7 +93,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setImage(image?: string) {
+  public setImage(image?: string): void {
     if (image && image.length) {
       this.metaService.updateTag({ name: 'twitter:image', content: image });
       this.metaService.updateTag({ property: 'og:image', content: image });
@@ -105,7 +105,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setUrl(url?: string) {
+  public setUrl(url?: string): void {
     if (url && url.length) {
       this.metaService.updateTag({ property: 'og:url', content: url });
     } else {
@@ -114,7 +114,7 @@ export class SeoSocialShareService {
     this.setCanonicalUrl(url);
   }
 
-  public setPublished(publishedDateString?: string) {
+  public setPublished(publishedDateString?: string): void {
     if (publishedDateString) {
       const publishedDate = new Date(publishedDateString);
       this.metaService.updateTag({ name: 'article:published_time', content: publishedDate.toISOString() });
@@ -125,7 +125,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setModified(modifiedDateString?: string) {
+  public setModified(modifiedDateString?: string): void {
     if (modifiedDateString) {
       const modifiedDate = new Date(modifiedDateString);
       this.metaService.updateTag({ name: 'article:modified_time', content: modifiedDate.toISOString() });
@@ -136,7 +136,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setAuthor(author?: string) {
+  public setAuthor(author?: string): void {
     if (author && author.length) {
       this.metaService.updateTag({ name: 'article:author', content: author });
       this.metaService.updateTag({ name: 'author', content: author });
@@ -191,7 +191,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setLanguageAlternativeUrl(lang: string, url?: string) {
+  public setLanguageAlternativeUrl(lang: string, url?: string): void {
     // first remove potential previous url
     const selector = `link[rel='alternate'][hreflang='${lang}']`;
     const languageAlternativeElement = this.document.head.querySelector(selector);
@@ -208,7 +208,7 @@ export class SeoSocialShareService {
     }
   }
 
-  public setCanonicalUrl(url?: string) {
+  public setCanonicalUrl(url?: string): void {
     // first remove potential previous url
     const selector = `link[rel='canonical']`;
     const canonicalElement = this.document.head.querySelector(selector);

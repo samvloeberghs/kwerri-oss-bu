@@ -1,5 +1,5 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 export interface JsonLd {
   [param: string]: string | Object;
@@ -11,17 +11,16 @@ export class JsonLdService {
   private jsonLd: JsonLd | JsonLd[];
 
   constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: Object,
-    @Inject(DOCUMENT) private readonly doc: any,
+    @Inject(DOCUMENT) private readonly document,
   ) {
   }
 
-  setData(data: JsonLd | JsonLd[]) {
+  public setData(data: JsonLd | JsonLd[]): void {
     this.jsonLd = data;
-    this.injectBrowser();
+    this.inject();
   }
 
-  getObject(type: string, rawData?: JsonLd, context = 'http://schema.org'): JsonLd {
+  public getObject(type: string, rawData?: JsonLd, context = 'http://schema.org'): JsonLd {
     let object: JsonLd = {
       '@type': type,
     };
@@ -40,21 +39,15 @@ export class JsonLdService {
     return object;
   }
 
-  toJson() {
-    return JSON.stringify(this.jsonLd);
-  }
-
-  private injectBrowser() {
-    if (this.platformId && isPlatformBrowser(this.platformId)) {
-      let ldJsonScriptTag = this.doc.head.querySelector(`script[type='application/ld+json']`);
-      if (ldJsonScriptTag) {
-        ldJsonScriptTag.textContent = this.toJson();
-      } else {
-        ldJsonScriptTag = this.doc.createElement('script');
-        ldJsonScriptTag.setAttribute('type', 'application/ld+json');
-        ldJsonScriptTag.textContent = this.toJson();
-        this.doc.head.appendChild(ldJsonScriptTag);
-      }
+  private inject(): void {
+    let ldJsonScriptTag = this.document.head.querySelector(`script[type='application/ld+json']`);
+    if (ldJsonScriptTag) {
+      ldJsonScriptTag.textContent = JSON.stringify(this.jsonLd);
+    } else {
+      ldJsonScriptTag = this.document.createElement('script');
+      ldJsonScriptTag.setAttribute('type', 'application/ld+json');
+      ldJsonScriptTag.textContent = JSON.stringify(this.jsonLd);
+      this.document.head.appendChild(ldJsonScriptTag);
     }
   }
 
