@@ -25,8 +25,11 @@
             "tsConfig": "projects/samvloeberghs/tsconfig.app.json",
             "assets": [
               "projects/samvloeberghs/src/favicon.ico",
+              "projects/samvloeberghs/src/favicon.png",
               "projects/samvloeberghs/src/assets",
               "projects/samvloeberghs/src/manifest.json",
+              "projects/samvloeberghs/src/site.webmanifest",
+              "projects/samvloeberghs/src/browserconfig.xml",
               "projects/samvloeberghs/src/posts",
               "projects/samvloeberghs/src/sitemap.xml",
               "projects/samvloeberghs/src/sw.js"

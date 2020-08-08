@@ -17,6 +17,11 @@ sv-talks {
     }
   }
 
+  &__title {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
   &__speaker-info {
     @media (max-width: $mobile-max-bp) {
       width: 100%;
