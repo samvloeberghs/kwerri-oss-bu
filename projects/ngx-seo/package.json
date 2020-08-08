@@ -1,10 +1,10 @@
 {
   "name": "ngx-seo",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "peerDependencies": {
-    "@angular/common": "^8.2.10",
-    "@angular/core": "^8.2.10",
-    "@angular/platform-browser": "^8.2.10"
+    "@angular/common": ">=8.0.0",
+    "@angular/core": ">=8.0.0",
+    "@angular/platform-browser": ">=8.0.0"
   },
   "maintainers": [
     "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"

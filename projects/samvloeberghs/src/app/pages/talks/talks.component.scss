@@ -13,13 +13,7 @@ sv-talks {
     }
 
     li {
-      margin: {
-        bottom: 15px;
-      }
-
-      &.canceled {
-        text-decoration: line-through;
-      }
+      line-height: 2em;
     }
   }
 

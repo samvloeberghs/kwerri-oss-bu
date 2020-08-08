@@ -1,11 +1,12 @@
 {
   "name": "scully-plugin-minify-html",
-  "version": "3.1.2",
+  "version": "3.2.0",
   "dependencies": {
     "html-minifier": "^4.0.0"
   },
   "peerDependencies": {
-    "@scullyio/scully": "latest"
+    "@scullyio/scully": ">=1.0.0-beta.0",
+    "json5": ">=2.1.3"
   },
   "maintainers": [
     "Sam Vloeberghs <sam.vloeberghs@gmail.com> (https://samvloeberghs.be)"
