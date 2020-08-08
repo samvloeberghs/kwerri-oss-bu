@@ -1,18 +1,17 @@
 <div class="app">
   <aside [class.app__aside--open]="mobileNavToggled" class="app__aside">
 
-    <a routerLink="/" class="app__picture" title="To homepage"
-       [class.app__picture--new-version-available]="newVersionAvailable$ | async">
+    <a routerLink="/" class="app__picture" title="To homepage">
       <img src="/assets/samv.jpg" alt="Sam Vloeberghs" />
     </a>
 
-    <a class="app__new-version-available-msg" (click)="update($event)" *ngIf="newVersionAvailable$ | async">
+    <a class="app__new-version-available-msg">
       <span>New version available!</span>
       <span>Reload the page please</span>
     </a>
 
     <h1>
-      <a routerLink="/">Sam Vloeberghs</a>
+      <a routerLink="/">SSam Vloeberghs</a>
     </h1>
 
     <a routerLink="/" class="app__mobilemenu" target="navigation" title="Open mobile navigation"

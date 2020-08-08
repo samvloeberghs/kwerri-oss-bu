@@ -132,6 +132,7 @@ sv-app {
     font-size: 1.2em;
     background: #f0433e;
     cursor: pointer;
+    display: none;
 
     @media (max-width: 378px) {
       top: 16px !important;
@@ -182,6 +183,9 @@ sv-app {
         color: #f0433e;
         border-right-color: #f0433e;
       }
+    }
+    &--show {
+      display: inline-block;
     }
   }
 

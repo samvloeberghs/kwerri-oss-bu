@@ -43,11 +43,13 @@ function cleanupJsPlugin() {
     assetsList = [
       ...assetsList,
       'scully-plugin-disable-angular-stats.json',
+      'stats.json',
       'stats-es2015.json'
     ];
     assetsList.forEach(entry => {
       const filePath = join(scullyConfig.outDir, entry);
       try {
+        console.log('unlinking ', filePath);
         unlinkSync(filePath);
       } catch (e) {
         // console.log(`Could not unlink ${filePath}`)

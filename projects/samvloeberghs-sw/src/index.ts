@@ -1,6 +1,7 @@
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
 import { initialize } from 'workbox-google-analytics';
 import { registerRoute } from 'workbox-routing';
+import { NetworkFirst } from 'workbox-strategies';
 
 declare const self: any;
 
@@ -21,18 +22,10 @@ initialize();
 
 // Catch navigation requests
 registerRoute(
-  ({ event }) => event.request.mode === 'navigate',
-  async ({ request }: { request: Request }) => {
-    return caches
-      .match(request)
-      .then(response => {
-        return response || fetch(request);
-      })
-      .catch(err => {
-        console.error(err);
-        return fetch(request);
-      });
-  },
+  // This will return true for navigation requests, causing the route to match.
+  ({event}) => event.request.mode === 'navigate',
+  // Customize this handler with whatever options you need.
+  new NetworkFirst()
 );
 
 self.addEventListener('message', event => {
