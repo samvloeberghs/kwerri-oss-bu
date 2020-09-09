@@ -93,11 +93,14 @@ export class SeoSocialShareService {
     }
   }
 
-  public setImage(image?: string): void {
+  public setImage(image?: string, height?: number): void {
     if (image && image.length) {
       this.metaService.updateTag({ name: 'twitter:image', content: image });
+      this.metaService.updateTag({ property: 'image', content: image });
       this.metaService.updateTag({ property: 'og:image', content: image });
-      this.metaService.updateTag({ property: 'og:image:height', content: '630' });
+      if (height) {
+        this.metaService.updateTag({ property: 'og:image:height', content: height });
+      }
     } else {
       this.metaService.removeTag(`name='twitter:image'`);
       this.metaService.removeTag(`property='og:image'`);
