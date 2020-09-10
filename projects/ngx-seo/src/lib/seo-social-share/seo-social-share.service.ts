@@ -99,7 +99,9 @@ export class SeoSocialShareService {
       this.metaService.updateTag({ property: 'image', content: image });
       this.metaService.updateTag({ property: 'og:image', content: image });
       if (height) {
-        this.metaService.updateTag({ property: 'og:image:height', content: height });
+        this.metaService.updateTag({ property: 'og:image:height', content: height.toString() });
+      } else {
+        this.metaService.updateTag({ property: 'og:image:height', content: '630' });
       }
     } else {
       this.metaService.removeTag(`name='twitter:image'`);
