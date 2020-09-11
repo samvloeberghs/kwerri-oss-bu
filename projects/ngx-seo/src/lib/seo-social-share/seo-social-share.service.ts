@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 
-import { SeoSocialShareData } from './interfaces/seo-social-share-data';
+import { SeoSocialShareData, ImageAuxData } from './interfaces/seo-social-share-data';
 
 export enum NgxSeoMetaTagAttr {
   name = 'name',
@@ -33,7 +33,7 @@ export class SeoSocialShareService {
     this.setTitle(data.title);
     this.setType(data.type);
     this.setDescription(data.description);
-    this.setImage(data.image);
+    this.setImage(data.image, data.imageAuxData);
     this.setUrl(data.url);
     this.setPublished(data.published);
     this.setModified(data.modified);
@@ -64,12 +64,14 @@ export class SeoSocialShareService {
       this.metaService.updateTag({ property: 'og:image:alt', content: title });
       this.metaService.updateTag({ property: 'og:title', content: title });
       this.metaService.updateTag({ name: 'title', content: title });
+      this.metaService.updateTag({ itemprop: 'name', content: title });
     } else {
       this.metaService.removeTag(`name='twitter:title'`);
       this.metaService.removeTag(`name='twitter:image:alt'`);
       this.metaService.removeTag(`property='og:image:alt'`);
       this.metaService.removeTag(`property='og:title'`);
       this.metaService.removeTag(`name='title'`);
+      this.metaService.removeTag(`itemprop='name'`);
     }
   }
 
@@ -86,22 +88,63 @@ export class SeoSocialShareService {
       this.metaService.updateTag({ name: 'twitter:description', content: description });
       this.metaService.updateTag({ property: 'og:description', content: description });
       this.metaService.updateTag({ name: 'description', content: description });
+      this.metaService.updateTag({ itemprop: 'description', content: description });
     } else {
       this.metaService.removeTag(`name='twitter:description'`);
       this.metaService.removeTag(`property='og:description'`);
       this.metaService.removeTag(`name='description'`);
+      this.metaService.removeTag(`itemprop='description'`);
     }
   }
 
-  public setImage(image?: string): void {
+  public setImage(image?: string, auxData?: ImageAuxData): void {
     if (image && image.length) {
       this.metaService.updateTag({ name: 'twitter:image', content: image });
+      this.metaService.updateTag({ itemprop: 'image', content: image });
       this.metaService.updateTag({ property: 'og:image', content: image });
-      this.metaService.updateTag({ property: 'og:image:height', content: '630' });
+
+      if (auxData && auxData.height) {
+        this.metaService.updateTag({ property: 'og:image:height', content: auxData.height.toString() });
+      } else {
+        this.metaService.removeTag(`property='og:image:height'`);
+      }
+
+      if (auxData && auxData.width) {
+        this.metaService.updateTag({ property: 'og:image:width', content: auxData.width.toString() });
+      } else {
+        this.metaService.removeTag(`property='og:image:width'`);
+      }
+
+      if (auxData && auxData.alt) {
+        this.metaService.updateTag({ property: 'og:image:alt', content: auxData.alt });
+        this.metaService.updateTag({ property: 'twitter:image:alt', content: auxData.alt });
+      } else {
+        this.metaService.removeTag(`property='og:image:alt'`);
+        this.metaService.removeTag(`property='twitter:image:alt'`);
+      }
+
+      if (auxData && auxData.mimeType) {
+        this.metaService.updateTag({ property: 'og:image:type', content: auxData.mimeType });
+      } else {
+        this.metaService.removeTag(`property='og:image:type'`);
+      }
+
+      if (auxData && auxData.secureUrl) {
+        this.metaService.updateTag({ property: 'og:image:secure_url', content: auxData.secureUrl });
+      } else {
+        this.metaService.removeTag(`property='og:image:secure_url'`);
+      }
+
     } else {
       this.metaService.removeTag(`name='twitter:image'`);
+      this.metaService.removeTag(`property='twitter:image:alt'`);
       this.metaService.removeTag(`property='og:image'`);
       this.metaService.removeTag(`property='og:image:height'`);
+      this.metaService.removeTag(`property='og:image:secure_url'`);
+      this.metaService.removeTag(`property='og:image:type'`);
+      this.metaService.removeTag(`property='og:image:alt'`);
+      this.metaService.removeTag(`property='og:image:width'`);
+      this.metaService.removeTag(`itemprop='image'`);
     }
   }
 
