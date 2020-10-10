@@ -35,7 +35,7 @@ const defaultMinifyOptions: Options = {
   ],
 };
 
-export const minifyHtmlPlugin = (html: string) => {
+export const minifyHtmlPlugin = (html: string): Promise<string> => {
   let localMinifyOptions = defaultMinifyOptions;
   const customMinifyOptions = getPluginConfig<MinifyHtmlOptions>(MinifyHtml, 'render');
 
@@ -54,7 +54,7 @@ export const minifyHtmlPlugin = (html: string) => {
     };
   }
 
-  return minify(html, localMinifyOptions);
+  return Promise.resolve(minify(html, localMinifyOptions));
 };
 
 // no validation implemented

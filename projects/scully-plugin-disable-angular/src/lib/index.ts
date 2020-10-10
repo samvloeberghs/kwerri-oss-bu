@@ -15,14 +15,12 @@ const escapeRegExp = (string): string => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-const disableAngularPlugin = (html: string) => {
+const disableAngularPlugin = (html: string): Promise<string> => {
   const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
   const es2015StatsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
   const es5StatsJsonPath = join(scullyConfig.distFolder, 'stats.json');
   const es2015AssetsPathExists = existsSync(es2015StatsJsonPath);
   const es5AssetsPathExists = existsSync(es5StatsJsonPath);
-
-  let isEs5Config = false;
 
   if (!es2015AssetsPathExists && !es5AssetsPathExists) {
     const noStatsJsonError = `A stats(-es2015).json is required for the 'disableAngular' plugin.
@@ -35,7 +33,6 @@ Please run 'ng build' with the '--stats-json' flag`;
   let statsJsonPath = es2015StatsJsonPath;
   // es5
   if (es5AssetsPathExists) {
-    isEs5Config = true;
     statsJsonPath = es5StatsJsonPath;
   }
 
@@ -58,13 +55,11 @@ Please run 'ng build' with the '--stats-json' flag`;
   let assetsList = scullyDisableAngularStatsJson
     .map(entry => entry['name'])
     .filter(entry => entry.includes('.js'));
-  if (!isEs5Config) {
-    assetsList = [...assetsList, ...assetsList.map(asset => {
-      return asset.includes('-es5') ?
-        asset.replace('-es5', '-es2015') :
-        asset.replace('-es2015', '-es5');
-    })];
-  }
+  assetsList = [...assetsList, ...assetsList.map(asset => {
+    return asset.includes('-es5') ?
+      asset.replace('-es5', '-es2015') :
+      asset.replace('-es2015', '-es5');
+  })];
 
   assetsList.forEach(entry => {
     const regex = new RegExp(`<script( charset="?utf-8"?)? src="?${escapeRegExp(entry)}"?( type="?module"?)?( nomodule(="")?)?( defer(="")?)?><\/script>`, 'gmi');
@@ -76,7 +71,7 @@ Please run 'ng build' with the '--stats-json' flag`;
     html = html.replace(regex, '');
   }
 
-  return html;
+  return Promise.resolve(html);
 };
 
 // no validation implemented
