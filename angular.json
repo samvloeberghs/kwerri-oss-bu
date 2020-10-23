@@ -256,8 +256,7 @@
               "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/sw-lessons/src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
