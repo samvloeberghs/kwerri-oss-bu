@@ -85,8 +85,8 @@
       // When `event.wasWaitingBeforeRegister` is true, a previously
       // updated service worker is still waiting.
       // You may want to customize the UI prompt accordingly.
-      const updateVersion = document.querySelector('.app__new-version-available-msg');
-      const homeLink = document.querySelector('.app__picture');
+      var updateVersion = document.querySelector('.app__new-version-available-msg');
+      var homeLink = document.querySelector('.app__picture');
       updateVersion.classList.add('app__new-version-available-msg--show');
       homeLink.classList.add('app__picture--new-version-available');
 
@@ -160,6 +160,12 @@
 
   (function () {
     if (window.ScullyIO === "generated") {
+      // *: newversion available
+      var updateVersion = document.querySelector('.app__new-version-available-msg');
+      updateVersion.addEventListener('click', function (event) {
+        event.preventDefault();
+      })
+
       // *: mobilenav
       var mobileNavHamburger = document.querySelector('.app__mobilemenu');
       var aside = document.querySelector('.app__aside');

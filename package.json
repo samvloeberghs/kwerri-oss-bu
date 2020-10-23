@@ -11,7 +11,7 @@
     "e2e": "npx ng e2e",
     "analyze": "webpack-bundle-analyzer",
     "serve:sw-lessons": "npx ws --port 4401 -d dist/sw-lessons",
-    "build:samvloeberghs:prod": "npx ng build samvloeberghs --prod --stats-json && npm run scully",
+    "build:samvloeberghs:prod": "npx ng build samvloeberghs --prod --stats-json && npm run scully && npm run build:samvloeberghs:sw:prod",
     "build:samvloeberghs:sw:local": "npx webpack --config projects/samvloeberghs-sw/webpack.dev.config.js --progress --colors && npm run workbox:injectmanifest:samvloeberghs",
     "build:samvloeberghs:sw:prod": "npx webpack --config projects/samvloeberghs-sw/webpack.prod.config.js --progress --colors && npm run workbox:injectmanifest:samvloeberghs",
     "build:ngx-seo": "npx ng build ngx-seo --prod && npm run copy-license-readme:ngx-seo",

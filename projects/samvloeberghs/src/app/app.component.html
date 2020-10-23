@@ -2,10 +2,10 @@
   <aside [class.app__aside--open]="mobileNavToggled" class="app__aside">
 
     <a routerLink="/" class="app__picture" title="To homepage">
-      <img src="/assets/samv.jpg" alt="Sam Vloeberghs" />
+      <img src="/assets/samv.jpg" alt="Sam Vloeberghs"/>
     </a>
 
-    <a class="app__new-version-available-msg">
+    <a class="app__new-version-available-msg" href="#" (click)="$event.preventDefault()">
       <span>New version available!</span>
       <span>Reload the page please</span>
     </a>
