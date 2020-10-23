@@ -1,5 +1,5 @@
 import { registerPlugin, getPluginConfig } from '@scullyio/scully';
-import { minify, Options } from 'html-minifier';
+import { minify, Options } from 'html-minifier-terser';
 
 export const MinifyHtml = 'minifyHtml';
 
