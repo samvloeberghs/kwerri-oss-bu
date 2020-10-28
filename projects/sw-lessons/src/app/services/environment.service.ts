@@ -26,7 +26,7 @@ export class EnvironmentService {
     fromEvent(this.window, 'online'),
   ).pipe(
     map(() => this.navigator.onLine),
-    startWith(true),
+    startWith(this.navigator.onLine),
   );
   public readonly applicationInstallable$: Observable<boolean>;
   public runningStandAlone = false;
