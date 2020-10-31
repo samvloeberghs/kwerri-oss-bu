@@ -91,6 +91,42 @@ exports.config = {
 };
 ```
 
+## Ignore routes
+
+In some cases you might still need Angular on some pages/routes of your application, for example when you have heavy JS functionality that you can't or don't want to replace with pure JS. 
+
+These pages or routes can be specified by using the `setPluginConfig` function for the `DisableAngular` plugin.
+
+In the example below the 2 pages or routes `/blog/9` and `/contact` are excluded from the `DisableAngular` plugin process:
+
+```js
+const {RouteTypes, setPluginConfig} = require('@scullyio/scully');
+const {DisableAngular} = require('scully-plugin-disable-angular');
+
+const postRenderers = [DisableAngular];
+
+setPluginConfig(DisableAngular, 'render', {
+  ignoreRoutes: [
+    '/blog/9', 
+    '/contact',
+  ]
+});
+
+exports.config = {
+  projectRoot: './src/app',
+  defaultPostRenderers: postRenderers,  // for all routes
+  routes: {
+    '/blog/:slug': {
+      type: RouteTypes.contentFolder,
+      slug: {
+        folder: "./blog"
+      },
+      postRenderers: postRenderers      // per route config
+    },
+  }
+};
+```
+
 <!--
 // NOT APPLICABLE AT THIS POINT!!
 ## Keep JS files

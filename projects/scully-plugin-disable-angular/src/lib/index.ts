@@ -1,4 +1,4 @@
-import { getPluginConfig, registerPlugin, scullyConfig } from '@scullyio/scully';
+import { getPluginConfig, HandledRoute, registerPlugin, scullyConfig } from '@scullyio/scully';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -8,6 +8,7 @@ export const DisableAngular = 'disableAngular';
 
 export interface DisableAngularOptions {
   removeState: boolean;
+  ignoreRoutes: string[];
 }
 
 const escapeRegExp = (string): string => {
@@ -15,8 +16,13 @@ const escapeRegExp = (string): string => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-const disableAngularPlugin = (html: string): Promise<string> => {
+const disableAngularPlugin = (html: string, route: HandledRoute): Promise<string> => {
   const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
+
+  if (disableAngularOptions.ignoreRoutes && disableAngularOptions.ignoreRoutes.includes(route.route)) {
+    return Promise.resolve(html);
+  }
+
   const es2015StatsJsonPath = join(scullyConfig.distFolder, 'stats-es2015.json');
   const es5StatsJsonPath = join(scullyConfig.distFolder, 'stats.json');
   const es2015AssetsPathExists = existsSync(es2015StatsJsonPath);

@@ -6,7 +6,8 @@ const { Posts } = require('./plugins/samvloeberghs-posts');
 require('./plugins/cleanup-js');
 
 setPluginConfig(DisableAngular, {
-  removeState: true
+  removeState: true,
+  ignoreRoutes: []
 });
 
 export const config: ScullyConfig = {
