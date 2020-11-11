@@ -72,6 +72,8 @@ Please run 'ng build' with the '--stats-json' flag`;
     html = html.replace(regex, '');
   });
 
+  html = html.replace(`</head>`, `<script>window.ScullyIOAngularDisabled = true;</script></head>`);
+
   if (disableAngularOptions.removeState) {
     const regex = new RegExp('<script id="ScullyIO-transfer-state">([\\S\\s]*?)<\\/script>');
     html = html.replace(regex, '');

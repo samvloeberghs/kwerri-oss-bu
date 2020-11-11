@@ -1,6 +1,6 @@
 {
   "name": "scully-plugin-disable-angular",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "peerDependencies": {
     "@scullyio/scully": ">=1.0.0",
     "json5": ">=2.1.3"
