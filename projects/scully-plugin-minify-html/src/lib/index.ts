@@ -1,4 +1,4 @@
-import { registerPlugin, getPluginConfig } from '@scullyio/scully';
+import { registerPlugin, getMyConfig } from '@scullyio/scully';
 import { minify, Options } from 'html-minifier-terser';
 
 export const MinifyHtml = 'minifyHtml';
@@ -37,7 +37,7 @@ const defaultMinifyOptions: Options = {
 
 export const minifyHtmlPlugin = (html: string): Promise<string> => {
   let localMinifyOptions = defaultMinifyOptions;
-  const customMinifyOptions = getPluginConfig<MinifyHtmlOptions>(MinifyHtml, 'render');
+  const customMinifyOptions = getMyConfig<MinifyHtmlOptions>(minifyHtmlPlugin);
 
   if (customMinifyOptions && customMinifyOptions.minifyOptions) {
     localMinifyOptions = {
