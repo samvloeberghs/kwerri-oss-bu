@@ -64,7 +64,7 @@ export class SeoSocialShareService {
       this.metaService.updateTag({ property: 'og:image:alt', content: title });
       this.metaService.updateTag({ property: 'og:title', content: title });
       this.metaService.updateTag({ name: 'title', content: title });
-      this.metaService.updateTag({ itemprop: 'name', content: title });
+      this.metaService.updateTag({ itemprop: 'name', content: title }, `itemprop='name'`);
     } else {
       this.metaService.removeTag(`name='twitter:title'`);
       this.metaService.removeTag(`name='twitter:image:alt'`);
@@ -88,7 +88,7 @@ export class SeoSocialShareService {
       this.metaService.updateTag({ name: 'twitter:description', content: description });
       this.metaService.updateTag({ property: 'og:description', content: description });
       this.metaService.updateTag({ name: 'description', content: description });
-      this.metaService.updateTag({ itemprop: 'description', content: description });
+      this.metaService.updateTag({ itemprop: 'description', content: description }, `itemprop='description'`);
     } else {
       this.metaService.removeTag(`name='twitter:description'`);
       this.metaService.removeTag(`property='og:description'`);
@@ -100,7 +100,7 @@ export class SeoSocialShareService {
   public setImage(image?: string, auxData?: ImageAuxData): void {
     if (image && image.length) {
       this.metaService.updateTag({ name: 'twitter:image', content: image });
-      this.metaService.updateTag({ itemprop: 'image', content: image });
+      this.metaService.updateTag({ itemprop: 'image', content: image }, `itemprop='image'`);
       this.metaService.updateTag({ property: 'og:image', content: image });
 
       if (auxData && auxData.height) {
