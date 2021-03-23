@@ -17,7 +17,7 @@ or with `yarn`
 $ yarn add scully-plugin-minify-html
 ```
 
-This package depends on the [`html-minifier`](https://www.npmjs.com/package/html-minifier) package.
+This package depends on the [`html-minifier-terser`](https://www.npmjs.com/package/html-minifier-terser) package.
 It will be installed automatically when installing this package. 
 
 ## Usage
