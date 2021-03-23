@@ -1,6 +1,6 @@
 {
   "name": "scully-plugin-minify-html",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "dependencies": {
     "html-minifier-terser": "^5.1.1"
   },
