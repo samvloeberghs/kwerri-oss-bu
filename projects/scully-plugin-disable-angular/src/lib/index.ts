@@ -1,4 +1,4 @@
-import { getPluginConfig, HandledRoute, registerPlugin, scullyConfig } from '@scullyio/scully';
+import {getMyConfig, HandledRoute, registerPlugin, scullyConfig} from '@scullyio/scully';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -17,7 +17,7 @@ const escapeRegExp = (string): string => {
 };
 
 const disableAngularPlugin = (html: string, route: HandledRoute): Promise<string> => {
-  const disableAngularOptions = getPluginConfig<DisableAngularOptions>(DisableAngular, 'render');
+  const disableAngularOptions = getMyConfig<DisableAngularOptions>(disableAngularPlugin);
 
   if (disableAngularOptions.ignoreRoutes && disableAngularOptions.ignoreRoutes.includes(route.route)) {
     return Promise.resolve(html);
