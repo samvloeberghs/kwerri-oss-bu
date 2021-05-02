@@ -72,7 +72,7 @@ const {DisableAngular} = require('scully-plugin-disable-angular');
 
 const postRenderers = [DisableAngular];
 
-setPluginConfig(DisableAngular, 'render', {
+setPluginConfig(DisableAngular, 'postProcessByHtml', {
   removeState: true
 });
 
@@ -105,7 +105,7 @@ const {DisableAngular} = require('scully-plugin-disable-angular');
 
 const postRenderers = [DisableAngular];
 
-setPluginConfig(DisableAngular, 'render', {
+setPluginConfig(DisableAngular, 'postProcessByHtml', {
   ignoreRoutes: [
     '/blog/9', 
     '/contact',
@@ -135,7 +135,7 @@ Since you don't need the JS the files are removed.
 If you want to keep them for some reason, just enable the option `keepJsFiles`:
 
 ```ts
-setPluginConfig(DisableAngular, 'render', {
+setPluginConfig(DisableAngular, 'postProcessByHtml', {
   keepJsFiles: true
 });
 ```

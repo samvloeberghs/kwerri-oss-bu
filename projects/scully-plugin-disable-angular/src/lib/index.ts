@@ -84,4 +84,4 @@ Please run 'ng build' with the '--stats-json' flag`;
 
 // no validation implemented
 const disableAngularPluginValidator = async () => [];
-registerPlugin('render', DisableAngular, disableAngularPlugin);
+registerPlugin('postProcessByHtml', DisableAngular, disableAngularPlugin);
