@@ -297,7 +297,7 @@ export const minifyHtmlPlugin = (html, route) => {
 // no validation implemented
 const minifyHtmlPluginValidator = async () => [];
 export const MinifyHtml = 'minifyHtml';
-registerPlugin('render', MinifyHtml, minifyHtmlPlugin);
+registerPlugin('postProcessByHtml', MinifyHtml, minifyHtmlPlugin);
 </code></pre>
 
   <ol>

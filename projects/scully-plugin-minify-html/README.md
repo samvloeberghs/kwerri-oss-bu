@@ -112,7 +112,7 @@ const minifyHtmlOptions: MinifyHtmlOptions = {
     removeComments: false
   }
 };
-setPluginConfig(MinifyHtml, 'render', minifyHtmlOptions);
+setPluginConfig(MinifyHtml, 'postProcessByHtml', minifyHtmlOptions);
 // or 
 // setPluginConfig(MinifyHtml, minifyHtmlOptions); 
 

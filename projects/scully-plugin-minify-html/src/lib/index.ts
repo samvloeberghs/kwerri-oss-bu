@@ -59,4 +59,4 @@ export const minifyHtmlPlugin = (html: string): Promise<string> => {
 
 // no validation implemented
 const minifyHtmlPluginValidator = async () => [];
-registerPlugin('render', MinifyHtml, minifyHtmlPlugin);
+registerPlugin('postProcessByHtml', MinifyHtml, minifyHtmlPlugin);
